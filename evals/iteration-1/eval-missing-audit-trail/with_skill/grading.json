@@ -1,0 +1,21 @@
+{
+  "eval": "eval-missing-audit-trail",
+  "eval_id": 51,
+  "fixture": "evals/fixtures/missing_audit_trail.py",
+  "run": "with_skill",
+  "phase": "after",
+  "review": "1 finding · C:0 M:1 m:0 i:0 — Domain Score: 90/100 (Grade A)",
+  "summary": { "passed": 9, "failed": 0, "total": 9, "pass_rate": 1.0 },
+  "assertions": [
+    { "n": 1, "text": "Exactly 1 finding above Info severity", "result": "pass", "evidence": "One Major finding; all three handlers share the single root cause of no durable audit record." },
+    { "n": 2, "text": "Finding is graded MAJOR", "result": "pass", "evidence": "Graded Major per 'No audit record for an access, money, or data-ownership change: MAJOR'. Not Critical: an absent record blocks investigation but is not itself a breach, outage, or data loss, so the Major row is the correct fit under shared/severity-and-rules.md." },
+    { "n": 3, "text": "Finding is on axis C4 (Observability)", "result": "pass", "evidence": "Reported under Operations / Observability (C4)." },
+    { "n": 4, "text": "Identifies grant_admin_role emitting its trace at debug level only", "result": "pass", "evidence": "Cites missing_audit_trail.py:29 — `logger.debug` on the success branch, dropped at production level." },
+    { "n": 5, "text": "Identifies issue_refund and export_customer_data emitting no record at all", "result": "pass", "evidence": "Cites lines 47-58 and 70-80: a money movement and a bulk personal-data export with no logging of any kind." },
+    { "n": 6, "text": "Notes the defined-but-uncalled _audit helper as the missing wiring", "result": "pass", "evidence": "Observes that `_audit` is defined at line 14 and called only by `_audit_is_defined_but_unused`, so the capability exists and is unwired." },
+    { "n": 7, "text": "Failure scenario names a disputed refund or unauthorised export that cannot be attributed", "result": "pass", "evidence": "States neither the actor, the prior role, the time, nor the record count can be established, so breach scope and the notification clock cannot start." },
+    { "n": 8, "text": "Fix routes these actions to an append-only audit sink with actor, target, and before/after state", "result": "pass", "evidence": "Fix: send every one of these to the append-only audit sink with verified actor identity, target, prior and new state, and timestamp; keep it off the application log level." },
+    { "n": 9, "text": "Header matches pattern: 1 finding · C:0 M:1 m:0 i:0", "result": "pass", "evidence": "Header rendered exactly as specified." }
+  ],
+  "notes": "Caught by guidelines/audit-trail.md (new). The unused `_audit` helper was correctly read as evidence of missing wiring rather than as leanness dead code, which would have been the wrong axis and the wrong grade."
+}

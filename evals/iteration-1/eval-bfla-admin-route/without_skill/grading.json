@@ -1,0 +1,20 @@
+{
+  "eval": "eval-bfla-admin-route",
+  "eval_id": 37,
+  "fixture": "evals/fixtures/bfla_admin_route.py",
+  "run": "without_skill",
+  "phase": "before",
+  "review": "1 finding · C:1 M:0 m:0 i:0 — Domain Score: 75/100 (Grade C)",
+  "summary": { "passed": 7, "failed": 1, "total": 8, "pass_rate": 0.875 },
+  "assertions": [
+    { "n": 1, "text": "Exactly 1 finding above Info severity", "result": "pass", "evidence": "One Critical finding raised." },
+    { "n": 2, "text": "Finding is graded CRITICAL", "result": "pass", "evidence": "Graded Critical under the pre-existing IDOR/BOLA rule." },
+    { "n": 3, "text": "Finding is on axis A5 (Security)", "result": "pass", "evidence": "Reported under Correctness / Security (A5)." },
+    { "n": 4, "text": "Identifies export_all_users as an unguarded privileged function", "result": "pass", "evidence": "Cites the export handler as missing an authorization check." },
+    { "n": 5, "text": "Notes that the role is never checked despite current_user being passed in", "result": "pass", "evidence": "States current_user is accepted and never inspected." },
+    { "n": 6, "text": "Failure scenario describes an ordinary authenticated user reaching an admin export", "result": "pass", "evidence": "Names path guessing disclosing every user's email and role." },
+    { "n": 7, "text": "Fix requires a role check on the privileged route itself", "result": "pass", "evidence": "Fix requires a role/permission check on the route." },
+    { "n": 8, "text": "Header matches pattern: 1 finding · C:1 M:0 m:0 i:0", "result": "pass", "evidence": "Header rendered exactly as specified." }
+  ],
+  "notes": "The one pre-change rule that reaches a function-level gap: access-control.md's 'Client-trusted roles or identity' and 'Missing default-deny' bullets, read as an unguarded handler, were sufficient to catch it. The new section changes the diagnosis and the fix framing, not the verdict. This is also the eval where the pre-change sub-domain most nearly matched the new one — recorded to keep the reported delta honest."
+}

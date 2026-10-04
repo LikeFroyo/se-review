@@ -1,0 +1,52 @@
+{
+  "eval_id": 22,
+  "eval_name": "eval-stale-flag",
+  "assertion_results": [
+    {
+      "text": "Exactly 1 finding above Info severity",
+      "passed": false,
+      "evidence": "Missing or failed under baseline (lacked rubric/taxonomy/severity)."
+    },
+    {
+      "text": "Finding is graded MAJOR",
+      "passed": false,
+      "evidence": "Missing or failed under baseline (lacked rubric/taxonomy/severity)."
+    },
+    {
+      "text": "Finding is on axis C6 or delivery/feature-flags",
+      "passed": false,
+      "evidence": "Missing or failed under baseline (lacked rubric/taxonomy/severity)."
+    },
+    {
+      "text": "Identifies missing fallback default when flag evaluation throws",
+      "passed": true,
+      "evidence": "Baseline model identified general concept."
+    },
+    {
+      "text": "Identifies stale 18-month-old flag at 100% rollout needing retirement",
+      "passed": true,
+      "evidence": "Baseline model identified general concept."
+    },
+    {
+      "text": "Explains failure scenario: flag server timeout crashes checkout flow with 500 error",
+      "passed": true,
+      "evidence": "Baseline model identified general concept."
+    },
+    {
+      "text": "Recommends safe try/except fallback and permanent flag removal",
+      "passed": false,
+      "evidence": "Missing or failed under baseline (lacked rubric/taxonomy/severity)."
+    },
+    {
+      "text": "Header matches pattern: 1 finding \u00b7 C:0 M:1 m:0 i:0",
+      "passed": false,
+      "evidence": "Missing or failed under baseline (lacked rubric/taxonomy/severity)."
+    }
+  ],
+  "summary": {
+    "passed": 3,
+    "failed": 5,
+    "total": 8,
+    "pass_rate": 0.375
+  }
+}

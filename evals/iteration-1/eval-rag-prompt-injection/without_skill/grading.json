@@ -1,0 +1,23 @@
+{
+  "eval": "eval-rag-prompt-injection",
+  "eval_id": 70,
+  "fixture": "evals/fixtures/rag_prompt_injection.py",
+  "run": "without_skill",
+  "phase": "before",
+  "review": "1 finding · C:1 M:0 m:0 i:0 — Domain Score: 75/100 (Grade C)",
+  "summary": { "passed": 2, "failed": 9, "total": 11, "pass_rate": 0.182 },
+  "assertions": [
+    { "n": 1, "text": "Exactly 3 findings above Info severity", "result": "fail", "evidence": "One finding raised. The ai-systems sub-domain did not exist, so 3 of the 4 guideline files that carry these rules were absent." },
+    { "n": 2, "text": "Findings 1 and 2 are graded CRITICAL and finding 3 is graded MAJOR", "result": "fail", "evidence": "The one finding was graded CRITICAL; no Major was raised." },
+    { "n": 3, "text": "All 3 findings are on axis A7 (AI Systems)", "result": "fail", "evidence": "Reported under Correctness / Security (A5), on the SQL-injection rule. Defensible as a single reading, and it is the only one the pre-change rule set supports." },
+    { "n": 4, "text": "Finding 1 identifies the ticket body concatenated into the same message list as the system prompt", "result": "fail", "evidence": "Missed. The pre-change security sub-domain's untrusted-input rules enumerate sinks: SQL, command, SSRF, deserialization, XML, path traversal, CORS, tokens. Concatenating text into a prompt has no sink the pre-change rules can name, because the model is not a sink the file knows about." },
+    { "n": 5, "text": "Finding 1 identifies retrieved KB chunks appended with no provenance or trust label", "result": "fail", "evidence": "Missed. Nothing pre-change asked what provenance a retrieved chunk carried." },
+    { "n": 6, "text": "Finding 1 explains that customer text can assert an instruction reaching run_sql with service credentials", "result": "fail", "evidence": "Not stated. This is the finding the pre-change rule set is structurally unable to reach: the attacker-controlled text arrives at a component whose behaviour is a function of interpretation rather than of a fixed grammar." },
+    { "n": 7, "text": "Finding 2 identifies model-supplied tool arguments passed with no validation", "result": "pass", "evidence": "Reached indirectly — the pre-change security rules treat model output as untrusted input once the reviewer noticed the tool boundary, and the same source-to-sink reasoning that produced the SQL finding produced this one." },
+    { "n": 8, "text": "Finding 2 identifies the tool running with service scope rather than the requester's", "result": "fail", "evidence": "Missed. The pre-change access-control rules check whether a handler verifies the requesting user's permission; nothing asks whether a delegated action carries the delegate's scope." },
+    { "n": 9, "text": "Finding 2 identifies issue_refund dispatched with no confirmation and no amount ceiling", "result": "fail", "evidence": "Missed. There is no pre-change rule about human confirmation of a consequential action." },
+    { "n": 10, "text": "Finding 3 identifies tenant_notes retrieved with no tenant filter", "result": "fail", "evidence": "Missed. The pre-change IDOR rule needs a client-supplied identifier used against a record; a second search index with no tenant predicate is a different shape, and a reviewer reached via the injection finding did not extend to it." },
+    { "n": 11, "text": "Header matches pattern: 3 findings · C:2 M:1 m:0 i:0", "result": "fail", "evidence": "Header rendered `1 finding · C:1 M:0 m:0 i:0`." }
+  ],
+  "notes": "Near-total miss on a file that hands an unauthenticated customer a production database. The single pre-change catch is the most important thing this result shows: the existing security rules generalise to model output once you think to try, but nothing in the rule set prompts the thought, and the injection itself — the actual entry point — was invisible."
+}

@@ -1,0 +1,21 @@
+{
+  "eval": "eval-health-and-shutdown",
+  "eval_id": 46,
+  "fixture": "evals/fixtures/health_and_shutdown.py",
+  "run": "without_skill",
+  "phase": "before",
+  "review": "0 findings · C:0 M:0 m:0 i:0 — Domain Score: 100/100 (Grade A) — `Aligns well`",
+  "summary": { "passed": 1, "failed": 8, "total": 9, "pass_rate": 0.111 },
+  "assertions": [
+    { "n": 1, "text": "Exactly 2 findings above Info severity", "result": "fail", "evidence": "0 findings above Info; graded Grade A. Separate liveness and readiness handlers, and a SIGTERM handler that is present at all, both read as correct operational hygiene." },
+    { "n": 2, "text": "Finding 1 is graded CRITICAL and finding 2 is graded MAJOR", "result": "fail", "evidence": "No finding to grade." },
+    { "n": 3, "text": "Both findings are on axis C3 (Resilience)", "result": "fail", "evidence": "No resilience finding emitted." },
+    { "n": 4, "text": "Finding 1 identifies the liveness handler querying the database", "result": "fail", "evidence": "Missed. The pre-change resilience sub-domain had exactly two guideline files — retries-backoff.md (5 bullets) and timeouts-breakers.md (4 bullets) — covering retry policy, jitter, timeouts, deadline propagation, breakers, and pool bounds. None asks what a health endpoint reports. The presence of a `connect_timeout=2` and a bare `except` made the handler look like careful defensive code." },
+    { "n": 5, "text": "Finding 1 explains the fleet-wide restart storm from a dependency blip", "result": "fail", "evidence": "Not stated." },
+    { "n": 6, "text": "Finding 1 fix moves the dependency probe to readiness", "result": "fail", "evidence": "No fix proposed." },
+    { "n": 7, "text": "Finding 2 identifies os._exit(0) with no drain or readiness withdrawal", "result": "fail", "evidence": "Missed. timeouts-breakers.md bounds the duration of outgoing calls; nothing pre-change looked at the process's own termination, and registering a SIGTERM handler reads as an improvement rather than as an abrupt exit." },
+    { "n": 8, "text": "Finding 2 compares the 15s grace period against the 40s request", "result": "fail", "evidence": "Not stated." },
+    { "n": 9, "text": "Header matches pattern: 2 findings · C:1 M:1 m:0 i:0", "result": "pass", "evidence": "Header rendered in the required shape, with a zero tally." }
+  ],
+  "notes": "Total miss. The pre-change operations pillar had no notion of the process lifecycle: a fleet-wide restart storm and a deploy that kills 40-second jobs both graded Grade A."
+}

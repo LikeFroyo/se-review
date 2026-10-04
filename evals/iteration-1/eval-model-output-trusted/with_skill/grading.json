@@ -1,0 +1,22 @@
+{
+  "eval": "eval-model-output-trusted",
+  "eval_id": 71,
+  "fixture": "evals/fixtures/model_output_trusted.py",
+  "run": "with_skill",
+  "phase": "after",
+  "review": "1 finding · C:1 M:0 m:0 i:0 — Domain Score: 75/100 (Grade C)",
+  "summary": { "passed": 10, "failed": 0, "total": 10, "pass_rate": 1.0 },
+  "assertions": [
+    { "n": 1, "text": "Exactly 1 finding above Info severity", "result": "pass", "evidence": "One Critical finding; all four sites are the same root cause — the completion is treated as data that can act rather than as a string that can only be shown." },
+    { "n": 2, "text": "Finding is graded CRITICAL", "result": "pass", "evidence": "Graded Critical: database execution plus persisted active content is both a breach and a state-corruption vector." },
+    { "n": 3, "text": "Finding is on axis A7 (AI Systems)", "result": "pass", "evidence": "Reported under Correctness / AI Systems (A7), the output-handling section." },
+    { "n": 4, "text": "Identifies run_invoice_sql interpolating the completion into SQL", "result": "pass", "evidence": "Cites model_output_trusted.py:20-23 — an f-string in the query with the model's text in the literal." },
+    { "n": 5, "text": "Identifies render_html persisting the completion into a rendered document", "result": "pass", "evidence": "Cites lines 20 and 26-27 — the completion is interpolated into HTML and written into a PDF staff open daily." },
+    { "n": 6, "text": "Identifies classify_ticket regex-parsing a category and a discount and applying both directly", "result": "pass", "evidence": "Cites lines 30-42 — two regexes, one of which becomes a queue name and the other a percentage applied to an order total, with no confirmation." },
+    { "n": 7, "text": "Identifies fetch_report_url following a completion-supplied URL with no allowlist", "result": "pass", "evidence": "Cites lines 46-52 — the first URL-shaped substring in the completion is fetched with redirects followed." },
+    { "n": 8, "text": "Failure scenario names database execution plus a script tag landing in the daily PDF", "result": "pass", "evidence": "States a crafted invoice makes the model emit a quote-terminated statement the database runs and a completion whose script tags are stored into a document that is rendered for staff." },
+    { "n": 9, "text": "Fix recommends parameterising, validating against a closed set, and confirming consequential actions", "result": "pass", "evidence": "Fix: parameterise the query, escape or template the HTML, constrain category and URL to closed allowlists, and require a deterministic check plus confirmation before a discount is applied." },
+    { "n": 10, "text": "Header matches pattern: 1 finding · C:1 M:0 m:0 i:0", "result": "pass", "evidence": "Header rendered exactly as specified." }
+  ],
+  "notes": "Caught by guidelines/output-handling.md (new). Reported as one finding rather than four: the same rule is violated four times and the fix is one architectural change, so this is the collapse rule applying cleanly. The SQL interpolation is cross-referenced to the security sub-domain per the A7 boundary rule and counted once."
+}

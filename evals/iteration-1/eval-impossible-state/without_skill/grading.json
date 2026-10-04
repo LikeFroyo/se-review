@@ -1,0 +1,21 @@
+{
+  "eval": "eval-impossible-state",
+  "eval_id": 55,
+  "fixture": "evals/fixtures/impossible_state.py",
+  "run": "without_skill",
+  "phase": "before",
+  "review": "0 findings · C:0 M:0 m:0 i:0 — Domain Score: 100/100 (Grade A) — `Aligns well`",
+  "summary": { "passed": 0, "failed": 9, "total": 9, "pass_rate": 0.0 },
+  "assertions": [
+    { "n": 1, "text": "Exactly 1 finding above Info severity", "result": "fail", "evidence": "0 findings above Info; graded Grade A. Four clearly named booleans with one transition method each read as the simplest possible design." },
+    { "n": 2, "text": "Finding is graded CRITICAL", "result": "fail", "evidence": "No finding to grade." },
+    { "n": 3, "text": "Finding is on axis B1 (Complexity)", "result": "fail", "evidence": "No maintainability finding emitted." },
+    { "n": 4, "text": "Identifies is_paid/is_cancelled/is_refunded/is_shipped as independent booleans rather than one status", "result": "fail", "evidence": "Missed. The pre-change complexity sub-domain had two files totalling eight bullets: nesting, cyclomatic, method length, god objects, boolean flag *parameters*, arity, output parameters, optional explosion. Boolean *fields* modelling a lifecycle were not a trigger, and four booleans is not complexity by any measure the file states." },
+    { "n": 5, "text": "Notes no transition checks the other flags so invalid combinations are reachable", "result": "fail", "evidence": "Not stated." },
+    { "n": 6, "text": "Notes to_row persists every combination, so the invalid state is durable", "result": "fail", "evidence": "Not stated." },
+    { "n": 7, "text": "Failure scenario names an order both cancelled and refunded, charged for unshipped stock", "result": "fail", "evidence": "Not stated." },
+    { "n": 8, "text": "Fix recommends a single status or a type that cannot represent an invalid combination", "result": "fail", "evidence": "No fix proposed." },
+    { "n": 9, "text": "Header matches pattern: 1 finding · C:1 M:0 m:0 i:0", "result": "fail", "evidence": "Header rendered `0 findings · C:0 M:0 m:0 i:0`." }
+  ],
+  "notes": "Total miss. This is the cleanest illustration in the maintainability round: the code is simple by every measure the pre-change complexity file defines, and wrong. The defect is in what the representation permits, which no measure of size or branching can see."
+}

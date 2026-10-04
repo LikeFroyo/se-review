@@ -1,0 +1,57 @@
+{
+  "eval_id": 1,
+  "eval_name": "eval-dead-code",
+  "assertion_results": [
+    {
+      "text": "Exactly 1 finding above Info severity",
+      "passed": false,
+      "evidence": "Baseline identified 4 separate issues (Dead Code, Performance, Testability, Unused Import) without severity classification."
+    },
+    {
+      "text": "Finding is graded CRITICAL",
+      "passed": false,
+      "evidence": "No severity assigned; listed simply as Issue 1."
+    },
+    {
+      "text": "Finding is on axis L1 or L2 (dead code / unused surface)",
+      "passed": false,
+      "evidence": "No axis classification (L1/L2) used."
+    },
+    {
+      "text": "Finding identifies LegacyPriceAdapter as the dead code",
+      "passed": true,
+      "evidence": "Identified 'Dead Code — LegacyPriceAdapter (Lines 7–15)'."
+    },
+    {
+      "text": "Evidence cites specific lines in dead_code.py",
+      "passed": true,
+      "evidence": "Cites lines 7–15, line 14, lines 26–28, line 27."
+    },
+    {
+      "text": "Fix recommends deletion of the class",
+      "passed": true,
+      "evidence": "Recommends 'Delete LegacyPriceAdapter entirely'."
+    },
+    {
+      "text": "RateTable import is NOT flagged as dead (it is live via price_order)",
+      "passed": true,
+      "evidence": "RateTable import not flagged as dead; correctly identifies RateTable usage in price_order."
+    },
+    {
+      "text": "Header matches pattern: 1 finding · C:1 M:0 m:0 i:0",
+      "passed": false,
+      "evidence": "No structured header present."
+    },
+    {
+      "text": "Failure scenario names the permanent carrying cost (read/test/port/migrate tax)",
+      "passed": false,
+      "evidence": "Mentions 'adds cognitive load for future readers and risks someone accidentally wiring it back in' but does not name the permanent read/test/port/migrate carrying tax."
+    }
+  ],
+  "summary": {
+    "passed": 4,
+    "failed": 5,
+    "total": 9,
+    "pass_rate": 0.444
+  }
+}

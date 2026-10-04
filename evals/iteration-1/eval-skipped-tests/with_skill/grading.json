@@ -1,0 +1,21 @@
+{
+  "eval": "eval-skipped-tests",
+  "eval_id": 69,
+  "fixture": "evals/fixtures/skipped_tests.py",
+  "run": "with_skill",
+  "phase": "after",
+  "review": "1 finding · C:0 M:1 m:0 i:0 — Domain Score: 90/100 (Grade A)",
+  "summary": { "passed": 9, "failed": 0, "total": 9, "pass_rate": 1.0 },
+  "assertions": [
+    { "n": 1, "text": "Exactly 1 finding above Info severity", "result": "pass", "evidence": "One Major finding; the skip and the xfail are the same defect — a test removed from execution but left in the report." },
+    { "n": 2, "text": "Finding is graded MAJOR", "result": "pass", "evidence": "Graded Major per the new A6 rule: the suite reports protection it does not provide." },
+    { "n": 3, "text": "Finding is on axis A6 (Testing)", "result": "pass", "evidence": "Reported under Correctness / Testing (A6)." },
+    { "n": 4, "text": "Identifies test_price_bulk as skipped with no reason and no owner", "result": "pass", "evidence": "Cites skipped_tests.py:17-18 — `@pytest.mark.skip` with an empty body and no reason argument." },
+    { "n": 5, "text": "Identifies test_price_with_promotion as xfail with a vague reason and no expiry", "result": "pass", "evidence": "Cites lines 21-23 — `xfail(reason='flaky in CI')` with no owner and nothing that would ever remove the mark." },
+    { "n": 6, "text": "Notes the suite still reports green and still counts both tests toward coverage", "result": "pass", "evidence": "States both tests remain in the collected count while executing nothing, so a coverage figure and a green run both overstate what was checked." },
+    { "n": 7, "text": "Failure scenario names a bulk or promotion pricing regression shipping undetected", "result": "pass", "evidence": "States a regression in bulk pricing or in the promotion path would not fail the suite, and the reviewer looking at a green board would not investigate further." },
+    { "n": 8, "text": "Fix recommends deleting the skip or attaching a tracked reason and owner, with an expiry on any xfail", "result": "pass", "evidence": "Fix: remove the empty skip entirely, and require every xfail to name an owner and a date after which the mark must be revisited or the test deleted." },
+    { "n": 9, "text": "Header matches pattern: 1 finding · C:0 M:1 m:0 i:0", "result": "pass", "evidence": "Header rendered exactly as specified." }
+  ],
+  "notes": "Caught by the bullet appended to guidelines/test-adequacy.md. The two marks were reported as one finding, since a skip with no reason and an xfail with no owner are the same failure — a test absent from execution while present in the count. The determinism.md file was correctly not involved: neither mark is a flake."
+}

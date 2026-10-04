@@ -1,0 +1,57 @@
+{
+  "eval_id": 2,
+  "eval_name": "eval-retry",
+  "assertion_results": [
+    {
+      "text": "Exactly 1 finding above Info severity",
+      "passed": false,
+      "evidence": "Identified 6 separate issues without severity grading."
+    },
+    {
+      "text": "Finding is graded MAJOR",
+      "passed": false,
+      "evidence": "No severity grade assigned."
+    },
+    {
+      "text": "Finding is on axis C3 (Resilience)",
+      "passed": false,
+      "evidence": "No C3 Resilience axis taxonomy used."
+    },
+    {
+      "text": "Evidence identifies the immediate retry loop (no delay between attempts)",
+      "passed": true,
+      "evidence": "States 'The loop fires all 5 requests as fast as possible with zero delay.'"
+    },
+    {
+      "text": "Failure scenario describes thundering-herd or amplified load under 503",
+      "passed": true,
+      "evidence": "States 'If the server is overloaded or temporarily down, hammering it immediately makes things worse and is unlikely to succeed.'"
+    },
+    {
+      "text": "Fix mentions exponential backoff with jitter",
+      "passed": false,
+      "evidence": "Suggests time.sleep(2 ** attempt) without randomized jitter."
+    },
+    {
+      "text": "Fix mentions a total-wait cap or bounded retry budget",
+      "passed": false,
+      "evidence": "No total-wait cap or retry budget mentioned."
+    },
+    {
+      "text": "Trade-off names increased worst-case latency for a single call",
+      "passed": false,
+      "evidence": "No trade-off analysis included."
+    },
+    {
+      "text": "Header matches pattern: 1 finding · C:0 M:1 m:0 i:0",
+      "passed": false,
+      "evidence": "No structured header present."
+    }
+  ],
+  "summary": {
+    "passed": 2,
+    "failed": 7,
+    "total": 9,
+    "pass_rate": 0.222
+  }
+}

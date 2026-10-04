@@ -1,0 +1,78 @@
+{
+  "eval_id": 47,
+  "eval_name": "eval-unbounded-fanout",
+  "condition": "with_skill",
+  "skill_consulted": true,
+  "files_read": [
+    "evals/fixtures/unbounded_fanout.py",
+    "SKILL.md",
+    "shared/severity-and-rules.md",
+    "shared/output-format.md",
+    "shared/axis-codes.md",
+    "domains/*/leaf.md",
+    "domains/correctness/leaf.md",
+    "domains/operations/leaf.md",
+    "domains/leanness/leaf.md",
+    "domains/maintainability/leaf.md",
+    "domains/interoperability/leaf.md",
+    "domains/operations/resilience/sub-leaf.md",
+    "domains/operations/performance/sub-leaf.md",
+    "domains/leanness/synthetic-code/sub-leaf.md",
+    "domains/correctness/logic/sub-leaf.md",
+    "domains/correctness/api-contracts/sub-leaf.md",
+    "outside:.../verify_fanout.py"
+  ],
+  "assertion_results": [
+    {
+      "text": "Exactly 2 findings above Info severity",
+      "passed": false,
+      "evidence": "The review text is only a preamble (\"I'll read that file...\" / \"Now the sub-domain evaluators I'll need...\") with no findings reported at all."
+    },
+    {
+      "text": "Both findings are graded CRITICAL",
+      "passed": false,
+      "evidence": "No findings and no severity grades appear anywhere in the cut-off review, so neither can be CRITICAL."
+    },
+    {
+      "text": "Finding 1 is on axis C1 or C2 (Performance) and finding 2 is on axis C1 or C2",
+      "passed": false,
+      "evidence": "The review states no finding 1 or finding 2, so no axis (C1/C2 or otherwise) is assigned to either."
+    },
+    {
+      "text": "Finding 1 identifies the unbounded fan-out over ACCOUNTS with no concurrency cap",
+      "passed": false,
+      "evidence": "The review never names a finding about unbounded fan-out over ACCOUNTS or a missing concurrency cap."
+    },
+    {
+      "text": "Finding 1 explains the recovery herd re-overloading the provider",
+      "passed": false,
+      "evidence": "The review contains no discussion of a recovery herd re-overloading a provider."
+    },
+    {
+      "text": "Finding 2 identifies the nested any() scan making total_due quadratic",
+      "passed": false,
+      "evidence": "The review contains no finding about a nested any() scan or quadratic total_due computation."
+    },
+    {
+      "text": "Finding 2 quantifies the growth (~N squared, small at 500 and timing out at 20,000)",
+      "passed": false,
+      "evidence": "The review offers no growth quantification (no N-squared, 500, or 20,000 figures)."
+    },
+    {
+      "text": "Both fixes bound the work (worker pool / single pass)",
+      "passed": false,
+      "evidence": "The review proposes no fixes at all, so neither a worker pool nor a single-pass bound is described."
+    },
+    {
+      "text": "Header matches pattern: 2 findings Â· C:2 M:0 m:0 i:0",
+      "passed": false,
+      "evidence": "No header line matching '2 findings · C:2 M:0 m:0 i:0' appears; the review is cut off before any report header."
+    }
+  ],
+  "summary": {
+    "passed": 0,
+    "failed": 9,
+    "total": 9,
+    "pass_rate": 0.0
+  }
+}

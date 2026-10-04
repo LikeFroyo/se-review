@@ -1,0 +1,76 @@
+{
+  "eval_id": 48,
+  "eval_name": "eval-saga-no-compensation",
+  "condition": "with_skill",
+  "skill_consulted": true,
+  "files_read": [
+    "evals/fixtures/saga_no_compensation.py",
+    "./",
+    "evals",
+    "evals/evals.json",
+    "evals/iteration-1/eval-saga-no-compensation/with_skill/grading.json",
+    "SKILL.md",
+    "shared/output-format.md",
+    "shared/severity-and-rules.md",
+    "domains/operations/leaf.md",
+    "shared/axis-codes.md",
+    "domains/operations/distributed/sub-leaf.md",
+    "domains/operations/distributed/guidelines/workflow-compensation.md"
+  ],
+  "assertion_results": [
+    {
+      "text": "Exactly 1 finding above Info severity",
+      "passed": true,
+      "evidence": "The review contains a single finding section, marked [CRITICAL], with no other findings listed."
+    },
+    {
+      "text": "Finding is graded CRITICAL",
+      "passed": true,
+      "evidence": "The finding header reads \"### [CRITICAL] Three-service checkout commits each step independently\"."
+    },
+    {
+      "text": "Finding is on axis C5 (Distributed)",
+      "passed": true,
+      "evidence": "The finding's Domain line states \"Operations (C5)\" and the header domain scores cite the Operations axis."
+    },
+    {
+      "text": "Identifies the three-step flow committing independently with no saga or compensation",
+      "passed": true,
+      "evidence": "The title itself states \"Three-service checkout commits each step independently — no saga, no compensating action, no reconciler\", with evidence of three sequential requests.post calls each committing before the next."
+    },
+    {
+      "text": "Cites both failure branches (charge fails after reserve; ship fails after charge)",
+      "passed": true,
+      "evidence": "Failure scenario items 1 and 2 cite \"Charge fails after reserve\" (36-38) and \"Ship fails after charge settles\" (44-46)."
+    },
+    {
+      "text": "Failure scenario names permanently held stock and a captured charge with no refund",
+      "passed": true,
+      "evidence": "It states the reservation \"is never released, so sellable stock for that SKU stays decremented\" and \"The customer's money is captured... unrecoverable by any automated process\"."
+    },
+    {
+      "text": "Notes SAGA_LOG records progress but nothing reconciles from it",
+      "passed": true,
+      "evidence": "Evidence notes \"`SAGA_LOG` (line 10) records progress via `append` (29, 39, 47) and is read nowhere in the module — a saga record with no runner\"."
+    },
+    {
+      "text": "Fix recommends compensating actions plus a reconciler for stuck flows",
+      "passed": true,
+      "evidence": "Fix steps 4 and 5 recommend \"Add an inverse per completed step, in reverse order\" (refund, release) and \"Add a reconciler — a periodic sweep of non-terminal saga records past a threshold age\"."
+    },
+    {
+      "text": "Header matches pattern: 1 finding Â· C:1 M:0 m:0 i:0",
+      "passed": true,
+      "evidence": "The header line reads \"1 finding · C:1 M:0 m:0 i:0 · Mean 95.0/100 · Final Grade F\", matching the required count pattern."
+    }
+  ],
+  "summary": {
+    "passed": 9,
+    "failed": 0,
+    "total": 9,
+    "pass_rate": 1.0
+  },
+  "searched": [
+    "saga_no_compensation"
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "eval": "eval-lost-update-race",
+  "eval_id": 63,
+  "fixture": "evals/fixtures/lost_update_race.py",
+  "run": "without_skill",
+  "phase": "before",
+  "review": "0 findings · C:0 M:0 m:0 i:0 — Domain Score: 100/100 (Grade A) — `Aligns well`",
+  "summary": { "passed": 1, "failed": 8, "total": 9, "pass_rate": 0.125 },
+  "assertions": [
+    { "n": 1, "text": "Exactly 1 finding above Info severity", "result": "fail", "evidence": "0 findings above Info; graded Grade A. The read-then-write inside a single connection with a single commit reads as a well-scoped transaction." },
+    { "n": 2, "text": "Finding is graded CRITICAL", "result": "fail", "evidence": "No finding to grade." },
+    { "n": 3, "text": "Finding is on axis A3 (Data)", "result": "fail", "evidence": "No data finding emitted." },
+    { "n": 4, "text": "Identifies the separate SELECT and UPDATE in reserve with no lock and no atomic operator", "result": "fail", "evidence": "Missed. The pre-change data sub-domain had two files totalling nine bullets: N+1 loops, unbounded SELECT, missing indexes, SELECT *, client-side filtering, long-running transactions, unatomised co-dependent writes, destructive migrations, exclusive table locks. 'Unatomized co-dependent writes' needs the dependency to be between rows or tables; here both statements touch one row, and one connection with one commit is the strongest-looking transaction scope there is." },
+    { "n": 5, "text": "Notes the default isolation level permits an interleaving between the read and the write", "result": "fail", "evidence": "Missed. No pre-change rule referenced isolation levels, and transactions-migrations.md's 'ACID boundaries' framing treats a transaction as the unit that provides the guarantee — which is exactly the misconception the fixture exploits." },
+    { "n": 6, "text": "Identifies increment_view_counter as the same read-then-write shape", "result": "fail", "evidence": "Not stated." },
+    { "n": 7, "text": "Failure scenario names oversold stock with no row recording the lost update", "result": "fail", "evidence": "Not stated." },
+    { "n": 8, "text": "Fix recommends a conditional atomic UPDATE or SELECT FOR UPDATE", "result": "fail", "evidence": "No fix proposed." },
+    { "n": 9, "text": "Header matches pattern: 1 finding · C:1 M:0 m:0 i:0", "result": "pass", "evidence": "Header rendered in the required shape, with a zero tally." }
+  ],
+  "notes": "Total miss. A single connection with a single commit is precisely the shape a reviewer checks for and finds reassuring, so the pre-change skill's transaction rule actively pointed away from the defect here."
+}

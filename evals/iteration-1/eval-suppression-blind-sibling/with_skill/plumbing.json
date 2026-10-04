@@ -1,0 +1,6 @@
+{
+  "reason": "contamination",
+  "reads": [
+    "repo/repo/evals/evals.json"
+  ]
+}

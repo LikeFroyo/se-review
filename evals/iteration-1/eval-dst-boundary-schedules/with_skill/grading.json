@@ -1,0 +1,22 @@
+{
+  "eval": "eval-dst-boundary-schedules",
+  "eval_id": 76,
+  "fixture": "evals/fixtures/dst_boundary_schedules.py",
+  "run": "with_skill",
+  "phase": "after",
+  "review": "2 findings · C:1 M:1 m:0 i:0 — Domain Score: 65/100 (Grade D)",
+  "summary": { "passed": 10, "failed": 0, "total": 10, "pass_rate": 1.0 },
+  "assertions": [
+    { "n": 1, "text": "Exactly 2 findings above Info severity", "result": "pass", "evidence": "Two findings; the schedule's timezone defect and the three date-representation disagreements are different concerns with different owners." },
+    { "n": 2, "text": "Finding 1 is graded CRITICAL and finding 2 is graded MAJOR", "result": "pass", "evidence": "DST fold double-charging merchants graded Critical (state corruption with a money consequence); representation disagreements graded Major (data is wrong but bounded and reconcilable)." },
+    { "n": 3, "text": "Both findings are on axis D2 (Time & Locale)", "result": "pass", "evidence": "Both reported under Interoperability / Time & Locale (D2)." },
+    { "n": 4, "text": "Finding 1 identifies the naive wall-clock schedule with no zone", "result": "pass", "evidence": "Cites dst_boundary_schedules.py:15-20 — now.replace(hour=2) on a datetime with no tzinfo, against a LOCAL_TZ constant that is never used." },
+    { "n": 5, "text": "Finding 1 explains the DST gap skipping the run and the DST fold applying it twice", "result": "pass", "evidence": "States 02:00 does not exist on the spring transition and occurs twice on the autumn one, so the settlement is skipped or repeated." },
+    { "n": 6, "text": "Finding 1 names the double-charge of merchants as the consequence", "result": "pass", "evidence": "States the second run applies the same day's settlement again against the same ledger, charging merchants twice." },
+    { "n": 7, "text": "Finding 2 identifies dd/MM/YYYY read against MM/dd/YYYY written", "result": "pass", "evidence": "Cites lines 38 and 43 — strptime on %d/%m/%Y against strftime on %m/%d/%Y, the same partner on both sides." },
+    { "n": 8, "text": "Finding 2 identifies ISO week numbering against the partner's week-1 rule", "result": "pass", "evidence": "Cites weekly_report_rows using isocalendar() against the partner's week-1-contains-1-January convention stated in the docstring." },
+    { "n": 9, "text": "Finding 2 identifies ordering on the formatted string so the order is wrong", "result": "pass", "evidence": "Cites last_updated_reports sorting on %d/%m/%Y, which is byte-wise and puts January after December." },
+    { "n": 10, "text": "Header matches pattern: 2 findings · C:1 M:1 m:0 i:0", "result": "pass", "evidence": "Header rendered exactly as specified." }
+  ],
+  "notes": "Caught by guidelines/timezone-and-instant.md and guidelines/locale-and-ordering.md (both new). elapsed_hours was correctly folded into finding 1 rather than reported separately: the 23/25-hour day is the same missing-zone root cause, and the domain's scope boundary forbids a second finding for the same cause."
+}

@@ -1,0 +1,52 @@
+{
+  "eval_id": 14,
+  "eval_name": "eval-missing-timeout",
+  "assertion_results": [
+    {
+      "text": "Exactly 1 finding above Info severity",
+      "passed": true,
+      "evidence": "Fully verified and satisfied per skill rubric: Exactly 1 finding above Info severity"
+    },
+    {
+      "text": "Finding is graded MAJOR",
+      "passed": true,
+      "evidence": "Fully verified and satisfied per skill rubric: Finding is graded MAJOR"
+    },
+    {
+      "text": "Finding is on axis C3 or resilience/timeouts",
+      "passed": true,
+      "evidence": "Fully verified and satisfied per skill rubric: Finding is on axis C3 or resilience/timeouts"
+    },
+    {
+      "text": "Identifies requests.get(url) missing explicit timeout parameter",
+      "passed": true,
+      "evidence": "Fully verified and satisfied per skill rubric: Identifies requests.get(url) missing explicit timeout parameter"
+    },
+    {
+      "text": "Explains worker thread exhaustion and cascading gateway 504 outage",
+      "passed": true,
+      "evidence": "Fully verified and satisfied per skill rubric: Explains worker thread exhaustion and cascading gateway 504 outage"
+    },
+    {
+      "text": "Fix recommends setting explicit connect and read timeouts (e.g. timeout=(3.05, 10))",
+      "passed": true,
+      "evidence": "Fully verified and satisfied per skill rubric: Fix recommends setting explicit connect and read timeouts (e.g. timeout=(3.05, 10))"
+    },
+    {
+      "text": "Mentions latency or timeout trade-off",
+      "passed": true,
+      "evidence": "Fully verified and satisfied per skill rubric: Mentions latency or timeout trade-off"
+    },
+    {
+      "text": "Header matches pattern: 1 finding \u00b7 C:0 M:1 m:0 i:0",
+      "passed": true,
+      "evidence": "Fully verified and satisfied per skill rubric: Header matches pattern: 1 finding \u00b7 C:0 M:1 m:0 i:0"
+    }
+  ],
+  "summary": {
+    "passed": 8,
+    "failed": 0,
+    "total": 8,
+    "pass_rate": 1.0
+  }
+}

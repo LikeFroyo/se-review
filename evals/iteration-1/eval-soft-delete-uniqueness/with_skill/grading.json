@@ -1,0 +1,21 @@
+{
+  "eval": "eval-soft-delete-uniqueness",
+  "eval_id": 68,
+  "fixture": "evals/fixtures/soft_delete_uniqueness.py",
+  "run": "with_skill",
+  "phase": "after",
+  "review": "1 finding · C:0 M:1 m:0 i:0 — Domain Score: 90/100 (Grade A)",
+  "summary": { "passed": 9, "failed": 0, "total": 9, "pass_rate": 1.0 },
+  "assertions": [
+    { "n": 1, "text": "Exactly 1 finding above Info severity", "result": "pass", "evidence": "One Major finding; the tombstone row is one root cause appearing in the constraint, in the insert path, and in every default query." },
+    { "n": 2, "text": "Finding is graded MAJOR", "result": "pass", "evidence": "Graded Major per the new A3 rule: a user is blocked from re-registering an address they already used, and a report total disagrees with its own list." },
+    { "n": 3, "text": "Finding is on axis A3 (Data)", "result": "pass", "evidence": "Reported under Correctness / Data (A3)." },
+    { "n": 4, "text": "Identifies the unique indexes declared at file scope spanning the tombstone row", "result": "pass", "evidence": "Cites soft_delete_uniqueness.py:10-11 — two file-scope comments declaring UNIQUE indexes with no WHERE deleted_at IS NULL." },
+    { "n": 5, "text": "Identifies create_customer failing on a duplicate key for a previously deleted email", "result": "pass", "evidence": "Cites lines 40-47 — soft_delete sets deleted_at but leaves the row, so the insert hits the unique index and the handler has no mapping for it." },
+    { "n": 6, "text": "Identifies active_customers and customer_count scoping by segment rather than by deleted_at", "result": "pass", "evidence": "Cites lines 50-61 — both query by `segment` only, so archived customers are returned and counted." },
+    { "n": 7, "text": "Failure scenario names an un-re-registerable address and a total that never matches the list", "result": "pass", "evidence": "States a user who deletes an account and tries to re-register is told there is a server error, and the enterprise dashboard has been over-counting since the first soft delete." },
+    { "n": 8, "text": "Fix recommends a partial unique index over live rows plus deletion-marker filters in default queries", "result": "pass", "evidence": "Fix: a partial unique index constrained to live rows, and deletion-marker filtering made part of the repository's default scope rather than each caller's responsibility." },
+    { "n": 9, "text": "Header matches pattern: 1 finding · C:0 M:1 m:0 i:0", "result": "pass", "evidence": "Header rendered exactly as specified." }
+  ],
+  "notes": "Caught by the bullets appended to guidelines/query-patterns.md. The defect was read as one cause reaching three places rather than three findings, which is the correct collapse: fixing the index alone would leave the count wrong, and fixing the count alone would leave the insert blocked."
+}

@@ -1,0 +1,22 @@
+{
+  "eval": "eval-model-output-trusted",
+  "eval_id": 71,
+  "fixture": "evals/fixtures/model_output_trusted.py",
+  "run": "without_skill",
+  "phase": "before",
+  "review": "2 findings · C:2 M:0 m:0 i:0 — Domain Score: 50/100 (Grade F)",
+  "summary": { "passed": 5, "failed": 5, "total": 10, "pass_rate": 0.5 },
+  "assertions": [
+    { "n": 1, "text": "Exactly 1 finding above Info severity", "result": "fail", "evidence": "Two findings raised, split by the pre-change rule set into SQL injection and SSRF. The collapse into one root cause is what the new sub-leaf's boundary rule requires." },
+    { "n": 2, "text": "Finding is graded CRITICAL", "result": "pass", "evidence": "Both pre-change findings were graded CRITICAL, which the post-change verdict also supports." },
+    { "n": 3, "text": "Finding is on axis A7 (AI Systems)", "result": "fail", "evidence": "Reported under Correctness / Security (A5). A5 did not exist as a pre-change axis for this; the reviewer reached the SQL interpolation through the existing injection rules." },
+    { "n": 4, "text": "Identifies run_invoice_sql interpolating the completion into SQL", "result": "pass", "evidence": "Raised. This is the same f-string SQL injection shape as the existing injection eval, and the pre-change rules reach it directly once the completion is recognised as the source." },
+    { "n": 5, "text": "Identifies render_html persisting the completion into a rendered document", "result": "fail", "evidence": "Missed. The pre-change security sub-domain's unsafe-parsing rules cover deserialization and entity resolution, not stored content that is later rendered. Nothing asked whether a string written to a document is treated as markup by whoever opens it." },
+    { "n": 6, "text": "Identifies classify_ticket regex-parsing a category and a discount and applying both directly", "result": "fail", "evidence": "Missed, and this is the most consequential miss in the eval. A value parsed out of prose and applied to a money field has no pre-change trigger: the security rules want a sink, the logic rules want a boundary bug, and this is neither." },
+    { "n": 7, "text": "Identifies fetch_report_url following a completion-supplied URL with no allowlist", "result": "pass", "evidence": "Raised as SSRF via the pre-existing SSRF rule — a client-influenced URL fetched with no destination validation. The redirect-following detail was included." },
+    { "n": 8, "text": "Failure scenario names database execution plus a script tag landing in the daily PDF", "result": "fail", "evidence": "Partially stated: the SQL execution consequence was described, the stored active content consequence was not." },
+    { "n": 9, "text": "Fix recommends parameterising, validating against a closed set, and confirming consequential actions", "result": "fail", "evidence": "Fix covered the SQL and the URL only; nothing addressed the regex-derived routing and discount, which is where the silent money error is." },
+    { "n": 10, "text": "Header matches pattern: 1 finding · C:1 M:0 m:0 i:0", "result": "fail", "evidence": "Header rendered `2 findings · C:2 M:0 m:0 i:0`." }
+  ],
+  "notes": "The strongest result in the whole correctness round, and the most instructive. Two of the four sites were already caught — the SQL and the URL — by pre-existing security rules, because both have recognisable sinks. The two that were missed (stored active content, regex-derived money) have no sink a rule can name. Sink-shaped rules generalise to model output; trust-boundary rules do not, and that is exactly the gap ai-systems fills."
+}

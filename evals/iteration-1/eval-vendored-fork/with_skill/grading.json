@@ -1,0 +1,69 @@
+{
+  "eval_id": 45,
+  "eval_name": "eval-vendored-fork",
+  "condition": "with_skill",
+  "skill_consulted": true,
+  "files_read": [
+    "evals/fixtures/vendored_fork.py",
+    "./",
+    "evals/fixtures/unpinned_manifest.json",
+    "evals/fixtures/typosquat_dependency.py",
+    "evals/README.md",
+    "domains/leanness/waste/sub-leaf.md",
+    "evals/iteration-1/eval-vendored-fork/with_skill/grading.json",
+    "SKILL.md",
+    "domains/leanness/waste/guidelines/redundancy.md",
+    "shared/output-format.md"
+  ],
+  "assertion_results": [
+    {
+      "text": "Exactly 1 finding above Info severity",
+      "passed": true,
+      "evidence": "Only the [MAJOR] finding exceeds Info; the second is explicitly labeled \"[INFO / SUGGESTION]\" and marked \"hand-off, not graded here.\""
+    },
+    {
+      "text": "Finding is graded MAJOR",
+      "passed": true,
+      "evidence": "The finding header reads \"### [MAJOR] Three un-synced in-tree upstream forks...\" and the Grade section states \"MAJOR, not CRITICAL.\""
+    },
+    {
+      "text": "Finding is on axis L4 (Waste / Redundancy)",
+      "passed": true,
+      "evidence": "The finding's Domain line reads \"Leanness / Waste (L4).\""
+    },
+    {
+      "text": "Identifies the in-tree copies frozen at 2019-era pinned versions",
+      "passed": true,
+      "evidence": "Evidence cites VENDOR_MANIFEST pinning pyjwt 1.7.1, idna 2.8, chardet 3.0.4 at synced_through \"2019-08-14\" and calls them \"frozen over seven years.\""
+    },
+    {
+      "text": "Notes that the vendored packages are invisible to dependency scanning",
+      "passed": true,
+      "evidence": "Failure scenario states \"no dependency scanner or CVE feed can match them: Dependabot, `pip-audit`, Snyk and `safety` all key off declared dependencies, and these are declared nowhere.\""
+    },
+    {
+      "text": "Cites the known-unpatched CVEs or the missing upstream tracking",
+      "passed": true,
+      "evidence": "Evidence names KNOWN_UNPATCHED (\"pyjwt\",\"CVE-2022-29217\") and (\"idna\",\"CVE-2024-3651\") with both pins below their fix, plus vendor_issue_counts() hardcoding 0."
+    },
+    {
+      "text": "Failure scenario describes upstream security fixes never arriving",
+      "passed": true,
+      "evidence": "Failure scenario: \"Every upstream fix must be hand-ported by a human who first has to learn the fix exists.\""
+    },
+    {
+      "text": "Header matches pattern: 1 finding · C:0 M:1 m:0 i:0",
+      "passed": false,
+      "evidence": "The header reads \"2 findings · C:0 M:1 m:0 i:1\", not the required \"1 finding · C:0 M:1 m:0 i:0\"."
+    }
+  ],
+  "summary": {
+    "passed": 7,
+    "failed": 1,
+    "total": 8,
+    "pass_rate": 0.875
+  },
+  "searched": [
+    "vendored_fork|vendor_issue_counts|encode_jwt|VENDOR_MANIFEST|KNOWN_UNPATCHED"
+  ]
+}

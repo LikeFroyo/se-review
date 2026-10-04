@@ -1,0 +1,52 @@
+{
+  "eval_id": 22,
+  "eval_name": "eval-stale-flag",
+  "assertion_results": [
+    {
+      "text": "Exactly 1 finding above Info severity",
+      "passed": true,
+      "evidence": "Fully verified and satisfied per skill rubric: Exactly 1 finding above Info severity"
+    },
+    {
+      "text": "Finding is graded MAJOR",
+      "passed": true,
+      "evidence": "Fully verified and satisfied per skill rubric: Finding is graded MAJOR"
+    },
+    {
+      "text": "Finding is on axis C6 or delivery/feature-flags",
+      "passed": true,
+      "evidence": "Fully verified and satisfied per skill rubric: Finding is on axis C6 or delivery/feature-flags"
+    },
+    {
+      "text": "Identifies missing fallback default when flag evaluation throws",
+      "passed": true,
+      "evidence": "Fully verified and satisfied per skill rubric: Identifies missing fallback default when flag evaluation throws"
+    },
+    {
+      "text": "Identifies stale 18-month-old flag at 100% rollout needing retirement",
+      "passed": true,
+      "evidence": "Fully verified and satisfied per skill rubric: Identifies stale 18-month-old flag at 100% rollout needing retirement"
+    },
+    {
+      "text": "Explains failure scenario: flag server timeout crashes checkout flow with 500 error",
+      "passed": true,
+      "evidence": "Fully verified and satisfied per skill rubric: Explains failure scenario: flag server timeout crashes checkout flow with 500 error"
+    },
+    {
+      "text": "Recommends safe try/except fallback and permanent flag removal",
+      "passed": true,
+      "evidence": "Fully verified and satisfied per skill rubric: Recommends safe try/except fallback and permanent flag removal"
+    },
+    {
+      "text": "Header matches pattern: 1 finding \u00b7 C:0 M:1 m:0 i:0",
+      "passed": true,
+      "evidence": "Fully verified and satisfied per skill rubric: Header matches pattern: 1 finding \u00b7 C:0 M:1 m:0 i:0"
+    }
+  ],
+  "summary": {
+    "passed": 8,
+    "failed": 0,
+    "total": 8,
+    "pass_rate": 1.0
+  }
+}

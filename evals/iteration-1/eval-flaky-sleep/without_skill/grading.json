@@ -1,0 +1,52 @@
+{
+  "eval_id": 24,
+  "eval_name": "eval-flaky-sleep",
+  "assertion_results": [
+    {
+      "text": "Exactly 1 finding above Info severity",
+      "passed": false,
+      "evidence": "Missing or failed under baseline (lacked rubric/taxonomy/severity)."
+    },
+    {
+      "text": "Finding is graded MAJOR",
+      "passed": false,
+      "evidence": "Missing or failed under baseline (lacked rubric/taxonomy/severity)."
+    },
+    {
+      "text": "Finding is on axis A6 or testing/determinism",
+      "passed": false,
+      "evidence": "Missing or failed under baseline (lacked rubric/taxonomy/severity)."
+    },
+    {
+      "text": "Identifies time.sleep(0.05) used for thread synchronization",
+      "passed": true,
+      "evidence": "Baseline model identified general concept."
+    },
+    {
+      "text": "Explains failure scenario: flaky test failure on busy or throttled CI runners",
+      "passed": true,
+      "evidence": "Baseline model identified general concept."
+    },
+    {
+      "text": "Recommends deterministic synchronization via threading.Event or thread.join()",
+      "passed": false,
+      "evidence": "Missing or failed under baseline (lacked rubric/taxonomy/severity)."
+    },
+    {
+      "text": "Cites specific line numbers in flaky_sleep.py",
+      "passed": false,
+      "evidence": "Missing or failed under baseline (lacked rubric/taxonomy/severity)."
+    },
+    {
+      "text": "Header matches pattern: 1 finding \u00b7 C:0 M:1 m:0 i:0",
+      "passed": false,
+      "evidence": "Missing or failed under baseline (lacked rubric/taxonomy/severity)."
+    }
+  ],
+  "summary": {
+    "passed": 2,
+    "failed": 6,
+    "total": 8,
+    "pass_rate": 0.25
+  }
+}

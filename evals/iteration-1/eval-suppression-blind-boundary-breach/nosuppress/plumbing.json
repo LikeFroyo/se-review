@@ -1,0 +1,19 @@
+{
+  "reason": "isolation unproven",
+  "detail": "read outside this run's workspace: repo/.",
+  "reads": [
+    "ws/evals/fixtures/suppression_blind_boundary_breach.py",
+    "ws/evals/fixtures/suppression_blind_boundary_breach_CONSTRAINTS.md",
+    "ws/evals/fixtures/per_contract_layer.py",
+    "ws/.",
+    "ws/evals/fixtures",
+    "ws/evals",
+    "ws/SKILL.md",
+    "ws/shared/output-format.md",
+    "ws/shared/severity-and-rules.md",
+    "repo/.",
+    "repo/evals/fixtures/suppression_blind_boundary_breach_CONSTRAINTS.md",
+    "repo/evals/fixtures/suppression_blind_boundary_breach.py",
+    "ws/shared/axis-codes.md"
+  ]
+}

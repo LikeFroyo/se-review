@@ -1,0 +1,25 @@
+{
+  "description": "Trigger evaluation for se-review. Each query states whether this skill should activate. Run each query 3 times; should-trigger passes when the invocation rate exceeds 0.5, should-not passes when below 0.5. Keep as a fixed train/validation split before optimizing the description.",
+  "queries": [
+    {"query": "review this diff for defects before I merge", "should_trigger": true},
+    {"query": "PR audit: grade correctness and security on the changed lines", "should_trigger": true},
+    {"query": "audit security in auth paths for access bypass and injection", "should_trigger": true},
+    {"query": "check this change for dead code, leaks, or race conditions", "should_trigger": true},
+    {"query": "are we current with the language standard, and what is outdated", "should_trigger": true},
+    {"query": "what is this project meant to do, and does it do it", "should_trigger": true},
+    {"query": "architecture inspection of the new module boundary", "should_trigger": true},
+    {"query": "find the bug in the changed hunks and their callers", "should_trigger": true},
+    {"query": "revie wthis dif for defcts befor I merge", "should_trigger": true},
+    {"query": "review auth.py --focus login paths, diff-only", "should_trigger": true},
+    {"query": "write a new feature for user profiles with validation", "should_trigger": false},
+    {"query": "implement the fix for the login timeout we just found", "should_trigger": false},
+    {"query": "fix indentation, quotes, and import sorting across the tree", "should_trigger": false},
+    {"query": "review my resume for tone and clarity", "should_trigger": false},
+    {"query": "audit my monthly expenses for overspending", "should_trigger": false},
+    {"query": "check formatting of this document for consistent headings", "should_trigger": false},
+    {"query": "write a commit message for the staged change", "should_trigger": false},
+    {"query": "generate test data for the staging environment", "should_trigger": false},
+    {"query": "explain how to configure the editor for this repo", "should_trigger": false},
+    {"query": "summarize this article about review culture for the team", "should_trigger": false}
+  ]
+}

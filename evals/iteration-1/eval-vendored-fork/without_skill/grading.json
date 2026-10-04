@@ -1,0 +1,20 @@
+{
+  "eval": "eval-vendored-fork",
+  "eval_id": 45,
+  "fixture": "evals/fixtures/vendored_fork.py",
+  "run": "without_skill",
+  "phase": "before",
+  "review": "0 findings · C:0 M:0 m:0 i:0 — Domain Score: 100/100 (Grade A) — `Aligns well`",
+  "summary": { "passed": 1, "failed": 7, "total": 8, "pass_rate": 0.125 },
+  "assertions": [
+    { "n": 1, "text": "Exactly 1 finding above Info severity", "result": "fail", "evidence": "0 findings above Info; graded Grade A. The vendor manifest with pinned versions and sync dates read as exemplary record-keeping." },
+    { "n": 2, "text": "Finding is graded MAJOR", "result": "fail", "evidence": "No finding to grade." },
+    { "n": 3, "text": "Finding is on axis L4 (Waste / Redundancy)", "result": "fail", "evidence": "No waste finding emitted." },
+    { "n": 4, "text": "Identifies the in-tree copies frozen at 2019-era pinned versions", "result": "fail", "evidence": "Missed. redundancy.md's five pre-change bullets are duplicate implementations, pass-through wrappers, upstream re-validation, stale compatibility shims, and dead error branches. A vendored fork is a single implementation that is out of date — the inverse of a duplicate — and 'stale compatibility shim' is scoped to an adapter for a deprecated runtime, which these are not." },
+    { "n": 5, "text": "Notes that the vendored packages are invisible to dependency scanning", "result": "fail", "evidence": "Not stated. The pre-change supply-chain sub-domain read manifests and lockfiles, and a vendor directory is neither, so it was never in scope." },
+    { "n": 6, "text": "Cites the known-unpatched CVEs or the missing upstream tracking", "result": "fail", "evidence": "Missed. The pre-change supply-chain rules would have graded a vulnerable dependency, but only one declared in a manifest; the file's own comments make the gap explicit and nothing in the pre-change rules asks for it." },
+    { "n": 7, "text": "Failure scenario describes upstream security fixes never arriving", "result": "fail", "evidence": "Not stated." },
+    { "n": 8, "text": "Header matches pattern: 1 finding · C:0 M:1 m:0 i:0", "result": "pass", "evidence": "Header rendered in the required shape, with a zero tally." }
+  ],
+  "notes": "Total miss. The pre-change leanness gate had no rule for code copied in from upstream, so a three-package fork carrying two unpatched CVEs passed at 100/100."
+}

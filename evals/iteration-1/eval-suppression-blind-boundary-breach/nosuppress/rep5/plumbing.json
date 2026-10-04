@@ -1,0 +1,18 @@
+{
+  "reason": "isolation unproven",
+  "detail": "reached a forbidden directory: repo/evals/iteration-1/eval-suppression-blind-boundary-breach/nosuppress/review.md",
+  "reads": [
+    "ws/evals/fixtures/suppression_blind_boundary_breach.py",
+    "ws/.",
+    "ws/evals/fixtures/suppression_blind_boundary_breach_CONSTRAINTS.md",
+    "ws/evals/fixtures/per_contract_layer.py",
+    "ws/evals",
+    "ws/evals/fixtures",
+    "repo/.",
+    "repo/evals/README.md",
+    "repo/evals/iteration-1/eval-suppression-blind-boundary-breach/nosuppress/review.md",
+    "ws/SKILL.md",
+    "ws/shared/output-format.md",
+    "ws/shared/severity-and-rules.md"
+  ]
+}

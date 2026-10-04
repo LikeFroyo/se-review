@@ -1,0 +1,22 @@
+{
+  "eval": "eval-money-conversion",
+  "eval_id": 77,
+  "fixture": "evals/fixtures/money_conversion.py",
+  "run": "with_skill",
+  "phase": "after",
+  "review": "1 finding · C:1 M:0 m:0 i:0 — Domain Score: 75/100 (Grade C)",
+  "summary": { "passed": 10, "failed": 0, "total": 10, "pass_rate": 1.0 },
+  "assertions": [
+    { "n": 1, "text": "Exactly 1 finding above Info severity", "result": "pass", "evidence": "One Critical finding; the float representation, the scale mismatch, and the truncating discount are one root cause — money carried without a declared precision across a boundary." },
+    { "n": 2, "text": "Finding is graded CRITICAL", "result": "pass", "evidence": "Graded Critical: every invoice disagrees with its own line items, and the scale mismatch is a 1000x error in the ledger." },
+    { "n": 3, "text": "Finding is on axis D3 (Numeric Boundaries)", "result": "pass", "evidence": "Reported under Interoperability / Numeric Boundaries (D3), representation section." },
+    { "n": 4, "text": "Identifies quote_price holding and serialising money as a binary float", "result": "pass", "evidence": "Cites money_conversion.py:16-20 — subtotal, tax, and total computed as floats and emitted as JSON numbers." },
+    { "n": 5, "text": "Identifies the consumer's Decimal sum disagreeing with the float sum", "result": "pass", "evidence": "Cites ledger_import line 33 — the consumer reaches Decimal, so the two sides compute in different number systems and disagree by an amount that grows with the number of lines." },
+    { "n": 6, "text": "Identifies to_micros scaling by 10,000 against the ledger dividing by 10", "result": "pass", "evidence": "Cites lines 28-29 against line 35 — a factor of 10,000 out against a divisor of 10, a 1000x error between the two sides of the same conversion." },
+    { "n": 7, "text": "Identifies apply_discount truncating with int() rather than rounding", "result": "pass", "evidence": "Cites lines 39-40 — int() on a float division discards the remainder, so every discount is systematically short." },
+    { "n": 8, "text": "Failure scenario names every invoice disagreeing with its own line items", "result": "pass", "evidence": "States the customer-facing invoice and the ledger entry never agree, and the discrepancy is proportional to the number of lines so it cannot be explained away as rounding." },
+    { "n": 9, "text": "Fix recommends a fixed-precision decimal carried as a string with an agreed scale", "result": "pass", "evidence": "Fix: a decimal type on both sides, serialised as a string with an agreed scale and currency, and an explicit rounding mode at the one place rounding is required." },
+    { "n": 10, "text": "Header matches pattern: 1 finding · C:1 M:0 m:0 i:0", "result": "pass", "evidence": "Header rendered exactly as specified." }
+  ],
+  "notes": "Caught by guidelines/representation.md and guidelines/conversion.md (both new), collapsed to one finding per the domain's one-root-cause rule. Correctly distinguished from maintainability/clarity/units-and-magnitude.md: the name here is not the defect, the number system and the scale are."
+}

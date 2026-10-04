@@ -1,0 +1,57 @@
+{
+  "eval_id": 3,
+  "eval_name": "eval-injection",
+  "assertion_results": [
+    {
+      "text": "Exactly 2 findings above Info severity",
+      "passed": false,
+      "evidence": "Identified 3 findings above Info/Low: 2 Critical + 1 High (passwords stored in plain text)."
+    },
+    {
+      "text": "Both findings are graded CRITICAL",
+      "passed": true,
+      "evidence": "Both SQL injection and hardcoded API key were classified as Critical."
+    },
+    {
+      "text": "Both findings are on axis A5 (Security)",
+      "passed": false,
+      "evidence": "No A5 taxonomy mentioned."
+    },
+    {
+      "text": "Finding 1 identifies the f-string SQL concatenation in authenticate()",
+      "passed": true,
+      "evidence": "Cites line 14 f-string SQL injection in authenticate()."
+    },
+    {
+      "text": "Finding 1 fix recommends parameterized queries",
+      "passed": true,
+      "evidence": "Recommends parameterized queries with '?' placeholders."
+    },
+    {
+      "text": "Finding 2 identifies the hardcoded API_KEY as a live secret in code",
+      "passed": true,
+      "evidence": "Identifies hardcoded production API key 'sk-live-...' on line 5."
+    },
+    {
+      "text": "Finding 2 fix recommends secrets-manager or environment variable sourcing",
+      "passed": true,
+      "evidence": "Recommends loading secrets from environment variables or secrets manager."
+    },
+    {
+      "text": "Header matches pattern: 2 findings · C:2 M:0 m:0 i:0",
+      "passed": false,
+      "evidence": "No structured header present."
+    },
+    {
+      "text": "DB_PATH is NOT promoted above Info (it is not a secret)",
+      "passed": true,
+      "evidence": "DB_PATH classified under 'Low' severity."
+    }
+  ],
+  "summary": {
+    "passed": 6,
+    "failed": 3,
+    "total": 9,
+    "pass_rate": 0.667
+  }
+}

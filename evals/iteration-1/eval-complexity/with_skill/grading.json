@@ -1,0 +1,61 @@
+{
+  "eval_id": 8,
+  "eval_name": "eval-complexity",
+  "condition": "with_skill",
+  "skill_consulted": true,
+  "files_read": [
+    "evals/fixtures/complexity.py",
+    "evals/README.md",
+    "domains/maintainability/complexity/guidelines/cognitive-cyclomatic.md",
+    "domains/maintainability/complexity/guidelines/parameter-lists.md",
+    "shared/output-format.md"
+  ],
+  "assertion_results": [
+    {
+      "text": "Exactly 1 finding above Info severity",
+      "passed": true,
+      "evidence": "The review contains exactly one numbered finding, headed [MAJOR], and the header counts it as '1 finding · C:0 M:1 m:0 i:0' with no other findings above Info."
+    },
+    {
+      "text": "Finding is graded MAJOR",
+      "passed": true,
+      "evidence": "The sole finding is titled '### [MAJOR] Single 88-line function owns five divergent responsibilities, gated by three boolean flags'."
+    },
+    {
+      "text": "Finding is on axis B1 or B5 (Complexity)",
+      "passed": true,
+      "evidence": "The finding's Domain line reads 'Maintainability (B1 Complexity, B5 Design)'."
+    },
+    {
+      "text": "Evidence identifies deep nesting past 3 levels",
+      "passed": true,
+      "evidence": "Evidence states 'Nesting reaches 4 levels past the guideline's 3-level limit' and lists three line ranges showing for→if→if→if chains."
+    },
+    {
+      "text": "Evidence cites cyclomatic complexity or long multi-branch decision flow",
+      "passed": true,
+      "evidence": "Evidence cites '19 decision points (cyclomatic complexity 20, measured via AST)' against a threshold, plus the 8-branch discount ladder."
+    },
+    {
+      "text": "Failure scenario explains regression risk and testing impediment",
+      "passed": true,
+      "evidence": "Failure scenario names the testing impediment ('coverage cannot be exercised independently', 'no seam') and the regression risk ('A maintainer who \"just adds an else\" ... silently re-prices every bronze cart')."
+    },
+    {
+      "text": "Fix proposes extraction of helper functions or guard clause flattening",
+      "passed": true,
+      "evidence": "Fix proposes 'Decompose into four single-responsibility functions' and 'flatten :39-44 by inverting to a guard clause'."
+    },
+    {
+      "text": "Header matches pattern: 1 finding · C:0 M:1 m:0 i:0",
+      "passed": true,
+      "evidence": "Header line reads '`1 finding · C:0 M:1 m:0 i:0 · Sub-Domain Score: 90/100 (Grade A-)`', matching the required pattern."
+    }
+  ],
+  "summary": {
+    "passed": 8,
+    "failed": 0,
+    "total": 8,
+    "pass_rate": 1.0
+  }
+}

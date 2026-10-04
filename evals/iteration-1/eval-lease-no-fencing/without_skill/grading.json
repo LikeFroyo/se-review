@@ -1,0 +1,21 @@
+{
+  "eval": "eval-lease-no-fencing",
+  "eval_id": 50,
+  "fixture": "evals/fixtures/lease_no_fencing.py",
+  "run": "without_skill",
+  "phase": "before",
+  "review": "0 findings · C:0 M:0 m:0 i:0 — Domain Score: 100/100 (Grade A) — `Aligns well`",
+  "summary": { "passed": 1, "failed": 8, "total": 9, "pass_rate": 0.125 },
+  "assertions": [
+    { "n": 1, "text": "Exactly 1 finding above Info severity", "result": "fail", "evidence": "0 findings above Info; graded Grade A. `SET NX EX` with an explicit TTL read as a correctly-implemented distributed lock." },
+    { "n": 2, "text": "Finding is graded CRITICAL", "result": "fail", "evidence": "No finding to grade." },
+    { "n": 3, "text": "Finding is on axis C5 (Distributed)", "result": "fail", "evidence": "No distributed finding emitted." },
+    { "n": 4, "text": "Identifies the TTL key as the only proof of ownership with no fencing token", "result": "fail", "evidence": "Missed. The pre-change concurrency sub-domain covers shared mutable state, check-then-act, deadlocks, and lock ordering, and its 'Deadlocks & Locking' file reasons about a single process. The distributed sub-domain had no lease or lock rule at all. Nothing pre-change asked what a lock proves after its expiry, so the entire stale-writer class was absent." },
+    { "n": 5, "text": "Explains the expiry-then-stale-write sequence and that no error is raised", "result": "fail", "evidence": "Not stated." },
+    { "n": 6, "text": "Notes the lock is left to the TTL instead of released in the finally block", "result": "fail", "evidence": "Not stated. The `finally: pass` with a justifying comment was read as intentional, and a pre-change reviewer looking for lock-release-in-finally would have had to invent the requirement." },
+    { "n": 7, "text": "Failure scenario describes two workers writing in an unobserved order", "result": "fail", "evidence": "Not stated." },
+    { "n": 8, "text": "Fix requires a monotonic fencing token checked on write", "result": "fail", "evidence": "No fix proposed." },
+    { "n": 9, "text": "Header matches pattern: 1 finding · C:1 M:0 m:0 i:0", "result": "pass", "evidence": "Header rendered in the required shape, with a zero tally." }
+  ],
+  "notes": "Total miss on silent dual-writer corruption. The pre-change skill could reason about two threads in one process and about two services publishing events, and about nothing in between — a lease held by a process that has stopped being the leader."
+}

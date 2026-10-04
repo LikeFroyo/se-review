@@ -1,0 +1,32 @@
+{
+  "rows": [
+    {
+      "panel": 83,
+      "recorded": 100.0,
+      "replay": 100.0,
+      "mismatch": 44.44444444444444
+    },
+    {
+      "panel": 43,
+      "recorded": 100.0,
+      "replay": 100.0,
+      "mismatch": 10.0
+    },
+    {
+      "panel": 48,
+      "recorded": 100.0,
+      "replay": 100.0,
+      "mismatch": 11.11111111111111
+    },
+    {
+      "panel": 39,
+      "recorded": 100.0,
+      "replay": 88.88888888888889,
+      "mismatch": 11.11111111111111
+    }
+  ],
+  "worst_drift": 11.111111111111114,
+  "best_mismatch": 44.44444444444444,
+  "span": 55.55555555555556,
+  "model_config": "cfg:567712ad39ee"
+}

@@ -1,0 +1,2204 @@
+{
+  "iteration": 1,
+  "date": "2026-09-27",
+  "staleness": {
+    "status": "stale",
+    "stale_eval_count": 102,
+    "stale_evals": [
+      {
+        "eval": "eval-dead-code",
+        "reasons": [
+          "with_skill: recorded total 18 != current 9",
+          "without_skill: verdict predates fixture digesting, so the files it graded cannot be shown to be the files on disk"
+        ]
+      },
+      {
+        "eval": "eval-retry",
+        "reasons": [
+          "with_skill: recorded total 18 != current 9",
+          "without_skill: verdict predates fixture digesting, so the files it graded cannot be shown to be the files on disk"
+        ]
+      },
+      {
+        "eval": "eval-injection",
+        "reasons": [
+          "without_skill: verdict predates fixture digesting, so the files it graded cannot be shown to be the files on disk",
+          "without_skill: assertion text reworded since the last run"
+        ]
+      },
+      {
+        "eval": "eval-nplusone",
+        "reasons": [
+          "with_skill: recorded total 21 != current 7",
+          "without_skill: verdict predates fixture digesting, so the files it graded cannot be shown to be the files on disk",
+          "without_skill: assertion text reworded since the last run"
+        ]
+      },
+      {
+        "eval": "eval-clean",
+        "reasons": [
+          "with_skill: assertion text reworded since the last run",
+          "without_skill: verdict predates fixture digesting, so the files it graded cannot be shown to be the files on disk",
+          "without_skill: assertion text reworded since the last run"
+        ]
+      },
+      {
+        "eval": "eval-concurrency",
+        "reasons": [
+          "with_skill: recorded total 16 != current 8",
+          "without_skill: verdict predates fixture digesting, so the files it graded cannot be shown to be the files on disk",
+          "without_skill: assertion text reworded since the last run"
+        ]
+      },
+      {
+        "eval": "eval-swallowed-error",
+        "reasons": [
+          "with_skill: verdict predates fixture digesting, so the files it graded cannot be shown to be the files on disk",
+          "without_skill: verdict predates fixture digesting, so the files it graded cannot be shown to be the files on disk",
+          "without_skill: 2 assertion(s) added or reworded since the last run"
+        ]
+      },
+      {
+        "eval": "eval-complexity",
+        "reasons": [
+          "with_skill: verdict predates fixture digesting, so the files it graded cannot be shown to be the files on disk",
+          "without_skill: grading format predates assertion-text capture, so the stored pass count cannot be tied to the current assertions"
+        ]
+      },
+      {
+        "eval": "eval-memory-leak",
+        "reasons": [
+          "with_skill: verdict predates fixture digesting, so the files it graded cannot be shown to be the files on disk",
+          "without_skill: grading format predates assertion-text capture, so the stored pass count cannot be tied to the current assertions"
+        ]
+      },
+      {
+        "eval": "eval-idor-access",
+        "reasons": [
+          "with_skill: verdict predates fixture digesting, so the files it graded cannot be shown to be the files on disk",
+          "without_skill: grading format predates assertion-text capture, so the stored pass count cannot be tied to the current assertions"
+        ]
+      },
+      {
+        "eval": "eval-deadlock",
+        "reasons": [
+          "with_skill: verdict predates fixture digesting, so the files it graded cannot be shown to be the files on disk",
+          "without_skill: verdict predates fixture digesting, so the files it graded cannot be shown to be the files on disk"
+        ]
+      },
+      {
+        "eval": "eval-ssrf",
+        "reasons": [
+          "with_skill: verdict predates fixture digesting, so the files it graded cannot be shown to be the files on disk",
+          "with_skill: assertion text reworded since the last run",
+          "without_skill: verdict predates fixture digesting, so the files it graded cannot be shown to be the files on disk",
+          "without_skill: assertion text reworded since the last run"
+        ]
+      },
+      {
+        "eval": "eval-hot-loop",
+        "reasons": [
+          "with_skill: verdict predates fixture digesting, so the files it graded cannot be shown to be the files on disk",
+          "without_skill: verdict predates fixture digesting, so the files it graded cannot be shown to be the files on disk"
+        ]
+      },
+      {
+        "eval": "eval-missing-timeout",
+        "reasons": [
+          "with_skill: verdict predates fixture digesting, so the files it graded cannot be shown to be the files on disk",
+          "without_skill: verdict predates fixture digesting, so the files it graded cannot be shown to be the files on disk"
+        ]
+      },
+      {
+        "eval": "eval-breaking-schema",
+        "reasons": [
+          "with_skill: verdict predates fixture digesting, so the files it graded cannot be shown to be the files on disk",
+          "without_skill: verdict predates fixture digesting, so the files it graded cannot be shown to be the files on disk"
+        ]
+      },
+      {
+        "eval": "eval-idempotency",
+        "reasons": [
+          "with_skill: verdict predates fixture digesting, so the files it graded cannot be shown to be the files on disk",
+          "without_skill: verdict predates fixture digesting, so the files it graded cannot be shown to be the files on disk"
+        ]
+      },
+      {
+        "eval": "eval-manifest-hygiene",
+        "reasons": [
+          "with_skill: verdict predates fixture digesting, so the files it graded cannot be shown to be the files on disk",
+          "without_skill: verdict predates fixture digesting, so the files it graded cannot be shown to be the files on disk"
+        ]
+      },
+      {
+        "eval": "eval-ai-slop",
+        "reasons": [
+          "with_skill: verdict predates fixture digesting, so the files it graded cannot be shown to be the files on disk",
+          "without_skill: verdict predates fixture digesting, so the files it graded cannot be shown to be the files on disk"
+        ]
+      },
+      {
+        "eval": "eval-speculative-generality",
+        "reasons": [
+          "with_skill: verdict predates fixture digesting, so the files it graded cannot be shown to be the files on disk",
+          "without_skill: verdict predates fixture digesting, so the files it graded cannot be shown to be the files on disk"
+        ]
+      },
+      {
+        "eval": "eval-pii-logging",
+        "reasons": [
+          "with_skill: verdict predates fixture digesting, so the files it graded cannot be shown to be the files on disk",
+          "without_skill: verdict predates fixture digesting, so the files it graded cannot be shown to be the files on disk"
+        ]
+      },
+      {
+        "eval": "eval-poison-message",
+        "reasons": [
+          "with_skill: verdict predates fixture digesting, so the files it graded cannot be shown to be the files on disk",
+          "without_skill: verdict predates fixture digesting, so the files it graded cannot be shown to be the files on disk"
+        ]
+      },
+      {
+        "eval": "eval-stale-flag",
+        "reasons": [
+          "with_skill: verdict predates fixture digesting, so the files it graded cannot be shown to be the files on disk",
+          "without_skill: verdict predates fixture digesting, so the files it graded cannot be shown to be the files on disk"
+        ]
+      },
+      {
+        "eval": "eval-mock-cheat",
+        "reasons": [
+          "with_skill: verdict predates fixture digesting, so the files it graded cannot be shown to be the files on disk",
+          "without_skill: verdict predates fixture digesting, so the files it graded cannot be shown to be the files on disk"
+        ]
+      },
+      {
+        "eval": "eval-flaky-sleep",
+        "reasons": [
+          "with_skill: verdict predates fixture digesting, so the files it graded cannot be shown to be the files on disk",
+          "without_skill: verdict predates fixture digesting, so the files it graded cannot be shown to be the files on disk"
+        ]
+      },
+      {
+        "eval": "eval-clean-service",
+        "reasons": [
+          "with_skill: verdict predates fixture digesting, so the files it graded cannot be shown to be the files on disk",
+          "with_skill: assertion text reworded since the last run",
+          "without_skill: verdict predates fixture digesting, so the files it graded cannot be shown to be the files on disk",
+          "without_skill: 1 assertion(s) added or reworded since the last run"
+        ]
+      },
+      {
+        "eval": "eval-dual-write",
+        "reasons": [
+          "with_skill: verdict predates fixture digesting, so the files it graded cannot be shown to be the files on disk",
+          "without_skill: verdict predates fixture digesting, so the files it graded cannot be shown to be the files on disk"
+        ]
+      },
+      {
+        "eval": "eval-comment-drift",
+        "reasons": [
+          "with_skill: verdict predates fixture digesting, so the files it graded cannot be shown to be the files on disk",
+          "without_skill: verdict predates fixture digesting, so the files it graded cannot be shown to be the files on disk"
+        ]
+      },
+      {
+        "eval": "eval-stale-readme",
+        "reasons": [
+          "with_skill: verdict predates fixture digesting, so the files it graded cannot be shown to be the files on disk",
+          "without_skill: verdict predates fixture digesting, so the files it graded cannot be shown to be the files on disk"
+        ]
+      },
+      {
+        "eval": "eval-stale-error",
+        "reasons": [
+          "with_skill: verdict predates fixture digesting, so the files it graded cannot be shown to be the files on disk",
+          "without_skill: verdict predates fixture digesting, so the files it graded cannot be shown to be the files on disk"
+        ]
+      },
+      {
+        "eval": "eval-weak-assertions",
+        "reasons": [
+          "with_skill: verdict predates fixture digesting, so the files it graded cannot be shown to be the files on disk",
+          "without_skill: verdict predates fixture digesting, so the files it graded cannot be shown to be the files on disk"
+        ]
+      },
+      {
+        "eval": "eval-token-validation",
+        "reasons": [
+          "with_skill: verdict predates fixture digesting, so the files it graded cannot be shown to be the files on disk",
+          "with_skill: assertion text reworded since the last run",
+          "without_skill: grading format predates assertion-text capture, so the stored pass count cannot be tied to the current assertions"
+        ]
+      },
+      {
+        "eval": "eval-weak-password-hash",
+        "reasons": [
+          "with_skill: verdict predates fixture digesting, so the files it graded cannot be shown to be the files on disk",
+          "without_skill: grading format predates assertion-text capture, so the stored pass count cannot be tied to the current assertions"
+        ]
+      },
+      {
+        "eval": "eval-session-fixation",
+        "reasons": [
+          "with_skill: verdict predates fixture digesting, so the files it graded cannot be shown to be the files on disk",
+          "with_skill: assertion text reworded since the last run",
+          "without_skill: grading format predates assertion-text capture, so the stored pass count cannot be tied to the current assertions"
+        ]
+      },
+      {
+        "eval": "eval-tls-verify-disabled",
+        "reasons": [
+          "with_skill: grading format predates assertion-text capture, so the stored pass count cannot be tied to the current assertions",
+          "without_skill: grading format predates assertion-text capture, so the stored pass count cannot be tied to the current assertions"
+        ]
+      },
+      {
+        "eval": "eval-unsafe-deserialization",
+        "reasons": [
+          "with_skill: grading format predates assertion-text capture, so the stored pass count cannot be tied to the current assertions",
+          "without_skill: grading format predates assertion-text capture, so the stored pass count cannot be tied to the current assertions"
+        ]
+      },
+      {
+        "eval": "eval-path-traversal",
+        "reasons": [
+          "with_skill: grading format predates assertion-text capture, so the stored pass count cannot be tied to the current assertions",
+          "without_skill: grading format predates assertion-text capture, so the stored pass count cannot be tied to the current assertions"
+        ]
+      },
+      {
+        "eval": "eval-bfla-admin-route",
+        "reasons": [
+          "with_skill: grading format predates assertion-text capture, so the stored pass count cannot be tied to the current assertions",
+          "without_skill: grading format predates assertion-text capture, so the stored pass count cannot be tied to the current assertions"
+        ]
+      },
+      {
+        "eval": "eval-ecb-mode",
+        "reasons": [
+          "with_skill: verdict predates fixture digesting, so the files it graded cannot be shown to be the files on disk",
+          "with_skill: assertion text reworded since the last run",
+          "without_skill: grading format predates assertion-text capture, so the stored pass count cannot be tied to the current assertions"
+        ]
+      },
+      {
+        "eval": "eval-cors-reflect-origin",
+        "reasons": [
+          "with_skill: verdict predates fixture digesting, so the files it graded cannot be shown to be the files on disk",
+          "with_skill: assertion text reworded since the last run",
+          "without_skill: grading format predates assertion-text capture, so the stored pass count cannot be tied to the current assertions"
+        ]
+      },
+      {
+        "eval": "eval-login-no-throttle",
+        "reasons": [
+          "with_skill: grading format predates assertion-text capture, so the stored pass count cannot be tied to the current assertions",
+          "without_skill: grading format predates assertion-text capture, so the stored pass count cannot be tied to the current assertions"
+        ]
+      },
+      {
+        "eval": "eval-build-integrity",
+        "reasons": [
+          "with_skill: verdict predates fixture digesting, so the files it graded cannot be shown to be the files on disk",
+          "without_skill: grading format predates assertion-text capture, so the stored pass count cannot be tied to the current assertions"
+        ]
+      },
+      {
+        "eval": "eval-typosquat-dependency",
+        "reasons": [
+          "with_skill: verdict predates fixture digesting, so the files it graded cannot be shown to be the files on disk",
+          "without_skill: grading format predates assertion-text capture, so the stored pass count cannot be tied to the current assertions"
+        ]
+      },
+      {
+        "eval": "eval-dead-persistence",
+        "reasons": [
+          "with_skill: verdict predates fixture digesting, so the files it graded cannot be shown to be the files on disk",
+          "without_skill: grading format predates assertion-text capture, so the stored pass count cannot be tied to the current assertions"
+        ]
+      },
+      {
+        "eval": "eval-completion-markers",
+        "reasons": [
+          "with_skill: grading format predates assertion-text capture, so the stored pass count cannot be tied to the current assertions",
+          "without_skill: grading format predates assertion-text capture, so the stored pass count cannot be tied to the current assertions"
+        ]
+      },
+      {
+        "eval": "eval-vendored-fork",
+        "reasons": [
+          "with_skill: verdict predates fixture digesting, so the files it graded cannot be shown to be the files on disk",
+          "without_skill: grading format predates assertion-text capture, so the stored pass count cannot be tied to the current assertions"
+        ]
+      },
+      {
+        "eval": "eval-health-and-shutdown",
+        "reasons": [
+          "with_skill: grading format predates assertion-text capture, so the stored pass count cannot be tied to the current assertions",
+          "without_skill: grading format predates assertion-text capture, so the stored pass count cannot be tied to the current assertions"
+        ]
+      },
+      {
+        "eval": "eval-unbounded-fanout",
+        "reasons": [
+          "with_skill: verdict predates fixture digesting, so the files it graded cannot be shown to be the files on disk",
+          "without_skill: grading format predates assertion-text capture, so the stored pass count cannot be tied to the current assertions"
+        ]
+      },
+      {
+        "eval": "eval-saga-no-compensation",
+        "reasons": [
+          "with_skill: verdict predates fixture digesting, so the files it graded cannot be shown to be the files on disk",
+          "without_skill: grading format predates assertion-text capture, so the stored pass count cannot be tied to the current assertions"
+        ]
+      },
+      {
+        "eval": "eval-cache-no-invalidation",
+        "reasons": [
+          "with_skill: verdict predates fixture digesting, so the files it graded cannot be shown to be the files on disk",
+          "without_skill: grading format predates assertion-text capture, so the stored pass count cannot be tied to the current assertions"
+        ]
+      },
+      {
+        "eval": "eval-lease-no-fencing",
+        "reasons": [
+          "with_skill: grading format predates assertion-text capture, so the stored pass count cannot be tied to the current assertions",
+          "without_skill: grading format predates assertion-text capture, so the stored pass count cannot be tied to the current assertions"
+        ]
+      },
+      {
+        "eval": "eval-missing-audit-trail",
+        "reasons": [
+          "with_skill: grading format predates assertion-text capture, so the stored pass count cannot be tied to the current assertions",
+          "without_skill: grading format predates assertion-text capture, so the stored pass count cannot be tied to the current assertions"
+        ]
+      },
+      {
+        "eval": "eval-config-fails-open",
+        "reasons": [
+          "with_skill: grading format predates assertion-text capture, so the stored pass count cannot be tied to the current assertions",
+          "without_skill: grading format predates assertion-text capture, so the stored pass count cannot be tied to the current assertions"
+        ]
+      },
+      {
+        "eval": "eval-irreversible-rollback",
+        "reasons": [
+          "with_skill: grading format predates assertion-text capture, so the stored pass count cannot be tied to the current assertions",
+          "without_skill: grading format predates assertion-text capture, so the stored pass count cannot be tied to the current assertions"
+        ]
+      },
+      {
+        "eval": "eval-unit-scale-error",
+        "reasons": [
+          "with_skill: grading format predates assertion-text capture, so the stored pass count cannot be tied to the current assertions",
+          "without_skill: grading format predates assertion-text capture, so the stored pass count cannot be tied to the current assertions"
+        ]
+      },
+      {
+        "eval": "eval-impossible-state",
+        "reasons": [
+          "with_skill: grading format predates assertion-text capture, so the stored pass count cannot be tied to the current assertions",
+          "without_skill: grading format predates assertion-text capture, so the stored pass count cannot be tied to the current assertions"
+        ]
+      },
+      {
+        "eval": "eval-ambient-clock-rules",
+        "reasons": [
+          "with_skill: grading format predates assertion-text capture, so the stored pass count cannot be tied to the current assertions",
+          "without_skill: grading format predates assertion-text capture, so the stored pass count cannot be tied to the current assertions"
+        ]
+      },
+      {
+        "eval": "eval-no-test-seam",
+        "reasons": [
+          "with_skill: grading format predates assertion-text capture, so the stored pass count cannot be tied to the current assertions",
+          "without_skill: grading format predates assertion-text capture, so the stored pass count cannot be tied to the current assertions"
+        ]
+      },
+      {
+        "eval": "eval-unenforced-invariant",
+        "reasons": [
+          "with_skill: grading format predates assertion-text capture, so the stored pass count cannot be tied to the current assertions",
+          "without_skill: grading format predates assertion-text capture, so the stored pass count cannot be tied to the current assertions"
+        ]
+      },
+      {
+        "eval": "eval-implementation-names",
+        "reasons": [
+          "with_skill: grading format predates assertion-text capture, so the stored pass count cannot be tied to the current assertions",
+          "without_skill: grading format predates assertion-text capture, so the stored pass count cannot be tied to the current assertions"
+        ]
+      },
+      {
+        "eval": "eval-transposed-arguments",
+        "reasons": [
+          "with_skill: grading format predates assertion-text capture, so the stored pass count cannot be tied to the current assertions",
+          "without_skill: grading format predates assertion-text capture, so the stored pass count cannot be tied to the current assertions"
+        ]
+      },
+      {
+        "eval": "eval-boundary-error-policy",
+        "reasons": [
+          "with_skill: grading format predates assertion-text capture, so the stored pass count cannot be tied to the current assertions",
+          "without_skill: grading format predates assertion-text capture, so the stored pass count cannot be tied to the current assertions"
+        ]
+      },
+      {
+        "eval": "eval-cancelled-child-work",
+        "reasons": [
+          "with_skill: grading format predates assertion-text capture, so the stored pass count cannot be tied to the current assertions",
+          "without_skill: grading format predates assertion-text capture, so the stored pass count cannot be tied to the current assertions"
+        ]
+      },
+      {
+        "eval": "eval-lost-update-race",
+        "reasons": [
+          "with_skill: grading format predates assertion-text capture, so the stored pass count cannot be tied to the current assertions",
+          "without_skill: grading format predates assertion-text capture, so the stored pass count cannot be tied to the current assertions"
+        ]
+      },
+      {
+        "eval": "eval-string-truthiness",
+        "reasons": [
+          "with_skill: grading format predates assertion-text capture, so the stored pass count cannot be tied to the current assertions",
+          "without_skill: grading format predates assertion-text capture, so the stored pass count cannot be tied to the current assertions"
+        ]
+      },
+      {
+        "eval": "eval-unstable-pagination",
+        "reasons": [
+          "with_skill: grading format predates assertion-text capture, so the stored pass count cannot be tied to the current assertions",
+          "without_skill: grading format predates assertion-text capture, so the stored pass count cannot be tied to the current assertions"
+        ]
+      },
+      {
+        "eval": "eval-short-circuit-side-effects",
+        "reasons": [
+          "with_skill: grading format predates assertion-text capture, so the stored pass count cannot be tied to the current assertions",
+          "without_skill: grading format predates assertion-text capture, so the stored pass count cannot be tied to the current assertions"
+        ]
+      },
+      {
+        "eval": "eval-lock-starvation",
+        "reasons": [
+          "with_skill: grading format predates assertion-text capture, so the stored pass count cannot be tied to the current assertions",
+          "without_skill: grading format predates assertion-text capture, so the stored pass count cannot be tied to the current assertions"
+        ]
+      },
+      {
+        "eval": "eval-soft-delete-uniqueness",
+        "reasons": [
+          "with_skill: grading format predates assertion-text capture, so the stored pass count cannot be tied to the current assertions",
+          "without_skill: grading format predates assertion-text capture, so the stored pass count cannot be tied to the current assertions"
+        ]
+      },
+      {
+        "eval": "eval-skipped-tests",
+        "reasons": [
+          "with_skill: grading format predates assertion-text capture, so the stored pass count cannot be tied to the current assertions",
+          "without_skill: grading format predates assertion-text capture, so the stored pass count cannot be tied to the current assertions"
+        ]
+      },
+      {
+        "eval": "eval-rag-prompt-injection",
+        "reasons": [
+          "with_skill: grading format predates assertion-text capture, so the stored pass count cannot be tied to the current assertions",
+          "without_skill: grading format predates assertion-text capture, so the stored pass count cannot be tied to the current assertions"
+        ]
+      },
+      {
+        "eval": "eval-model-output-trusted",
+        "reasons": [
+          "with_skill: grading format predates assertion-text capture, so the stored pass count cannot be tied to the current assertions",
+          "without_skill: grading format predates assertion-text capture, so the stored pass count cannot be tied to the current assertions"
+        ]
+      },
+      {
+        "eval": "eval-unchecked-casts",
+        "reasons": [
+          "with_skill: grading format predates assertion-text capture, so the stored pass count cannot be tied to the current assertions",
+          "without_skill: grading format predates assertion-text capture, so the stored pass count cannot be tied to the current assertions"
+        ]
+      },
+      {
+        "eval": "eval-region-failover",
+        "reasons": [
+          "with_skill: grading format predates assertion-text capture, so the stored pass count cannot be tied to the current assertions",
+          "without_skill: grading format predates assertion-text capture, so the stored pass count cannot be tied to the current assertions"
+        ]
+      },
+      {
+        "eval": "eval-personal-data-lifecycle",
+        "reasons": [
+          "with_skill: grading format predates assertion-text capture, so the stored pass count cannot be tied to the current assertions",
+          "without_skill: grading format predates assertion-text capture, so the stored pass count cannot be tied to the current assertions"
+        ]
+      },
+      {
+        "eval": "eval-settlement-export",
+        "reasons": [
+          "with_skill: grading format predates assertion-text capture, so the stored pass count cannot be tied to the current assertions",
+          "without_skill: grading format predates assertion-text capture, so the stored pass count cannot be tied to the current assertions"
+        ]
+      },
+      {
+        "eval": "eval-dst-boundary-schedules",
+        "reasons": [
+          "with_skill: grading format predates assertion-text capture, so the stored pass count cannot be tied to the current assertions",
+          "without_skill: grading format predates assertion-text capture, so the stored pass count cannot be tied to the current assertions"
+        ]
+      },
+      {
+        "eval": "eval-money-conversion",
+        "reasons": [
+          "with_skill: grading format predates assertion-text capture, so the stored pass count cannot be tied to the current assertions",
+          "without_skill: grading format predates assertion-text capture, so the stored pass count cannot be tied to the current assertions"
+        ]
+      },
+      {
+        "eval": "eval-field-name-mismatch",
+        "reasons": [
+          "with_skill: grading format predates assertion-text capture, so the stored pass count cannot be tied to the current assertions",
+          "without_skill: grading format predates assertion-text capture, so the stored pass count cannot be tied to the current assertions"
+        ]
+      },
+      {
+        "eval": "eval-operations-collapse",
+        "reasons": [
+          "with_skill: no grading.json",
+          "without_skill: no grading.json"
+        ]
+      },
+      {
+        "eval": "eval-suppress-unbounded-queue",
+        "reasons": [
+          "with_skill: no grading.json",
+          "without_skill: no grading.json"
+        ]
+      },
+      {
+        "eval": "eval-suppress-unfiltered-fanout",
+        "reasons": [
+          "with_skill: no grading.json",
+          "without_skill: no grading.json"
+        ]
+      },
+      {
+        "eval": "eval-suppress-lockless-accumulator",
+        "reasons": [
+          "with_skill: verdict predates fixture digesting, so the files it graded cannot be shown to be the files on disk",
+          "with_skill: assertion text reworded since the last run",
+          "without_skill: verdict predates fixture digesting, so the files it graded cannot be shown to be the files on disk",
+          "without_skill: assertion text reworded since the last run"
+        ]
+      },
+      {
+        "eval": "eval-suppress-ungated-memory",
+        "reasons": [
+          "with_skill: verdict predates fixture digesting, so the files it graded cannot be shown to be the files on disk",
+          "with_skill: assertion text reworded since the last run",
+          "without_skill: no grading.json"
+        ]
+      },
+      {
+        "eval": "eval-suppress-constant-column",
+        "reasons": [
+          "with_skill: no grading.json",
+          "without_skill: no grading.json"
+        ]
+      },
+      {
+        "eval": "eval-suppress-coincident-formulas",
+        "reasons": [
+          "with_skill: no grading.json",
+          "without_skill: no grading.json"
+        ]
+      },
+      {
+        "eval": "eval-suppression-blind-sibling",
+        "reasons": [
+          "with_skill: recorded total 40 != current 10",
+          "without_skill: no grading.json"
+        ]
+      },
+      {
+        "eval": "eval-suppression-blind-nan-contract",
+        "reasons": [
+          "with_skill: recorded total 44 != current 11",
+          "without_skill: no grading.json"
+        ]
+      },
+      {
+        "eval": "eval-suppression-blind-backlog-measure",
+        "reasons": [
+          "with_skill: recorded total 40 != current 10",
+          "without_skill: recorded total 20 != current 10"
+        ]
+      },
+      {
+        "eval": "eval-suppression-blind-unargued-clamp",
+        "reasons": [
+          "with_skill: recorded total 55 != current 11",
+          "without_skill: recorded total 33 != current 11"
+        ]
+      },
+      {
+        "eval": "eval-suppression-blind-boundary-breach",
+        "reasons": [
+          "with_skill: recorded total 40 != current 10",
+          "without_skill: no grading.json"
+        ]
+      },
+      {
+        "eval": "eval-suppression-ledger-unprovable-site",
+        "reasons": [
+          "with_skill: no grading.json",
+          "without_skill: no grading.json"
+        ]
+      },
+      {
+        "eval": "decaying-denominator-rate",
+        "reasons": [
+          "with_skill: verdict predates fixture digesting, so the files it graded cannot be shown to be the files on disk",
+          "with_skill: assertion text reworded since the last run",
+          "without_skill: no grading.json"
+        ]
+      },
+      {
+        "eval": "incremental-balance-drift",
+        "reasons": [
+          "with_skill: no grading.json",
+          "without_skill: no grading.json"
+        ]
+      },
+      {
+        "eval": "unenforced-expiry-policy",
+        "reasons": [
+          "with_skill: no grading.json",
+          "without_skill: no grading.json"
+        ]
+      },
+      {
+        "eval": "cold-start-zero-denominator",
+        "reasons": [
+          "with_skill: no grading.json",
+          "without_skill: no grading.json"
+        ]
+      },
+      {
+        "eval": "self-derived-expected-value",
+        "reasons": [
+          "with_skill: no grading.json",
+          "without_skill: no grading.json"
+        ]
+      },
+      {
+        "eval": "well-formed-inputs-only",
+        "reasons": [
+          "with_skill: no grading.json",
+          "without_skill: no grading.json"
+        ]
+      },
+      {
+        "eval": "single-threaded-concurrency-check",
+        "reasons": [
+          "with_skill: no grading.json",
+          "without_skill: no grading.json"
+        ]
+      },
+      {
+        "eval": "retry-replays-batch",
+        "reasons": [
+          "with_skill: no grading.json",
+          "without_skill: no grading.json"
+        ]
+      },
+      {
+        "eval": "trust-decided-by-origin",
+        "reasons": [
+          "with_skill: no grading.json",
+          "without_skill: no grading.json"
+        ]
+      },
+      {
+        "eval": "unreachable-handler-capped",
+        "reasons": [
+          "with_skill: no grading.json",
+          "without_skill: no grading.json"
+        ]
+      },
+      {
+        "eval": "secret-in-exception",
+        "reasons": [
+          "with_skill: no grading.json",
+          "without_skill: no grading.json"
+        ]
+      }
+    ]
+  },
+  "baseline_failure_classes": {
+    "vocabulary_or_format": 114,
+    "substance_missed_defect": 60,
+    "total": 174,
+    "caveat": "Classified by regex over grader evidence text; indicative, not a verdict. Vocabulary failures mean a model without this skill's rubric failed to satisfy it, so they measure format compliance rather than review quality and inflate the headline delta. Only 'substance_missed_defect' is evidence about review quality. Evals whose grading.json predates assertion-text capture contribute no classification, so these counts are a floor, not a total."
+  },
+  "note": "Comparative evaluation: with_skill vs without_skill baseline runs across 635 assertions in 102 test cases.",
+  "run_summary": {
+    "with_skill": {
+      "pass_rate": {
+        "mean": 0.858,
+        "stddev": 0.376
+      },
+      "timing_ms_mean": 88474.1,
+      "total_passed": 416,
+      "total_assertions": 635,
+      "eval_results": {
+        "eval-dead-code": {
+          "pass_rate": 1.0,
+          "passed": 18,
+          "failed": 9,
+          "total": 27,
+          "assertions": 9,
+          "replicates": 3
+        },
+        "eval-retry": {
+          "pass_rate": 0.722,
+          "passed": 13,
+          "failed": 14,
+          "total": 27,
+          "assertions": 9,
+          "replicates": 3
+        },
+        "eval-injection": {
+          "pass_rate": 0.889,
+          "passed": 8,
+          "failed": 1,
+          "total": 9,
+          "assertions": 9,
+          "replicates": 1
+        },
+        "eval-nplusone": {
+          "pass_rate": 0.667,
+          "passed": 14,
+          "failed": 14,
+          "total": 28,
+          "assertions": 7,
+          "replicates": 4
+        },
+        "eval-clean": {
+          "pass_rate": 0.333,
+          "passed": 8,
+          "failed": 24,
+          "total": 32,
+          "assertions": 8,
+          "replicates": 4
+        },
+        "eval-concurrency": {
+          "pass_rate": 0.688,
+          "passed": 11,
+          "failed": 13,
+          "total": 24,
+          "assertions": 8,
+          "replicates": 3
+        },
+        "eval-swallowed-error": {
+          "pass_rate": 0.7,
+          "passed": 7,
+          "failed": 3,
+          "total": 10,
+          "assertions": 10,
+          "replicates": 1
+        },
+        "eval-complexity": {
+          "pass_rate": 1.0,
+          "passed": 8,
+          "failed": 0,
+          "total": 8,
+          "assertions": 8,
+          "replicates": 1
+        },
+        "eval-memory-leak": {
+          "pass_rate": 1.0,
+          "passed": 8,
+          "failed": 0,
+          "total": 8,
+          "assertions": 8,
+          "replicates": 1
+        },
+        "eval-idor-access": {
+          "pass_rate": 1.0,
+          "passed": 8,
+          "failed": 0,
+          "total": 8,
+          "assertions": 8,
+          "replicates": 1
+        },
+        "eval-deadlock": {
+          "pass_rate": 1.0,
+          "passed": 8,
+          "failed": 0,
+          "total": 8,
+          "assertions": 8,
+          "replicates": 1
+        },
+        "eval-ssrf": {
+          "pass_rate": 1.0,
+          "passed": 8,
+          "failed": 0,
+          "total": 8,
+          "assertions": 8,
+          "replicates": 1
+        },
+        "eval-hot-loop": {
+          "pass_rate": 1.0,
+          "passed": 8,
+          "failed": 0,
+          "total": 8,
+          "assertions": 8,
+          "replicates": 1
+        },
+        "eval-missing-timeout": {
+          "pass_rate": 1.0,
+          "passed": 8,
+          "failed": 0,
+          "total": 8,
+          "assertions": 8,
+          "replicates": 1
+        },
+        "eval-breaking-schema": {
+          "pass_rate": 1.0,
+          "passed": 8,
+          "failed": 0,
+          "total": 8,
+          "assertions": 8,
+          "replicates": 1
+        },
+        "eval-idempotency": {
+          "pass_rate": 1.0,
+          "passed": 8,
+          "failed": 0,
+          "total": 8,
+          "assertions": 8,
+          "replicates": 1
+        },
+        "eval-manifest-hygiene": {
+          "pass_rate": 1.0,
+          "passed": 8,
+          "failed": 0,
+          "total": 8,
+          "assertions": 8,
+          "replicates": 1
+        },
+        "eval-ai-slop": {
+          "pass_rate": 1.0,
+          "passed": 8,
+          "failed": 0,
+          "total": 8,
+          "assertions": 8,
+          "replicates": 1
+        },
+        "eval-speculative-generality": {
+          "pass_rate": 1.0,
+          "passed": 8,
+          "failed": 0,
+          "total": 8,
+          "assertions": 8,
+          "replicates": 1
+        },
+        "eval-pii-logging": {
+          "pass_rate": 1.0,
+          "passed": 8,
+          "failed": 0,
+          "total": 8,
+          "assertions": 8,
+          "replicates": 1
+        },
+        "eval-poison-message": {
+          "pass_rate": 1.0,
+          "passed": 8,
+          "failed": 0,
+          "total": 8,
+          "assertions": 8,
+          "replicates": 1
+        },
+        "eval-stale-flag": {
+          "pass_rate": 1.0,
+          "passed": 8,
+          "failed": 0,
+          "total": 8,
+          "assertions": 8,
+          "replicates": 1
+        },
+        "eval-mock-cheat": {
+          "pass_rate": 1.0,
+          "passed": 8,
+          "failed": 0,
+          "total": 8,
+          "assertions": 8,
+          "replicates": 1
+        },
+        "eval-flaky-sleep": {
+          "pass_rate": 1.0,
+          "passed": 8,
+          "failed": 0,
+          "total": 8,
+          "assertions": 8,
+          "replicates": 1
+        },
+        "eval-clean-service": {
+          "pass_rate": 0.5,
+          "passed": 4,
+          "failed": 4,
+          "total": 8,
+          "assertions": 8,
+          "replicates": 1
+        },
+        "eval-dual-write": {
+          "pass_rate": 1.0,
+          "passed": 8,
+          "failed": 0,
+          "total": 8,
+          "assertions": 8,
+          "replicates": 1
+        },
+        "eval-comment-drift": {
+          "pass_rate": 1.0,
+          "passed": 8,
+          "failed": 0,
+          "total": 8,
+          "assertions": 8,
+          "replicates": 1
+        },
+        "eval-stale-readme": {
+          "pass_rate": 1.0,
+          "passed": 8,
+          "failed": 0,
+          "total": 8,
+          "assertions": 8,
+          "replicates": 1
+        },
+        "eval-stale-error": {
+          "pass_rate": 1.0,
+          "passed": 8,
+          "failed": 0,
+          "total": 8,
+          "assertions": 8,
+          "replicates": 1
+        },
+        "eval-weak-assertions": {
+          "pass_rate": 1.0,
+          "passed": 8,
+          "failed": 0,
+          "total": 8,
+          "assertions": 8,
+          "replicates": 1
+        },
+        "eval-token-validation": {
+          "pass_rate": 1.0,
+          "passed": 8,
+          "failed": 0,
+          "total": 8,
+          "assertions": 8,
+          "replicates": 1
+        },
+        "eval-weak-password-hash": {
+          "pass_rate": 0.667,
+          "passed": 6,
+          "failed": 3,
+          "total": 9,
+          "assertions": 9,
+          "replicates": 1
+        },
+        "eval-session-fixation": {
+          "pass_rate": 0.714,
+          "passed": 5,
+          "failed": 2,
+          "total": 7,
+          "assertions": 7,
+          "replicates": 1
+        },
+        "eval-tls-verify-disabled": {
+          "pass_rate": 1.0,
+          "passed": 8,
+          "failed": 0,
+          "total": 8,
+          "assertions": 8,
+          "replicates": 1
+        },
+        "eval-unsafe-deserialization": {
+          "pass_rate": 1.0,
+          "passed": 8,
+          "failed": 0,
+          "total": 8,
+          "assertions": 8,
+          "replicates": 1
+        },
+        "eval-path-traversal": {
+          "pass_rate": 1.0,
+          "passed": 8,
+          "failed": 0,
+          "total": 8,
+          "assertions": 8,
+          "replicates": 1
+        },
+        "eval-bfla-admin-route": {
+          "pass_rate": 1.0,
+          "passed": 8,
+          "failed": 0,
+          "total": 8,
+          "assertions": 8,
+          "replicates": 1
+        },
+        "eval-ecb-mode": {
+          "pass_rate": 0.5,
+          "passed": 4,
+          "failed": 4,
+          "total": 8,
+          "assertions": 8,
+          "replicates": 1
+        },
+        "eval-cors-reflect-origin": {
+          "pass_rate": 1.0,
+          "passed": 9,
+          "failed": 0,
+          "total": 9,
+          "assertions": 9,
+          "replicates": 1
+        },
+        "eval-login-no-throttle": {
+          "pass_rate": 1.0,
+          "passed": 9,
+          "failed": 0,
+          "total": 9,
+          "assertions": 9,
+          "replicates": 1
+        },
+        "eval-build-integrity": {
+          "pass_rate": 0.778,
+          "passed": 7,
+          "failed": 2,
+          "total": 9,
+          "assertions": 9,
+          "replicates": 1
+        },
+        "eval-typosquat-dependency": {
+          "pass_rate": 0.625,
+          "passed": 5,
+          "failed": 3,
+          "total": 8,
+          "assertions": 8,
+          "replicates": 1
+        },
+        "eval-dead-persistence": {
+          "pass_rate": 1.0,
+          "passed": 10,
+          "failed": 0,
+          "total": 10,
+          "assertions": 10,
+          "replicates": 1
+        },
+        "eval-completion-markers": {
+          "pass_rate": 1.0,
+          "passed": 9,
+          "failed": 0,
+          "total": 9,
+          "assertions": 9,
+          "replicates": 1
+        },
+        "eval-vendored-fork": {
+          "pass_rate": 0.875,
+          "passed": 7,
+          "failed": 1,
+          "total": 8,
+          "assertions": 8,
+          "replicates": 1
+        },
+        "eval-health-and-shutdown": {
+          "pass_rate": 1.0,
+          "passed": 9,
+          "failed": 0,
+          "total": 9,
+          "assertions": 9,
+          "replicates": 1
+        },
+        "eval-unbounded-fanout": {
+          "pass_rate": 0.0,
+          "passed": 0,
+          "failed": 9,
+          "total": 9,
+          "assertions": 9,
+          "replicates": 1
+        },
+        "eval-saga-no-compensation": {
+          "pass_rate": 1.0,
+          "passed": 9,
+          "failed": 0,
+          "total": 9,
+          "assertions": 9,
+          "replicates": 1
+        },
+        "eval-cache-no-invalidation": {
+          "pass_rate": 0.889,
+          "passed": 8,
+          "failed": 1,
+          "total": 9,
+          "assertions": 9,
+          "replicates": 1
+        },
+        "eval-lease-no-fencing": {
+          "pass_rate": 1.0,
+          "passed": 9,
+          "failed": 0,
+          "total": 9,
+          "assertions": 9,
+          "replicates": 1
+        },
+        "eval-missing-audit-trail": {
+          "pass_rate": 1.0,
+          "passed": 9,
+          "failed": 0,
+          "total": 9,
+          "assertions": 9,
+          "replicates": 1
+        },
+        "eval-config-fails-open": {
+          "pass_rate": 1.0,
+          "passed": 9,
+          "failed": 0,
+          "total": 9,
+          "assertions": 9,
+          "replicates": 1
+        },
+        "eval-irreversible-rollback": {
+          "pass_rate": 1.0,
+          "passed": 9,
+          "failed": 0,
+          "total": 9,
+          "assertions": 9,
+          "replicates": 1
+        },
+        "eval-unit-scale-error": {
+          "pass_rate": 1.0,
+          "passed": 9,
+          "failed": 0,
+          "total": 9,
+          "assertions": 9,
+          "replicates": 1
+        },
+        "eval-impossible-state": {
+          "pass_rate": 1.0,
+          "passed": 9,
+          "failed": 0,
+          "total": 9,
+          "assertions": 9,
+          "replicates": 1
+        },
+        "eval-ambient-clock-rules": {
+          "pass_rate": 1.0,
+          "passed": 10,
+          "failed": 0,
+          "total": 10,
+          "assertions": 10,
+          "replicates": 1
+        },
+        "eval-no-test-seam": {
+          "pass_rate": 1.0,
+          "passed": 9,
+          "failed": 0,
+          "total": 9,
+          "assertions": 9,
+          "replicates": 1
+        },
+        "eval-unenforced-invariant": {
+          "pass_rate": 1.0,
+          "passed": 9,
+          "failed": 0,
+          "total": 9,
+          "assertions": 9,
+          "replicates": 1
+        },
+        "eval-implementation-names": {
+          "pass_rate": 1.0,
+          "passed": 9,
+          "failed": 0,
+          "total": 9,
+          "assertions": 9,
+          "replicates": 1
+        },
+        "eval-transposed-arguments": {
+          "pass_rate": 1.0,
+          "passed": 9,
+          "failed": 0,
+          "total": 9,
+          "assertions": 9,
+          "replicates": 1
+        },
+        "eval-boundary-error-policy": {
+          "pass_rate": 1.0,
+          "passed": 9,
+          "failed": 0,
+          "total": 9,
+          "assertions": 9,
+          "replicates": 1
+        },
+        "eval-cancelled-child-work": {
+          "pass_rate": 1.0,
+          "passed": 9,
+          "failed": 0,
+          "total": 9,
+          "assertions": 9,
+          "replicates": 1
+        },
+        "eval-lost-update-race": {
+          "pass_rate": 1.0,
+          "passed": 9,
+          "failed": 0,
+          "total": 9,
+          "assertions": 9,
+          "replicates": 1
+        },
+        "eval-string-truthiness": {
+          "pass_rate": 1.0,
+          "passed": 9,
+          "failed": 0,
+          "total": 9,
+          "assertions": 9,
+          "replicates": 1
+        },
+        "eval-unstable-pagination": {
+          "pass_rate": 1.0,
+          "passed": 9,
+          "failed": 0,
+          "total": 9,
+          "assertions": 9,
+          "replicates": 1
+        },
+        "eval-short-circuit-side-effects": {
+          "pass_rate": 1.0,
+          "passed": 9,
+          "failed": 0,
+          "total": 9,
+          "assertions": 9,
+          "replicates": 1
+        },
+        "eval-lock-starvation": {
+          "pass_rate": 1.0,
+          "passed": 9,
+          "failed": 0,
+          "total": 9,
+          "assertions": 9,
+          "replicates": 1
+        },
+        "eval-soft-delete-uniqueness": {
+          "pass_rate": 1.0,
+          "passed": 9,
+          "failed": 0,
+          "total": 9,
+          "assertions": 9,
+          "replicates": 1
+        },
+        "eval-skipped-tests": {
+          "pass_rate": 1.0,
+          "passed": 9,
+          "failed": 0,
+          "total": 9,
+          "assertions": 9,
+          "replicates": 1
+        },
+        "eval-rag-prompt-injection": {
+          "pass_rate": 1.0,
+          "passed": 11,
+          "failed": 0,
+          "total": 11,
+          "assertions": 11,
+          "replicates": 1
+        },
+        "eval-model-output-trusted": {
+          "pass_rate": 1.0,
+          "passed": 10,
+          "failed": 0,
+          "total": 10,
+          "assertions": 10,
+          "replicates": 1
+        },
+        "eval-unchecked-casts": {
+          "pass_rate": 1.0,
+          "passed": 10,
+          "failed": 0,
+          "total": 10,
+          "assertions": 10,
+          "replicates": 1
+        },
+        "eval-region-failover": {
+          "pass_rate": 1.0,
+          "passed": 10,
+          "failed": 0,
+          "total": 10,
+          "assertions": 10,
+          "replicates": 1
+        },
+        "eval-personal-data-lifecycle": {
+          "pass_rate": 1.0,
+          "passed": 10,
+          "failed": 0,
+          "total": 10,
+          "assertions": 10,
+          "replicates": 1
+        },
+        "eval-settlement-export": {
+          "pass_rate": 1.0,
+          "passed": 10,
+          "failed": 0,
+          "total": 10,
+          "assertions": 10,
+          "replicates": 1
+        },
+        "eval-dst-boundary-schedules": {
+          "pass_rate": 1.0,
+          "passed": 10,
+          "failed": 0,
+          "total": 10,
+          "assertions": 10,
+          "replicates": 1
+        },
+        "eval-money-conversion": {
+          "pass_rate": 1.0,
+          "passed": 10,
+          "failed": 0,
+          "total": 10,
+          "assertions": 10,
+          "replicates": 1
+        },
+        "eval-field-name-mismatch": {
+          "pass_rate": 1.0,
+          "passed": 9,
+          "failed": 0,
+          "total": 9,
+          "assertions": 9,
+          "replicates": 1
+        },
+        "eval-operations-collapse": {
+          "pass_rate": 0.0,
+          "passed": 0,
+          "failed": 0,
+          "total": 0,
+          "assertions": 12,
+          "replicates": 0
+        },
+        "eval-suppress-unbounded-queue": {
+          "pass_rate": 0.0,
+          "passed": 0,
+          "failed": 0,
+          "total": 0,
+          "assertions": 9,
+          "replicates": 0
+        },
+        "eval-suppress-unfiltered-fanout": {
+          "pass_rate": 0.0,
+          "passed": 0,
+          "failed": 0,
+          "total": 0,
+          "assertions": 9,
+          "replicates": 0
+        },
+        "eval-suppress-lockless-accumulator": {
+          "pass_rate": 0.7,
+          "passed": 14,
+          "failed": 16,
+          "total": 30,
+          "assertions": 10,
+          "replicates": 3
+        },
+        "eval-suppress-ungated-memory": {
+          "pass_rate": 1.0,
+          "passed": 9,
+          "failed": 0,
+          "total": 9,
+          "assertions": 9,
+          "replicates": 1
+        },
+        "eval-suppress-constant-column": {
+          "pass_rate": 0.0,
+          "passed": 0,
+          "failed": 0,
+          "total": 0,
+          "assertions": 8,
+          "replicates": 0
+        },
+        "eval-suppress-coincident-formulas": {
+          "pass_rate": 0.0,
+          "passed": 0,
+          "failed": 0,
+          "total": 0,
+          "assertions": 9,
+          "replicates": 0
+        },
+        "eval-suppression-blind-sibling": {
+          "pass_rate": 0.225,
+          "passed": 9,
+          "failed": 41,
+          "total": 50,
+          "assertions": 10,
+          "replicates": 5
+        },
+        "eval-suppression-blind-nan-contract": {
+          "pass_rate": 0.614,
+          "passed": 27,
+          "failed": 28,
+          "total": 55,
+          "assertions": 11,
+          "replicates": 5
+        },
+        "eval-suppression-blind-backlog-measure": {
+          "pass_rate": 0.575,
+          "passed": 23,
+          "failed": 27,
+          "total": 50,
+          "assertions": 10,
+          "replicates": 5
+        },
+        "eval-suppression-blind-unargued-clamp": {
+          "pass_rate": 0.636,
+          "passed": 35,
+          "failed": 31,
+          "total": 66,
+          "assertions": 11,
+          "replicates": 6
+        },
+        "eval-suppression-blind-boundary-breach": {
+          "pass_rate": 0.775,
+          "passed": 31,
+          "failed": 19,
+          "total": 50,
+          "assertions": 10,
+          "replicates": 5
+        },
+        "eval-suppression-ledger-unprovable-site": {
+          "pass_rate": 0.0,
+          "passed": 0,
+          "failed": 0,
+          "total": 0,
+          "assertions": 11,
+          "replicates": 0
+        },
+        "decaying-denominator-rate": {
+          "pass_rate": 0.8,
+          "passed": 4,
+          "failed": 1,
+          "total": 5,
+          "assertions": 5,
+          "replicates": 1
+        },
+        "incremental-balance-drift": {
+          "pass_rate": 0.0,
+          "passed": 0,
+          "failed": 0,
+          "total": 0,
+          "assertions": 4,
+          "replicates": 0
+        },
+        "unenforced-expiry-policy": {
+          "pass_rate": 0.0,
+          "passed": 0,
+          "failed": 0,
+          "total": 0,
+          "assertions": 5,
+          "replicates": 0
+        },
+        "cold-start-zero-denominator": {
+          "pass_rate": 0.0,
+          "passed": 0,
+          "failed": 0,
+          "total": 0,
+          "assertions": 4,
+          "replicates": 0
+        },
+        "self-derived-expected-value": {
+          "pass_rate": 0.0,
+          "passed": 0,
+          "failed": 0,
+          "total": 0,
+          "assertions": 5,
+          "replicates": 0
+        },
+        "well-formed-inputs-only": {
+          "pass_rate": 0.0,
+          "passed": 0,
+          "failed": 0,
+          "total": 0,
+          "assertions": 5,
+          "replicates": 0
+        },
+        "single-threaded-concurrency-check": {
+          "pass_rate": 0.0,
+          "passed": 0,
+          "failed": 0,
+          "total": 0,
+          "assertions": 5,
+          "replicates": 0
+        },
+        "retry-replays-batch": {
+          "pass_rate": 0.0,
+          "passed": 0,
+          "failed": 0,
+          "total": 0,
+          "assertions": 5,
+          "replicates": 0
+        },
+        "trust-decided-by-origin": {
+          "pass_rate": 0.0,
+          "passed": 0,
+          "failed": 0,
+          "total": 0,
+          "assertions": 6,
+          "replicates": 0
+        },
+        "unreachable-handler-capped": {
+          "pass_rate": 0.0,
+          "passed": 0,
+          "failed": 0,
+          "total": 0,
+          "assertions": 5,
+          "replicates": 0
+        },
+        "secret-in-exception": {
+          "pass_rate": 0.0,
+          "passed": 0,
+          "failed": 0,
+          "total": 0,
+          "assertions": 5,
+          "replicates": 0
+        }
+      }
+    },
+    "without_skill": {
+      "pass_rate": {
+        "mean": 0.261,
+        "stddev": 0.179
+      },
+      "timing_ms_mean": 104948.0,
+      "total_passed": 63,
+      "total_assertions": 183,
+      "eval_results": {
+        "eval-dead-code": {
+          "pass_rate": 0.444,
+          "passed": 4,
+          "failed": 5,
+          "total": 9
+        },
+        "eval-retry": {
+          "pass_rate": 0.222,
+          "passed": 2,
+          "failed": 7,
+          "total": 9
+        },
+        "eval-injection": {
+          "pass_rate": 0.667,
+          "passed": 6,
+          "failed": 3,
+          "total": 9
+        },
+        "eval-nplusone": {
+          "pass_rate": 0.429,
+          "passed": 3,
+          "failed": 4,
+          "total": 7
+        },
+        "eval-clean": {
+          "pass_rate": 0.125,
+          "passed": 1,
+          "failed": 7,
+          "total": 8
+        },
+        "eval-concurrency": {
+          "pass_rate": 0.375,
+          "passed": 3,
+          "failed": 5,
+          "total": 8
+        },
+        "eval-swallowed-error": {
+          "pass_rate": 0.5,
+          "passed": 4,
+          "failed": 6,
+          "total": 10
+        },
+        "eval-complexity": {
+          "pass_rate": 0.125,
+          "passed": 1,
+          "failed": 7,
+          "total": 8
+        },
+        "eval-memory-leak": {
+          "pass_rate": 0.125,
+          "passed": 1,
+          "failed": 7,
+          "total": 8
+        },
+        "eval-idor-access": {
+          "pass_rate": 0.25,
+          "passed": 2,
+          "failed": 6,
+          "total": 8
+        },
+        "eval-deadlock": {
+          "pass_rate": 0.25,
+          "passed": 2,
+          "failed": 6,
+          "total": 8
+        },
+        "eval-ssrf": {
+          "pass_rate": 0.25,
+          "passed": 2,
+          "failed": 6,
+          "total": 8
+        },
+        "eval-hot-loop": {
+          "pass_rate": 0.375,
+          "passed": 3,
+          "failed": 5,
+          "total": 8
+        },
+        "eval-missing-timeout": {
+          "pass_rate": 0.25,
+          "passed": 2,
+          "failed": 6,
+          "total": 8
+        },
+        "eval-breaking-schema": {
+          "pass_rate": 0.375,
+          "passed": 3,
+          "failed": 5,
+          "total": 8
+        },
+        "eval-idempotency": {
+          "pass_rate": 0.25,
+          "passed": 2,
+          "failed": 6,
+          "total": 8
+        },
+        "eval-manifest-hygiene": {
+          "pass_rate": 0.375,
+          "passed": 3,
+          "failed": 5,
+          "total": 8
+        },
+        "eval-ai-slop": {
+          "pass_rate": 0.375,
+          "passed": 3,
+          "failed": 5,
+          "total": 8
+        },
+        "eval-speculative-generality": {
+          "pass_rate": 0.375,
+          "passed": 3,
+          "failed": 5,
+          "total": 8
+        },
+        "eval-pii-logging": {
+          "pass_rate": 0.375,
+          "passed": 3,
+          "failed": 5,
+          "total": 8
+        },
+        "eval-poison-message": {
+          "pass_rate": 0.25,
+          "passed": 2,
+          "failed": 6,
+          "total": 8
+        },
+        "eval-stale-flag": {
+          "pass_rate": 0.375,
+          "passed": 3,
+          "failed": 5,
+          "total": 8
+        },
+        "eval-mock-cheat": {
+          "pass_rate": 0.375,
+          "passed": 3,
+          "failed": 5,
+          "total": 8
+        },
+        "eval-flaky-sleep": {
+          "pass_rate": 0.25,
+          "passed": 2,
+          "failed": 6,
+          "total": 8
+        },
+        "eval-clean-service": {
+          "pass_rate": 0.286,
+          "passed": 2,
+          "failed": 6,
+          "total": 8
+        },
+        "eval-dual-write": {
+          "pass_rate": 0.0,
+          "passed": 0,
+          "failed": 8,
+          "total": 8
+        },
+        "eval-comment-drift": {
+          "pass_rate": 0.0,
+          "passed": 0,
+          "failed": 8,
+          "total": 8
+        },
+        "eval-stale-readme": {
+          "pass_rate": 0.0,
+          "passed": 0,
+          "failed": 8,
+          "total": 8
+        },
+        "eval-stale-error": {
+          "pass_rate": 0.0,
+          "passed": 0,
+          "failed": 8,
+          "total": 8
+        },
+        "eval-weak-assertions": {
+          "pass_rate": 0.0,
+          "passed": 0,
+          "failed": 8,
+          "total": 8
+        },
+        "eval-token-validation": {
+          "pass_rate": 0.125,
+          "passed": 1,
+          "failed": 7,
+          "total": 8
+        },
+        "eval-weak-password-hash": {
+          "pass_rate": 0.333,
+          "passed": 3,
+          "failed": 6,
+          "total": 9
+        },
+        "eval-session-fixation": {
+          "pass_rate": 0.0,
+          "passed": 0,
+          "failed": 7,
+          "total": 7
+        },
+        "eval-tls-verify-disabled": {
+          "pass_rate": 0.125,
+          "passed": 1,
+          "failed": 7,
+          "total": 8
+        },
+        "eval-unsafe-deserialization": {
+          "pass_rate": 0.125,
+          "passed": 1,
+          "failed": 7,
+          "total": 8
+        },
+        "eval-path-traversal": {
+          "pass_rate": 0.125,
+          "passed": 1,
+          "failed": 7,
+          "total": 8
+        },
+        "eval-bfla-admin-route": {
+          "pass_rate": 0.875,
+          "passed": 7,
+          "failed": 1,
+          "total": 8
+        },
+        "eval-ecb-mode": {
+          "pass_rate": 0.125,
+          "passed": 1,
+          "failed": 7,
+          "total": 8
+        },
+        "eval-cors-reflect-origin": {
+          "pass_rate": 0.222,
+          "passed": 2,
+          "failed": 7,
+          "total": 9
+        },
+        "eval-login-no-throttle": {
+          "pass_rate": 0.111,
+          "passed": 1,
+          "failed": 8,
+          "total": 9
+        },
+        "eval-build-integrity": {
+          "pass_rate": 0.111,
+          "passed": 1,
+          "failed": 8,
+          "total": 9
+        },
+        "eval-typosquat-dependency": {
+          "pass_rate": 0.125,
+          "passed": 1,
+          "failed": 7,
+          "total": 8
+        },
+        "eval-dead-persistence": {
+          "pass_rate": 0.1,
+          "passed": 1,
+          "failed": 9,
+          "total": 10
+        },
+        "eval-completion-markers": {
+          "pass_rate": 0.333,
+          "passed": 3,
+          "failed": 6,
+          "total": 9
+        },
+        "eval-vendored-fork": {
+          "pass_rate": 0.125,
+          "passed": 1,
+          "failed": 7,
+          "total": 8
+        },
+        "eval-health-and-shutdown": {
+          "pass_rate": 0.111,
+          "passed": 1,
+          "failed": 8,
+          "total": 9
+        },
+        "eval-unbounded-fanout": {
+          "pass_rate": 0.333,
+          "passed": 3,
+          "failed": 6,
+          "total": 9
+        },
+        "eval-saga-no-compensation": {
+          "pass_rate": 0.0,
+          "passed": 1,
+          "failed": 8,
+          "total": 9
+        },
+        "eval-cache-no-invalidation": {
+          "pass_rate": 0.125,
+          "passed": 1,
+          "failed": 8,
+          "total": 9
+        },
+        "eval-lease-no-fencing": {
+          "pass_rate": 0.125,
+          "passed": 1,
+          "failed": 8,
+          "total": 9
+        },
+        "eval-missing-audit-trail": {
+          "pass_rate": 0.222,
+          "passed": 2,
+          "failed": 7,
+          "total": 9
+        },
+        "eval-config-fails-open": {
+          "pass_rate": 0.125,
+          "passed": 1,
+          "failed": 8,
+          "total": 9
+        },
+        "eval-irreversible-rollback": {
+          "pass_rate": 0.444,
+          "passed": 4,
+          "failed": 5,
+          "total": 9
+        },
+        "eval-unit-scale-error": {
+          "pass_rate": 0.333,
+          "passed": 3,
+          "failed": 6,
+          "total": 9
+        },
+        "eval-impossible-state": {
+          "pass_rate": 0.0,
+          "passed": 0,
+          "failed": 9,
+          "total": 9
+        },
+        "eval-ambient-clock-rules": {
+          "pass_rate": 0.2,
+          "passed": 2,
+          "failed": 8,
+          "total": 10
+        },
+        "eval-no-test-seam": {
+          "pass_rate": 0.333,
+          "passed": 3,
+          "failed": 6,
+          "total": 9
+        },
+        "eval-unenforced-invariant": {
+          "pass_rate": 0.0,
+          "passed": 0,
+          "failed": 9,
+          "total": 9
+        },
+        "eval-implementation-names": {
+          "pass_rate": 0.333,
+          "passed": 3,
+          "failed": 6,
+          "total": 9
+        },
+        "eval-transposed-arguments": {
+          "pass_rate": 0.444,
+          "passed": 4,
+          "failed": 5,
+          "total": 9
+        },
+        "eval-boundary-error-policy": {
+          "pass_rate": 0.222,
+          "passed": 2,
+          "failed": 7,
+          "total": 9
+        },
+        "eval-cancelled-child-work": {
+          "pass_rate": 0.111,
+          "passed": 1,
+          "failed": 8,
+          "total": 9
+        },
+        "eval-lost-update-race": {
+          "pass_rate": 0.125,
+          "passed": 1,
+          "failed": 8,
+          "total": 9
+        },
+        "eval-string-truthiness": {
+          "pass_rate": 0.125,
+          "passed": 1,
+          "failed": 8,
+          "total": 9
+        },
+        "eval-unstable-pagination": {
+          "pass_rate": 0.333,
+          "passed": 3,
+          "failed": 6,
+          "total": 9
+        },
+        "eval-short-circuit-side-effects": {
+          "pass_rate": 0.125,
+          "passed": 1,
+          "failed": 8,
+          "total": 9
+        },
+        "eval-lock-starvation": {
+          "pass_rate": 0.125,
+          "passed": 1,
+          "failed": 8,
+          "total": 9
+        },
+        "eval-soft-delete-uniqueness": {
+          "pass_rate": 0.125,
+          "passed": 1,
+          "failed": 8,
+          "total": 9
+        },
+        "eval-skipped-tests": {
+          "pass_rate": 0.125,
+          "passed": 1,
+          "failed": 8,
+          "total": 9
+        },
+        "eval-rag-prompt-injection": {
+          "pass_rate": 0.182,
+          "passed": 2,
+          "failed": 9,
+          "total": 11
+        },
+        "eval-model-output-trusted": {
+          "pass_rate": 0.5,
+          "passed": 5,
+          "failed": 5,
+          "total": 10
+        },
+        "eval-unchecked-casts": {
+          "pass_rate": 0.1,
+          "passed": 1,
+          "failed": 9,
+          "total": 10
+        },
+        "eval-region-failover": {
+          "pass_rate": 0.1,
+          "passed": 1,
+          "failed": 9,
+          "total": 10
+        },
+        "eval-personal-data-lifecycle": {
+          "pass_rate": 0.1,
+          "passed": 1,
+          "failed": 9,
+          "total": 10
+        },
+        "eval-settlement-export": {
+          "pass_rate": 0.1,
+          "passed": 1,
+          "failed": 9,
+          "total": 10
+        },
+        "eval-dst-boundary-schedules": {
+          "pass_rate": 0.2,
+          "passed": 2,
+          "failed": 8,
+          "total": 10
+        },
+        "eval-money-conversion": {
+          "pass_rate": 0.2,
+          "passed": 2,
+          "failed": 8,
+          "total": 10
+        },
+        "eval-field-name-mismatch": {
+          "pass_rate": 0.222,
+          "passed": 2,
+          "failed": 7,
+          "total": 9
+        },
+        "eval-operations-collapse": {
+          "pass_rate": 0.0,
+          "passed": 0,
+          "failed": 12,
+          "total": 12
+        },
+        "eval-suppress-unbounded-queue": {
+          "pass_rate": 0.0,
+          "passed": 0,
+          "failed": 9,
+          "total": 9
+        },
+        "eval-suppress-unfiltered-fanout": {
+          "pass_rate": 0.0,
+          "passed": 0,
+          "failed": 9,
+          "total": 9
+        },
+        "eval-suppress-lockless-accumulator": {
+          "pass_rate": 0.7,
+          "passed": 14,
+          "failed": -4,
+          "total": 10
+        },
+        "eval-suppress-ungated-memory": {
+          "pass_rate": 0.0,
+          "passed": 0,
+          "failed": 9,
+          "total": 9
+        },
+        "eval-suppress-constant-column": {
+          "pass_rate": 0.0,
+          "passed": 0,
+          "failed": 8,
+          "total": 8
+        },
+        "eval-suppress-coincident-formulas": {
+          "pass_rate": 0.0,
+          "passed": 0,
+          "failed": 9,
+          "total": 9
+        },
+        "eval-suppression-blind-sibling": {
+          "pass_rate": 0.0,
+          "passed": 0,
+          "failed": 10,
+          "total": 10
+        },
+        "eval-suppression-blind-nan-contract": {
+          "pass_rate": 0.0,
+          "passed": 0,
+          "failed": 11,
+          "total": 11
+        },
+        "eval-suppression-blind-backlog-measure": {
+          "pass_rate": 0.35,
+          "passed": 7,
+          "failed": 3,
+          "total": 10
+        },
+        "eval-suppression-blind-unargued-clamp": {
+          "pass_rate": 0.485,
+          "passed": 16,
+          "failed": -5,
+          "total": 11
+        },
+        "eval-suppression-blind-boundary-breach": {
+          "pass_rate": 0.0,
+          "passed": 0,
+          "failed": 10,
+          "total": 10
+        },
+        "eval-suppression-ledger-unprovable-site": {
+          "pass_rate": 0.0,
+          "passed": 0,
+          "failed": 11,
+          "total": 11
+        },
+        "decaying-denominator-rate": {
+          "pass_rate": 0.0,
+          "passed": 0,
+          "failed": 5,
+          "total": 5
+        },
+        "incremental-balance-drift": {
+          "pass_rate": 0.0,
+          "passed": 0,
+          "failed": 4,
+          "total": 4
+        },
+        "unenforced-expiry-policy": {
+          "pass_rate": 0.0,
+          "passed": 0,
+          "failed": 5,
+          "total": 5
+        },
+        "cold-start-zero-denominator": {
+          "pass_rate": 0.0,
+          "passed": 0,
+          "failed": 4,
+          "total": 4
+        },
+        "self-derived-expected-value": {
+          "pass_rate": 0.0,
+          "passed": 0,
+          "failed": 5,
+          "total": 5
+        },
+        "well-formed-inputs-only": {
+          "pass_rate": 0.0,
+          "passed": 0,
+          "failed": 5,
+          "total": 5
+        },
+        "single-threaded-concurrency-check": {
+          "pass_rate": 0.0,
+          "passed": 0,
+          "failed": 5,
+          "total": 5
+        },
+        "retry-replays-batch": {
+          "pass_rate": 0.0,
+          "passed": 0,
+          "failed": 5,
+          "total": 5
+        },
+        "trust-decided-by-origin": {
+          "pass_rate": 0.0,
+          "passed": 0,
+          "failed": 6,
+          "total": 6
+        },
+        "unreachable-handler-capped": {
+          "pass_rate": 0.0,
+          "passed": 0,
+          "failed": 5,
+          "total": 5
+        },
+        "secret-in-exception": {
+          "pass_rate": 0.0,
+          "passed": 0,
+          "failed": 5,
+          "total": 5
+        }
+      }
+    },
+    "delta": {
+      "pass_rate_mean_delta": 0.597,
+      "overall_pass_rate_delta": 0.556,
+      "summary": "Skill adds +59.7 percentage points in assertion pass rate across all 102 fixtures."
+    }
+  }
+}

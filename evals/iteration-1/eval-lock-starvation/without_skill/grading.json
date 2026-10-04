@@ -1,0 +1,21 @@
+{
+  "eval": "eval-lock-starvation",
+  "eval_id": 67,
+  "fixture": "evals/fixtures/lock_starvation.py",
+  "run": "without_skill",
+  "phase": "before",
+  "review": "0 findings · C:0 M:0 m:0 i:0 — Domain Score: 100/100 (Grade A) — `Aligns well`",
+  "summary": { "passed": 1, "failed": 8, "total": 9, "pass_rate": 0.125 },
+  "assertions": [
+    { "n": 1, "text": "Exactly 1 finding above Info severity", "result": "fail", "evidence": "0 findings above Info; graded Grade A. Every shared access in the file is protected by a lock, and the pool structure is conventional." },
+    { "n": 2, "text": "Finding is graded MAJOR", "result": "fail", "evidence": "No finding to grade." },
+    { "n": 3, "text": "Finding is on axis A2 (Concurrency)", "result": "fail", "evidence": "No concurrency finding emitted." },
+    { "n": 4, "text": "Identifies the lock being held once for the whole batch including per-item work", "result": "fail", "evidence": "Missed. deadlocks-locking.md's 'unbounded lock hold times' is scoped to slow disk I/O, network requests, or database transactions inside a lock — external blocking operations. A sleep inside a loop is neither, and the bullet's own examples made a local loop look out of scope." },
+    { "n": 5, "text": "Identifies drain_queue holding the lock while blocked waiting for the next item", "result": "fail", "evidence": "Missed, same reason. The blocking wait is a sleep, not a network call." },
+    { "n": 6, "text": "Distinguishes this from deadlock: nothing is blocked on a cycle, throughput is simply one worker", "result": "fail", "evidence": "Not stated; the distinction did not exist in the pre-change rules, which only had a deadlock class." },
+    { "n": 7, "text": "Failure scenario names eight configured workers delivering one worker's throughput with no error", "result": "fail", "evidence": "Not stated." },
+    { "n": 8, "text": "Fix recommends holding the lock per item or using a bounded consumer pool with no lock across the drain", "result": "fail", "evidence": "No fix proposed." },
+    { "n": 9, "text": "Header matches pattern: 1 finding · C:0 M:1 m:0 i:0", "result": "pass", "evidence": "Header rendered in the required shape, with a zero tally." }
+  ],
+  "notes": "Total miss. The pre-change 'unbounded lock hold time' bullet is close in spirit and wrong in trigger: it enumerates external blocking operations, so the two most common real instances — a loop, and a queue wait — fell outside it, and the file scored a single-worker indexer as exemplary locking."
+}

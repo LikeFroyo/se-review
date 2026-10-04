@@ -1,0 +1,70 @@
+{
+  "eval_id": 42,
+  "eval_name": "eval-typosquat-dependency",
+  "condition": "with_skill",
+  "skill_consulted": true,
+  "files_read": [
+    "evals/fixtures/typosquat_dependency.py",
+    "./",
+    "evals/fixtures/**",
+    "shared/axis-codes.md",
+    "shared/output-format.md",
+    "domains/leanness/**",
+    "SKILL.md",
+    "domains/leanness/supply-chain/sub-leaf.md",
+    "domains/leanness/supply-chain/guidelines/manifest-hygiene.md",
+    "domains/leanness/leaf.md",
+    "evals/iteration-1/eval-typosquat-dependency/with_skill/grading.json"
+  ],
+  "assertion_results": [
+    {
+      "text": "Exactly 1 finding above Info severity",
+      "passed": false,
+      "evidence": "The header reads \"3 findings · C:0 M:2 m:0 i:1\", so two findings are graded above Info, not one."
+    },
+    {
+      "text": "Finding is graded MAJOR",
+      "passed": false,
+      "evidence": "Two findings are labelled [MAJOR] (the typosquat one and the requests CVE one), not a single MAJOR."
+    },
+    {
+      "text": "Finding is on axis L5 (Supply Chain)",
+      "passed": true,
+      "evidence": "The first finding states \"**Domain:** Leanness — Supply Chain (L5)\"."
+    },
+    {
+      "text": "Identifies requsts as a lookalike of the intended requests package",
+      "passed": true,
+      "evidence": "The first finding's evidence line names \"\\\"requsts\\\": \\\"2.31.0\\\",     # line 9 — lookalike of `requests`\"."
+    },
+    {
+      "text": "Identifies colourama as a lookalike of colorama",
+      "passed": true,
+      "evidence": "The first finding's evidence line names \"\\\"colourama\\\": \\\"0.4.6\\\",    # line 8 — lookalike of `colorama`\"."
+    },
+    {
+      "text": "Failure scenario describes a lookalike that is benign at install and malicious later",
+      "passed": true,
+      "evidence": "The failure scenario says \"A typosquat is typically published benign, so review and CI pass at the currently pinned version; the maintainer of `requsts` then ships a malicious release\"."
+    },
+    {
+      "text": "Fix recommends removing the undeclared entries and allow-listing additions",
+      "passed": true,
+      "evidence": "The fix says \"Delete lines 8 and 9. Gate future additions on the `INTENDED` allowlist that already exists in this file\"."
+    },
+    {
+      "text": "Header matches pattern: 1 finding · C:0 M:1 m:0 i:0",
+      "passed": false,
+      "evidence": "The header is \"3 findings · C:0 M:2 m:0 i:1 · Mean 85/100 · Final Grade B\", not the required \"1 finding · C:0 M:1 m:0 i:0\"."
+    }
+  ],
+  "summary": {
+    "passed": 5,
+    "failed": 3,
+    "total": 8,
+    "pass_rate": 0.625
+  },
+  "searched": [
+    "typosquat_dependency|typosquat"
+  ]
+}

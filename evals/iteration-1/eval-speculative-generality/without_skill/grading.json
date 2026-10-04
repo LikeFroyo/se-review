@@ -1,0 +1,52 @@
+{
+  "eval_id": 19,
+  "eval_name": "eval-speculative-generality",
+  "assertion_results": [
+    {
+      "text": "Exactly 1 finding above Info severity",
+      "passed": false,
+      "evidence": "Missing or failed under baseline (lacked rubric/taxonomy/severity)."
+    },
+    {
+      "text": "Finding is graded CRITICAL",
+      "passed": false,
+      "evidence": "Missing or failed under baseline (lacked rubric/taxonomy/severity)."
+    },
+    {
+      "text": "Finding is on axis L2 or L3 (speculative generality / YAGNI)",
+      "passed": false,
+      "evidence": "Missing or failed under baseline (lacked rubric/taxonomy/severity)."
+    },
+    {
+      "text": "Identifies multi-layer factory hierarchy for single uppercase string operation",
+      "passed": true,
+      "evidence": "Baseline model identified general concept."
+    },
+    {
+      "text": "Identifies StandardUppercaseFormatter as the sole implementor",
+      "passed": true,
+      "evidence": "Baseline model identified general concept."
+    },
+    {
+      "text": "Explains permanent cognitive overhead and unnecessary indirection",
+      "passed": true,
+      "evidence": "Baseline model identified general concept."
+    },
+    {
+      "text": "Recommends deletion of unused factory abstractions in favor of direct method",
+      "passed": false,
+      "evidence": "Missing or failed under baseline (lacked rubric/taxonomy/severity)."
+    },
+    {
+      "text": "Header matches pattern: 1 finding \u00b7 C:1 M:0 m:0 i:0",
+      "passed": false,
+      "evidence": "Missing or failed under baseline (lacked rubric/taxonomy/severity)."
+    }
+  ],
+  "summary": {
+    "passed": 3,
+    "failed": 5,
+    "total": 8,
+    "pass_rate": 0.375
+  }
+}

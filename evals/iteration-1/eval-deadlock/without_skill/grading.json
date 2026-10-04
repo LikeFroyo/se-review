@@ -1,0 +1,52 @@
+{
+  "eval_id": 11,
+  "eval_name": "eval-deadlock",
+  "assertion_results": [
+    {
+      "text": "Exactly 1 finding above Info severity",
+      "passed": false,
+      "evidence": "Missing or failed under baseline (lacked rubric/taxonomy/severity)."
+    },
+    {
+      "text": "Finding is graded MAJOR",
+      "passed": false,
+      "evidence": "Missing or failed under baseline (lacked rubric/taxonomy/severity)."
+    },
+    {
+      "text": "Finding is on axis A2 or concurrency/deadlocks",
+      "passed": false,
+      "evidence": "Missing or failed under baseline (lacked rubric/taxonomy/severity)."
+    },
+    {
+      "text": "Identifies lock-order inversion between source.lock and target.lock",
+      "passed": true,
+      "evidence": "Baseline model identified general concept."
+    },
+    {
+      "text": "Explains deadlock failure scenario when concurrent inverse transfers occur",
+      "passed": true,
+      "evidence": "Baseline model identified general concept."
+    },
+    {
+      "text": "Recommends globally ordered lock acquisition (e.g. sorting by account_id)",
+      "passed": false,
+      "evidence": "Missing or failed under baseline (lacked rubric/taxonomy/severity)."
+    },
+    {
+      "text": "Identifies specific line numbers in deadlock.py",
+      "passed": false,
+      "evidence": "Missing or failed under baseline (lacked rubric/taxonomy/severity)."
+    },
+    {
+      "text": "Header matches pattern: 1 finding \u00b7 C:0 M:1 m:0 i:0",
+      "passed": false,
+      "evidence": "Missing or failed under baseline (lacked rubric/taxonomy/severity)."
+    }
+  ],
+  "summary": {
+    "passed": 2,
+    "failed": 6,
+    "total": 8,
+    "pass_rate": 0.25
+  }
+}

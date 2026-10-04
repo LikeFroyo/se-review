@@ -1,0 +1,29 @@
+{
+  "tool_errors": [
+    {
+      "tool": "bash",
+      "error": "No tool named \"bash\" is currently available. Please use a tool from the available tool list."
+    },
+    {
+      "tool": "bash",
+      "error": "No tool named \"bash\" is currently available. Please use a tool from the available tool list."
+    },
+    {
+      "tool": "bash",
+      "error": "No tool named \"bash\" is currently available. Please use a tool from the available tool list."
+    },
+    {
+      "tool": "bash",
+      "error": "No tool named \"bash\" is currently available. Please use a tool from the available tool list."
+    },
+    {
+      "tool": "bash",
+      "error": "No tool named \"bash\" is currently available. Please use a tool from the available tool list."
+    },
+    {
+      "tool": "bash",
+      "error": "No tool named \"bash\" is currently available. Please use a tool from the available tool list."
+    }
+  ],
+  "reason": "review body present and graded despite tool errors; the errors did not prevent the review"
+}

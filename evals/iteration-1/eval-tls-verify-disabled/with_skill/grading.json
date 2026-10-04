@@ -1,0 +1,20 @@
+{
+  "eval": "eval-tls-verify-disabled",
+  "eval_id": 34,
+  "fixture": "evals/fixtures/tls_verify_disabled.py",
+  "run": "with_skill",
+  "phase": "after",
+  "review": "1 finding · C:1 M:0 m:0 i:0 — Domain Score: 75/100 (Grade C)",
+  "summary": { "passed": 8, "failed": 0, "total": 8, "pass_rate": 1.0 },
+  "assertions": [
+    { "n": 1, "text": "Exactly 1 finding above Info severity", "result": "pass", "evidence": "One Critical finding covering both call sites as one root cause." },
+    { "n": 2, "text": "Finding is graded CRITICAL", "result": "pass", "evidence": "Graded Critical per 'disabled certificate validation' in the security sub-leaf Critical list." },
+    { "n": 3, "text": "Finding is on axis A5 (Security)", "result": "pass", "evidence": "Reported under Correctness / Security (A5)." },
+    { "n": 4, "text": "Identifies verify=False on the outbound requests calls", "result": "pass", "evidence": "Cites tls_verify_disabled.py:25 and :34." },
+    { "n": 5, "text": "Names the API key in the Authorization header as the exposed secret", "result": "pass", "evidence": "Names the `Bearer {self.api_key}` header as the credential read in transit." },
+    { "n": 6, "text": "Failure scenario describes a network-position attacker presenting a certificate", "result": "pass", "evidence": "States that a self-signed certificate on a hostile path is accepted, yielding the partner API key." },
+    { "n": 7, "text": "Fix restores certificate verification against a trusted CA bundle", "result": "pass", "evidence": "Fix removes verify=False and installs the correct CA bundle / corporate root rather than a blanket trust manager." },
+    { "n": 8, "text": "Header matches pattern: 1 finding · C:1 M:0 m:0 i:0", "result": "pass", "evidence": "Header rendered exactly as specified." }
+  ],
+  "notes": "Caught by the 'Transport verification' section of guidelines/cryptography.md. Note the fixture holds a credential in an instance attribute (self.api_key), not a hardcoded literal, so the pre-existing hardcoded-secret bullet does not reach it."
+}

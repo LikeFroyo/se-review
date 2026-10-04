@@ -1,0 +1,52 @@
+{
+  "eval_id": 16,
+  "eval_name": "eval-idempotency",
+  "assertion_results": [
+    {
+      "text": "Exactly 1 finding above Info severity",
+      "passed": false,
+      "evidence": "Missing or failed under baseline (lacked rubric/taxonomy/severity)."
+    },
+    {
+      "text": "Finding is graded CRITICAL",
+      "passed": false,
+      "evidence": "Missing or failed under baseline (lacked rubric/taxonomy/severity)."
+    },
+    {
+      "text": "Finding is on axis A4 or api-contracts/idempotency",
+      "passed": false,
+      "evidence": "Missing or failed under baseline (lacked rubric/taxonomy/severity)."
+    },
+    {
+      "text": "Identifies payment charge execution lacking idempotency key",
+      "passed": true,
+      "evidence": "Baseline model identified general concept."
+    },
+    {
+      "text": "Explains failure scenario: network retry or redelivered webhook causes duplicate customer charge",
+      "passed": true,
+      "evidence": "Baseline model identified general concept."
+    },
+    {
+      "text": "Recommends requiring and passing client-generated Idempotency-Key",
+      "passed": false,
+      "evidence": "Missing or failed under baseline (lacked rubric/taxonomy/severity)."
+    },
+    {
+      "text": "Cites specific line numbers in non_idempotent_payment.py",
+      "passed": false,
+      "evidence": "Missing or failed under baseline (lacked rubric/taxonomy/severity)."
+    },
+    {
+      "text": "Header matches pattern: 1 finding \u00b7 C:1 M:0 m:0 i:0",
+      "passed": false,
+      "evidence": "Missing or failed under baseline (lacked rubric/taxonomy/severity)."
+    }
+  ],
+  "summary": {
+    "passed": 2,
+    "failed": 6,
+    "total": 8,
+    "pass_rate": 0.25
+  }
+}

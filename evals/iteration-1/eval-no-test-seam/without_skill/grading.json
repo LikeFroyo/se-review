@@ -1,0 +1,21 @@
+{
+  "eval": "eval-no-test-seam",
+  "eval_id": 57,
+  "fixture": "evals/fixtures/no_test_seam.py",
+  "run": "without_skill",
+  "phase": "before",
+  "review": "1 finding · C:0 M:1 m:0 i:0 — Domain Score: 90/100 (Grade A)",
+  "summary": { "passed": 3, "failed": 6, "total": 9, "pass_rate": 0.333 },
+  "assertions": [
+    { "n": 1, "text": "Exactly 2 findings above Info severity", "result": "fail", "evidence": "One finding raised; the absent seam was not among it." },
+    { "n": 2, "text": "Both findings are graded MAJOR", "result": "fail", "evidence": "The single finding was graded MAJOR on the testing axis, so the pair's grade statement does not hold." },
+    { "n": 3, "text": "Both findings are on axis B2 (Evolvability)", "result": "fail", "evidence": "Reported under Correctness / Testing (A6). Maintainability had no sub-domain that asks whether a change can be verified." },
+    { "n": 4, "text": "Finding 1 identifies the module-level SQS client and SQLAlchemy engine as concrete, unseamed dependencies", "result": "fail", "evidence": "Missed. The pre-change design sub-domain's DIP bullet is about high-level business logic importing low-level implementations — a dependency-inversion preference. Module-level clients in a small service read as ordinary infrastructure setup, and no pre-change rule asked where a seam was needed." },
+    { "n": 5, "text": "Finding 1 notes verification therefore needs a live queue, a live database, and the real template map", "result": "fail", "evidence": "Not stated." },
+    { "n": 6, "text": "Finding 2 identifies the setup exceeding the function under test", "result": "pass", "evidence": "Raised, and correctly: the testing sub-domain's adequacy rules reach a test whose setup dwarfs the function, independent of any new guideline." },
+    { "n": 7, "text": "Finding 2 notes the assertions cannot fail on a behaviour change", "result": "pass", "evidence": "Raised via the pre-existing weak-assertion and mirror-test rules, which is the same family as the mock_cheat and weak_assertions evals." },
+    { "n": 8, "text": "Both fixes inject the collaborators and assert the produced message", "result": "fail", "evidence": "Fix addressed the assertions only; nothing recommended injecting the client or the engine." },
+    { "n": 9, "text": "Header matches pattern: 2 findings · C:0 M:2 m:0 i:0", "result": "fail", "evidence": "Header rendered `1 finding · C:0 M:1 m:0 i:0`." }
+  ],
+  "notes": "Partial catch. The pre-change testing sub-domain found the useless assertions — it already could — and the design sub-domain found nothing wrong with hard-wiring the two external systems. The missing half is the one that decides whether a change is verifiable at all, which no pre-change axis asked."
+}

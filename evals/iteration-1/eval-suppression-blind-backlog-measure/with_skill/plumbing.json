@@ -1,0 +1,20 @@
+{
+  "reason": "isolation unproven",
+  "detail": "ran a recursive search ('**/*'), which reads everything beneath it including the answer key",
+  "reads": [
+    "ws/.",
+    "ws/evals/fixtures/suppress_unbounded_queue_CONSTRAINTS.md",
+    "ws/evals/fixtures/suppression_blind_backlog_measure.py",
+    "ws/SKILL.md",
+    "ws/evals",
+    "ws/shared/output-format.md",
+    "ws/shared/severity-and-rules.md",
+    "ws/shared/axis-codes.md",
+    "ws/domains/correctness/concurrency/sub-leaf.md",
+    "ws/domains/operations/performance/guidelines/memory-retention.md",
+    "ws/domains/correctness/leaf.md",
+    "ws/domains/operations/leaf.md",
+    "ws/domains/correctness/concurrency/guidelines/cancellation-lifecycle.md",
+    "ws/domains/correctness/concurrency/guidelines/race-conditions.md"
+  ]
+}

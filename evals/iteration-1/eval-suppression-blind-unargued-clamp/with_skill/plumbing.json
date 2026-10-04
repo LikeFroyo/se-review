@@ -1,0 +1,10 @@
+{
+  "reason": "skill markers not observed; recorded as unverified consultation rather than discarded, because the detector cannot see a skill auto-loaded into the system prompt",
+  "reads": [
+    "ws/evals/fixtures/suppression_blind_unargued_clamp.py",
+    "ws/evals/fixtures/suppression_blind_unargued_clamp_CONSTRAINTS.md",
+    "ws/.",
+    "ws/evals",
+    "ws/evals/fixtures"
+  ]
+}

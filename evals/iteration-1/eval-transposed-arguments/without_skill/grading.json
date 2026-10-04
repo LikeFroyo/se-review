@@ -1,0 +1,21 @@
+{
+  "eval": "eval-transposed-arguments",
+  "eval_id": 60,
+  "fixture": "evals/fixtures/transposed_arguments.py",
+  "run": "without_skill",
+  "phase": "before",
+  "review": "1 finding · C:0 M:0 m:1 i:0 — Domain Score: 97/100 (Grade A)",
+  "summary": { "passed": 4, "failed": 5, "total": 9, "pass_rate": 0.444 },
+  "assertions": [
+    { "n": 1, "text": "Exactly 1 finding above Info severity", "result": "pass", "evidence": "One finding raised, covering the transposable pairs." },
+    { "n": 2, "text": "Finding is graded MAJOR", "result": "fail", "evidence": "Graded MINOR, as a readability concern." },
+    { "n": 3, "text": "Finding is on axis B1 (Complexity)", "result": "fail", "evidence": "Reported under Correctness / Logic (A1), reading clamp as a suspected off-by-order bug." },
+    { "n": 4, "text": "Identifies set_viewport taking four identical integers with left/top/right/bottom transposable", "result": "pass", "evidence": "Raised — the four-int signature is visible and a logic reviewer reads it as a swap risk." },
+    { "n": 5, "text": "Identifies clamp(value, lo, hi) as transposable, citing its own docstring admission", "result": "pass", "evidence": "Raised, and the docstring made it impossible to miss." },
+    { "n": 6, "text": "Notes there is no type error and no name that catches a transposed call", "result": "pass", "evidence": "Stated, as part of the correctness reading." },
+    { "n": 7, "text": "Failure scenario names a clamp that silently returns an unclamped value or a mirrored viewport", "result": "fail", "evidence": "Named the swap risk in the abstract but not a concrete failing call and its output." },
+    { "n": 8, "text": "Fix recommends a typed pair or range object", "result": "fail", "evidence": "Fix recommended adding a docstring note and using keyword arguments at the call site, leaving the signature transposable." },
+    { "n": 9, "text": "Header matches pattern: 1 finding · C:0 M:1 m:0 i:0", "result": "fail", "evidence": "Header rendered `1 finding · C:0 M:0 m:1 i:0`." }
+  ],
+  "notes": "Partial catch via a different axis. The pre-change logic sub-domain reached both signatures, which is a fair result, but graded it as a possible bug rather than as a signature design that guarantees the bug stays possible."
+}

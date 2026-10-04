@@ -1,0 +1,53 @@
+{
+  "eval_id": 10,
+  "eval_name": "eval-idor-access",
+  "run_type": "without_skill",
+  "assertions": [
+    {
+      "assertion": "Exactly 1 finding above Info severity",
+      "passed": false,
+      "evidence": "Output is a list of 4 general suggestions without severity classification."
+    },
+    {
+      "assertion": "Finding is graded CRITICAL",
+      "passed": false,
+      "evidence": "No severity rating assigned."
+    },
+    {
+      "assertion": "Finding is on axis A5 (Security)",
+      "passed": false,
+      "evidence": "No taxonomy axis specified."
+    },
+    {
+      "assertion": "Evidence identifies missing authorization or ownership check on record_id in get_medical_record/update_medical_notes",
+      "passed": true,
+      "evidence": "Notices that current_user is passed into both functions but never checked or used."
+    },
+    {
+      "assertion": "Failure scenario describes unauthorized tenant/user data access or medical history tampering (IDOR/BOLA)",
+      "passed": false,
+      "evidence": "No exploitation or compliance failure scenario described."
+    },
+    {
+      "assertion": "Fix recommends server-side authorization check (verifying user ownership or role) before access",
+      "passed": true,
+      "evidence": "Suggests using current_user to verify the caller, although frames it as an unused parameter cleanup."
+    },
+    {
+      "assertion": "Trade-off notes authorization latency or need for permission service",
+      "passed": false,
+      "evidence": "No trade-off analyzed."
+    },
+    {
+      "assertion": "Header matches pattern: 1 finding · C:1 M:0 m:0 i:0",
+      "passed": false,
+      "evidence": "Standard markdown title without structured count header."
+    }
+  ],
+  "summary": {
+    "total": 8,
+    "passed": 2,
+    "failed": 6,
+    "pass_rate": 0.25
+  }
+}

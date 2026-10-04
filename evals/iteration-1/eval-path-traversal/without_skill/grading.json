@@ -1,0 +1,20 @@
+{
+  "eval": "eval-path-traversal",
+  "eval_id": 36,
+  "fixture": "evals/fixtures/path_traversal.py",
+  "run": "without_skill",
+  "phase": "before",
+  "review": "0 findings · C:0 M:0 m:0 i:0 — Domain Score: 100/100 (Grade A) — `Aligns well`",
+  "summary": { "passed": 1, "failed": 7, "total": 8, "pass_rate": 0.125 },
+  "assertions": [
+    { "n": 1, "text": "Exactly 1 finding above Info severity", "result": "fail", "evidence": "0 findings above Info; graded Grade A. The `isfile()` guard and the constant ATTACHMENT_ROOT read as a validated, sandboxed handler." },
+    { "n": 2, "text": "Finding is graded CRITICAL", "result": "fail", "evidence": "No finding to grade." },
+    { "n": 3, "text": "Finding is on axis A5 (Security)", "result": "fail", "evidence": "No security finding emitted." },
+    { "n": 4, "text": "Identifies the unvalidated os.path.join of a request-supplied name onto ATTACHMENT_ROOT", "result": "fail", "evidence": "Missed. The pre-change SSRF bullet is the only untrusted-destination check, and it is about network URLs, not filesystem paths." },
+    { "n": 5, "text": "Notes the absence of a containment or realpath check", "result": "fail", "evidence": "Not stated." },
+    { "n": 6, "text": "Failure scenario describes reading or writing outside the attachment root", "result": "fail", "evidence": "Not stated." },
+    { "n": 7, "text": "Fix recommends resolving the path and enforcing containment within the root", "result": "fail", "evidence": "No fix proposed." },
+    { "n": 8, "text": "Header matches pattern: 1 finding · C:1 M:0 m:0 i:0", "result": "pass", "evidence": "Header rendered in the required shape, with a zero tally." }
+  ],
+  "notes": "Total miss on arbitrary file read and write."
+}

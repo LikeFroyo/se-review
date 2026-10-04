@@ -1,0 +1,21 @@
+{
+  "eval": "eval-short-circuit-side-effects",
+  "eval_id": 66,
+  "fixture": "evals/fixtures/short_circuit_side_effects.py",
+  "run": "without_skill",
+  "phase": "before",
+  "review": "0 findings · C:0 M:0 m:0 i:0 — Domain Score: 100/100 (Grade A) — `Aligns well`",
+  "summary": { "passed": 1, "failed": 8, "total": 9, "pass_rate": 0.125 },
+  "assertions": [
+    { "n": 1, "text": "Exactly 1 finding above Info severity", "result": "fail", "evidence": "0 findings above Info; graded Grade A. Every early return carries a status code, a log line where it matters, and reads as correct input validation." },
+    { "n": 2, "text": "Finding is graded MAJOR", "result": "fail", "evidence": "No finding to grade." },
+    { "n": 3, "text": "Finding is on axis A1 (Logic)", "result": "fail", "evidence": "No logic finding emitted." },
+    { "n": 4, "text": "Identifies the 404, 422, and 403 early returns in update_email skipping the audit write and metrics increment", "result": "fail", "evidence": "Missed. The pre-change logic sub-domain's error-handling.md asks whether errors are swallowed, returned unchecked, double-handled, stringified, or missing a panic boundary — all about the error itself. It has no rule comparing what the failure path does against what the success path does." },
+    { "n": 5, "text": "Identifies deactivate_account incrementing the counter but not writing the audit record", "result": "fail", "evidence": "Missed, same reason; and the counter increment reads as evidence that the denial path is instrumented." },
+    { "n": 6, "text": "Notes the audit log therefore covers successes and failures inconsistently", "result": "fail", "evidence": "Not stated." },
+    { "n": 7, "text": "Failure scenario names abuse over rejected attempts leaving no record", "result": "fail", "evidence": "Not stated." },
+    { "n": 8, "text": "Fix recommends performing the effects on every exit path, e.g. in middleware", "result": "fail", "evidence": "No fix proposed." },
+    { "n": 9, "text": "Header matches pattern: 1 finding · C:0 M:1 m:0 i:0", "result": "pass", "evidence": "Header rendered in the required shape, with a zero tally." }
+  ],
+  "notes": "Total miss, and a shape worth naming: the pre-change skill was built to look at the error. It had no way to notice that something is missing from the error path, only that the error is mishandled. The audit and metric calls present in this file made the omission measurable and it was still invisible."
+}

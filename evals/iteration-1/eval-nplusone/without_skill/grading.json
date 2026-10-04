@@ -1,0 +1,47 @@
+{
+  "eval_id": 4,
+  "eval_name": "eval-nplusone",
+  "assertion_results": [
+    {
+      "text": "Exactly 1 finding above Info severity",
+      "passed": false,
+      "evidence": "Identified 2 findings above Low (High Severity for N+1, Medium Severity for No None Check)."
+    },
+    {
+      "text": "Finding is graded MAJOR",
+      "passed": false,
+      "evidence": "Graded as 'High Severity', not 'MAJOR'."
+    },
+    {
+      "text": "Finding is on axis A3 (Data and state)",
+      "passed": false,
+      "evidence": "No A3 taxonomy used."
+    },
+    {
+      "text": "Evidence identifies the per-member + per-team query inside the loop",
+      "passed": true,
+      "evidence": "Cites 1 query per member (get_member) and 1 query per team (get_team_name) inside directory() loop."
+    },
+    {
+      "text": "Impact is quantified with concrete numbers (e.g. N members ≈ 2N+1 queries)",
+      "passed": true,
+      "evidence": "Quantified as 'For N members this results in up to 2N round-trips'."
+    },
+    {
+      "text": "Fix recommends a batched query using JOIN or IN clause",
+      "passed": true,
+      "evidence": "Recommends single query using IN clause or JOIN with code sample."
+    },
+    {
+      "text": "Header matches pattern: 1 finding · C:0 M:1 m:0 i:0",
+      "passed": false,
+      "evidence": "No structured header present."
+    }
+  ],
+  "summary": {
+    "passed": 3,
+    "failed": 4,
+    "total": 7,
+    "pass_rate": 0.429
+  }
+}

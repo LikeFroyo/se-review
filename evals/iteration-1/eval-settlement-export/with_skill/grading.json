@@ -1,0 +1,22 @@
+{
+  "eval": "eval-settlement-export",
+  "eval_id": 75,
+  "fixture": "evals/fixtures/settlement_export.py",
+  "run": "with_skill",
+  "phase": "after",
+  "review": "2 findings · C:2 M:0 m:0 i:0 — Domain Score: 50/100 (Grade F)",
+  "summary": { "passed": 10, "failed": 0, "total": 10, "pass_rate": 1.0 },
+  "assertions": [
+    { "n": 1, "text": "Exactly 2 findings above Info severity", "result": "pass", "evidence": "Two Critical findings; the file-format mismatch and the truncation defect are independent, and the NFC/NFD key divergence was folded into the second as the same encoding-representation root cause." },
+    { "n": 2, "text": "Both findings are graded CRITICAL", "result": "pass", "evidence": "Both Critical: one silently misattributes every non-ASCII settlement, the other invalidates an entire file from a single long value." },
+    { "n": 3, "text": "Both findings are on axis D1 (Encoding & Text)", "result": "pass", "evidence": "Both reported under Interoperability / Encoding & Text (D1)." },
+    { "n": 4, "text": "Finding 1 identifies the implicit encoding on write against an explicit Latin-1 read", "result": "pass", "evidence": "Cites settlement_export.py:20-21 (io.StringIO with no encoding) against line 39 — the importer's own docstring states it reads Latin-1." },
+    { "n": 5, "text": "Finding 1 identifies the newline mismatch leaving a stray CR on the last field of every line", "result": "pass", "evidence": "Cites line 38 — split(\"\\r\\n\") against csv.writer's default line terminator, so the final field of every row carries a trailing carriage return." },
+    { "n": 6, "text": "Finding 1 explains the partner's merchant lookup missing because of both", "result": "pass", "evidence": "States the mojibake name and the trailing CR defeat the by-name lookup, so every settlement is unmatched and silently skipped by the len(fields) guard." },
+    { "n": 7, "text": "Finding 2 identifies truncate_to_column slicing UTF-8 bytes to a byte limit and then decoding", "result": "pass", "evidence": "Cites lines 57-58 — value.encode(\"utf-8\")[:column_bytes].decode(\"utf-8\"), which raises UnicodeDecodeError on a split sequence." },
+    { "n": 8, "text": "Finding 2 explains the mid-character split invalidating the whole line on the reader", "result": "pass", "evidence": "States the exception is raised while reading the line, not on the field, so one long accented merchant name costs every settlement in the file." },
+    { "n": 9, "text": "Finding 2 identifies the NFC-on-write against NFD-on-read key normalisation", "result": "pass", "evidence": "Cites build_lookup_key and read_lookup_key — NFC on write, NFD on read, so a composed key never matches its decomposed lookup." },
+    { "n": 10, "text": "Header matches pattern: 2 findings · C:2 M:0 m:0 i:0", "result": "pass", "evidence": "Header rendered exactly as specified." }
+  ],
+  "notes": "Caught by guidelines/charset-and-normalisation.md and guidelines/boundaries-and-truncation.md (both new). The import_settlements function is the file's own statement of the other side's contract, which is what makes both sides citable and satisfies the domain's scope-boundary rule that a finding must cite both sides."
+}

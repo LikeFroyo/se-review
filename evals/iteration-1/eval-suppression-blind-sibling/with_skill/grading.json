@@ -1,0 +1,396 @@
+{
+  "eval_id": 86,
+  "eval_name": "eval-suppression-blind-sibling",
+  "condition": "with_skill",
+  "model_config": "cfg:567712ad39ee",
+  "judge_model_config": "cfg:1c50bc6e7d47",
+  "judge_disjoint": true,
+  "base_commit": "0a25d6e",
+  "no_axis_count": null,
+  "no_axis_count_reason": "no review body",
+  "grader_config": "cfg:7d57659c2e6c",
+  "fixture_digests": {
+    "evals/fixtures/suppression_blind_sibling.py": "sha256:f91fc3906948e9e4",
+    "evals/fixtures/suppress_unfiltered_fanout_CONSTRAINTS.md": "sha256:d41d974a9188ac21"
+  },
+  "skill_consulted": true,
+  "skill_consulted_reps": 4,
+  "reps_requested": 5,
+  "reps_completed": 4,
+  "reps_refused": 1,
+  "reviewer_project_root": "workspace",
+  "isolation_indirect_commands": 1,
+  "assertion_results": [
+    {
+      "text": "Exactly 1 finding above Info severity",
+      "passed": false,
+      "evidence": "The header reads \"0 findings \u00b7 C:0 M:0 m:0 i:0\" and the Findings section reads \"None.\", so nothing is above Info."
+    },
+    {
+      "text": "Finding is graded at least MAJOR",
+      "passed": false,
+      "evidence": "No finding is graded at any level \u2014 the review reports zero findings, so the demonstration the assertion asks for is absent."
+    },
+    {
+      "text": "Finding is on axis A1",
+      "passed": false,
+      "evidence": "No axis code appears anywhere; Domain Scores list only Correctness/Security/Maintainability/Operations/Interoperability/Leanness at 100/100 and \"Unclassified: 0 findings fit no axis code.\""
+    },
+    {
+      "text": "Identifies the guard in ChainRecorder.__call__ that returns early when frame price equals the previous price",
+      "passed": true,
+      "evidence": "The \"Aligns well\" section names the guard: \"`ChainRecorder.__call__` (`suppression_blind_sibling.py:29-33`) de-duplicates on `frame[\\\"price\\\"] == self._last_price`\", the exact price-equality early return at lines 30-31."
+    },
+    {
+      "text": "Identifies that the guard keys on price rather than on the frame's own identity, so a distinct frame at an unchanged price is discarded",
+      "passed": false,
+      "evidence": "The review describes the de-dup condition but never contrasts price-keying with the frame's own identity nor says a distinct frame at an unchanged price is dropped."
+    },
+    {
+      "text": "Identifies that no counter or log records the discarded frame",
+      "passed": false,
+      "evidence": "No counter, metric, or log line is mentioned; the module's unused `logger` is never discussed."
+    },
+    {
+      "text": "Failure scenario names self.state staying stale while the venue has already moved to a new state",
+      "passed": false,
+      "evidence": "No failure scenario is given at all; `self.state` is never mentioned as going stale relative to the venue's new state."
+    },
+    {
+      "text": "Distinguishes the finding from the declared constraint: C1 constrains dispatch, and dispatch is correct",
+      "passed": true,
+      "evidence": "The review explicitly separates the two: \"`Fanout.dispatch` (`suppression_blind_sibling.py:17-19`) applies no filter ... Complies with binding C1\", and notes the reduction happens \"inside the consumer only.\""
+    },
+    {
+      "text": "Does NOT cite the unfiltered-dispatch constraint as the reason to withhold this finding",
+      "passed": false,
+      "evidence": "It does cite the constraint to withhold: \"Ruling: per binding C2 ... consumer-local reduction is permitted and is not a C1 dispatch violation. No fix.\""
+    },
+    {
+      "text": "Fix replaces the price-keyed guard with an identity-keyed one, or counts every discarded frame",
+      "passed": false,
+      "evidence": "The only remediation offered is \"No fix.\" \u2014 no identity-keyed guard and no counting of discarded frames is proposed."
+    }
+  ],
+  "summary": {
+    "passed": 9,
+    "failed": 31,
+    "total": 40,
+    "pass_rate": 0.225
+  },
+  "replicates": [
+    {
+      "rep": 1,
+      "skill_consulted": true,
+      "files_read": [
+        ".",
+        "evals/fixtures/suppress_unfiltered_fanout_CONSTRAINTS.md",
+        "evals/fixtures/suppression_blind_sibling.py",
+        "SKILL.md",
+        "evals",
+        "evals/fixtures",
+        "domains",
+        "shared",
+        "shared/axis-codes.md",
+        "shared/severity-and-rules.md",
+        "shared/output-format.md"
+      ],
+      "searched": [
+        "*/leaf.md"
+      ],
+      "isolation_indirect": 0,
+      "assertion_results": [
+        {
+          "text": "Exactly 1 finding above Info severity",
+          "passed": false,
+          "evidence": "The header reads \"0 findings \u00b7 C:0 M:0 m:0 i:0\" and the Findings section reads \"None.\", so nothing is above Info."
+        },
+        {
+          "text": "Finding is graded at least MAJOR",
+          "passed": false,
+          "evidence": "No finding is graded at any level \u2014 the review reports zero findings, so the demonstration the assertion asks for is absent."
+        },
+        {
+          "text": "Finding is on axis A1",
+          "passed": false,
+          "evidence": "No axis code appears anywhere; Domain Scores list only Correctness/Security/Maintainability/Operations/Interoperability/Leanness at 100/100 and \"Unclassified: 0 findings fit no axis code.\""
+        },
+        {
+          "text": "Identifies the guard in ChainRecorder.__call__ that returns early when frame price equals the previous price",
+          "passed": true,
+          "evidence": "The \"Aligns well\" section names the guard: \"`ChainRecorder.__call__` (`suppression_blind_sibling.py:29-33`) de-duplicates on `frame[\\\"price\\\"] == self._last_price`\", the exact price-equality early return at lines 30-31."
+        },
+        {
+          "text": "Identifies that the guard keys on price rather than on the frame's own identity, so a distinct frame at an unchanged price is discarded",
+          "passed": false,
+          "evidence": "The review describes the de-dup condition but never contrasts price-keying with the frame's own identity nor says a distinct frame at an unchanged price is dropped."
+        },
+        {
+          "text": "Identifies that no counter or log records the discarded frame",
+          "passed": false,
+          "evidence": "No counter, metric, or log line is mentioned; the module's unused `logger` is never discussed."
+        },
+        {
+          "text": "Failure scenario names self.state staying stale while the venue has already moved to a new state",
+          "passed": false,
+          "evidence": "No failure scenario is given at all; `self.state` is never mentioned as going stale relative to the venue's new state."
+        },
+        {
+          "text": "Distinguishes the finding from the declared constraint: C1 constrains dispatch, and dispatch is correct",
+          "passed": true,
+          "evidence": "The review explicitly separates the two: \"`Fanout.dispatch` (`suppression_blind_sibling.py:17-19`) applies no filter ... Complies with binding C1\", and notes the reduction happens \"inside the consumer only.\""
+        },
+        {
+          "text": "Does NOT cite the unfiltered-dispatch constraint as the reason to withhold this finding",
+          "passed": false,
+          "evidence": "It does cite the constraint to withhold: \"Ruling: per binding C2 ... consumer-local reduction is permitted and is not a C1 dispatch violation. No fix.\""
+        },
+        {
+          "text": "Fix replaces the price-keyed guard with an identity-keyed one, or counts every discarded frame",
+          "passed": false,
+          "evidence": "The only remediation offered is \"No fix.\" \u2014 no identity-keyed guard and no counting of discarded frames is proposed."
+        }
+      ],
+      "summary": {
+        "passed": 2,
+        "failed": 8,
+        "total": 10,
+        "pass_rate": 0.2
+      }
+    },
+    {
+      "rep": 2,
+      "skill_consulted": true,
+      "files_read": [
+        ".",
+        "evals/fixtures/suppression_blind_sibling.py",
+        "evals/fixtures/suppress_unfiltered_fanout_CONSTRAINTS.md",
+        "SKILL.md",
+        "evals",
+        "evals/fixtures",
+        "shared",
+        "domains",
+        "shared/severity-and-rules.md",
+        "shared/output-format.md",
+        "shared/axis-codes.md"
+      ],
+      "searched": [],
+      "isolation_indirect": 0,
+      "assertion_results": [
+        {
+          "text": "Exactly 1 finding above Info severity",
+          "passed": false,
+          "evidence": "The review's header reads \"0 findings \u00b7 C:0 M:0 m:0 i:0\" and its Findings section reads \"None\", so nothing above Info exists to count."
+        },
+        {
+          "text": "Finding is graded at least MAJOR",
+          "passed": false,
+          "evidence": "With \"## Findings / None\" the review grades no finding at any level, so the MAJOR-or-higher grade is unaddressed."
+        },
+        {
+          "text": "Finding is on axis A1",
+          "passed": false,
+          "evidence": "A1 appears only in the \"Aligns well\" praise for Fanout.dispatch (\"Correctness A1\"), never as the axis of a reported finding."
+        },
+        {
+          "text": "Identifies the guard in ChainRecorder.__call__ that returns early when frame price equals the previous price",
+          "passed": true,
+          "evidence": "The review names it directly: \"Deliberately not raised: `ChainRecorder.__call__` early-return on duplicate `price`\", citing `suppression_blind_sibling.py:29-33` \u2014 `if frame[\"price\"] == self._last_price: return`."
+        },
+        {
+          "text": "Identifies that the guard keys on price rather than on the frame's own identity, so a distinct frame at an unchanged price is discarded",
+          "passed": false,
+          "evidence": "The review only labels the guard \"duplicate `price`\" and never contrasts price keying with the frame's own identity or states that a distinct frame at an unchanged price is thrown away."
+        },
+        {
+          "text": "Identifies that no counter or log records the discarded frame",
+          "passed": false,
+          "evidence": "The review's only trace of the discarded frame is \"recorder held `s2`, sibling consumer received all 3 frames\"; no counter, metric, or log is mentioned."
+        },
+        {
+          "text": "Failure scenario names self.state staying stale while the venue has already moved to a new state",
+          "passed": false,
+          "evidence": "No failure scenario is written; the review asserts the opposite, that suppression here is intended consumer-local behavior."
+        },
+        {
+          "text": "Distinguishes the finding from the declared constraint: C1 constrains dispatch, and dispatch is correct",
+          "passed": true,
+          "evidence": "It states \"C1 binds `Dispatch` only\" and that suppression is \"consumer-local ... with no feedback into `Fanout`\", separating the guard from the constraint's scope and clearing dispatch."
+        },
+        {
+          "text": "Does NOT cite the unfiltered-dispatch constraint as the reason to withhold this finding",
+          "passed": false,
+          "evidence": "It explicitly withholds on exactly that basis: \"`ChainRecorder.__call__` early-return on duplicate `price` is not a C1 violation.\""
+        },
+        {
+          "text": "Fix replaces the price-keyed guard with an identity-keyed one, or counts every discarded frame",
+          "passed": false,
+          "evidence": "No fix is proposed anywhere; the review instead rules the guard compliant under C2 and suggests no replacement or discarded-frame counting."
+        }
+      ],
+      "summary": {
+        "passed": 2,
+        "failed": 8,
+        "total": 10,
+        "pass_rate": 0.2
+      }
+    },
+    {
+      "rep": 4,
+      "skill_consulted": true,
+      "files_read": [
+        ".",
+        "evals/fixtures/suppression_blind_sibling.py",
+        "evals/fixtures/suppress_unfiltered_fanout_CONSTRAINTS.md",
+        "evals",
+        "shared/severity-and-rules.md",
+        "shared/output-format.md"
+      ],
+      "searched": [
+        "**/*"
+      ],
+      "isolation_indirect": 1,
+      "assertion_results": [
+        {
+          "text": "Exactly 1 finding above Info severity",
+          "passed": false,
+          "evidence": "The header reads \"0 findings \u00b7 C:0 M:0 m:0 i:0\" and the Findings section reads \"None\", so no finding exists above Info."
+        },
+        {
+          "text": "Finding is graded at least MAJOR",
+          "passed": false,
+          "evidence": "With \"Findings: None\" and the tally \"C:0 M:0 m:0 i:0\", nothing was graded at MAJOR or any level."
+        },
+        {
+          "text": "Finding is on axis A1",
+          "passed": false,
+          "evidence": "The only domain reported is \"Correctness: 100/100\" and \"Unclassified: 0 findings\", so no finding is on axis A1."
+        },
+        {
+          "text": "Identifies the guard in ChainRecorder.__call__ that returns early when frame price equals the previous price",
+          "passed": false,
+          "evidence": "The guard is quoted only under \"Aligns well\" (lines 29-33) and labeled \"permitted self-reduction\", not surfaced as a defect in any finding."
+        },
+        {
+          "text": "Identifies that the guard keys on price rather than on the frame's own identity, so a distinct frame at an unchanged price is discarded",
+          "passed": false,
+          "evidence": "The review never contrasts price-keying with frame identity; it only says the dedup \"does not affect sibling consumers\"."
+        },
+        {
+          "text": "Identifies that no counter or log records the discarded frame",
+          "passed": false,
+          "evidence": "No counter or log is mentioned anywhere; the only state referenced is `self._last_price` as acceptable."
+        },
+        {
+          "text": "Failure scenario names self.state staying stale while the venue has already moved to a new state",
+          "passed": false,
+          "evidence": "No failure scenario is given \u2014 the review offers only the affirmative claim that dispatch \"Satisfies C1\" and \"No C1 violation\"."
+        },
+        {
+          "text": "Distinguishes the finding from the declared constraint: C1 constrains dispatch, and dispatch is correct",
+          "passed": false,
+          "evidence": "Because no finding was reported there is nothing to distinguish from the constraint; the review simply dissolves the issue with \"Ruling: sibling suppression must not be attributed to the fan-out.\""
+        },
+        {
+          "text": "Does NOT cite the unfiltered-dispatch constraint as the reason to withhold this finding",
+          "passed": false,
+          "evidence": "The review explicitly withholds on unfiltered-dispatch grounds, stating dispatch \"Satisfies C1\" and concluding \"No C1 violation.\""
+        },
+        {
+          "text": "Fix replaces the price-keyed guard with an identity-keyed one, or counts every discarded frame",
+          "passed": false,
+          "evidence": "No fix is proposed at all; the document contains no remediation, only a clean verdict and \"Mean 100/100 \u00b7 Final Grade A\"."
+        }
+      ],
+      "summary": {
+        "passed": 0,
+        "failed": 10,
+        "total": 10,
+        "pass_rate": 0.0
+      }
+    },
+    {
+      "rep": 5,
+      "skill_consulted": true,
+      "files_read": [
+        ".",
+        "evals/fixtures/suppression_blind_sibling.py",
+        "evals/fixtures/suppress_unfiltered_fanout_CONSTRAINTS.md",
+        "evals",
+        "SKILL.md",
+        "evals/fixtures",
+        "shared",
+        "shared/output-format.md"
+      ],
+      "searched": [
+        "**/*.py"
+      ],
+      "isolation_indirect": 0,
+      "assertion_results": [
+        {
+          "text": "Exactly 1 finding above Info severity",
+          "passed": false,
+          "evidence": "The only finding heading is \"### [INFO]\" and the header tally reads \"C:0 M:0 m:0 i:1\", so nothing is above Info."
+        },
+        {
+          "text": "Finding is graded at least MAJOR",
+          "passed": false,
+          "evidence": "The finding is graded \"[INFO]\" and the Ruling explicitly ends \"so `Info` only\"; a grep for \"MAJOR\"/severity codes in the review returns nothing above Info."
+        },
+        {
+          "text": "Finding is on axis A1",
+          "passed": false,
+          "evidence": "The Domain line says \"correctness (no axis invented \u2014 map to repo `axis-codes.md` if applicable, else `UNCLASSIFIED`)\"; searching the review for A1/A2/A3 finds only that axis-codes.md reference, no axis code."
+        },
+        {
+          "text": "Identifies the guard in ChainRecorder.__call__ that returns early when frame price equals the previous price",
+          "passed": true,
+          "evidence": "Evidence quotes the early return at suppression_blind_sibling.py:29-33: `if frame[\"price\"] == self._last_price:` / `return`."
+        },
+        {
+          "text": "Identifies that the guard keys on price rather than on the frame's own identity, so a distinct frame at an unchanged price is discarded",
+          "passed": true,
+          "evidence": "The heading calls the \"dedup key ... `price`-only\" and the evidence shows a distinct same-price frame `B` being dropped (\"After `A` then same-price `B`, `state` remains `A`, not `B`\")."
+        },
+        {
+          "text": "Identifies that no counter or log records the discarded frame",
+          "passed": false,
+          "evidence": "I grepped the full review for counter/log/observ/metric/record and the only hit was the axis-codes.md reference \u2014 nothing states that the discarded frame leaves no counter or log trail."
+        },
+        {
+          "text": "Failure scenario names self.state staying stale while the venue has already moved to a new state",
+          "passed": true,
+          "evidence": "The Evidence line spells out the stale outcome: \"After `A` then same-price `B`, `state` remains `A`, not `B`\"."
+        },
+        {
+          "text": "Distinguishes the finding from the declared constraint: C1 constrains dispatch, and dispatch is correct",
+          "passed": true,
+          "evidence": "The Ruling says \"This is **not** a `C1`/`C2` violation. `C1` binds `Fanout.dispatch`\", and \"Aligns well\" confirms dispatch complies with C1 (all3 frames delivered)."
+        },
+        {
+          "text": "Does NOT cite the unfiltered-dispatch constraint as the reason to withhold this finding",
+          "passed": true,
+          "evidence": "The Info downgrade is justified by \"Ambiguous per docstring `Holds the latest settlement state`, so `Info` only\"; the C1 mention is only a warning not to \"fix\" via fan-out filtering, not the reason for withholding."
+        },
+        {
+          "text": "Fix replaces the price-keyed guard with an identity-keyed one, or counts every discarded frame",
+          "passed": false,
+          "evidence": "The proposed remedy is \"keying on `(price,state)` or updating `state` before the early `return`\" \u2014 still a price-based key, and no counting of discarded frames is suggested."
+        }
+      ],
+      "summary": {
+        "passed": 5,
+        "failed": 5,
+        "total": 10,
+        "pass_rate": 0.5
+      }
+    }
+  ],
+  "replicate_summary": {
+    "n": 4,
+    "mean_pass_rate": 0.225,
+    "stdev_pass_rate": 0.2062,
+    "min_pass_rate": 0.0,
+    "max_pass_rate": 0.5
+  }
+}

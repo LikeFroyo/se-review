@@ -1,0 +1,920 @@
+{
+  "probe_review": "evals/iteration-1/eval-clean/with_skill/review.md",
+  "rows": [
+    {
+      "eval_id": 2,
+      "name": "evals/fixtures/retry.py",
+      "collected": 0,
+      "total": 9,
+      "floor_pct": 0.0,
+      "span_points": 100.0,
+      "resolves_kill_criterion": true
+    },
+    {
+      "eval_id": 3,
+      "name": "evals/fixtures/injection.py",
+      "collected": 1,
+      "total": 9,
+      "floor_pct": 11.1,
+      "span_points": 88.9,
+      "resolves_kill_criterion": true
+    },
+    {
+      "eval_id": 4,
+      "name": "evals/fixtures/nplusone.py",
+      "collected": 0,
+      "total": 7,
+      "floor_pct": 0.0,
+      "span_points": 100.0,
+      "resolves_kill_criterion": true
+    },
+    {
+      "eval_id": 5,
+      "name": "evals/fixtures/clean.py",
+      "collected": 3,
+      "total": 8,
+      "floor_pct": 37.5,
+      "span_points": 62.5,
+      "resolves_kill_criterion": true
+    },
+    {
+      "eval_id": 6,
+      "name": "evals/fixtures/concurrency.py",
+      "collected": 0,
+      "total": 8,
+      "floor_pct": 0.0,
+      "span_points": 100.0,
+      "resolves_kill_criterion": true
+    },
+    {
+      "eval_id": 7,
+      "name": "evals/fixtures/swallowed_error.py",
+      "collected": 0,
+      "total": 10,
+      "floor_pct": 0.0,
+      "span_points": 100.0,
+      "resolves_kill_criterion": true
+    },
+    {
+      "eval_id": 8,
+      "name": "evals/fixtures/complexity.py",
+      "collected": 0,
+      "total": 8,
+      "floor_pct": 0.0,
+      "span_points": 100.0,
+      "resolves_kill_criterion": true
+    },
+    {
+      "eval_id": 9,
+      "name": "evals/fixtures/memory_leak.py",
+      "collected": 0,
+      "total": 8,
+      "floor_pct": 0.0,
+      "span_points": 100.0,
+      "resolves_kill_criterion": true
+    },
+    {
+      "eval_id": 10,
+      "name": "evals/fixtures/idor_access.py",
+      "collected": 0,
+      "total": 8,
+      "floor_pct": 0.0,
+      "span_points": 100.0,
+      "resolves_kill_criterion": true
+    },
+    {
+      "eval_id": 11,
+      "name": "evals/fixtures/deadlock.py",
+      "collected": 0,
+      "total": 8,
+      "floor_pct": 0.0,
+      "span_points": 100.0,
+      "resolves_kill_criterion": true
+    },
+    {
+      "eval_id": 12,
+      "name": "evals/fixtures/ssrf_webhook.py",
+      "collected": 0,
+      "total": 8,
+      "floor_pct": 0.0,
+      "span_points": 100.0,
+      "resolves_kill_criterion": true
+    },
+    {
+      "eval_id": 13,
+      "name": "evals/fixtures/hot_loop.py",
+      "collected": 0,
+      "total": 8,
+      "floor_pct": 0.0,
+      "span_points": 100.0,
+      "resolves_kill_criterion": true
+    },
+    {
+      "eval_id": 14,
+      "name": "evals/fixtures/missing_timeout.py",
+      "collected": 0,
+      "total": 8,
+      "floor_pct": 0.0,
+      "span_points": 100.0,
+      "resolves_kill_criterion": true
+    },
+    {
+      "eval_id": 15,
+      "name": "evals/fixtures/breaking_schema.py",
+      "collected": 0,
+      "total": 8,
+      "floor_pct": 0.0,
+      "span_points": 100.0,
+      "resolves_kill_criterion": true
+    },
+    {
+      "eval_id": 16,
+      "name": "evals/fixtures/non_idempotent_payment.py",
+      "collected": 0,
+      "total": 8,
+      "floor_pct": 0.0,
+      "span_points": 100.0,
+      "resolves_kill_criterion": true
+    },
+    {
+      "eval_id": 17,
+      "name": "evals/fixtures/unpinned_manifest.json",
+      "collected": 0,
+      "total": 8,
+      "floor_pct": 0.0,
+      "span_points": 100.0,
+      "resolves_kill_criterion": true
+    },
+    {
+      "eval_id": 18,
+      "name": "evals/fixtures/ai_hallucination.py",
+      "collected": 0,
+      "total": 8,
+      "floor_pct": 0.0,
+      "span_points": 100.0,
+      "resolves_kill_criterion": true
+    },
+    {
+      "eval_id": 19,
+      "name": "evals/fixtures/speculative_factory.py",
+      "collected": 0,
+      "total": 8,
+      "floor_pct": 0.0,
+      "span_points": 100.0,
+      "resolves_kill_criterion": true
+    },
+    {
+      "eval_id": 20,
+      "name": "evals/fixtures/pii_logging.py",
+      "collected": 0,
+      "total": 8,
+      "floor_pct": 0.0,
+      "span_points": 100.0,
+      "resolves_kill_criterion": true
+    },
+    {
+      "eval_id": 21,
+      "name": "evals/fixtures/poison_message.py",
+      "collected": 0,
+      "total": 8,
+      "floor_pct": 0.0,
+      "span_points": 100.0,
+      "resolves_kill_criterion": true
+    },
+    {
+      "eval_id": 22,
+      "name": "evals/fixtures/stale_flag.py",
+      "collected": 0,
+      "total": 8,
+      "floor_pct": 0.0,
+      "span_points": 100.0,
+      "resolves_kill_criterion": true
+    },
+    {
+      "eval_id": 23,
+      "name": "evals/fixtures/mock_cheat.py",
+      "collected": 0,
+      "total": 8,
+      "floor_pct": 0.0,
+      "span_points": 100.0,
+      "resolves_kill_criterion": true
+    },
+    {
+      "eval_id": 24,
+      "name": "evals/fixtures/flaky_sleep.py",
+      "collected": 0,
+      "total": 8,
+      "floor_pct": 0.0,
+      "span_points": 100.0,
+      "resolves_kill_criterion": true
+    },
+    {
+      "eval_id": 25,
+      "name": "evals/fixtures/clean_service.py",
+      "collected": 3,
+      "total": 8,
+      "floor_pct": 37.5,
+      "span_points": 62.5,
+      "resolves_kill_criterion": true
+    },
+    {
+      "eval_id": 26,
+      "name": "evals/fixtures/dual_write.py",
+      "collected": 0,
+      "total": 8,
+      "floor_pct": 0.0,
+      "span_points": 100.0,
+      "resolves_kill_criterion": true
+    },
+    {
+      "eval_id": 27,
+      "name": "evals/fixtures/comment_drift.py",
+      "collected": 0,
+      "total": 8,
+      "floor_pct": 0.0,
+      "span_points": 100.0,
+      "resolves_kill_criterion": true
+    },
+    {
+      "eval_id": 28,
+      "name": "evals/fixtures/stale_cli.py",
+      "collected": 0,
+      "total": 8,
+      "floor_pct": 0.0,
+      "span_points": 100.0,
+      "resolves_kill_criterion": true
+    },
+    {
+      "eval_id": 29,
+      "name": "evals/fixtures/stale_error.py",
+      "collected": 0,
+      "total": 8,
+      "floor_pct": 0.0,
+      "span_points": 100.0,
+      "resolves_kill_criterion": true
+    },
+    {
+      "eval_id": 30,
+      "name": "evals/fixtures/weak_assertions.py",
+      "collected": 0,
+      "total": 8,
+      "floor_pct": 0.0,
+      "span_points": 100.0,
+      "resolves_kill_criterion": true
+    },
+    {
+      "eval_id": 31,
+      "name": "evals/fixtures/token_validation.py",
+      "collected": 0,
+      "total": 8,
+      "floor_pct": 0.0,
+      "span_points": 100.0,
+      "resolves_kill_criterion": true
+    },
+    {
+      "eval_id": 32,
+      "name": "evals/fixtures/weak_password_hash.py",
+      "collected": 0,
+      "total": 9,
+      "floor_pct": 0.0,
+      "span_points": 100.0,
+      "resolves_kill_criterion": true
+    },
+    {
+      "eval_id": 33,
+      "name": "evals/fixtures/session_fixation.py",
+      "collected": 0,
+      "total": 7,
+      "floor_pct": 0.0,
+      "span_points": 100.0,
+      "resolves_kill_criterion": true
+    },
+    {
+      "eval_id": 34,
+      "name": "evals/fixtures/tls_verify_disabled.py",
+      "collected": 0,
+      "total": 8,
+      "floor_pct": 0.0,
+      "span_points": 100.0,
+      "resolves_kill_criterion": true
+    },
+    {
+      "eval_id": 35,
+      "name": "evals/fixtures/unsafe_deserialization.py",
+      "collected": 1,
+      "total": 8,
+      "floor_pct": 12.5,
+      "span_points": 87.5,
+      "resolves_kill_criterion": true
+    },
+    {
+      "eval_id": 36,
+      "name": "evals/fixtures/path_traversal.py",
+      "collected": 0,
+      "total": 8,
+      "floor_pct": 0.0,
+      "span_points": 100.0,
+      "resolves_kill_criterion": true
+    },
+    {
+      "eval_id": 37,
+      "name": "evals/fixtures/bfla_admin_route.py",
+      "collected": 0,
+      "total": 8,
+      "floor_pct": 0.0,
+      "span_points": 100.0,
+      "resolves_kill_criterion": true
+    },
+    {
+      "eval_id": 38,
+      "name": "evals/fixtures/ecb_mode_cipher.py",
+      "collected": 0,
+      "total": 8,
+      "floor_pct": 0.0,
+      "span_points": 100.0,
+      "resolves_kill_criterion": true
+    },
+    {
+      "eval_id": 39,
+      "name": "evals/fixtures/cors_reflect_origin.py",
+      "collected": 1,
+      "total": 9,
+      "floor_pct": 11.1,
+      "span_points": 88.9,
+      "resolves_kill_criterion": true
+    },
+    {
+      "eval_id": 40,
+      "name": "evals/fixtures/login_no_throttle.py",
+      "collected": 0,
+      "total": 9,
+      "floor_pct": 0.0,
+      "span_points": 100.0,
+      "resolves_kill_criterion": true
+    },
+    {
+      "eval_id": 41,
+      "name": "evals/fixtures/build_integrity.py",
+      "collected": 0,
+      "total": 9,
+      "floor_pct": 0.0,
+      "span_points": 100.0,
+      "resolves_kill_criterion": true
+    },
+    {
+      "eval_id": 42,
+      "name": "evals/fixtures/typosquat_dependency.py",
+      "collected": 0,
+      "total": 8,
+      "floor_pct": 0.0,
+      "span_points": 100.0,
+      "resolves_kill_criterion": true
+    },
+    {
+      "eval_id": 43,
+      "name": "evals/fixtures/dead_persistence.py",
+      "collected": 1,
+      "total": 10,
+      "floor_pct": 10.0,
+      "span_points": 90.0,
+      "resolves_kill_criterion": true
+    },
+    {
+      "eval_id": 44,
+      "name": "evals/fixtures/completion_markers.py",
+      "collected": 0,
+      "total": 9,
+      "floor_pct": 0.0,
+      "span_points": 100.0,
+      "resolves_kill_criterion": true
+    },
+    {
+      "eval_id": 45,
+      "name": "evals/fixtures/vendored_fork.py",
+      "collected": 0,
+      "total": 8,
+      "floor_pct": 0.0,
+      "span_points": 100.0,
+      "resolves_kill_criterion": true
+    },
+    {
+      "eval_id": 46,
+      "name": "evals/fixtures/health_and_shutdown.py",
+      "collected": 0,
+      "total": 9,
+      "floor_pct": 0.0,
+      "span_points": 100.0,
+      "resolves_kill_criterion": true
+    },
+    {
+      "eval_id": 47,
+      "name": "evals/fixtures/unbounded_fanout.py",
+      "collected": 0,
+      "total": 9,
+      "floor_pct": 0.0,
+      "span_points": 100.0,
+      "resolves_kill_criterion": true
+    },
+    {
+      "eval_id": 48,
+      "name": "evals/fixtures/saga_no_compensation.py",
+      "collected": 0,
+      "total": 9,
+      "floor_pct": 0.0,
+      "span_points": 100.0,
+      "resolves_kill_criterion": true
+    },
+    {
+      "eval_id": 49,
+      "name": "evals/fixtures/cache_no_invalidation.py",
+      "collected": 0,
+      "total": 9,
+      "floor_pct": 0.0,
+      "span_points": 100.0,
+      "resolves_kill_criterion": true
+    },
+    {
+      "eval_id": 50,
+      "name": "evals/fixtures/lease_no_fencing.py",
+      "collected": 0,
+      "total": 9,
+      "floor_pct": 0.0,
+      "span_points": 100.0,
+      "resolves_kill_criterion": true
+    },
+    {
+      "eval_id": 51,
+      "name": "evals/fixtures/missing_audit_trail.py",
+      "collected": 0,
+      "total": 9,
+      "floor_pct": 0.0,
+      "span_points": 100.0,
+      "resolves_kill_criterion": true
+    },
+    {
+      "eval_id": 52,
+      "name": "evals/fixtures/config_fails_open.py",
+      "collected": 0,
+      "total": 9,
+      "floor_pct": 0.0,
+      "span_points": 100.0,
+      "resolves_kill_criterion": true
+    },
+    {
+      "eval_id": 53,
+      "name": "evals/fixtures/irreversible_rollback.py",
+      "collected": 0,
+      "total": 9,
+      "floor_pct": 0.0,
+      "span_points": 100.0,
+      "resolves_kill_criterion": true
+    },
+    {
+      "eval_id": 54,
+      "name": "evals/fixtures/unit_scale_error.py",
+      "collected": 0,
+      "total": 9,
+      "floor_pct": 0.0,
+      "span_points": 100.0,
+      "resolves_kill_criterion": true
+    },
+    {
+      "eval_id": 55,
+      "name": "evals/fixtures/impossible_state.py",
+      "collected": 0,
+      "total": 9,
+      "floor_pct": 0.0,
+      "span_points": 100.0,
+      "resolves_kill_criterion": true
+    },
+    {
+      "eval_id": 56,
+      "name": "evals/fixtures/ambient_clock_rules.py",
+      "collected": 0,
+      "total": 10,
+      "floor_pct": 0.0,
+      "span_points": 100.0,
+      "resolves_kill_criterion": true
+    },
+    {
+      "eval_id": 57,
+      "name": "evals/fixtures/no_test_seam.py",
+      "collected": 0,
+      "total": 9,
+      "floor_pct": 0.0,
+      "span_points": 100.0,
+      "resolves_kill_criterion": true
+    },
+    {
+      "eval_id": 58,
+      "name": "evals/fixtures/unenforced_invariant.py",
+      "collected": 0,
+      "total": 9,
+      "floor_pct": 0.0,
+      "span_points": 100.0,
+      "resolves_kill_criterion": true
+    },
+    {
+      "eval_id": 59,
+      "name": "evals/fixtures/implementation_names.py",
+      "collected": 0,
+      "total": 9,
+      "floor_pct": 0.0,
+      "span_points": 100.0,
+      "resolves_kill_criterion": true
+    },
+    {
+      "eval_id": 60,
+      "name": "evals/fixtures/transposed_arguments.py",
+      "collected": 0,
+      "total": 9,
+      "floor_pct": 0.0,
+      "span_points": 100.0,
+      "resolves_kill_criterion": true
+    },
+    {
+      "eval_id": 61,
+      "name": "evals/fixtures/boundary_error_policy.py",
+      "collected": 0,
+      "total": 9,
+      "floor_pct": 0.0,
+      "span_points": 100.0,
+      "resolves_kill_criterion": true
+    },
+    {
+      "eval_id": 62,
+      "name": "evals/fixtures/cancelled_child_work.py",
+      "collected": 0,
+      "total": 9,
+      "floor_pct": 0.0,
+      "span_points": 100.0,
+      "resolves_kill_criterion": true
+    },
+    {
+      "eval_id": 63,
+      "name": "evals/fixtures/lost_update_race.py",
+      "collected": 0,
+      "total": 9,
+      "floor_pct": 0.0,
+      "span_points": 100.0,
+      "resolves_kill_criterion": true
+    },
+    {
+      "eval_id": 64,
+      "name": "evals/fixtures/string_truthiness.py",
+      "collected": 0,
+      "total": 9,
+      "floor_pct": 0.0,
+      "span_points": 100.0,
+      "resolves_kill_criterion": true
+    },
+    {
+      "eval_id": 65,
+      "name": "evals/fixtures/unstable_pagination.py",
+      "collected": 0,
+      "total": 9,
+      "floor_pct": 0.0,
+      "span_points": 100.0,
+      "resolves_kill_criterion": true
+    },
+    {
+      "eval_id": 66,
+      "name": "evals/fixtures/short_circuit_side_effects.py",
+      "collected": 0,
+      "total": 9,
+      "floor_pct": 0.0,
+      "span_points": 100.0,
+      "resolves_kill_criterion": true
+    },
+    {
+      "eval_id": 67,
+      "name": "evals/fixtures/lock_starvation.py",
+      "collected": 0,
+      "total": 9,
+      "floor_pct": 0.0,
+      "span_points": 100.0,
+      "resolves_kill_criterion": true
+    },
+    {
+      "eval_id": 68,
+      "name": "evals/fixtures/soft_delete_uniqueness.py",
+      "collected": 0,
+      "total": 9,
+      "floor_pct": 0.0,
+      "span_points": 100.0,
+      "resolves_kill_criterion": true
+    },
+    {
+      "eval_id": 69,
+      "name": "evals/fixtures/skipped_tests.py",
+      "collected": 0,
+      "total": 9,
+      "floor_pct": 0.0,
+      "span_points": 100.0,
+      "resolves_kill_criterion": true
+    },
+    {
+      "eval_id": 70,
+      "name": "evals/fixtures/rag_prompt_injection.py",
+      "collected": 0,
+      "total": 11,
+      "floor_pct": 0.0,
+      "span_points": 100.0,
+      "resolves_kill_criterion": true
+    },
+    {
+      "eval_id": 71,
+      "name": "evals/fixtures/model_output_trusted.py",
+      "collected": 0,
+      "total": 10,
+      "floor_pct": 0.0,
+      "span_points": 100.0,
+      "resolves_kill_criterion": true
+    },
+    {
+      "eval_id": 72,
+      "name": "evals/fixtures/unchecked_casts.py",
+      "collected": 0,
+      "total": 10,
+      "floor_pct": 0.0,
+      "span_points": 100.0,
+      "resolves_kill_criterion": true
+    },
+    {
+      "eval_id": 73,
+      "name": "evals/fixtures/region_failover.py",
+      "collected": 0,
+      "total": 10,
+      "floor_pct": 0.0,
+      "span_points": 100.0,
+      "resolves_kill_criterion": true
+    },
+    {
+      "eval_id": 74,
+      "name": "evals/fixtures/personal_data_lifecycle.py",
+      "collected": 0,
+      "total": 10,
+      "floor_pct": 0.0,
+      "span_points": 100.0,
+      "resolves_kill_criterion": true
+    },
+    {
+      "eval_id": 75,
+      "name": "evals/fixtures/settlement_export.py",
+      "collected": 0,
+      "total": 10,
+      "floor_pct": 0.0,
+      "span_points": 100.0,
+      "resolves_kill_criterion": true
+    },
+    {
+      "eval_id": 76,
+      "name": "evals/fixtures/dst_boundary_schedules.py",
+      "collected": 0,
+      "total": 10,
+      "floor_pct": 0.0,
+      "span_points": 100.0,
+      "resolves_kill_criterion": true
+    },
+    {
+      "eval_id": 77,
+      "name": "evals/fixtures/money_conversion.py",
+      "collected": 0,
+      "total": 10,
+      "floor_pct": 0.0,
+      "span_points": 100.0,
+      "resolves_kill_criterion": true
+    },
+    {
+      "eval_id": 78,
+      "name": "evals/fixtures/field_name_mismatch.py",
+      "collected": 0,
+      "total": 9,
+      "floor_pct": 0.0,
+      "span_points": 100.0,
+      "resolves_kill_criterion": true
+    },
+    {
+      "eval_id": 79,
+      "name": "evals/fixtures/operations_collapse.py",
+      "collected": 1,
+      "total": 12,
+      "floor_pct": 8.3,
+      "span_points": 91.7,
+      "resolves_kill_criterion": true
+    },
+    {
+      "eval_id": 80,
+      "name": "evals/fixtures/suppress_unbounded_queue.py",
+      "collected": 2,
+      "total": 9,
+      "floor_pct": 22.2,
+      "span_points": 77.8,
+      "resolves_kill_criterion": true
+    },
+    {
+      "eval_id": 81,
+      "name": "evals/fixtures/suppress_unfiltered_fanout.py",
+      "collected": 2,
+      "total": 9,
+      "floor_pct": 22.2,
+      "span_points": 77.8,
+      "resolves_kill_criterion": true
+    },
+    {
+      "eval_id": 82,
+      "name": "evals/fixtures/suppress_lockless_accumulator.py",
+      "collected": 2,
+      "total": 10,
+      "floor_pct": 20.0,
+      "span_points": 80.0,
+      "resolves_kill_criterion": true
+    },
+    {
+      "eval_id": 83,
+      "name": "evals/fixtures/suppress_ungated_memory.py",
+      "collected": 2,
+      "total": 9,
+      "floor_pct": 22.2,
+      "span_points": 77.8,
+      "resolves_kill_criterion": true
+    },
+    {
+      "eval_id": 84,
+      "name": "evals/fixtures/suppress_constant_column.py",
+      "collected": 2,
+      "total": 8,
+      "floor_pct": 25.0,
+      "span_points": 75.0,
+      "resolves_kill_criterion": true
+    },
+    {
+      "eval_id": 85,
+      "name": "evals/fixtures/suppress_coincident_formulas.py",
+      "collected": 2,
+      "total": 9,
+      "floor_pct": 22.2,
+      "span_points": 77.8,
+      "resolves_kill_criterion": true
+    },
+    {
+      "eval_id": 86,
+      "name": "evals/fixtures/suppression_blind_sibling.py",
+      "collected": 0,
+      "total": 10,
+      "floor_pct": 0.0,
+      "span_points": 100.0,
+      "resolves_kill_criterion": true
+    },
+    {
+      "eval_id": 87,
+      "name": "evals/fixtures/suppression_blind_nan_contract.py",
+      "collected": 2,
+      "total": 11,
+      "floor_pct": 18.2,
+      "span_points": 81.8,
+      "resolves_kill_criterion": true
+    },
+    {
+      "eval_id": 88,
+      "name": "evals/fixtures/suppression_blind_backlog_measure.py",
+      "collected": 1,
+      "total": 10,
+      "floor_pct": 10.0,
+      "span_points": 90.0,
+      "resolves_kill_criterion": true
+    },
+    {
+      "eval_id": 89,
+      "name": "evals/fixtures/suppression_blind_unargued_clamp.py",
+      "collected": 2,
+      "total": 11,
+      "floor_pct": 18.2,
+      "span_points": 81.8,
+      "resolves_kill_criterion": true
+    },
+    {
+      "eval_id": 90,
+      "name": "evals/fixtures/suppression_blind_boundary_breach.py",
+      "collected": 2,
+      "total": 10,
+      "floor_pct": 20.0,
+      "span_points": 80.0,
+      "resolves_kill_criterion": true
+    },
+    {
+      "eval_id": 91,
+      "name": "evals/fixtures/suppression_ledger_unprovable_site.py",
+      "collected": 1,
+      "total": 11,
+      "floor_pct": 9.1,
+      "span_points": 90.9,
+      "resolves_kill_criterion": true
+    },
+    {
+      "eval_id": 92,
+      "name": "evals/fixtures/numeric_plausibility.py",
+      "collected": 0,
+      "total": 5,
+      "floor_pct": 0.0,
+      "span_points": 100.0,
+      "resolves_kill_criterion": true
+    },
+    {
+      "eval_id": 93,
+      "name": "evals/fixtures/incremental_drift.py",
+      "collected": 1,
+      "total": 4,
+      "floor_pct": 25.0,
+      "span_points": 75.0,
+      "resolves_kill_criterion": true
+    },
+    {
+      "eval_id": 94,
+      "name": "evals/fixtures/state_machine_exit.py",
+      "collected": 1,
+      "total": 5,
+      "floor_pct": 20.0,
+      "span_points": 80.0,
+      "resolves_kill_criterion": true
+    },
+    {
+      "eval_id": 95,
+      "name": "evals/fixtures/cold_start_estimator.py",
+      "collected": 1,
+      "total": 4,
+      "floor_pct": 25.0,
+      "span_points": 75.0,
+      "resolves_kill_criterion": true
+    },
+    {
+      "eval_id": 96,
+      "name": "evals/fixtures/test_expected_value.py",
+      "collected": 1,
+      "total": 5,
+      "floor_pct": 20.0,
+      "span_points": 80.0,
+      "resolves_kill_criterion": true
+    },
+    {
+      "eval_id": 97,
+      "name": "evals/fixtures/test_fixture_realism.py",
+      "collected": 1,
+      "total": 5,
+      "floor_pct": 20.0,
+      "span_points": 80.0,
+      "resolves_kill_criterion": true
+    },
+    {
+      "eval_id": 98,
+      "name": "evals/fixtures/test_concurrency_coverage.py",
+      "collected": 1,
+      "total": 5,
+      "floor_pct": 20.0,
+      "span_points": 80.0,
+      "resolves_kill_criterion": true
+    },
+    {
+      "eval_id": 99,
+      "name": "evals/fixtures/work_unit_retry.py",
+      "collected": 0,
+      "total": 5,
+      "floor_pct": 0.0,
+      "span_points": 100.0,
+      "resolves_kill_criterion": true
+    },
+    {
+      "eval_id": 100,
+      "name": "evals/fixtures/trust_by_location.py",
+      "collected": 1,
+      "total": 6,
+      "floor_pct": 16.7,
+      "span_points": 83.3,
+      "resolves_kill_criterion": true
+    },
+    {
+      "eval_id": 101,
+      "name": "evals/fixtures/unreachable_handler.py",
+      "collected": 2,
+      "total": 5,
+      "floor_pct": 40.0,
+      "span_points": 60.0,
+      "resolves_kill_criterion": true
+    },
+    {
+      "eval_id": 102,
+      "name": "evals/fixtures/credential_in_error.py",
+      "collected": 1,
+      "total": 5,
+      "floor_pct": 20.0,
+      "span_points": 80.0,
+      "resolves_kill_criterion": true
+    }
+  ],
+  "ungradeable": [],
+  "asked": 101,
+  "graded": 101,
+  "kill_criterion_points": 40.0,
+  "judge_model_config": "unpinned",
+  "grader_config": "cfg:7d57659c2e6c"
+}

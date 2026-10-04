@@ -1,0 +1,20 @@
+{
+  "eval": "eval-ecb-mode",
+  "eval_id": 38,
+  "fixture": "evals/fixtures/ecb_mode_cipher.py",
+  "run": "without_skill",
+  "phase": "before",
+  "review": "0 findings · C:0 M:0 m:0 i:0 — Domain Score: 100/100 (Grade A) — `Aligns well`",
+  "summary": { "passed": 1, "failed": 7, "total": 8, "pass_rate": 0.125 },
+  "assertions": [
+    { "n": 1, "text": "Exactly 1 finding above Info severity", "result": "fail", "evidence": "0 findings above Info; graded Grade A. AES with a 256-bit key read as sound." },
+    { "n": 2, "text": "Finding is graded MAJOR", "result": "fail", "evidence": "No finding to grade." },
+    { "n": 3, "text": "Finding is on axis A5 (Security)", "result": "fail", "evidence": "No security finding emitted." },
+    { "n": 4, "text": "Identifies ECB mode in encrypt_field", "result": "fail", "evidence": "Missed. The pre-change rubric's only crypto line was 'Weak crypto / non-constant-time token check: MAJOR', with no trigger, and injection-secrets.md's crypto bullet covered non-constant-time comparison only — nothing covered cipher mode." },
+    { "n": 5, "text": "Explains the consequence: identical plaintext blocks produce identical ciphertext", "result": "fail", "evidence": "Not stated." },
+    { "n": 6, "text": "Fix recommends a modern AEAD mode with a unique nonce per message", "result": "fail", "evidence": "No fix proposed." },
+    { "n": 7, "text": "encrypt_with_random_iv is NOT flagged above Info (it is the sound reference)", "result": "pass", "evidence": "Nothing was flagged, so the true negative holds vacuously." },
+    { "n": 8, "text": "Header matches pattern: 1 finding · C:0 M:1 m:0 i:0", "result": "pass", "evidence": "Header rendered in the required shape, with a zero tally." }
+  ],
+  "notes": "Total miss. The pre-change sub-domain could detect a bad algorithm name but had no way to detect a bad mode."
+}

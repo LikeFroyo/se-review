@@ -1,0 +1,20 @@
+{
+  "eval": "eval-token-validation",
+  "eval_id": 31,
+  "fixture": "evals/fixtures/token_validation.py",
+  "run": "without_skill",
+  "phase": "before",
+  "review": "0 findings · C:0 M:0 m:0 i:0 — Domain Score: 100/100 (Grade A) — `Aligns well`",
+  "summary": { "passed": 1, "failed": 7, "total": 8, "pass_rate": 0.125 },
+  "assertions": [
+    { "n": 1, "text": "Exactly 1 finding above Info severity", "result": "fail", "evidence": "The defect was never raised: 0 findings above Info." },
+    { "n": 2, "text": "Finding is graded CRITICAL", "result": "fail", "evidence": "No finding to grade." },
+    { "n": 3, "text": "Finding is on axis A5 (Security)", "result": "fail", "evidence": "No security finding emitted." },
+    { "n": 4, "text": "Identifies the verify_signature=False decode in AuthGateway.authenticate", "result": "fail", "evidence": "Missed. The pre-change guidelines have no token-verification check: access-control.md covered object-level IDs and client-supplied identity in request bodies/query params, not a decoded signed token; injection-secrets.md covered non-constant-time comparison only." },
+    { "n": 5, "text": "Identifies missing aud and exp claim validation", "result": "fail", "evidence": "Missed — no claim-validation check existed in the pre-change sub-domain." },
+    { "n": 6, "text": "Failure scenario describes attacker forging a token with arbitrary sub/role claims", "result": "fail", "evidence": "Not stated, because the defect was not found." },
+    { "n": 7, "text": "Fix recommends pinning the allowed algorithm and verifying the signature", "result": "fail", "evidence": "No fix proposed." },
+    { "n": 8, "text": "Header matches pattern: 1 finding · C:1 M:0 m:0 i:0", "result": "pass", "evidence": "Header rendered in the required shape, but with a zero tally (`0 findings · C:0 M:0 m:0 i:0`). Header-formatting assertion is counted independently of detection." }
+  ],
+  "notes": "Verdict Grade A on a fixture carrying a total authentication bypass — the clearest false negative in this run."
+}

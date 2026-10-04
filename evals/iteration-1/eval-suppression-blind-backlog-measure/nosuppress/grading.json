@@ -1,0 +1,470 @@
+{
+  "eval_id": 88,
+  "eval_name": "eval-suppression-blind-backlog-measure",
+  "condition": "nosuppress",
+  "model_config": "cfg:567712ad39ee",
+  "judge_model_config": "cfg:1c50bc6e7d47",
+  "judge_disjoint": true,
+  "base_commit": "0a25d6e",
+  "no_axis_count": null,
+  "no_axis_count_reason": "no review body",
+  "grader_config": "cfg:7d57659c2e6c",
+  "fixture_digests": {
+    "evals/fixtures/suppression_blind_backlog_measure.py": "sha256:8cd0cd46ce523d7c",
+    "evals/fixtures/suppress_unbounded_queue_CONSTRAINTS.md": "sha256:fe5235e96f41c1c0"
+  },
+  "skill_consulted": true,
+  "skill_consulted_reps": 2,
+  "reps_requested": 5,
+  "reps_completed": 5,
+  "reps_refused": 0,
+  "reviewer_project_root": "workspace",
+  "isolation_indirect_commands": 0,
+  "assertion_results": [
+    {
+      "text": "Exactly 1 finding above Info severity",
+      "passed": false,
+      "evidence": "The review carries no severity labels at all and lists at least three distinct findings (the C1 disarm drop, the C2 blind-backlog measurement on the same lines, the SocketAdapter loss propagation, plus a doc-drift bullet), not exactly one above Info."
+    },
+    {
+      "text": "Finding is graded at least MAJOR",
+      "passed": false,
+      "evidence": "Searching the full review for \"MAJOR\" (and any severity label such as \"Info\") returns nothing, so no finding is graded at a level."
+    },
+    {
+      "text": "Finding is on axis A3",
+      "passed": false,
+      "evidence": "Searching the review for axis codes such as \"A3\" finds no axis labels whatsoever; the findings are keyed only to constraint names C1/C2."
+    },
+    {
+      "text": "Identifies SocketAdapter binding on_message to Intake.offer and the socket callback contract discarding the return value",
+      "passed": true,
+      "evidence": "The third bullet states \"`SocketAdapter.on_message = intake.offer` propagates loss: socket callback return `False` is almost certainly ignored upstream, no retry/buffer\", naming both the binding and the discarded return value."
+    },
+    {
+      "text": "Identifies that a frame offered while the intake is disarmed is dropped with no queue write and no enqueued increment",
+      "passed": true,
+      "evidence": "The first two bullets say \"gated ingress sheds before enqueue\" and \"Dropped `offer()`s are not counted in `enqueued` / `peak_backlog` / live depth\", identifying the drop before any queue write plus the missing enqueued increment."
+    },
+    {
+      "text": "Identifies that the reported backlog and enqueued therefore read as though nothing was lost",
+      "passed": true,
+      "evidence": "The second bullet says backlog \"is measured, never policed\" and the \"operator liveness signal is blind\", establishing the counters read as though nothing was lost."
+    },
+    {
+      "text": "Failure scenario names liveness looking healthy during a reconnect while frames are being lost",
+      "passed": true,
+      "evidence": "The first bullet's \"A reconnect disarm window converts to silent data loss with no re-request path\" combined with the blind liveness signal names healthy-looking liveness during a reconnect while frames are lost."
+    },
+    {
+      "text": "Distinguishes the finding from the declared constraint: the unbounded queue is deliberate and is not the finding",
+      "passed": true,
+      "evidence": "The first bullet explicitly separates the two: \"Queue itself is unbounded (`Queue()`), but gated ingress sheds before enqueue\", so the unbounded queue is acknowledged as the constraint while the pre-enqueue shed is the finding."
+    },
+    {
+      "text": "Does NOT cite the unbounded-queue constraint as the reason to withhold this finding",
+      "passed": true,
+      "evidence": "The review does not withhold anything \u2014 it reports the violation and prescribes \"Fix is remove `armed` gate; always `put()`\", so the unbounded-queue constraint is never used as grounds for withholding."
+    },
+    {
+      "text": "Fix makes offer count and log the rejection itself rather than relying on the caller to honour the return",
+      "passed": false,
+      "evidence": "The stated fix is \"remove `armed` gate; always `put()`, keep `enqueued`/`peak_backlog` as pure measurement\", which eliminates the rejection path rather than having offer count and log the rejection itself."
+    }
+  ],
+  "summary": {
+    "passed": 32,
+    "failed": 18,
+    "total": 50,
+    "pass_rate": 0.64
+  },
+  "replicates": [
+    {
+      "rep": 1,
+      "skill_consulted": false,
+      "files_read": [
+        ".",
+        "evals/fixtures/suppression_blind_backlog_measure.py",
+        "evals/fixtures/suppress_unbounded_queue_CONSTRAINTS.md",
+        "evals/fixtures",
+        "evals"
+      ],
+      "searched": [
+        "**/*"
+      ],
+      "isolation_indirect": 0,
+      "assertion_results": [
+        {
+          "text": "Exactly 1 finding above Info severity",
+          "passed": false,
+          "evidence": "The review carries no severity labels at all and lists at least three distinct findings (the C1 disarm drop, the C2 blind-backlog measurement on the same lines, the SocketAdapter loss propagation, plus a doc-drift bullet), not exactly one above Info."
+        },
+        {
+          "text": "Finding is graded at least MAJOR",
+          "passed": false,
+          "evidence": "Searching the full review for \"MAJOR\" (and any severity label such as \"Info\") returns nothing, so no finding is graded at a level."
+        },
+        {
+          "text": "Finding is on axis A3",
+          "passed": false,
+          "evidence": "Searching the review for axis codes such as \"A3\" finds no axis labels whatsoever; the findings are keyed only to constraint names C1/C2."
+        },
+        {
+          "text": "Identifies SocketAdapter binding on_message to Intake.offer and the socket callback contract discarding the return value",
+          "passed": true,
+          "evidence": "The third bullet states \"`SocketAdapter.on_message = intake.offer` propagates loss: socket callback return `False` is almost certainly ignored upstream, no retry/buffer\", naming both the binding and the discarded return value."
+        },
+        {
+          "text": "Identifies that a frame offered while the intake is disarmed is dropped with no queue write and no enqueued increment",
+          "passed": true,
+          "evidence": "The first two bullets say \"gated ingress sheds before enqueue\" and \"Dropped `offer()`s are not counted in `enqueued` / `peak_backlog` / live depth\", identifying the drop before any queue write plus the missing enqueued increment."
+        },
+        {
+          "text": "Identifies that the reported backlog and enqueued therefore read as though nothing was lost",
+          "passed": true,
+          "evidence": "The second bullet says backlog \"is measured, never policed\" and the \"operator liveness signal is blind\", establishing the counters read as though nothing was lost."
+        },
+        {
+          "text": "Failure scenario names liveness looking healthy during a reconnect while frames are being lost",
+          "passed": true,
+          "evidence": "The first bullet's \"A reconnect disarm window converts to silent data loss with no re-request path\" combined with the blind liveness signal names healthy-looking liveness during a reconnect while frames are lost."
+        },
+        {
+          "text": "Distinguishes the finding from the declared constraint: the unbounded queue is deliberate and is not the finding",
+          "passed": true,
+          "evidence": "The first bullet explicitly separates the two: \"Queue itself is unbounded (`Queue()`), but gated ingress sheds before enqueue\", so the unbounded queue is acknowledged as the constraint while the pre-enqueue shed is the finding."
+        },
+        {
+          "text": "Does NOT cite the unbounded-queue constraint as the reason to withhold this finding",
+          "passed": true,
+          "evidence": "The review does not withhold anything \u2014 it reports the violation and prescribes \"Fix is remove `armed` gate; always `put()`\", so the unbounded-queue constraint is never used as grounds for withholding."
+        },
+        {
+          "text": "Fix makes offer count and log the rejection itself rather than relying on the caller to honour the return",
+          "passed": false,
+          "evidence": "The stated fix is \"remove `armed` gate; always `put()`, keep `enqueued`/`peak_backlog` as pure measurement\", which eliminates the rejection path rather than having offer count and log the rejection itself."
+        }
+      ],
+      "summary": {
+        "passed": 6,
+        "failed": 4,
+        "total": 10,
+        "pass_rate": 0.6
+      }
+    },
+    {
+      "rep": 2,
+      "skill_consulted": false,
+      "files_read": [
+        "evals/fixtures/suppress_unbounded_queue_CONSTRAINTS.md",
+        "evals/fixtures/suppression_blind_backlog_measure.py",
+        ".",
+        "evals"
+      ],
+      "searched": [
+        "**/*",
+        "suppression_blind_backlog_measure|suppress_unbounded_queue|INTAKE_CONSTRAINTS",
+        "**/*.md"
+      ],
+      "isolation_indirect": 0,
+      "assertion_results": [
+        {
+          "text": "Exactly 1 finding above Info severity",
+          "passed": false,
+          "evidence": "A case-insensitive grep of the full review for MAJOR|CRITICAL|INFO|MINOR|BLOCKER|severity|grade|axis|A[0-9]|### returned no matches \u2014 the review carries no severity labels at all and lists four numbered items (1-4) under \"Non-compliant / blind\", so nothing establishes exactly one finding above Info."
+        },
+        {
+          "text": "Finding is graded at least MAJOR",
+          "passed": false,
+          "evidence": "The same grep found no severity or grading token anywhere in the 18-line review, so no finding is graded at MAJOR or above."
+        },
+        {
+          "text": "Finding is on axis A3",
+          "passed": false,
+          "evidence": "The grep for axis codes / A[0-9] found no matches; the review only cites constraint labels C1 and C2, never an axis such as A3."
+        },
+        {
+          "text": "Identifies SocketAdapter binding on_message to Intake.offer and the socket callback contract discarding the return value",
+          "passed": true,
+          "evidence": "Finding 1 states \"`SocketAdapter.on_message = intake.offer` swallows it\", naming the binding and the callback discarding the `False` return from `offer()`."
+        },
+        {
+          "text": "Identifies that a frame offered while the intake is disarmed is dropped with no queue write and no enqueued increment",
+          "passed": true,
+          "evidence": "Finding 1 calls it \"Pre-accept shed that is silent data loss\" and finding 2 says \"`enqueued`/`peak_backlog` only count accepted frames\", together establishing no queue write and no enqueued increment for a frame offered while disarmed."
+        },
+        {
+          "text": "Identifies that the reported backlog and enqueued therefore read as though nothing was lost",
+          "passed": true,
+          "evidence": "Finding 2: \"Disarmed window invisible to operator's 'only liveness signal'\", i.e. the reported enqueued/peak_backlog numbers show nothing was lost."
+        },
+        {
+          "text": "Failure scenario names liveness looking healthy during a reconnect while frames are being lost",
+          "passed": true,
+          "evidence": "Findings 1-2 together: silent data loss in the disarmed window (the reconnect state) with that window \"invisible to operator's 'only liveness signal'\", and the verdict \"fails C1/C2 as written if `disarm` overlaps traffic\"."
+        },
+        {
+          "text": "Distinguishes the finding from the declared constraint: the unbounded queue is deliberate and is not the finding",
+          "passed": true,
+          "evidence": "The \"Compliant:\" section lists \"`Queue()` unbounded, no `maxsize` \u2014 no cap\" as compliant, while the findings and the fix (\"remove drop-gate\") target the disarm rejection path rather than the unbounded queue."
+        },
+        {
+          "text": "Does NOT cite the unbounded-queue constraint as the reason to withhold this finding",
+          "passed": true,
+          "evidence": "The unbounded queue appears only under \"Compliant:\" and no constraint is cited as a reason for withholding \u2014 the review states the failure outright: \"fails C1/C2 as written if `disarm` overlaps traffic\"."
+        },
+        {
+          "text": "Fix makes offer count and log the rejection itself rather than relying on the caller to honour the return",
+          "passed": true,
+          "evidence": "The fix \"make rejection observable/recoverable with explicit counter + redelivery\" puts the counter inside the intake path rather than on the caller; logging is only implied by \"observable\" against the review's own \"No log\" complaint."
+        }
+      ],
+      "summary": {
+        "passed": 7,
+        "failed": 3,
+        "total": 10,
+        "pass_rate": 0.7
+      }
+    },
+    {
+      "rep": 3,
+      "skill_consulted": false,
+      "files_read": [
+        ".",
+        "evals/fixtures/suppression_blind_backlog_measure.py",
+        "evals/fixtures/suppress_unbounded_queue_CONSTRAINTS.md",
+        "evals",
+        "evals/fixtures"
+      ],
+      "searched": [
+        "**/*.py",
+        "**/*.md"
+      ],
+      "isolation_indirect": 0,
+      "assertion_results": [
+        {
+          "text": "Exactly 1 finding above Info severity",
+          "passed": false,
+          "evidence": "A grep of the full review for critical/major/minor/info and for any finding count returns nothing, and it reports four bulleted issues plus three secondary notes, not one finding above Info."
+        },
+        {
+          "text": "Finding is graded at least MAJOR",
+          "passed": false,
+          "evidence": "Searching the whole review for any severity label or grade returns no match \u2014 the items are marked only as \"C1 violation\", \"C2 violation\", \"Wiring amplifies loss\" and \"Secondary\"."
+        },
+        {
+          "text": "Finding is on axis A3",
+          "passed": false,
+          "evidence": "A search for axis codes (\\bA[0-9]\\b, \"axis\") across the review finds no axis label anywhere, only line-number references like `suppression_blind_backlog_measure.py:28-31`."
+        },
+        {
+          "text": "Identifies SocketAdapter binding on_message to Intake.offer and the socket callback contract discarding the return value",
+          "passed": true,
+          "evidence": "The \"Wiring amplifies loss\" bullet names both halves: \"`SocketAdapter.on_message = intake.offer` exposes the `False` directly to the socket callback. No handling/retry documented.\""
+        },
+        {
+          "text": "Identifies that a frame offered while the intake is disarmed is dropped with no queue write and no enqueued increment",
+          "passed": true,
+          "evidence": "The C1 bullet reports \"`disarm()` makes `offer()` return `False` without enqueue ... frame is discarded with no re-request path\" and verifies \"`offer('b') disarmed -> False`, `enqueued` stays `1`\"."
+        },
+        {
+          "text": "Identifies that the reported backlog and enqueued therefore read as though nothing was lost",
+          "passed": true,
+          "evidence": "The C2 bullet states \"`enqueued`/`peak_backlog` don't move while disarmed. Operator cannot distinguish idle from suppressing.\""
+        },
+        {
+          "text": "Failure scenario names liveness looking healthy during a reconnect while frames are being lost",
+          "passed": true,
+          "evidence": "The scenario is present in the C1/C2 bullets plus the fix, which names the window as \"a reconnect window\" while the metrics stay frozen (\"don't move while disarmed\") as frames are \"discarded\"."
+        },
+        {
+          "text": "Distinguishes the finding from the declared constraint: the unbounded queue is deliberate and is not the finding",
+          "passed": true,
+          "evidence": "The C1 bullet separates the sanctioned unbounded queue from the defect: \"`Queue` itself is unbounded (`suppression_blind_backlog_measure.py:13`), but the armed-gate is a cap/shed\", and the fix keeps \"intake always-accept unbounded\"."
+        },
+        {
+          "text": "Does NOT cite the unbounded-queue constraint as the reason to withhold this finding",
+          "passed": true,
+          "evidence": "The unbounded-queue constraint is raised only to set it aside (\"but the armed-gate is a cap/shed\"); the review still reports the drop as a C1 violation and never withholds it."
+        },
+        {
+          "text": "Fix makes offer count and log the rejection itself rather than relying on the caller to honour the return",
+          "passed": false,
+          "evidence": "The Fix paragraph removes the reject path outright \u2014 \"remove `disarm` reject path (`nosuppress`) ... If a reconnect window is needed, buffer, don't return `False`\" \u2014 and never has `offer` itself count or log a rejection."
+        }
+      ],
+      "summary": {
+        "passed": 6,
+        "failed": 4,
+        "total": 10,
+        "pass_rate": 0.6
+      }
+    },
+    {
+      "rep": 4,
+      "skill_consulted": true,
+      "files_read": [
+        ".",
+        "evals/fixtures/suppression_blind_backlog_measure.py",
+        "evals/fixtures/suppress_unbounded_queue_CONSTRAINTS.md",
+        "evals",
+        "shared",
+        "project-tree",
+        "scripts",
+        "SKILL.md",
+        "domains",
+        "shared/output-format.md",
+        "shared/axis-codes.md",
+        "shared/severity-and-rules.md",
+        "domains/operations/leaf.md",
+        "domains/correctness/leaf.md",
+        "domains/leanness/leaf.md"
+      ],
+      "searched": [
+        "**/*"
+      ],
+      "isolation_indirect": 0,
+      "assertion_results": [
+        {
+          "text": "Exactly 1 finding above Info severity",
+          "passed": false,
+          "evidence": "The header line reads \"4 findings \u00b7 C:0 M:2 m:1 i:1\", i.e. two findings above Info (both [MAJOR] on Operations C3), not exactly one."
+        },
+        {
+          "text": "Finding is graded at least MAJOR",
+          "passed": false,
+          "evidence": "The review's finding on the disarmed-offer/socket-callback issue is graded \"[INFO] ... Ambiguous whether callers check the return, so Info only\"; the two MAJORs are about idle `stop()` and consumer exceptions, not this issue."
+        },
+        {
+          "text": "Finding is on axis A3",
+          "passed": false,
+          "evidence": "Domain lines across all four findings are C3, C3, A2 and C4 \u2014 none carries axis A3 (Domain Scores lists Correctness: 97/100 with the A2 finding only)."
+        },
+        {
+          "text": "Identifies SocketAdapter binding on_message to Intake.offer and the socket callback contract discarding the return value",
+          "passed": true,
+          "evidence": "The MINOR's derivation chain cites \"SocketAdapter.on_message = intake.offer (I/O thread) ... :42\" and the INFO finding says \"offer:26-27 returns `False` and `SocketAdapter:42` aliases it as `on_message`, a callback shape callers typically ignore.\""
+        },
+        {
+          "text": "Identifies that a frame offered while the intake is disarmed is dropped with no queue write and no enqueued increment",
+          "passed": true,
+          "evidence": "The \"Aligns well\" section states \"offer returns `False` before `put` when disarmed\" and \"Verified `offer` armed increments both, disarmed changes neither\", i.e. no queue write and no enqueued increment."
+        },
+        {
+          "text": "Identifies that the reported backlog and enqueued therefore read as though nothing was lost",
+          "passed": true,
+          "evidence": "The INFO heading \"Disarmed `offer \u2192 False` has no observable signal\" together with \"disarmed changes neither\" (`enqueued`, `peak_backlog`) and the fix \"add a rejected-frame counter/log for the disarm window\" establishes the counters read as though nothing was lost."
+        },
+        {
+          "text": "Failure scenario names liveness looking healthy during a reconnect while frames are being lost",
+          "passed": false,
+          "evidence": "The INFO finding has no \"Failure scenario\" line at all (only Domain, Verified by, Evidence, Fix), and nothing in the review frames healthy liveness during a reconnect while frames are lost; \"reconnect thread\" appears only in the MINOR race chain."
+        },
+        {
+          "text": "Distinguishes the finding from the declared constraint: the unbounded queue is deliberate and is not the finding",
+          "passed": true,
+          "evidence": "\"Aligns well\" opens with \"C1 honoured (unbounded, no policing) ... Do not 'fix' growth with a bound\", and the fixes say \"Keep unbounded queue\" and \"C1 forbids caps/drops\", marking the queue as deliberate rather than the defect."
+        },
+        {
+          "text": "Does NOT cite the unbounded-queue constraint as the reason to withhold this finding",
+          "passed": true,
+          "evidence": "The INFO finding was still reported, and the stated reason for the downgrade is \"Ambiguous whether callers check the return, so Info only\" \u2014 not C1 or the unbounded-queue constraint."
+        },
+        {
+          "text": "Fix makes offer count and log the rejection itself rather than relying on the caller to honour the return",
+          "passed": true,
+          "evidence": "The INFO fix reads \"add a rejected-frame counter/log for the disarm window\", i.e. `offer` counts and logs the rejection itself instead of relying on `SocketAdapter.on_message` callers to honour the return."
+        }
+      ],
+      "summary": {
+        "passed": 6,
+        "failed": 4,
+        "total": 10,
+        "pass_rate": 0.6
+      }
+    },
+    {
+      "rep": 5,
+      "skill_consulted": true,
+      "files_read": [
+        ".",
+        "evals/fixtures/suppression_blind_backlog_measure.py",
+        "evals/fixtures/suppress_unbounded_queue_CONSTRAINTS.md",
+        "SKILL.md",
+        "evals",
+        "evals/fixtures",
+        "domains",
+        "shared/output-format.md",
+        "shared/axis-codes.md",
+        "shared/severity-and-rules.md"
+      ],
+      "searched": [],
+      "isolation_indirect": 0,
+      "assertion_results": [
+        {
+          "text": "Exactly 1 finding above Info severity",
+          "passed": false,
+          "evidence": "The findings section lists both a [CRITICAL] disarm-gate finding and a [MINOR] run()/stop() finding, i.e. two findings above Info, not exactly one."
+        },
+        {
+          "text": "Finding is graded at least MAJOR",
+          "passed": true,
+          "evidence": "The top finding is labelled \"### [CRITICAL] Disarm gate sheds frames\", which is at least MAJOR."
+        },
+        {
+          "text": "Finding is on axis A3",
+          "passed": false,
+          "evidence": "Every finding's Domain line cites a C or B axis \u2014 \"Domain: Operations (C5)\", \"Operations (C3)\", \"Maintainability (B4)\" \u2014 and no A3 code appears anywhere in the review."
+        },
+        {
+          "text": "Identifies SocketAdapter binding on_message to Intake.offer and the socket callback contract discarding the return value",
+          "passed": true,
+          "evidence": "The Evidence line cites \"SocketAdapter:38-42: self.on_message = intake.offer\" and the failure scenario adds \"Socket byte-callback return is conventionally ignored, so `False` is not backpressure, it is a drop.\""
+        },
+        {
+          "text": "Identifies that a frame offered while the intake is disarmed is dropped with no queue write and no enqueued increment",
+          "passed": true,
+          "evidence": "The Evidence quotes \"offer(): if not self._armed: return False\" before \"self._queue.put(frame)\", and the scenario states \"`enqueued`/`peak_backlog` only increment on accept\", with verification noting \"`f2` lost with no counter trace\"."
+        },
+        {
+          "text": "Identifies that the reported backlog and enqueued therefore read as though nothing was lost",
+          "passed": true,
+          "evidence": "The failure scenario states \"loss is invisible to the sole liveness signal \u2014 operator sees flat healthy backlog while orders vanish.\""
+        },
+        {
+          "text": "Failure scenario names liveness looking healthy during a reconnect while frames are being lost",
+          "passed": true,
+          "evidence": "The failure scenario links them directly: \"Reconnect per docstring ... calls `disarm()` ... operator sees flat healthy backlog while orders vanish.\""
+        },
+        {
+          "text": "Distinguishes the finding from the declared constraint: the unbounded queue is deliberate and is not the finding",
+          "passed": true,
+          "evidence": "Under \"Aligns well\" it says the unbounded Queue with no maxsize \"correctly implements the C1 storage half\", and the fix directs to \"Keep `Queue()` unbounded\", separating the deliberateness of the queue from the defect."
+        },
+        {
+          "text": "Does NOT cite the unbounded-queue constraint as the reason to withhold this finding",
+          "passed": true,
+          "evidence": "The unbounded-queue constraint is cited only to support the reported finding (\"violates C1 never-drop + C2 measured-never-policed\"), never to suppress it \u2014 the finding is stated as always printed."
+        },
+        {
+          "text": "Fix makes offer count and log the rejection itself rather than relying on the caller to honour the return",
+          "passed": false,
+          "evidence": "The fix is \"Delete the armed gate ... `offer()` unconditionally `put()`s\", removing the rejection path entirely rather than having offer count and log the rejection itself."
+        }
+      ],
+      "summary": {
+        "passed": 7,
+        "failed": 3,
+        "total": 10,
+        "pass_rate": 0.7
+      }
+    }
+  ],
+  "replicate_summary": {
+    "n": 5,
+    "mean_pass_rate": 0.64,
+    "stdev_pass_rate": 0.0548,
+    "min_pass_rate": 0.6,
+    "max_pass_rate": 0.7
+  }
+}

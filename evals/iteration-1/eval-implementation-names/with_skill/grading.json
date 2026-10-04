@@ -1,0 +1,21 @@
+{
+  "eval": "eval-implementation-names",
+  "eval_id": 59,
+  "fixture": "evals/fixtures/implementation_names.py",
+  "run": "with_skill",
+  "phase": "after",
+  "review": "1 finding · C:0 M:1 m:0 i:0 — Domain Score: 90/100 (Grade A)",
+  "summary": { "passed": 9, "failed": 0, "total": 9, "pass_rate": 1.0 },
+  "assertions": [
+    { "n": 1, "text": "Exactly 1 finding above Info severity", "result": "pass", "evidence": "One Major finding; every bad name has the same cause — the name carries information that belongs to the implementation or to a version that has passed." },
+    { "n": 2, "text": "Finding is graded MAJOR", "result": "pass", "evidence": "Graded Major: a permanent rename tax and a divergent terminology set, not a style preference." },
+    { "n": 3, "text": "Finding is on axis B4 (Clarity)", "result": "pass", "evidence": "Reported under Maintainability / Clarity (B4)." },
+    { "n": 4, "text": "Identifies get_widget_from_redis as naming the storage engine in the function name", "result": "pass", "evidence": "Cites implementation_names.py:16 — the accessor a caller must use is named after the cache it consults." },
+    { "n": 5, "text": "Identifies _cache_v2, get_widget_v2, get_widget_temp and _temp_rows as permanent temporary or version suffixes", "result": "pass", "evidence": "Cites lines 11-13 and 22-30 — a versioned cache, a versioned accessor, and a temporary accessor and buffer, all still live." },
+    { "n": 6, "text": "Notes get_widget and get_widget_v2 each documenting the other as superseding, with both live", "result": "pass", "evidence": "Cites lines 32 and 37 — each docstring claims to supersede the other while both are reachable." },
+    { "n": 7, "text": "Notes get_client as a third term for the same record", "result": "pass", "evidence": "Cites get_client returning _read_widget's record, a third name for one entity." },
+    { "n": 8, "text": "Fix recommends naming the concept and contract rather than the implementation", "result": "pass", "evidence": "Fix: name the accessor for the entity it returns, let the cache and the version be visible in the module, and settle on one term for the record." },
+    { "n": 9, "text": "Header matches pattern: 1 finding · C:0 M:1 m:0 i:0", "result": "pass", "evidence": "Header rendered exactly as specified." }
+  ],
+  "notes": "Caught by the two bullets appended to guidelines/naming-semantics.md. The severity is carried by the rename tax rather than by any single name, and the reviewer cited the mutual-supersession as the evidence that the suffixes are permanent rather than transitional."
+}

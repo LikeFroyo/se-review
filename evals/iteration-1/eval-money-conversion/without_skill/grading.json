@@ -1,0 +1,22 @@
+{
+  "eval": "eval-money-conversion",
+  "eval_id": 77,
+  "fixture": "evals/fixtures/money_conversion.py",
+  "run": "without_skill",
+  "phase": "before",
+  "review": "1 finding · C:0 M:0 m:1 i:0 — Domain Score: 97/100 (Grade A)",
+  "summary": { "passed": 2, "failed": 8, "total": 10, "pass_rate": 0.2 },
+  "assertions": [
+    { "n": 1, "text": "Exactly 1 finding above Info severity", "result": "pass", "evidence": "One finding raised, on the float arithmetic." },
+    { "n": 2, "text": "Finding is graded CRITICAL", "result": "fail", "evidence": "Graded MINOR." },
+    { "n": 3, "text": "Finding is on axis D3 (Numeric Boundaries)", "result": "fail", "evidence": "Reported under Correctness / Logic (A1), on the pre-existing float-precision bullet. The D axes did not exist." },
+    { "n": 4, "text": "Identifies quote_price holding and serialising money as a binary float", "result": "pass", "evidence": "Raised — logic/edge-cases.md names 'using binary floats for financial transactions instead of fixed-point decimals' as a trigger verbatim." },
+    { "n": 5, "text": "Identifies the consumer's Decimal sum disagreeing with the float sum", "result": "fail", "evidence": "Missed. The rule is about the type used, and the pre-change review had no reason to open the consumer's implementation — it lives in another function reached only by a conversion." },
+    { "n": 6, "text": "Identifies to_micros scaling by 10,000 against the ledger dividing by 10", "result": "fail", "evidence": "Missed. Both lines are individually reasonable constants; the 1000x error exists only in the relationship, which is precisely the class no pre-change rule covers." },
+    { "n": 7, "text": "Identifies apply_discount truncating with int() rather than rounding", "result": "fail", "evidence": "Missed, though this one is close: it is a truncation-instead-of-rounding defect, and logic/edge-cases.md's float-precision bullet is about equality and representation rather than about int() discarding a remainder." },
+    { "n": 8, "text": "Failure scenario names every invoice disagreeing with its own line items", "result": "fail", "evidence": "Stated as 'rounding may cause minor discrepancies', with no invoice-level consequence and no scale error." },
+    { "n": 9, "text": "Fix recommends a fixed-precision decimal carried as a string with an agreed scale", "result": "fail", "evidence": "Fix recommended using the decimal type in Python, which addresses the float and neither the scale mismatch nor the truncation." },
+    { "n": 10, "text": "Header matches pattern: 1 finding · C:1 M:0 m:0 i:0", "result": "fail", "evidence": "Header rendered `1 finding · C:0 M:0 m:1 i:0`." }
+  ],
+  "notes": "The most consequential under-grading in the suite. A 1000x error in a money conversion was graded MINOR because the pre-change rule set found the one thing it was written to find — floats in arithmetic — and stopped. The scale disagreement and the truncating cast were both invisible, and both are larger errors than the float."
+}

@@ -1,0 +1,26 @@
+{
+  "reason": "isolation unproven",
+  "detail": "ran a recursive search ('**/*'), which reads everything beneath it including the answer key",
+  "reads": [
+    "ws/.",
+    "ws/evals/fixtures/suppression_blind_boundary_breach.py",
+    "ws/evals/fixtures/per_contract_layer.py",
+    "ws/evals/fixtures/suppression_blind_boundary_breach_CONSTRAINTS.md",
+    "ws/evals",
+    "ws/evals/fixtures",
+    "ws/SKILL.md",
+    "ws/shared/output-format.md",
+    "ws/shared/severity-and-rules.md",
+    "ws/domains",
+    "ws/domains/maintainability/leaf.md",
+    "ws/domains/correctness/leaf.md",
+    "ws/shared/axis-codes.md",
+    "ws/domains/correctness/type-and-contracts/sub-leaf.md",
+    "ws/domains/maintainability/design/sub-leaf.md",
+    "ws/domains/correctness/type-and-contracts",
+    "ws/domains/maintainability/design",
+    "ws/domains/correctness/type-and-contracts/guidelines/type-and-contract-assertions.md",
+    "ws/domains/maintainability/design/guidelines/boundaries-ddd.md",
+    "ws/domains/leanness/leaf.md"
+  ]
+}

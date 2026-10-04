@@ -1,0 +1,203 @@
+{
+  "eval_id": 1,
+  "eval_name": "eval-dead-code",
+  "condition": "with_skill",
+  "model_config": "cfg:567712ad39ee",
+  "judge_model_config": "cfg:1c50bc6e7d47",
+  "judge_disjoint": true,
+  "base_commit": "92b5a4c",
+  "no_axis_count": null,
+  "no_axis_count_reason": "no review body",
+  "grader_config": "cfg:458057126fc7",
+  "fixture_digests": {
+    "evals/fixtures/dead_code.py": "sha256:fc4cfb9d376e7522"
+  },
+  "skill_consulted": true,
+  "skill_consulted_reps": 2,
+  "reps_requested": 3,
+  "reps_completed": 2,
+  "assertion_results": [
+    {
+      "text": "Exactly 1 finding above Info severity",
+      "passed": true,
+      "evidence": "Searching the review for finding headings and severity markers yields exactly one, \"### [CRITICAL] Retired `LegacyPriceAdapter` retained alongside replacement\", and the header tally \"1 findings \u00b7 C:1 M:0 m:0 i:0\" confirms no other above-Info findings."
+    },
+    {
+      "text": "Finding is graded CRITICAL",
+      "passed": true,
+      "evidence": "The sole finding heading reads \"### [CRITICAL] Retired `LegacyPriceAdapter` retained alongside replacement\"."
+    },
+    {
+      "text": "Finding is on axis L1 or L2 (dead code / unused surface)",
+      "passed": true,
+      "evidence": "The finding's domain line states \"- **Domain:** Leanness (L1)\"."
+    },
+    {
+      "text": "Finding identifies LegacyPriceAdapter as the dead code",
+      "passed": true,
+      "evidence": "The finding title and fix both name the dead code: \"Retired `LegacyPriceAdapter` retained\" / \"Delete `LegacyPriceAdapter` (lines 7-15) entirely\"."
+    },
+    {
+      "text": "Evidence cites specific lines in dead_code.py",
+      "passed": true,
+      "evidence": "The Evidence bullet cites \"`dead_code.py:7-15` \u2014 `class LegacyPriceAdapter:`\" and \"Sole live instantiation is `dead_code.py:28`\"."
+    },
+    {
+      "text": "Fix recommends deletion of the class",
+      "passed": true,
+      "evidence": "The Fix bullet says \"Delete `LegacyPriceAdapter` (lines 7-15) entirely, including commented-out line 14. Do not extract, deprecate, or keep behind flag.\""
+    },
+    {
+      "text": "RateTable import is NOT flagged as dead (it is live via price_order)",
+      "passed": true,
+      "evidence": "Searching the review for \"RateTable\" finds only \"`rate_table.lookup(order.sku)`\" cited as *live* logic in the failure scenario and \"`price_order` uses `AuroraPricing` only\" \u2014 no finding flags the import as dead."
+    },
+    {
+      "text": "Header matches pattern: 1 finding \u00b7 C:1 M:0 m:0 i:0",
+      "passed": true,
+      "evidence": "The header line reads \"`1 findings \u00b7 C:1 M:0 m:0 i:0 \u00b7 Mean 96/100 \u00b7 Final Grade F`\", matching the required counts (only the plural noun differs)."
+    },
+    {
+      "text": "Failure scenario names the permanent carrying cost (read/test/port/migrate tax)",
+      "passed": true,
+      "evidence": "The Failure scenario opens \"Permanent carrying tax: every reader, migration, and test sweep must reason about two adapters\" and adds \"must be ported twice or silently diverges\"."
+    }
+  ],
+  "summary": {
+    "passed": 18,
+    "failed": 0,
+    "total": 18,
+    "pass_rate": 1.0
+  },
+  "replicates": [
+    {
+      "rep": 1,
+      "skill_consulted": true,
+      "files_read": [
+        "evals/fixtures/dead_code.py"
+      ],
+      "searched": [],
+      "assertion_results": [
+        {
+          "text": "Exactly 1 finding above Info severity",
+          "passed": true,
+          "evidence": "Searching the review for finding headings and severity markers yields exactly one, \"### [CRITICAL] Retired `LegacyPriceAdapter` retained alongside replacement\", and the header tally \"1 findings \u00b7 C:1 M:0 m:0 i:0\" confirms no other above-Info findings."
+        },
+        {
+          "text": "Finding is graded CRITICAL",
+          "passed": true,
+          "evidence": "The sole finding heading reads \"### [CRITICAL] Retired `LegacyPriceAdapter` retained alongside replacement\"."
+        },
+        {
+          "text": "Finding is on axis L1 or L2 (dead code / unused surface)",
+          "passed": true,
+          "evidence": "The finding's domain line states \"- **Domain:** Leanness (L1)\"."
+        },
+        {
+          "text": "Finding identifies LegacyPriceAdapter as the dead code",
+          "passed": true,
+          "evidence": "The finding title and fix both name the dead code: \"Retired `LegacyPriceAdapter` retained\" / \"Delete `LegacyPriceAdapter` (lines 7-15) entirely\"."
+        },
+        {
+          "text": "Evidence cites specific lines in dead_code.py",
+          "passed": true,
+          "evidence": "The Evidence bullet cites \"`dead_code.py:7-15` \u2014 `class LegacyPriceAdapter:`\" and \"Sole live instantiation is `dead_code.py:28`\"."
+        },
+        {
+          "text": "Fix recommends deletion of the class",
+          "passed": true,
+          "evidence": "The Fix bullet says \"Delete `LegacyPriceAdapter` (lines 7-15) entirely, including commented-out line 14. Do not extract, deprecate, or keep behind flag.\""
+        },
+        {
+          "text": "RateTable import is NOT flagged as dead (it is live via price_order)",
+          "passed": true,
+          "evidence": "Searching the review for \"RateTable\" finds only \"`rate_table.lookup(order.sku)`\" cited as *live* logic in the failure scenario and \"`price_order` uses `AuroraPricing` only\" \u2014 no finding flags the import as dead."
+        },
+        {
+          "text": "Header matches pattern: 1 finding \u00b7 C:1 M:0 m:0 i:0",
+          "passed": true,
+          "evidence": "The header line reads \"`1 findings \u00b7 C:1 M:0 m:0 i:0 \u00b7 Mean 96/100 \u00b7 Final Grade F`\", matching the required counts (only the plural noun differs)."
+        },
+        {
+          "text": "Failure scenario names the permanent carrying cost (read/test/port/migrate tax)",
+          "passed": true,
+          "evidence": "The Failure scenario opens \"Permanent carrying tax: every reader, migration, and test sweep must reason about two adapters\" and adds \"must be ported twice or silently diverges\"."
+        }
+      ],
+      "summary": {
+        "passed": 9,
+        "failed": 0,
+        "total": 9,
+        "pass_rate": 1.0
+      }
+    },
+    {
+      "rep": 3,
+      "skill_consulted": true,
+      "files_read": [
+        "evals/fixtures/dead_code.py"
+      ],
+      "searched": [],
+      "assertion_results": [
+        {
+          "text": "Exactly 1 finding above Info severity",
+          "passed": true,
+          "evidence": "The only severity-tagged heading in the review is \"### [CRITICAL] Retired `LegacyPriceAdapter` has no callers \u2014 delete it\" under \"## Findings\", and the header confirms \"1 finding \u00b7 C:1 M:0 m:0 i:0\"."
+        },
+        {
+          "text": "Finding is graded CRITICAL",
+          "passed": true,
+          "evidence": "The single finding heading reads \"### [CRITICAL] Retired `LegacyPriceAdapter` has no callers \u2014 delete it\"."
+        },
+        {
+          "text": "Finding is on axis L1 or L2 (dead code / unused surface)",
+          "passed": true,
+          "evidence": "The finding's metadata line states \"- **Domain:** Leanness (L1)\"."
+        },
+        {
+          "text": "Finding identifies LegacyPriceAdapter as the dead code",
+          "passed": true,
+          "evidence": "The finding title and body name the class directly: \"Retired `LegacyPriceAdapter` has no callers \u2014 delete it\"."
+        },
+        {
+          "text": "Evidence cites specific lines in dead_code.py",
+          "passed": true,
+          "evidence": "The Evidence bullet cites \"`dead_code.py:7-14`\" and \"`dead_code.py:26-28`\"."
+        },
+        {
+          "text": "Fix recommends deletion of the class",
+          "passed": true,
+          "evidence": "The Fix bullet reads \"Delete `LegacyPriceAdapter` (lines 7-14) including the commented-out line\"."
+        },
+        {
+          "text": "RateTable import is NOT flagged as dead (it is live via price_order)",
+          "passed": true,
+          "evidence": "The review explicitly clears it twice: \"`RateTable` import stays live via `price_order`\" and \"`RateTable` import is live via `price_order` and is not dead code.\""
+        },
+        {
+          "text": "Header matches pattern: 1 finding \u00b7 C:1 M:0 m:0 i:0",
+          "passed": true,
+          "evidence": "The header line contains the exact string \"`1 finding \u00b7 C:1 M:0 m:0 i:0 \u00b7 Domain Score: 75/100 (Grade C)`\"."
+        },
+        {
+          "text": "Failure scenario names the permanent carrying cost (read/test/port/migrate tax)",
+          "passed": true,
+          "evidence": "The Failure scenario bullet says \"Dead class imposes permanent carrying tax: every reader must compare ... tests/porting/migration must cover the retired adapter\"."
+        }
+      ],
+      "summary": {
+        "passed": 9,
+        "failed": 0,
+        "total": 9,
+        "pass_rate": 1.0
+      }
+    }
+  ],
+  "replicate_summary": {
+    "n": 2,
+    "mean_pass_rate": 1.0,
+    "stdev_pass_rate": 0.0,
+    "min_pass_rate": 1.0,
+    "max_pass_rate": 1.0
+  }
+}

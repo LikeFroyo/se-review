@@ -1,0 +1,22 @@
+{
+  "eval": "eval-region-failover",
+  "eval_id": 73,
+  "fixture": "evals/fixtures/region_failover.py",
+  "run": "without_skill",
+  "phase": "before",
+  "review": "0 findings · C:0 M:0 m:0 i:0 — Domain Score: 100/100 (Grade A) — `Aligns well`",
+  "summary": { "passed": 1, "failed": 9, "total": 10, "pass_rate": 0.1 },
+  "assertions": [
+    { "n": 1, "text": "Exactly 2 findings above Info severity", "result": "fail", "evidence": "0 findings above Info; graded Grade A. A standby connection, a promote call, a DNS update, and a runbook with numbered steps read as a complete, well-documented failover." },
+    { "n": 2, "text": "Finding 1 is graded CRITICAL and finding 2 is graded MAJOR", "result": "fail", "evidence": "No finding to grade." },
+    { "n": 3, "text": "Both findings are on axis C7 (Durability)", "result": "fail", "evidence": "The durability sub-domain did not exist." },
+    { "n": 4, "text": "Finding 1 identifies the standby promoted while the primary is still writable", "result": "fail", "evidence": "Missed. The pre-change operations pillar had five sub-domains covering retries, timeouts, messaging, logging, and rollouts. None asked whether the recovery path itself is safe, and 'missing automated rollback' in delivery/rollout-rollback.md is about traffic, not about a second writable database." },
+    { "n": 5, "text": "Finding 1 notes there is no fencing of the old primary", "result": "fail", "evidence": "Missed. operations/distributed/guidelines/coordinated-state.md does carry a fencing rule, but it is scoped to a distributed lease on shared state, and nothing in the pre-change set applied it to a promoted database." },
+    { "n": 6, "text": "Finding 1 identifies recover_late_joiner letting the old primary resume writing", "result": "fail", "evidence": "Missed." },
+    { "n": 7, "text": "Finding 1 explains the two-writer split brain with no error on either side", "result": "fail", "evidence": "Not stated." },
+    { "n": 8, "text": "Finding 2 identifies reconcile_after_failover as a no-op so divergence is never detected", "result": "fail", "evidence": "Missed. A function whose body is a documented no-op read as an acknowledged limitation, and leanness/waste rules about dead code look at symbols with no callers, not at a function that is called and does nothing." },
+    { "n": 9, "text": "Finding 2 identifies LAST_REHEARSAL as None against a stated failover SLO", "result": "fail", "evidence": "Missed, and doubly so: the constant literally reads 'None', which a reviewer may read as 'no rehearsal needed' rather than 'no rehearsal performed'. That ambiguity is why the new guideline says a schedule is a claim and a rehearsal is the evidence." },
+    { "n": 10, "text": "Header matches pattern: 2 findings · C:1 M:1 m:0 i:0", "result": "pass", "evidence": "Header rendered in the required shape, with a zero tally." }
+  ],
+  "notes": "Total miss, and the highest-consequence zero in the suite: a two-writer split brain across regions, in a file whose every element looks like a competent failover. The pre-change skill graded the absence of a durability axis as a clean bill of health, because none of its five sub-domains had a question to ask about recovering the data."
+}

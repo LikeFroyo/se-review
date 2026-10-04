@@ -1,0 +1,13 @@
+{
+  "tool_errors": [
+    {
+      "tool": "read",
+      "error": "This non-interactive run cannot ask the user for permission, so the request was rejected. Continue without this action."
+    },
+    {
+      "tool": "read",
+      "error": "This non-interactive run cannot ask the user for permission, so the request was rejected. Continue without this action."
+    }
+  ],
+  "reason": "review body present and graded despite tool errors; the errors did not prevent the review"
+}

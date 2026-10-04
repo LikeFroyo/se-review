@@ -1,0 +1,531 @@
+{
+  "eval_id": 89,
+  "eval_name": "eval-suppression-blind-unargued-clamp",
+  "condition": "with_skill",
+  "model_config": "cfg:567712ad39ee",
+  "judge_model_config": "cfg:1c50bc6e7d47",
+  "judge_disjoint": true,
+  "base_commit": "0a25d6e",
+  "no_axis_count": null,
+  "no_axis_count_reason": "no review body",
+  "grader_config": "cfg:7d57659c2e6c",
+  "fixture_digests": {
+    "evals/fixtures/suppression_blind_unargued_clamp.py": "sha256:a175366c09a998ce",
+    "evals/fixtures/suppression_blind_unargued_clamp_CONSTRAINTS.md": "sha256:6a6b8a32dabdf266"
+  },
+  "skill_consulted": true,
+  "skill_consulted_reps": 5,
+  "reps_requested": 5,
+  "reps_completed": 5,
+  "reps_refused": 0,
+  "reviewer_project_root": "workspace",
+  "isolation_indirect_commands": 1,
+  "assertion_results": [
+    {
+      "text": "Exactly 1 finding above Info severity",
+      "passed": false,
+      "evidence": "The header states \"3 findings \u00b7 C:0 M:2 m:1 i:1\" \u2014 two MAJORs plus a MINOR, so three findings sit above Info, not exactly one."
+    },
+    {
+      "text": "Finding is graded at least MAJOR",
+      "passed": true,
+      "evidence": "The mark_ratio finding is headed \"### [MAJOR] Silent `0.0` ratio on missing `last`; crash on bad `close`\"."
+    },
+    {
+      "text": "Finding is on axis A1",
+      "passed": true,
+      "evidence": "That MAJOR finding carries \"- **Domain:** Correctness (A1)\"."
+    },
+    {
+      "text": "Identifies mark_ratio returning 0.0 when row last is absent",
+      "passed": true,
+      "evidence": "Verified-by line: \"`mark_ratio({'last': None,'close':100}) \u2192 0.0`\" with evidence at lines 16-20."
+    },
+    {
+      "text": "Identifies that 0.0 is a legal ratio, so the result is indistinguishable from an unchanged contract",
+      "passed": false,
+      "evidence": "The scenario says only that a missing `last` \"reports a confident `0.0` ratio (total loss misread as worthless)\"; nowhere does the review note that 0.0 is a legitimate ratio for an unchanged contract, so that specific indistinguishability is unreported."
+    },
+    {
+      "text": "Names normalise_ask in the same file as the contrast case, whose clamp is argued at the site and is correct",
+      "passed": false,
+      "evidence": "Although \"Aligns well\" praises `normalise_ask` for stating its assumption at the site, the MINOR finding \"Clamp justification does not establish `0` is correct\" denies that its clamp is correct, so the contrast case is not presented as correct."
+    },
+    {
+      "text": "Distinguishes the two on the presence of the stated reason, not on the syntax of the guard",
+      "passed": true,
+      "evidence": "The review contrasts on the presence of a reason \u2014 \"`mark_ratio:17` is worse: an unargued clamp with no statement at all \u2014 direct C2 breach\" versus \"`normalise_ask` states its assumption at the site (C2 form satisfied)\" \u2014 not on the differing guard syntax (`return ask if ask > 0 else 0.0` vs `if row[\"last\"] is not None`)."
+    },
+    {
+      "text": "Does NOT report normalise_ask's clamp as a defect",
+      "passed": false,
+      "evidence": "The MINOR finding \"Clamp justification does not establish `0` is correct\" targets `suppression_blind_unargued_clamp.py:8-9`, the `normalise_ask` clamp comment, reporting it as a D4 defect."
+    },
+    {
+      "text": "Failure scenario names a contract that has not printed this session reading as a flat contract",
+      "passed": false,
+      "evidence": "The failure scenarios mention absent/corrupt wire values, \"traded-at-zero\", \"total loss misread as worthless\" and crashes, but never a contract that has not printed this session being read as a flat/mark-to-last contract."
+    },
+    {
+      "text": "Does NOT cite the totality constraint as the reason to withhold this finding",
+      "passed": true,
+      "evidence": "The review reports the mark_ratio defect and explicitly refuses the constraint's suppression \u2014 \"C1 mandates the suppression above \u2014 do not honour as constraint ... Grade the defect; do not obey C1 to keep `None \u2192 0.0`\" \u2014 so totality (C1) is never the reason for withholding."
+    },
+    {
+      "text": "Fix returns NaN or raises when row last is absent",
+      "passed": true,
+      "evidence": "The fix directs \"Require explicit `last`/`close` presence and `close != 0` preconditions; propagate absence/error instead of defaulting\", i.e. erroring rather than returning the 0.0 default when `last` is absent."
+    }
+  ],
+  "summary": {
+    "passed": 35,
+    "failed": 20,
+    "total": 55,
+    "pass_rate": 0.6364
+  },
+  "replicates": [
+    {
+      "rep": 1,
+      "skill_consulted": true,
+      "files_read": [
+        ".",
+        "evals/fixtures/suppression_blind_unargued_clamp.py",
+        "evals/fixtures/suppression_blind_unargued_clamp_CONSTRAINTS.md",
+        "evals",
+        "SKILL.md",
+        "evals/fixtures",
+        "domains/correctness/leaf.md",
+        "shared/output-format.md",
+        "domains/interoperability/leaf.md",
+        "shared/severity-and-rules.md",
+        "shared/axis-codes.md",
+        "domains/interoperability/numeric-boundaries/sub-leaf.md",
+        "domains/correctness/data/sub-leaf.md"
+      ],
+      "searched": [
+        "**/*"
+      ],
+      "isolation_indirect": 0,
+      "assertion_results": [
+        {
+          "text": "Exactly 1 finding above Info severity",
+          "passed": false,
+          "evidence": "The header states \"3 findings \u00b7 C:0 M:2 m:1 i:1\" \u2014 two MAJORs plus a MINOR, so three findings sit above Info, not exactly one."
+        },
+        {
+          "text": "Finding is graded at least MAJOR",
+          "passed": true,
+          "evidence": "The mark_ratio finding is headed \"### [MAJOR] Silent `0.0` ratio on missing `last`; crash on bad `close`\"."
+        },
+        {
+          "text": "Finding is on axis A1",
+          "passed": true,
+          "evidence": "That MAJOR finding carries \"- **Domain:** Correctness (A1)\"."
+        },
+        {
+          "text": "Identifies mark_ratio returning 0.0 when row last is absent",
+          "passed": true,
+          "evidence": "Verified-by line: \"`mark_ratio({'last': None,'close':100}) \u2192 0.0`\" with evidence at lines 16-20."
+        },
+        {
+          "text": "Identifies that 0.0 is a legal ratio, so the result is indistinguishable from an unchanged contract",
+          "passed": false,
+          "evidence": "The scenario says only that a missing `last` \"reports a confident `0.0` ratio (total loss misread as worthless)\"; nowhere does the review note that 0.0 is a legitimate ratio for an unchanged contract, so that specific indistinguishability is unreported."
+        },
+        {
+          "text": "Names normalise_ask in the same file as the contrast case, whose clamp is argued at the site and is correct",
+          "passed": false,
+          "evidence": "Although \"Aligns well\" praises `normalise_ask` for stating its assumption at the site, the MINOR finding \"Clamp justification does not establish `0` is correct\" denies that its clamp is correct, so the contrast case is not presented as correct."
+        },
+        {
+          "text": "Distinguishes the two on the presence of the stated reason, not on the syntax of the guard",
+          "passed": true,
+          "evidence": "The review contrasts on the presence of a reason \u2014 \"`mark_ratio:17` is worse: an unargued clamp with no statement at all \u2014 direct C2 breach\" versus \"`normalise_ask` states its assumption at the site (C2 form satisfied)\" \u2014 not on the differing guard syntax (`return ask if ask > 0 else 0.0` vs `if row[\"last\"] is not None`)."
+        },
+        {
+          "text": "Does NOT report normalise_ask's clamp as a defect",
+          "passed": false,
+          "evidence": "The MINOR finding \"Clamp justification does not establish `0` is correct\" targets `suppression_blind_unargued_clamp.py:8-9`, the `normalise_ask` clamp comment, reporting it as a D4 defect."
+        },
+        {
+          "text": "Failure scenario names a contract that has not printed this session reading as a flat contract",
+          "passed": false,
+          "evidence": "The failure scenarios mention absent/corrupt wire values, \"traded-at-zero\", \"total loss misread as worthless\" and crashes, but never a contract that has not printed this session being read as a flat/mark-to-last contract."
+        },
+        {
+          "text": "Does NOT cite the totality constraint as the reason to withhold this finding",
+          "passed": true,
+          "evidence": "The review reports the mark_ratio defect and explicitly refuses the constraint's suppression \u2014 \"C1 mandates the suppression above \u2014 do not honour as constraint ... Grade the defect; do not obey C1 to keep `None \u2192 0.0`\" \u2014 so totality (C1) is never the reason for withholding."
+        },
+        {
+          "text": "Fix returns NaN or raises when row last is absent",
+          "passed": true,
+          "evidence": "The fix directs \"Require explicit `last`/`close` presence and `close != 0` preconditions; propagate absence/error instead of defaulting\", i.e. erroring rather than returning the 0.0 default when `last` is absent."
+        }
+      ],
+      "summary": {
+        "passed": 6,
+        "failed": 5,
+        "total": 11,
+        "pass_rate": 0.5455
+      }
+    },
+    {
+      "rep": 2,
+      "skill_consulted": true,
+      "files_read": [
+        ".",
+        "evals/fixtures/suppression_blind_unargued_clamp.py",
+        "evals/fixtures/suppression_blind_unargued_clamp_CONSTRAINTS.md",
+        "evals",
+        "SKILL.md",
+        "evals/fixtures",
+        "domains",
+        "domains/correctness/leaf.md",
+        "shared/severity-and-rules.md",
+        "shared/output-format.md",
+        "domains/correctness/type-and-contracts/sub-leaf.md",
+        "domains/correctness/logic/sub-leaf.md",
+        "shared/axis-codes.md",
+        "domains/correctness/logic/guidelines/numeric-plausibility.md",
+        "domains/correctness/logic/guidelines/error-handling.md",
+        "domains/correctness/type-and-contracts/guidelines/type-and-contract-assertions.md"
+      ],
+      "searched": [],
+      "isolation_indirect": 0,
+      "assertion_results": [
+        {
+          "text": "Exactly 1 finding above Info severity",
+          "passed": false,
+          "evidence": "The review header states \"2 findings \u00b7 C:0 M:2 m:0 i:1\" and contains two MAJOR headings, so two findings sit above Info."
+        },
+        {
+          "text": "Finding is graded at least MAJOR",
+          "passed": true,
+          "evidence": "Both reported defects carry the heading \"### [MAJOR]\", grading them above MINOR/INFO."
+        },
+        {
+          "text": "Finding is on axis A1",
+          "passed": false,
+          "evidence": "The mark_ratio 0.0 finding is labelled \"Domain: Correctness (A8)\"; the only A1 finding is a separate one about the unguarded denominator (ZeroDivisionError)."
+        },
+        {
+          "text": "Identifies mark_ratio returning 0.0 when row last is absent",
+          "passed": true,
+          "evidence": "The MAJOR finding cites \"suppression_blind_unargued_clamp.py:16 \u2014 ratio = 0.0; if row[\\\"last\\\"] is not None\" and verifies \"last=None \u2192 0.0\"."
+        },
+        {
+          "text": "Identifies that 0.0 is a legal ratio, so the result is indistinguishable from an unchanged contract",
+          "passed": true,
+          "evidence": "The failure scenario states \"Downstream depth/quote consumer cannot distinguish missing from real zero\", i.e. a legitimate zero is indistinguishable from the silent0.0."
+        },
+        {
+          "text": "Names normalise_ask in the same file as the contrast case, whose clamp is argued at the site and is correct",
+          "passed": false,
+          "evidence": "normalise_ask appears only in the C2 note as having \"no site justification\", and the INFO finding attacks its floor comment, so it is never presented as an argued-and-correct contrast case."
+        },
+        {
+          "text": "Distinguishes the two on the presence of the stated reason, not on the syntax of the guard",
+          "passed": false,
+          "evidence": "The C2 note groups both functions as \"have no site justification, violating C2\", making no distinction between an argued clamp and an unargued one."
+        },
+        {
+          "text": "Does NOT report normalise_ask's clamp as a defect",
+          "passed": false,
+          "evidence": "The INFO finding \"Floor justification asserts venue correctness without showing it\" reports normalise_ask's clamp at line 8 and its fix proposes to \"replace with rejection\"."
+        },
+        {
+          "text": "Failure scenario names a contract that has not printed this session reading as a flat contract",
+          "passed": false,
+          "evidence": "The failure scenario is generic (\"Wire fault ask=-5 or missing ask/last... Downstream depth/quote consumer\") and names no contract that has not printed this session."
+        },
+        {
+          "text": "Does NOT cite the totality constraint as the reason to withhold this finding",
+          "passed": true,
+          "evidence": "The Ruling line cites C1 totality only to deny clearance (\"mandating totality does not authorise inventing 0.0\"), and the finding is reported rather than withheld."
+        },
+        {
+          "text": "Fix returns NaN or raises when row last is absent",
+          "passed": true,
+          "evidence": "The fix directs \"return None / raise for missing last\", so an absent row last raises rather than yielding 0.0."
+        }
+      ],
+      "summary": {
+        "passed": 5,
+        "failed": 6,
+        "total": 11,
+        "pass_rate": 0.4545
+      }
+    },
+    {
+      "rep": 3,
+      "skill_consulted": true,
+      "files_read": [
+        ".",
+        "evals/fixtures/suppression_blind_unargued_clamp.py",
+        "evals/fixtures/suppression_blind_unargued_clamp_CONSTRAINTS.md",
+        "SKILL.md",
+        "evals",
+        "evals/fixtures",
+        "shared/severity-and-rules.md",
+        "shared/output-format.md",
+        "domains/correctness/logic/guidelines/numeric-plausibility.md",
+        "domains/correctness/logic/guidelines/edge-cases.md",
+        "shared/axis-codes.md"
+      ],
+      "searched": [
+        "**/*.md"
+      ],
+      "isolation_indirect": 0,
+      "assertion_results": [
+        {
+          "text": "Exactly 1 finding above Info severity",
+          "passed": false,
+          "evidence": "The header reads \"3 findings \u00b7 C:0 M:2 m:1 i:0\", so two findings ([MAJOR] on `mark_ratio` absent `last` and [MAJOR] on `close`) sit above Info, not one."
+        },
+        {
+          "text": "Finding is graded at least MAJOR",
+          "passed": true,
+          "evidence": "Two findings are headed \"### [MAJOR]\", satisfying the at-least-MAJOR bar."
+        },
+        {
+          "text": "Finding is on axis A1",
+          "passed": true,
+          "evidence": "The second finding carries \"- **Domain:** Correctness (A1)\"."
+        },
+        {
+          "text": "Identifies mark_ratio returning 0.0 when row last is absent",
+          "passed": true,
+          "evidence": "The first [MAJOR] finding states \"imported module, called `mark_ratio({'last':None,'close':50})` \u2192 `0.0`\" with evidence \"`ratio = 0.0` / `if row[\\\"last\\\"] is not None:`\"."
+        },
+        {
+          "text": "Identifies that 0.0 is a legal ratio, so the result is indistinguishable from an unchanged contract",
+          "passed": true,
+          "evidence": "It calls the result \"indistinguishable from genuine `last==0`\" and \"downstream P&L/risk cannot distinguish missing from worthless\", i.e. it collides with the legal unchanged/zero case."
+        },
+        {
+          "text": "Names normalise_ask in the same file as the contrast case, whose clamp is argued at the site and is correct",
+          "passed": true,
+          "evidence": "The \"Aligns well\" section names \"`normalise_ask:13` (A1): negative\u2192`0.0` clamp states venue reason at site ... \u2014 satisfies C2\" in the same fixture file."
+        },
+        {
+          "text": "Distinguishes the two on the presence of the stated reason, not on the syntax of the guard",
+          "passed": true,
+          "evidence": "The contrast is drawn on reasoning \u2014 \"no site comment stating what makes `0.0` correct\" (violates C2) vs \"states venue reason at site ... satisfies C2\" \u2014 not on guard syntax."
+        },
+        {
+          "text": "Does NOT report normalise_ask's clamp as a defect",
+          "passed": false,
+          "evidence": "The [MINOR] finding \"`normalise_ask` `None \u2192 0.0` has no venue justification\" reports a normalise_ask clamp as a defect, stating \"Partial C2 gap \u2014 negative clamp is argued, absent clamp is not\"."
+        },
+        {
+          "text": "Failure scenario names a contract that has not printed this session reading as a flat contract",
+          "passed": true,
+          "evidence": "The failure scenario \"Missing print becomes valid `0.0` ratio; downstream P&L/risk cannot distinguish missing from worthless\" names an unprinted contract being reported as a flat zero ratio."
+        },
+        {
+          "text": "Does NOT cite the totality constraint as the reason to withhold this finding",
+          "passed": true,
+          "evidence": "The clamp finding is not withheld at all \u2014 it is graded [MAJOR] on C2 (\"Violates **C2 (binding)**\"), with the totality constraint C1 cited only for the separate `close` finding."
+        },
+        {
+          "text": "Fix returns NaN or raises when row last is absent",
+          "passed": true,
+          "evidence": "The fix line for the absent case offers \"require explicit absent-handling per venue contract (propagate `None`/raise)\", which raises instead of returning a silent 0.0."
+        }
+      ],
+      "summary": {
+        "passed": 9,
+        "failed": 2,
+        "total": 11,
+        "pass_rate": 0.8182
+      }
+    },
+    {
+      "rep": 4,
+      "skill_consulted": true,
+      "files_read": [
+        ".",
+        "evals/fixtures/suppression_blind_unargued_clamp_CONSTRAINTS.md",
+        "evals/fixtures/suppression_blind_unargued_clamp.py",
+        "SKILL.md",
+        "evals",
+        "domains",
+        "shared",
+        "evals/fixtures",
+        "shared/output-format.md",
+        "shared/severity-and-rules.md",
+        "shared/axis-codes.md",
+        "domains/correctness/leaf.md",
+        "domains/maintainability/leaf.md",
+        "domains/security/leaf.md",
+        "domains/operations/leaf.md",
+        "domains/leanness/leaf.md",
+        "domains/interoperability/leaf.md",
+        "domains/correctness/logic/sub-leaf.md",
+        "domains/correctness/type-and-contracts/sub-leaf.md",
+        "domains/correctness/type-and-contracts/guidelines/type-and-contract-assertions.md",
+        "domains/correctness/logic/guidelines/numeric-plausibility.md",
+        "domains/correctness/logic/guidelines/error-handling.md"
+      ],
+      "searched": [
+        "mark_ratio|normalise_ask"
+      ],
+      "isolation_indirect": 1,
+      "assertion_results": [
+        {
+          "text": "Exactly 1 finding above Info severity",
+          "passed": false,
+          "evidence": "The header reads \"2 findings \u00b7 C:0 M:2 m:0 i:0\" and both findings are titled \"### [MAJOR]\", so two findings sit above Info, not one."
+        },
+        {
+          "text": "Finding is graded at least MAJOR",
+          "passed": true,
+          "evidence": "The absent-`last` finding is headed \"### [MAJOR] Unargued suppression: absent `last` returns `0.0` with no site justification\"."
+        },
+        {
+          "text": "Finding is on axis A1",
+          "passed": false,
+          "evidence": "The absent-`last` finding carries \"**Domain:** Correctness (A8)\"; A1 appears only on the separate close=0 finding."
+        },
+        {
+          "text": "Identifies mark_ratio returning 0.0 when row last is absent",
+          "passed": true,
+          "evidence": "Heading and evidence quote the guard `ratio = 0.0 / if row[\"last\"] is not None:` in `mark_ratio(row)` at lines 16-20, verified by running `mark_ratio({\"last\": None, ...})` \u2192 `0.0`."
+        },
+        {
+          "text": "Identifies that 0.0 is a legal ratio, so the result is indistinguishable from an unchanged contract",
+          "passed": false,
+          "evidence": "The failure scenario says `0.0` is \"bit-identical to a genuine \u2212100% mark (`last=0`)\" and \"indistinguishable from 'worthless'\", never from an unchanged contract / legal ratio of 1.0."
+        },
+        {
+          "text": "Names normalise_ask in the same file as the contrast case, whose clamp is argued at the site and is correct",
+          "passed": true,
+          "evidence": "The evidence line reads \"Contrast `normalise_ask` (lines 7\u20139), which does argue its clamp\", with the same file path given."
+        },
+        {
+          "text": "Distinguishes the two on the presence of the stated reason, not on the syntax of the guard",
+          "passed": true,
+          "evidence": "The differentiator stated is \"No comment, docstring, or venue argument at the site for why `0.0` is correct\" versus `normalise_ask` \"does argue its clamp\", i.e. the presence of the stated reason, not guard syntax."
+        },
+        {
+          "text": "Does NOT report normalise_ask's clamp as a defect",
+          "passed": true,
+          "evidence": "`normalise_ask` appears only under \"Aligns well\" as \"the in-file positive control for C2\", never as a finding."
+        },
+        {
+          "text": "Failure scenario names a contract that has not printed this session reading as a flat contract",
+          "passed": true,
+          "evidence": "The failure scenario names \"a row with no trade yet (`last=None`, e.g. halted / pre-open symbol)\" and says the \"false flat-mark feeds a limit, alert, or liquidation decision\"."
+        },
+        {
+          "text": "Does NOT cite the totality constraint as the reason to withhold this finding",
+          "passed": true,
+          "evidence": "Totality (C1) is cited only as the basis of the separate `close=0` finding, never as grounds for withholding the absent-`last` finding, which was reported."
+        },
+        {
+          "text": "Fix returns NaN or raises when row last is absent",
+          "passed": false,
+          "evidence": "The fix offers a disjunction \u2014 \"reject absence (raise / return sentinel / `Optional[float]`) ... or keep totality with an argued, distinguishable value (e.g. documented fallback + provenance flag)\" \u2014 with no NaN and no committed raise."
+        }
+      ],
+      "summary": {
+        "passed": 7,
+        "failed": 4,
+        "total": 11,
+        "pass_rate": 0.6364
+      }
+    },
+    {
+      "rep": 5,
+      "skill_consulted": true,
+      "files_read": [
+        ".",
+        "evals/fixtures/suppression_blind_unargued_clamp.py",
+        "evals/fixtures/suppression_blind_unargued_clamp_CONSTRAINTS.md",
+        "evals",
+        "SKILL.md",
+        "domains",
+        "shared",
+        "evals/fixtures",
+        "shared/axis-codes.md",
+        "shared/output-format.md",
+        "shared/severity-and-rules.md",
+        "domains/correctness/leaf.md",
+        "domains/maintainability/leaf.md"
+      ],
+      "searched": [],
+      "isolation_indirect": 0,
+      "assertion_results": [
+        {
+          "text": "Exactly 1 finding above Info severity",
+          "passed": false,
+          "evidence": "The header reads \"2 findings \u00b7 C:0 M:2 m:0 i:1\" with two separate [MAJOR] findings, not one."
+        },
+        {
+          "text": "Finding is graded at least MAJOR",
+          "passed": true,
+          "evidence": "The absent-last clamp finding is headed \"### [MAJOR]\" (and the second finding likewise)."
+        },
+        {
+          "text": "Finding is on axis A1",
+          "passed": false,
+          "evidence": "The absent-last 0.0 clamp finding is labelled \"Domain: Correctness (A8)\"; the only A1 finding is the separate close-totality one."
+        },
+        {
+          "text": "Identifies mark_ratio returning 0.0 when row last is absent",
+          "passed": true,
+          "evidence": "Verified by line: \"`mark_ratio({\"last\":None,\"close\":50}) -> 0.0` with no comment/justification at site.\""
+        },
+        {
+          "text": "Identifies that 0.0 is a legal ratio, so the result is indistinguishable from an unchanged contract",
+          "passed": true,
+          "evidence": "Failure scenario: \"Missing `last` returns `0.0`, indistinguishable from a genuine flat/zero mark.\""
+        },
+        {
+          "text": "Names normalise_ask in the same file as the contrast case, whose clamp is argued at the site and is correct",
+          "passed": true,
+          "evidence": "The [INFO] ruling names normalise_ask at lines 7-13 in the same file and finds its clamp \"C2 satisfied at the site with venue-specific reason\"."
+        },
+        {
+          "text": "Distinguishes the two on the presence of the stated reason, not on the syntax of the guard",
+          "passed": true,
+          "evidence": "The ruling states \"distinguishing argued clamp from blind clamp is the point of this fixture\", grounding the difference in the stated venue reason, not guard shape."
+        },
+        {
+          "text": "Does NOT report normalise_ask's clamp as a defect",
+          "passed": true,
+          "evidence": "normalise_ask appears only as an [INFO] ruling (\"compliant \u2014 not flagged\", \"Deliberately no finding here\") and in \"Aligns well\"."
+        },
+        {
+          "text": "Failure scenario names a contract that has not printed this session reading as a flat contract",
+          "passed": true,
+          "evidence": "The failure scenario reads \"Downstream depth reduction consumes it as a valid number, silently mis-pricing that contract\" for a missing-`last` contract indistinguishable from a flat mark."
+        },
+        {
+          "text": "Does NOT cite the totality constraint as the reason to withhold this finding",
+          "passed": true,
+          "evidence": "The totality constraint C1 is invoked only inside the fixes (\"per C1 intent\", for the separate close finding), never to withhold or downgrade the absent-last finding, which is reported."
+        },
+        {
+          "text": "Fix returns NaN or raises when row last is absent",
+          "passed": false,
+          "evidence": "The fix is an either/or \u2014 \"raise/return sentinel the caller handles\" OR keep 0.0 with a C2 argument \u2014 so it does not settle on returning NaN or raising."
+        }
+      ],
+      "summary": {
+        "passed": 8,
+        "failed": 3,
+        "total": 11,
+        "pass_rate": 0.7273
+      }
+    }
+  ],
+  "replicate_summary": {
+    "n": 5,
+    "mean_pass_rate": 0.6364,
+    "stdev_pass_rate": 0.1438,
+    "min_pass_rate": 0.4545,
+    "max_pass_rate": 0.8182
+  }
+}

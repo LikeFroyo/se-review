@@ -1,0 +1,87 @@
+{
+  "eval_id": 25,
+  "eval_name": "eval-clean-service",
+  "condition": "with_skill",
+  "skill_consulted": true,
+  "files_read": [
+    "evals/fixtures/clean_service.py",
+    "SKILL.md",
+    "evals/README.md",
+    "shared/severity-and-rules.md",
+    "shared/output-format.md",
+    "shared/axis-codes.md",
+    "domains/correctness/leaf.md",
+    "domains/operations/leaf.md",
+    "domains/maintainability/leaf.md",
+    "domains/leanness/leaf.md",
+    "domains/interoperability/leaf.md",
+    "domains/correctness/security/sub-leaf.md",
+    "domains/correctness/security/guidelines/injection-secrets.md",
+    "domains/correctness/security/guidelines/access-control.md",
+    "domains/correctness/logic/sub-leaf.md",
+    "domains/correctness/logic/guidelines/error-handling.md",
+    "domains/operations/resilience/guidelines/retries-backoff.md",
+    "domains/operations/resilience/sub-leaf.md",
+    "domains/operations/observability/guidelines/log-hygiene.md",
+    "domains/correctness/data/guidelines/query-patterns.md",
+    "domains/correctness/logic/guidelines/edge-cases.md",
+    "domains/maintainability/clarity/sub-leaf.md",
+    "domains/maintainability/complexity/sub-leaf.md",
+    "domains/maintainability/evolvability/sub-leaf.md",
+    "domains/maintainability/design/guidelines/solid-principles.md",
+    "domains/leanness/waste/sub-leaf.md",
+    "domains/maintainability/evolvability/guidelines/implicit-state.md",
+    "domains/maintainability/clarity/guidelines/magic-values-comments.md"
+  ],
+  "assertion_results": [
+    {
+      "text": "Zero findings above Info severity",
+      "passed": false,
+      "evidence": "The review reports \"4 findings · C:0 M:0 m:1 i:3\", including a [MINOR] finding, so a finding above Info severity exists."
+    },
+    {
+      "text": "Mean score is 100/100 and Final Grade is A",
+      "passed": false,
+      "evidence": "The header reads \"Mean 99.4/100 · Final Grade A\", not 100/100."
+    },
+    {
+      "text": "Output includes 'Aligns well' section",
+      "passed": true,
+      "evidence": "The review contains a \"## Aligns well\" section listing the file's strengths."
+    },
+    {
+      "text": "Identifies parameterized query preventing SQL injection as positive",
+      "passed": true,
+      "evidence": "Under \"Aligns well\": \"Parameterized query throughout, no f-string or concatenation (A5): ... uses bound placeholders with a parameter tuple.\""
+    },
+    {
+      "text": "Identifies exponential backoff with jitter in resilience loop as positive",
+      "passed": true,
+      "evidence": "Under \"Aligns well\": \"Retry is bounded, jittered, and exception-type-narrow (C3) ... full-jitter exponential backoff\"."
+    },
+    {
+      "text": "Output does NOT invent nitpicks on clean service design",
+      "passed": false,
+      "evidence": "It raises four nitpicks on the clean control, e.g. the log \"drops the exception it just caught\" and the backoff path \"has no seam\"."
+    },
+    {
+      "text": "Header matches pattern: 0 findings · C:0 M:0 m:0 i:0 · Mean 100/100 · Final Grade A",
+      "passed": false,
+      "evidence": "The header is \"4 findings · C:0 M:0 m:1 i:3 · Mean 99.4/100 · Final Grade A\", not the 0-findings/100-mean pattern."
+    },
+    {
+      "text": "No 'Gated by' line, because neither cap binds",
+      "passed": true,
+      "evidence": "No \"Gated by\" line appears; the review instead states \"*(Caps do not bind — no Critical, and the weakest domain, Correctness at 97, is already band A.)*\""
+    }
+  ],
+  "summary": {
+    "passed": 4,
+    "failed": 4,
+    "total": 8,
+    "pass_rate": 0.5
+  },
+  "searched": [
+    "**/{AGENTS.md,README.md,CONTRIBUTING.md}"
+  ]
+}

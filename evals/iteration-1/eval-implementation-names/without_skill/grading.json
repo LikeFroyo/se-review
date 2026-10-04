@@ -1,0 +1,21 @@
+{
+  "eval": "eval-implementation-names",
+  "eval_id": 59,
+  "fixture": "evals/fixtures/implementation_names.py",
+  "run": "without_skill",
+  "phase": "before",
+  "review": "1 finding · C:0 M:0 m:1 i:0 — Domain Score: 97/100 (Grade A)",
+  "summary": { "passed": 3, "failed": 6, "total": 9, "pass_rate": 0.333 },
+  "assertions": [
+    { "n": 1, "text": "Exactly 1 finding above Info severity", "result": "pass", "evidence": "One finding raised, on terminology." },
+    { "n": 2, "text": "Finding is graded MAJOR", "result": "fail", "evidence": "Graded MINOR, against the pre-change sub-leaf's only applicable line for naming." },
+    { "n": 3, "text": "Finding is on axis B4 (Clarity)", "result": "pass", "evidence": "Reported under Maintainability / Clarity (B4)." },
+    { "n": 4, "text": "Identifies get_widget_from_redis as naming the storage engine in the function name", "result": "fail", "evidence": "Missed. naming-semantics.md's pre-change 'misleading names' bullet needs the name to promise a behaviour the function does not have; a name that accurately reports which store is consulted is accurate, just coupled." },
+    { "n": 5, "text": "Identifies _cache_v2, get_widget_v2, get_widget_temp and _temp_rows as permanent temporary or version suffixes", "result": "fail", "evidence": "Missed. No pre-change bullet addressed version or temporary suffixes on live symbols." },
+    { "n": 6, "text": "Notes get_widget and get_widget_v2 each documenting the other as superseding, with both live", "result": "fail", "evidence": "Missed. doc-drift.md would need a doc claim to contradict a repo fact; two docstrings each claiming to supersede the other is a contradiction with no fact to check it against." },
+    { "n": 7, "text": "Notes get_client as a third term for the same record", "result": "pass", "evidence": "Raised — this matches the pre-existing 'Inconsistent terminology' bullet, which names mixing user/customer/account/client as its example." },
+    { "n": 8, "text": "Fix recommends naming the concept and contract rather than the implementation", "result": "fail", "evidence": "Fix recommended renaming get_client to get_widget only; the storage-engine name and the four version/temporary suffixes were untouched." },
+    { "n": 9, "text": "Header matches pattern: 1 finding · C:0 M:1 m:0 i:0", "result": "fail", "evidence": "Header rendered `1 finding · C:0 M:0 m:1 i:0`." }
+  ],
+  "notes": "Partial catch on the one name the pre-existing bullet already exemplified. Names that freeze an implementation and names that never shed a temporary suffix were invisible, and both are a permanent rename tax rather than a momentary confusion."
+}

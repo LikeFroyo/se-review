@@ -1,0 +1,21 @@
+{
+  "reason": "contamination",
+  "reads": [
+    "repo/repo",
+    "repo/repo/evals/fixtures",
+    "repo/repo/evals/fixtures/suppress_unfiltered_fanout.py",
+    "repo/repo/evals/fixtures/suppress_unfiltered_fanout_CONSTRAINTS.md",
+    "repo/repo/SKILL.md",
+    "repo/repo/evals",
+    "repo/repo/evals/README.md",
+    "repo/repo/evals/fixtures/suppress_unbounded_queue.py",
+    "repo/repo/project-tree/shared",
+    "repo/repo/project-tree/shared/deliberate.md",
+    "repo/repo/evals/iteration-1",
+    "repo/repo/evals/iteration-1/eval-suppress-unfiltered-fanout",
+    "repo/repo/evals/iteration-1/eval-suppress-unfiltered-fanout/with_skill",
+    "repo/repo/scripts/run_evals.py",
+    "repo/repo/evals/evals.json",
+    "repo/repo/shared/output-format.md"
+  ]
+}

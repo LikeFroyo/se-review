@@ -1,0 +1,224 @@
+{
+  "eval_id": 4,
+  "eval_name": "eval-nplusone",
+  "condition": "with_skill",
+  "model_config": "cfg:567712ad39ee",
+  "judge_model_config": "cfg:1c50bc6e7d47",
+  "judge_disjoint": true,
+  "base_commit": "92b5a4c",
+  "no_axis_count": null,
+  "no_axis_count_reason": "no review body",
+  "grader_config": "cfg:458057126fc7",
+  "fixture_digests": {
+    "evals/fixtures/nplusone.py": "sha256:042648abdef6e499"
+  },
+  "skill_consulted": true,
+  "skill_consulted_reps": 2,
+  "reps_requested": 3,
+  "reps_completed": 3,
+  "assertion_results": [
+    {
+      "text": "Exactly 1 finding above Info severity",
+      "passed": false,
+      "evidence": "The Findings section contains two headings above Info \u2014 \"### [MAJOR] N+1 query loop\" and \"### [MINOR] Unhandled missing member dereference\" \u2014 and the header itself reads \"3 findings \u00b7 C:0 M:1 m:1 i:1\"."
+    },
+    {
+      "text": "Finding is graded MAJOR",
+      "passed": true,
+      "evidence": "The N+1 finding is headed \"### [MAJOR] N+1 query loop in `directory` \u2014 2N round-trips\"."
+    },
+    {
+      "text": "Finding is on axis A3 (Data)",
+      "passed": true,
+      "evidence": "Under the MAJOR finding: \"**Domain:** Correctness (A3)\"."
+    },
+    {
+      "text": "Evidence identifies the query loop over member_ids",
+      "passed": true,
+      "evidence": "The Evidence line reads \"`nplusone.py:19-21` \u2014 `for mid in member_ids: member = get_member(conn, mid)`\"."
+    },
+    {
+      "text": "Impact quantified (~2N+1 or query-per-iteration growth)",
+      "passed": true,
+      "evidence": "Failure scenario: \"Directory page with 500 members issues ~1000 sequential DB round-trips; latency scales linearly\", and the title says \"2N round-trips\"."
+    },
+    {
+      "text": "Fix recommends batched query or JOIN",
+      "passed": true,
+      "evidence": "Fix: \"single batched query \u2014 `SELECT m.name, t.name FROM members m LEFT JOIN teams t ON t.id=m.team_id WHERE m.id IN (...)`\"."
+    },
+    {
+      "text": "Header matches pattern: 1 finding \u00b7 C:0 M:1 m:0 i:0",
+      "passed": false,
+      "evidence": "Header is \"3 findings \u00b7 C:0 M:1 m:1 i:1 \u00b7 Mean 94/100 \u00b7 Final Grade B\", not \"1 finding \u00b7 C:0 M:1 m:0 i:0\"."
+    }
+  ],
+  "summary": {
+    "passed": 14,
+    "failed": 7,
+    "total": 21,
+    "pass_rate": 0.6667
+  },
+  "replicates": [
+    {
+      "rep": 1,
+      "skill_consulted": true,
+      "files_read": [
+        "evals/fixtures/nplusone.py"
+      ],
+      "searched": [],
+      "assertion_results": [
+        {
+          "text": "Exactly 1 finding above Info severity",
+          "passed": false,
+          "evidence": "The Findings section contains two headings above Info \u2014 \"### [MAJOR] N+1 query loop\" and \"### [MINOR] Unhandled missing member dereference\" \u2014 and the header itself reads \"3 findings \u00b7 C:0 M:1 m:1 i:1\"."
+        },
+        {
+          "text": "Finding is graded MAJOR",
+          "passed": true,
+          "evidence": "The N+1 finding is headed \"### [MAJOR] N+1 query loop in `directory` \u2014 2N round-trips\"."
+        },
+        {
+          "text": "Finding is on axis A3 (Data)",
+          "passed": true,
+          "evidence": "Under the MAJOR finding: \"**Domain:** Correctness (A3)\"."
+        },
+        {
+          "text": "Evidence identifies the query loop over member_ids",
+          "passed": true,
+          "evidence": "The Evidence line reads \"`nplusone.py:19-21` \u2014 `for mid in member_ids: member = get_member(conn, mid)`\"."
+        },
+        {
+          "text": "Impact quantified (~2N+1 or query-per-iteration growth)",
+          "passed": true,
+          "evidence": "Failure scenario: \"Directory page with 500 members issues ~1000 sequential DB round-trips; latency scales linearly\", and the title says \"2N round-trips\"."
+        },
+        {
+          "text": "Fix recommends batched query or JOIN",
+          "passed": true,
+          "evidence": "Fix: \"single batched query \u2014 `SELECT m.name, t.name FROM members m LEFT JOIN teams t ON t.id=m.team_id WHERE m.id IN (...)`\"."
+        },
+        {
+          "text": "Header matches pattern: 1 finding \u00b7 C:0 M:1 m:0 i:0",
+          "passed": false,
+          "evidence": "Header is \"3 findings \u00b7 C:0 M:1 m:1 i:1 \u00b7 Mean 94/100 \u00b7 Final Grade B\", not \"1 finding \u00b7 C:0 M:1 m:0 i:0\"."
+        }
+      ],
+      "summary": {
+        "passed": 5,
+        "failed": 2,
+        "total": 7,
+        "pass_rate": 0.7143
+      }
+    },
+    {
+      "rep": 2,
+      "skill_consulted": false,
+      "files_read": [
+        "evals/fixtures/nplusone.py"
+      ],
+      "searched": [],
+      "assertion_results": [
+        {
+          "text": "Exactly 1 finding above Info severity",
+          "passed": false,
+          "evidence": "The Findings list has two items above Info \u2014 \"1. Major \u2014 N+1 (actually 2N)\" and \"2. Minor \u2014 No missing-member guard\" \u2014 so it is 2, not 1."
+        },
+        {
+          "text": "Finding is graded MAJOR",
+          "passed": true,
+          "evidence": "Finding 1 is explicitly labelled \"Major \u2014 N+1 (actually 2N) query pattern `nplusone.py:14-18`\"."
+        },
+        {
+          "text": "Finding is on axis A3 (Data)",
+          "passed": false,
+          "evidence": "A full read of the review (Findings 1-3 plus the closing \"No injection\" line) shows no axis code or axis label anywhere \u2014 no \"A3\", no \"Data\", no \"Domain:\" line."
+        },
+        {
+          "text": "Evidence identifies the query loop over member_ids",
+          "passed": true,
+          "evidence": "The quoted code shows `for mid in member_ids:` and finding 1 names \"`directory()` does 1 `SELECT` per member via `get_member()` + 1 `SELECT` per member via `get_team_name()`\"."
+        },
+        {
+          "text": "Impact quantified (~2N+1 or query-per-iteration growth)",
+          "passed": true,
+          "evidence": "Finding 1 states \"N+1 (actually 2N) query pattern\" and \"Cost `O(N)` round-trips\"."
+        },
+        {
+          "text": "Fix recommends batched query or JOIN",
+          "passed": true,
+          "evidence": "Finding 1's fix is \"single `SELECT ... FROM members JOIN teams ... WHERE members.id IN (...)` with parameterized placeholders, build dict in Python\"."
+        },
+        {
+          "text": "Header matches pattern: 1 finding \u00b7 C:0 M:1 m:0 i:0",
+          "passed": false,
+          "evidence": "The only header is \"Review: `nplusone.py` \u2014 standalone:\"; there is no \"\u00b7 C:0 M:1 m:0 i:0\" line, and the review actually reports 1 Major, 1 Minor and 1 Info finding."
+        }
+      ],
+      "summary": {
+        "passed": 4,
+        "failed": 3,
+        "total": 7,
+        "pass_rate": 0.5714
+      }
+    },
+    {
+      "rep": 3,
+      "skill_consulted": true,
+      "files_read": [
+        "evals/fixtures/nplusone.py"
+      ],
+      "searched": [],
+      "assertion_results": [
+        {
+          "text": "Exactly 1 finding above Info severity",
+          "passed": false,
+          "evidence": "The header reads \"`2 findings \u00b7 C:0 M:1 m:1 i:0`\" and the Findings section contains both a `[MAJOR]` and a `[MINOR]` entry, so two findings sit above Info, not one."
+        },
+        {
+          "text": "Finding is graded MAJOR",
+          "passed": true,
+          "evidence": "The first finding is headed \"### [MAJOR] N+1 query loop in `directory()` \u2014 2N round-trips, no batching or cache\"."
+        },
+        {
+          "text": "Finding is on axis A3 (Data)",
+          "passed": true,
+          "evidence": "The MAJOR finding's Domain line states \"**Domain:** Correctness (A3)\"."
+        },
+        {
+          "text": "Evidence identifies the query loop over member_ids",
+          "passed": true,
+          "evidence": "Its Evidence line quotes the loop head \"`for mid in member_ids:`\" and cites `nplusone.py:16-22`."
+        },
+        {
+          "text": "Impact quantified (~2N+1 or query-per-iteration growth)",
+          "passed": true,
+          "evidence": "Failure scenario quantifies \"N members = 2N sequential round-trips\" and \"A 200-member directory page issues 400 queries\"."
+        },
+        {
+          "text": "Fix recommends batched query or JOIN",
+          "passed": true,
+          "evidence": "The Fix line proposes batched `SELECT ... WHERE id IN (...)` queries \"or a single `JOIN`\" mapping team_id \u2192 name in memory."
+        },
+        {
+          "text": "Header matches pattern: 1 finding \u00b7 C:0 M:1 m:0 i:0",
+          "passed": false,
+          "evidence": "The header actually reads \"`2 findings \u00b7 C:0 M:1 m:1 i:0 \u00b7 Mean 98/100 \u00b7 Final Grade B`\", differing in both the finding count (2) and the m:1 count."
+        }
+      ],
+      "summary": {
+        "passed": 5,
+        "failed": 2,
+        "total": 7,
+        "pass_rate": 0.7143
+      }
+    }
+  ],
+  "replicate_summary": {
+    "n": 3,
+    "mean_pass_rate": 0.6667,
+    "stdev_pass_rate": 0.0825,
+    "min_pass_rate": 0.5714,
+    "max_pass_rate": 0.7143
+  }
+}

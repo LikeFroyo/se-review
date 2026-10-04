@@ -1,0 +1,62 @@
+{
+  "eval_id": 38,
+  "eval_name": "eval-ecb-mode",
+  "condition": "with_skill",
+  "skill_consulted": true,
+  "files_read": [
+    "evals/fixtures/ecb_mode_cipher.py",
+    "SKILL.md",
+    "evals/fixtures"
+  ],
+  "assertion_results": [
+    {
+      "text": "Exactly 1 finding above Info severity",
+      "passed": false,
+      "evidence": "The review reports three MAJOR findings (ECB mode, the CBC \"sound reference\", and missing padding) plus a Minor, not exactly one above Info."
+    },
+    {
+      "text": "Finding is graded MAJOR",
+      "passed": true,
+      "evidence": "The review grades its finding \"**MAJOR · A5 — ECB mode** — `ecb_mode_cipher.py:20`\"."
+    },
+    {
+      "text": "Finding is on axis A5 (Security)",
+      "passed": true,
+      "evidence": "The finding is explicitly labeled \"MAJOR · A5\", the Security axis."
+    },
+    {
+      "text": "Identifies ECB mode in encrypt_field",
+      "passed": true,
+      "evidence": "The first code-layer finding names the defect directly: \"MAJOR · A5 — ECB mode — ecb_mode_cipher.py:20\", and the artifact section confirms `modes.ECB()` is on lines 20 and 26."
+    },
+    {
+      "text": "Explains the consequence: identical plaintext blocks produce identical ciphertext",
+      "passed": true,
+      "evidence": "The review states \"Verified determinism empirically: two identical plaintexts produce byte-identical ciphertext.\""
+    },
+    {
+      "text": "Fix recommends a modern AEAD mode with a unique nonce per message",
+      "passed": false,
+      "evidence": "The review never proposes a fix of switching to an AEAD mode with a unique nonce; its only fix suggestions are loosening assertion 1 and dropping or inverting assertion 7."
+    },
+    {
+      "text": "encrypt_with_random_iv is NOT flagged above Info (it is the sound reference)",
+      "passed": false,
+      "evidence": "The review flags encrypt_with_random_iv as a second MAJOR finding, calling it \"unauthenticated CBC\" that returns silently corrupted blocks."
+    },
+    {
+      "text": "Header matches pattern: 1 finding · C:0 M:1 m:0 i:0",
+      "passed": false,
+      "evidence": "No summary header of the form \"1 finding · C:0 M:1 m:0 i:0\" appears; the counts would in fact be 3 MAJOR and 1 Minor."
+    }
+  ],
+  "summary": {
+    "passed": 4,
+    "failed": 4,
+    "total": 8,
+    "pass_rate": 0.5
+  },
+  "searched": [
+    "VULNERABILITY|CRITICAL:|MAJOR VULN|BUG:"
+  ]
+}

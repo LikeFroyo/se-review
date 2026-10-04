@@ -1,0 +1,17 @@
+{
+  "reason": "isolation unproven",
+  "detail": "read outside this run's workspace: repo/shared/severity-and-rules.md",
+  "reads": [
+    "ws/.",
+    "ws/evals/fixtures/suppression_blind_nan_contract.py",
+    "ws/evals/fixtures/suppression_blind_nan_contract_CONSTRAINTS.md",
+    "ws/evals",
+    "repo/shared/severity-and-rules.md",
+    "ws/SKILL.md",
+    "ws/shared/output-format.md",
+    "ws/shared/axis-codes.md",
+    "ws/domains/correctness/leaf.md",
+    "ws/domains/correctness/logic/sub-leaf.md",
+    "ws/domains/correctness/logic/guidelines/numeric-plausibility.md"
+  ]
+}

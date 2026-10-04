@@ -1,0 +1,203 @@
+{
+  "eval_id": 2,
+  "eval_name": "eval-retry",
+  "condition": "with_skill",
+  "model_config": "cfg:567712ad39ee",
+  "judge_model_config": "cfg:1c50bc6e7d47",
+  "judge_disjoint": true,
+  "base_commit": "92b5a4c",
+  "no_axis_count": null,
+  "no_axis_count_reason": "no review body",
+  "grader_config": "cfg:458057126fc7",
+  "fixture_digests": {
+    "evals/fixtures/retry.py": "sha256:484410d7388a31d6"
+  },
+  "skill_consulted": true,
+  "skill_consulted_reps": 2,
+  "reps_requested": 3,
+  "reps_completed": 2,
+  "assertion_results": [
+    {
+      "text": "Exactly 1 finding above Info severity",
+      "passed": false,
+      "evidence": "The header reads \"6 findings \u00b7 C:1 M:2 m:2 i:1\" with headings [CRITICAL], [MAJOR] x2, [MINOR] x2, so five findings sit above Info, not one."
+    },
+    {
+      "text": "Finding is graded MAJOR",
+      "passed": true,
+      "evidence": "The review contains the heading \"### [MAJOR] Tight retry loop with no backoff/jitter\"."
+    },
+    {
+      "text": "Finding is on axis C3 (Resilience)",
+      "passed": true,
+      "evidence": "That MAJOR finding is labelled \"**Domain:** Operations (C3)\", the review's code for the retry/resilience axis."
+    },
+    {
+      "text": "Evidence identifies the immediate retry loop (no delay between attempts)",
+      "passed": true,
+      "evidence": "Its \"Verified by\" line reads \"immediate next `requests.post` with no `sleep`/backoff in `retry.py:10-13`\"."
+    },
+    {
+      "text": "Failure scenario describes thundering-herd or amplified load under 503",
+      "passed": true,
+      "evidence": "The Failure scenario says \"5x back-to-back hits per caller; N synchronized callers hammer it simultaneously, prolonging outage (thundering herd)\" (5xx rather than 503 specifically)."
+    },
+    {
+      "text": "Fix mentions exponential backoff with jitter",
+      "passed": true,
+      "evidence": "The Fix line reads \"Exponential backoff with jitter between attempts (e.g. `0.2s * 2^attempt + random`) + respect `Retry-After`\"."
+    },
+    {
+      "text": "Fix mentions a total-wait cap or bounded retry budget",
+      "passed": false,
+      "evidence": "The retry-loop finding's Fix covers only backoff-with-jitter and `Retry-After`; no total-wait cap or bounded retry budget appears there (the only budget language, \"budget exhausted\", belongs to the separate A1 finding)."
+    },
+    {
+      "text": "Trade-off names increased worst-case latency for a single call",
+      "passed": true,
+      "evidence": "Its Trade-off line reads \"Adds worst-case added latency (~seconds) per `push()` call in exchange for downstream recovery\"."
+    },
+    {
+      "text": "Header matches pattern: 1 finding \u00b7 C:0 M:1 m:0 i:0",
+      "passed": false,
+      "evidence": "The header is \"`6 findings \u00b7 C:1 M:2 m:2 i:1 \u00b7 Mean 92/100 \u00b7 Final Grade F`\", not the required \"1 finding \u00b7 C:0 M:1 m:0 i:0\"."
+    }
+  ],
+  "summary": {
+    "passed": 13,
+    "failed": 5,
+    "total": 18,
+    "pass_rate": 0.7222
+  },
+  "replicates": [
+    {
+      "rep": 2,
+      "skill_consulted": true,
+      "files_read": [
+        "evals/fixtures/retry.py"
+      ],
+      "searched": [],
+      "assertion_results": [
+        {
+          "text": "Exactly 1 finding above Info severity",
+          "passed": false,
+          "evidence": "The header reads \"6 findings \u00b7 C:1 M:2 m:2 i:1\" with headings [CRITICAL], [MAJOR] x2, [MINOR] x2, so five findings sit above Info, not one."
+        },
+        {
+          "text": "Finding is graded MAJOR",
+          "passed": true,
+          "evidence": "The review contains the heading \"### [MAJOR] Tight retry loop with no backoff/jitter\"."
+        },
+        {
+          "text": "Finding is on axis C3 (Resilience)",
+          "passed": true,
+          "evidence": "That MAJOR finding is labelled \"**Domain:** Operations (C3)\", the review's code for the retry/resilience axis."
+        },
+        {
+          "text": "Evidence identifies the immediate retry loop (no delay between attempts)",
+          "passed": true,
+          "evidence": "Its \"Verified by\" line reads \"immediate next `requests.post` with no `sleep`/backoff in `retry.py:10-13`\"."
+        },
+        {
+          "text": "Failure scenario describes thundering-herd or amplified load under 503",
+          "passed": true,
+          "evidence": "The Failure scenario says \"5x back-to-back hits per caller; N synchronized callers hammer it simultaneously, prolonging outage (thundering herd)\" (5xx rather than 503 specifically)."
+        },
+        {
+          "text": "Fix mentions exponential backoff with jitter",
+          "passed": true,
+          "evidence": "The Fix line reads \"Exponential backoff with jitter between attempts (e.g. `0.2s * 2^attempt + random`) + respect `Retry-After`\"."
+        },
+        {
+          "text": "Fix mentions a total-wait cap or bounded retry budget",
+          "passed": false,
+          "evidence": "The retry-loop finding's Fix covers only backoff-with-jitter and `Retry-After`; no total-wait cap or bounded retry budget appears there (the only budget language, \"budget exhausted\", belongs to the separate A1 finding)."
+        },
+        {
+          "text": "Trade-off names increased worst-case latency for a single call",
+          "passed": true,
+          "evidence": "Its Trade-off line reads \"Adds worst-case added latency (~seconds) per `push()` call in exchange for downstream recovery\"."
+        },
+        {
+          "text": "Header matches pattern: 1 finding \u00b7 C:0 M:1 m:0 i:0",
+          "passed": false,
+          "evidence": "The header is \"`6 findings \u00b7 C:1 M:2 m:2 i:1 \u00b7 Mean 92/100 \u00b7 Final Grade F`\", not the required \"1 finding \u00b7 C:0 M:1 m:0 i:0\"."
+        }
+      ],
+      "summary": {
+        "passed": 6,
+        "failed": 3,
+        "total": 9,
+        "pass_rate": 0.6667
+      }
+    },
+    {
+      "rep": 3,
+      "skill_consulted": true,
+      "files_read": [
+        "evals/fixtures/retry.py"
+      ],
+      "searched": [],
+      "assertion_results": [
+        {
+          "text": "Exactly 1 finding above Info severity",
+          "passed": false,
+          "evidence": "Grep of severity headings shows four above-Info findings ([CRITICAL] idempotency key plus three [MAJOR]s), not exactly 1."
+        },
+        {
+          "text": "Finding is graded MAJOR",
+          "passed": true,
+          "evidence": "The C3 retry-loop finding is headed \"### [MAJOR] Tight retry loop with no backoff or jitter\"."
+        },
+        {
+          "text": "Finding is on axis C3 (Resilience)",
+          "passed": true,
+          "evidence": "That finding's Domain line reads \"Operations (C3)\"."
+        },
+        {
+          "text": "Evidence identifies the immediate retry loop (no delay between attempts)",
+          "passed": true,
+          "evidence": "Evidence line: \"`retry.py:10-11` \u2014 symbol `push`: `for _ in range(5): resp = requests.post(...)` with no delay between iterations.\""
+        },
+        {
+          "text": "Failure scenario describes thundering-herd or amplified load under 503",
+          "passed": true,
+          "evidence": "Failure scenario: \"Downstream returns 503; every client retries immediately 5x, keeping the overloaded endpoint saturated (thundering herd) and delaying its recovery.\""
+        },
+        {
+          "text": "Fix mentions exponential backoff with jitter",
+          "passed": true,
+          "evidence": "Fix: \"Exponential backoff with jitter between attempts plus a retry budget\"."
+        },
+        {
+          "text": "Fix mentions a total-wait cap or bounded retry budget",
+          "passed": true,
+          "evidence": "Fix ends with \"plus a retry budget, scope: local (inside `push` loop)\"."
+        },
+        {
+          "text": "Trade-off names increased worst-case latency for a single call",
+          "passed": true,
+          "evidence": "Trade-off: \"Adds latency to the failure path (seconds of sleep) and minor complexity; unblocks downstream recovery.\""
+        },
+        {
+          "text": "Header matches pattern: 1 finding \u00b7 C:0 M:1 m:0 i:0",
+          "passed": false,
+          "evidence": "Header reads \"`4 findings \u00b7 C:1 M:3 m:0 i:0 \u00b7 Mean 72.5/100 \u00b7 Final Grade F`\", not the required \"1 finding \u00b7 C:0 M:1 m:0 i:0\"."
+        }
+      ],
+      "summary": {
+        "passed": 7,
+        "failed": 2,
+        "total": 9,
+        "pass_rate": 0.7778
+      }
+    }
+  ],
+  "replicate_summary": {
+    "n": 2,
+    "mean_pass_rate": 0.7223,
+    "stdev_pass_rate": 0.0786,
+    "min_pass_rate": 0.6667,
+    "max_pass_rate": 0.7778
+  }
+}

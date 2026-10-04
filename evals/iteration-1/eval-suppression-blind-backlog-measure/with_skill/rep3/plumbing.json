@@ -1,0 +1,30 @@
+{
+  "reason": "isolation unproven",
+  "detail": "read outside this run's workspace: repo/shared",
+  "reads": [
+    "ws/.",
+    "ws/evals/fixtures/suppression_blind_backlog_measure.py",
+    "ws/evals/fixtures/suppress_unbounded_queue_CONSTRAINTS.md",
+    "ws/evals",
+    "ws/SKILL.md",
+    "ws/evals/fixtures",
+    "repo/shared",
+    "repo/.",
+    "repo/shared/severity-and-rules.md",
+    "repo/shared/output-format.md",
+    "repo/shared/axis-codes.md",
+    "repo/domains/security/leaf.md",
+    "repo/domains/correctness/leaf.md",
+    "repo/domains/operations/leaf.md",
+    "ws/scripts/eval_registry.py",
+    "ws/domains/operations/performance/sub-leaf.md",
+    "ws/domains/operations/observability/sub-leaf.md",
+    "ws/domains/operations/performance/guidelines/memory-retention.md",
+    "ws/domains/operations/observability/guidelines/logging-telemetry.md",
+    "repo/domains/operations/observability/guidelines/logging-telemetry.md",
+    "ws/domains",
+    "repo/domains/leanness/leaf.md",
+    "repo/domains/operations/resilience/sub-leaf.md",
+    "repo/domains/correctness/concurrency/sub-leaf.md"
+  ]
+}

@@ -1,0 +1,400 @@
+{
+  "eval_id": 90,
+  "eval_name": "eval-suppression-blind-boundary-breach",
+  "condition": "nosuppress",
+  "model_config": "cfg:567712ad39ee",
+  "judge_model_config": "cfg:1c50bc6e7d47",
+  "judge_disjoint": true,
+  "base_commit": "0a25d6e",
+  "no_axis_count": null,
+  "no_axis_count_reason": "no review body",
+  "grader_config": "cfg:7d57659c2e6c",
+  "fixture_digests": {
+    "evals/fixtures/suppression_blind_boundary_breach.py": "sha256:cf37595e9accd1fc",
+    "evals/fixtures/per_contract_layer.py": "sha256:53ceb5c72027a043",
+    "evals/fixtures/suppression_blind_boundary_breach_CONSTRAINTS.md": "sha256:cd95b03e153bd1db"
+  },
+  "skill_consulted": true,
+  "skill_consulted_reps": 1,
+  "reps_requested": 5,
+  "reps_completed": 4,
+  "reps_refused": 1,
+  "reviewer_project_root": "workspace",
+  "isolation_indirect_commands": 1,
+  "assertion_results": [
+    {
+      "text": "Exactly 1 finding above Info severity",
+      "passed": false,
+      "evidence": "The review header reads \"3 findings \u00b7 C:0 M:1 m:1 i:1\", so two findings (the [MAJOR] and the [MINOR]) are above Info severity, not exactly one."
+    },
+    {
+      "text": "Finding is graded at least MAJOR",
+      "passed": true,
+      "evidence": "The top finding is headed \"### [MAJOR] Set view violates binding C1...\"."
+    },
+    {
+      "text": "Finding is on axis B5",
+      "passed": true,
+      "evidence": "The MAJOR finding's domain line reads \"**Domain:** Maintainability (B5)\"."
+    },
+    {
+      "text": "Identifies set_view importing parity_fit_impl from the per-contract layer",
+      "passed": true,
+      "evidence": "Evidence quotes \"`from per_contract_layer import parity_fit_impl`\" and the failure scenario notes \"direct `import *_impl` couples set lifecycle to per-contract internals\"."
+    },
+    {
+      "text": "Identifies that the layer publishes its door as published_names and parity_fit_impl is not the sanctioned form of that door",
+      "passed": true,
+      "evidence": "Verified-by cites the door as `published_names = (\"parity_fit_impl\", \"smile_solve_impl\", \"log_ratio_impl\")` while citing `parity_fit_impl` as \"A private helper. Reachable only through the layer's door, by design\", and rules \"`published_names` is the access path, not documentation\"."
+    },
+    {
+      "text": "Identifies that reaching the layer directly couples the set layer's import to the other layer's internals",
+      "passed": true,
+      "evidence": "The failure scenario states \"direct `import *_impl` couples set lifecycle to per-contract internals\"."
+    },
+    {
+      "text": "Failure scenario names a rename or inlining in the per-contract layer breaking the set layer at import time",
+      "passed": true,
+      "evidence": "The failure scenario names \"Next per-contract change (rename, signature, semantics of either unused helper)\" as breaking the set layer's assumed contract."
+    },
+    {
+      "text": "Does NOT cite the declared boundary rule as the reason to withhold this finding; the rule is the reason the finding is certain",
+      "passed": true,
+      "evidence": "The rule is cited as support rather than suppression \u2014 \"exactly what C1 `Why` forbids\" and \"Ruling: `exactly three` means must-read-three\" \u2014 with the finding reported and graded MAJOR."
+    },
+    {
+      "text": "Does NOT report the set layer's existence as a boundary violation",
+      "passed": true,
+      "evidence": "The reported violation is the direct impl import bypassing the door, not the set layer's existence; the \"Aligns well\" section says \"no deletion warranted\"."
+    },
+    {
+      "text": "Fix routes the value through the published door, or promotes the helper to the door and updates the stated rule",
+      "passed": true,
+      "evidence": "The Fix says \"Route access through the declared door ... import the layer module and resolve via `published_names`\"."
+    }
+  ],
+  "summary": {
+    "passed": 23,
+    "failed": 17,
+    "total": 40,
+    "pass_rate": 0.575
+  },
+  "replicates": [
+    {
+      "rep": 1,
+      "skill_consulted": true,
+      "files_read": [
+        "evals/fixtures/suppression_blind_boundary_breach.py",
+        ".",
+        "evals/fixtures/per_contract_layer.py",
+        "evals/fixtures/suppression_blind_boundary_breach_CONSTRAINTS.md",
+        "SKILL.md",
+        "evals/fixtures",
+        "project-tree",
+        "evals",
+        "domains",
+        "shared",
+        "shared/axis-codes.md",
+        "shared/severity-and-rules.md",
+        "shared/output-format.md",
+        "domains/operations/leaf.md",
+        "domains/leanness/leaf.md",
+        "domains/correctness/leaf.md",
+        "domains/maintainability/leaf.md",
+        "domains/security/leaf.md",
+        "domains/interoperability/leaf.md",
+        "domains/maintainability/design/sub-leaf.md",
+        "domains/correctness/type-and-contracts/sub-leaf.md",
+        "domains/correctness/logic/sub-leaf.md",
+        "domains/leanness/waste/sub-leaf.md",
+        "domains/maintainability/design/guidelines/boundaries-ddd.md"
+      ],
+      "searched": [],
+      "isolation_indirect": 1,
+      "assertion_results": [
+        {
+          "text": "Exactly 1 finding above Info severity",
+          "passed": false,
+          "evidence": "The review header reads \"3 findings \u00b7 C:0 M:1 m:1 i:1\", so two findings (the [MAJOR] and the [MINOR]) are above Info severity, not exactly one."
+        },
+        {
+          "text": "Finding is graded at least MAJOR",
+          "passed": true,
+          "evidence": "The top finding is headed \"### [MAJOR] Set view violates binding C1...\"."
+        },
+        {
+          "text": "Finding is on axis B5",
+          "passed": true,
+          "evidence": "The MAJOR finding's domain line reads \"**Domain:** Maintainability (B5)\"."
+        },
+        {
+          "text": "Identifies set_view importing parity_fit_impl from the per-contract layer",
+          "passed": true,
+          "evidence": "Evidence quotes \"`from per_contract_layer import parity_fit_impl`\" and the failure scenario notes \"direct `import *_impl` couples set lifecycle to per-contract internals\"."
+        },
+        {
+          "text": "Identifies that the layer publishes its door as published_names and parity_fit_impl is not the sanctioned form of that door",
+          "passed": true,
+          "evidence": "Verified-by cites the door as `published_names = (\"parity_fit_impl\", \"smile_solve_impl\", \"log_ratio_impl\")` while citing `parity_fit_impl` as \"A private helper. Reachable only through the layer's door, by design\", and rules \"`published_names` is the access path, not documentation\"."
+        },
+        {
+          "text": "Identifies that reaching the layer directly couples the set layer's import to the other layer's internals",
+          "passed": true,
+          "evidence": "The failure scenario states \"direct `import *_impl` couples set lifecycle to per-contract internals\"."
+        },
+        {
+          "text": "Failure scenario names a rename or inlining in the per-contract layer breaking the set layer at import time",
+          "passed": true,
+          "evidence": "The failure scenario names \"Next per-contract change (rename, signature, semantics of either unused helper)\" as breaking the set layer's assumed contract."
+        },
+        {
+          "text": "Does NOT cite the declared boundary rule as the reason to withhold this finding; the rule is the reason the finding is certain",
+          "passed": true,
+          "evidence": "The rule is cited as support rather than suppression \u2014 \"exactly what C1 `Why` forbids\" and \"Ruling: `exactly three` means must-read-three\" \u2014 with the finding reported and graded MAJOR."
+        },
+        {
+          "text": "Does NOT report the set layer's existence as a boundary violation",
+          "passed": true,
+          "evidence": "The reported violation is the direct impl import bypassing the door, not the set layer's existence; the \"Aligns well\" section says \"no deletion warranted\"."
+        },
+        {
+          "text": "Fix routes the value through the published door, or promotes the helper to the door and updates the stated rule",
+          "passed": true,
+          "evidence": "The Fix says \"Route access through the declared door ... import the layer module and resolve via `published_names`\"."
+        }
+      ],
+      "summary": {
+        "passed": 9,
+        "failed": 1,
+        "total": 10,
+        "pass_rate": 0.9
+      }
+    },
+    {
+      "rep": 2,
+      "skill_consulted": false,
+      "files_read": [
+        "evals/fixtures/per_contract_layer.py",
+        "evals/fixtures/suppression_blind_boundary_breach.py",
+        "evals/fixtures/suppression_blind_boundary_breach_CONSTRAINTS.md",
+        ".",
+        "evals/fixtures"
+      ],
+      "searched": [
+        "suppression_blind*"
+      ],
+      "isolation_indirect": 0,
+      "assertion_results": [
+        {
+          "text": "Exactly 1 finding above Info severity",
+          "passed": false,
+          "evidence": "The review carries two separate FAIL bullets \u2014 the boundary breach and the C1 binding failure \u2014 so more than one finding sits above Info."
+        },
+        {
+          "text": "Finding is graded at least MAJOR",
+          "passed": true,
+          "evidence": "The breach bullet is labelled \"FAIL \u2014 boundary breach\", a blocking grade at or above MAJOR."
+        },
+        {
+          "text": "Finding is on axis B5",
+          "passed": false,
+          "evidence": "Searching the full review text for \"B5\" or any axis code returns nothing; no axis labels appear at all."
+        },
+        {
+          "text": "Identifies set_view importing parity_fit_impl from the per-contract layer",
+          "passed": true,
+          "evidence": "It states \"`suppression_blind_boundary_breach.py:5` `from per_contract_layer import parity_fit_impl`\"."
+        },
+        {
+          "text": "Identifies that the layer publishes its door as published_names and parity_fit_impl is not the sanctioned form of that door",
+          "passed": true,
+          "evidence": "It states \"`per_contract_layer.py:1` states public door is `published_names`; `per_contract_layer.py:4-5` states `parity_fit_impl` is private, reachable only through door by design.\""
+        },
+        {
+          "text": "Identifies that reaching the layer directly couples the set layer's import to the other layer's internals",
+          "passed": true,
+          "evidence": "It concludes the first bullet with \"Direct `*_impl` import couples to internals.\""
+        },
+        {
+          "text": "Failure scenario names a rename or inlining in the per-contract layer breaking the set layer at import time",
+          "passed": false,
+          "evidence": "No rename or inlining consequence is described anywhere; the only stated impact is the design coupling \"couples to internals\"."
+        },
+        {
+          "text": "Does NOT cite the declared boundary rule as the reason to withhold this finding; the rule is the reason the finding is certain",
+          "passed": true,
+          "evidence": "The rule is cited as proof of certainty (\"bypasses declared door\", \"private, reachable only through door by design\") and the finding is reported, not withheld."
+        },
+        {
+          "text": "Does NOT report the set layer's existence as a boundary violation",
+          "passed": true,
+          "evidence": "The review never faults the set layer's existence; it flags only its import and separately notes the lower layer is compliant on its publication set."
+        },
+        {
+          "text": "Fix routes the value through the published door, or promotes the helper to the door and updates the stated rule",
+          "passed": false,
+          "evidence": "No remediation is proposed anywhere in the review \u2014 neither routing through `published_names` nor promoting the helper to the door."
+        }
+      ],
+      "summary": {
+        "passed": 6,
+        "failed": 4,
+        "total": 10,
+        "pass_rate": 0.6
+      }
+    },
+    {
+      "rep": 3,
+      "skill_consulted": false,
+      "files_read": [
+        "evals/fixtures/suppression_blind_boundary_breach.py",
+        ".",
+        "evals/fixtures/per_contract_layer.py",
+        "evals/fixtures/suppression_blind_boundary_breach_CONSTRAINTS.md",
+        "evals"
+      ],
+      "searched": [
+        "**/*"
+      ],
+      "isolation_indirect": 0,
+      "assertion_results": [
+        {
+          "text": "Exactly 1 finding above Info severity",
+          "passed": false,
+          "evidence": "The review reports two items above Info \u2014 the main C1 gap verdict (\"Non-compliant with C1 (binding)\") and a \"Secondary\" finding about the wrong constraint reference at `suppression_blind_boundary_breach.py:3` \u2014 so it is not exactly 1."
+        },
+        {
+          "text": "Finding is graded at least MAJOR",
+          "passed": false,
+          "evidence": "The review carries no severity labels at all; the strongest wording is \"Non-compliant with C1 (binding)\" and \"Found a C1 gap\", which grades the constraint, not the finding at MAJOR or above."
+        },
+        {
+          "text": "Finding is on axis B5",
+          "passed": false,
+          "evidence": "A search of the full review text finds no axis code such as \"B5\" (or any axis label) anywhere."
+        },
+        {
+          "text": "Identifies set_view importing parity_fit_impl from the per-contract layer",
+          "passed": true,
+          "evidence": "\"`suppression_blind_boundary_breach.py:8-10`: `set_view()` uses only `parity_fit_impl`\" plus the line-5 import statement name the import of parity_fit_impl from the per-contract layer by set_view."
+        },
+        {
+          "text": "Identifies that the layer publishes its door as published_names and parity_fit_impl is not the sanctioned form of that door",
+          "passed": false,
+          "evidence": "The review quotes `published_names = (\"parity_fit_impl\", \"smile_solve_impl\", \"log_ratio_impl\")` but then states \"the used name is published\", i.e. it treats parity_fit_impl as inside the sanctioned door rather than as a non-sanctioned form of it."
+        },
+        {
+          "text": "Identifies that reaching the layer directly couples the set layer's import to the other layer's internals",
+          "passed": false,
+          "evidence": "Nothing in the review discusses the set layer's import being coupled to the other layer's internals; the analysis is confined to coverage of three required reads."
+        },
+        {
+          "text": "Failure scenario names a rename or inlining in the per-contract layer breaking the set layer at import time",
+          "passed": false,
+          "evidence": "No failure scenario of any kind is given, and there is no mention of a rename or inlining in the per-contract layer breaking the set layer at import time."
+        },
+        {
+          "text": "Does NOT cite the declared boundary rule as the reason to withhold this finding; the rule is the reason the finding is certain",
+          "passed": false,
+          "evidence": "The review explicitly withholds the boundary finding on the basis of the published-names declaration \u2014 \"no illicit access currently (used name is published)\" \u2014 rather than treating that declared door as making a finding certain."
+        },
+        {
+          "text": "Does NOT report the set layer's existence as a boundary violation",
+          "passed": true,
+          "evidence": "The review only faults the set layer for incomplete reads (\"omission is in the set layer, not the provider\") and never claims the set layer's mere existence is a boundary violation."
+        },
+        {
+          "text": "Fix routes the value through the published door, or promotes the helper to the door and updates the stated rule",
+          "passed": false,
+          "evidence": "The proposed fix is `from per_contract_layer import parity_fit_impl, smile_solve_impl, log_ratio_impl`, which still binds the concrete impls directly and neither routes the value through the published door nor promotes a helper to the door with a rule update."
+        }
+      ],
+      "summary": {
+        "passed": 2,
+        "failed": 8,
+        "total": 10,
+        "pass_rate": 0.2
+      }
+    },
+    {
+      "rep": 4,
+      "skill_consulted": false,
+      "files_read": [
+        ".",
+        "evals/fixtures/suppression_blind_boundary_breach.py",
+        "evals/fixtures/per_contract_layer.py",
+        "evals/fixtures/suppression_blind_boundary_breach_CONSTRAINTS.md",
+        "evals"
+      ],
+      "searched": [
+        "**/*"
+      ],
+      "isolation_indirect": 0,
+      "assertion_results": [
+        {
+          "text": "Exactly 1 finding above Info severity",
+          "passed": false,
+          "evidence": "I searched the review for severity labels and axis codes: there are none, and it reports at least four separate items ('C1 violated by set layer', 'Boundary bypass', doc-drift, and missing zero guards), so no count of exactly one above-Info finding is established."
+        },
+        {
+          "text": "Finding is graded at least MAJOR",
+          "passed": false,
+          "evidence": "The review never assigns a level \u2014 a search for MAJOR/MINOR/CRITICAL/Info in the text returns nothing, so no finding is demonstrated to be graded at least MAJOR."
+        },
+        {
+          "text": "Finding is on axis B5",
+          "passed": false,
+          "evidence": "A search for axis codes such as 'B5' or any axis label finds none anywhere in the review, so the finding's axis is left unaddressed despite the boundary-bypass content."
+        },
+        {
+          "text": "Identifies set_view importing parity_fit_impl from the per-contract layer",
+          "passed": true,
+          "evidence": "It states '`suppression_blind_boundary_breach.py:5,8-10` reads only one: `from per_contract_layer import parity_fit_impl`' in the same set-level module whose `set_view()` it discusses."
+        },
+        {
+          "text": "Identifies that the layer publishes its door as published_names and parity_fit_impl is not the sanctioned form of that door",
+          "passed": true,
+          "evidence": "'`per_contract_layer.py:1,4-5` declares public door is `published_names`, impls reachable only through door by design' and line 5 'bypasses door ... instead of resolving through `published_names`'."
+        },
+        {
+          "text": "Identifies that reaching the layer directly couples the set layer's import to the other layer's internals",
+          "passed": true,
+          "evidence": "'Couples set lifecycle to per-contract internals \u2014 the exact coupling C1 warns against.'"
+        },
+        {
+          "text": "Failure scenario names a rename or inlining in the per-contract layer breaking the set layer at import time",
+          "passed": false,
+          "evidence": "The review argues the door is bypassed and coupling exists, but nowhere describes a rename or inlining of `parity_fit_impl` breaking the set layer at import time."
+        },
+        {
+          "text": "Does NOT cite the declared boundary rule as the reason to withhold this finding; the rule is the reason the finding is certain",
+          "passed": true,
+          "evidence": "The review reports the finding rather than withholding it, and cites C1 affirmatively as the reason it is certain ('the exact coupling C1 warns against')."
+        },
+        {
+          "text": "Does NOT report the set layer's existence as a boundary violation",
+          "passed": true,
+          "evidence": "The violation charged is the direct import bypassing `published_names` and the missing helper reads \u2014 the review never objects to the set layer's mere existence."
+        },
+        {
+          "text": "Fix routes the value through the published door, or promotes the helper to the door and updates the stated rule",
+          "passed": true,
+          "evidence": "The fix line reads 'import via `published_names` door and wire all three helpers into `set_view`, or amend C1 if single-read was intentional.'"
+        }
+      ],
+      "summary": {
+        "passed": 6,
+        "failed": 4,
+        "total": 10,
+        "pass_rate": 0.6
+      }
+    }
+  ],
+  "replicate_summary": {
+    "n": 4,
+    "mean_pass_rate": 0.575,
+    "stdev_pass_rate": 0.2872,
+    "min_pass_rate": 0.2,
+    "max_pass_rate": 0.9
+  }
+}

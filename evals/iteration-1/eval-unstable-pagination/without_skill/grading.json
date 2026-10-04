@@ -1,0 +1,21 @@
+{
+  "eval": "eval-unstable-pagination",
+  "eval_id": 65,
+  "fixture": "evals/fixtures/unstable_pagination.py",
+  "run": "without_skill",
+  "phase": "before",
+  "review": "1 finding · C:0 M:1 m:0 i:0 — Domain Score: 90/100 (Grade A)",
+  "summary": { "passed": 3, "failed": 6, "total": 9, "pass_rate": 0.333 },
+  "assertions": [
+    { "n": 1, "text": "Exactly 2 findings above Info severity", "result": "fail", "evidence": "One finding raised, on the response shape." },
+    { "n": 2, "text": "Finding 1 is graded CRITICAL and finding 2 is graded MAJOR", "result": "fail", "evidence": "The single finding was graded MAJOR; no Critical was raised." },
+    { "n": 3, "text": "Both findings are on axis A4 (API Contracts)", "result": "pass", "evidence": "The one finding was reported under Correctness / API Contracts (A4)." },
+    { "n": 4, "text": "Finding 1 identifies LIMIT/OFFSET over a table that grows between requests", "result": "fail", "evidence": "Missed. The pre-change API sub-domain had two files, eight bullets: breaking renames, type narrowing, leaked entities, status-code flips, missing idempotency keys, mismatched replay, consumed streams, key lifetime. Nothing concerned page windows. data/query-patterns.md's 'unbounded queries' is scoped to a missing LIMIT, and this query has one." },
+    { "n": 5, "text": "Finding 1 notes the ORDER BY column is not unique, so the sort is unstable across pages", "result": "fail", "evidence": "Missed; no pre-change rule considered sort stability at all." },
+    { "n": 6, "text": "Finding 1 explains a client silently reconciling a duplicate and missing a real order", "result": "fail", "evidence": "Not stated." },
+    { "n": 7, "text": "Finding 2 identifies the closed status set with no unknown-value tolerance", "result": "pass", "evidence": "Raised — a closed enum in a response is squarely within the pre-existing 'breaking contract changes' family, which covers adding a required field and narrowing types." },
+    { "n": 8, "text": "Finding 2 identifies null used for both never-set and explicitly-cleared", "result": "pass", "evidence": "Raised, via the type-narrowing and schema-semantics reading." },
+    { "n": 9, "text": "Header matches pattern: 2 findings · C:1 M:1 m:0 i:0", "result": "fail", "evidence": "Header rendered `1 finding · C:0 M:1 m:0 i:0`." }
+  ],
+  "notes": "Partial catch. The pre-change API rules saw the payload contract and were blind to the page-window contract, which is a different contract with a different failure: the first loses data silently, the second breaks clients loudly at deploy time. Missing the silent one is the worse miss."
+}

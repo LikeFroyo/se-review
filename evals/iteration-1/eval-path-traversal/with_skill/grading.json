@@ -1,0 +1,20 @@
+{
+  "eval": "eval-path-traversal",
+  "eval_id": 36,
+  "fixture": "evals/fixtures/path_traversal.py",
+  "run": "with_skill",
+  "phase": "after",
+  "review": "1 finding · C:1 M:0 m:0 i:0 — Domain Score: 75/100 (Grade C)",
+  "summary": { "passed": 8, "failed": 0, "total": 8, "pass_rate": 1.0 },
+  "assertions": [
+    { "n": 1, "text": "Exactly 1 finding above Info severity", "result": "pass", "evidence": "One Critical finding covering read_attachment and write_upload as one root cause (no containment check on a request-derived path)." },
+    { "n": 2, "text": "Finding is graded CRITICAL", "result": "pass", "evidence": "Graded Critical per 'path traversal' in the security sub-leaf Critical list." },
+    { "n": 3, "text": "Finding is on axis A5 (Security)", "result": "pass", "evidence": "Reported under Correctness / Security (A5)." },
+    { "n": 4, "text": "Identifies the unvalidated os.path.join of a request-supplied name onto ATTACHMENT_ROOT", "result": "pass", "evidence": "Cites path_traversal.py:20 and :32." },
+    { "n": 5, "text": "Notes the absence of a containment or realpath check", "result": "pass", "evidence": "States that nothing resolves the path or proves it sits inside ATTACHMENT_ROOT; the isfile() guard is not a containment check." },
+    { "n": 6, "text": "Failure scenario describes reading or writing outside the attachment root", "result": "pass", "evidence": "Names the `../../../../etc/shadow` read and the write-side traversal planting a file outside the case directory." },
+    { "n": 7, "text": "Fix recommends resolving the path and enforcing containment within the root", "result": "pass", "evidence": "Fix: realpath both sides and reject anything not under the root, plus a sanitized basename on the write path." },
+    { "n": 8, "text": "Header matches pattern: 1 finding · C:1 M:0 m:0 i:0", "result": "pass", "evidence": "Header rendered exactly as specified." }
+  ],
+  "notes": "Caught by the 'Path traversal and archive extraction' section of guidelines/unsafe-parsing.md."
+}

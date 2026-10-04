@@ -1,0 +1,21 @@
+{
+  "eval": "eval-boundary-error-policy",
+  "eval_id": 61,
+  "fixture": "evals/fixtures/boundary_error_policy.py",
+  "run": "without_skill",
+  "phase": "before",
+  "review": "1 finding · C:1 M:0 m:0 i:0 — Domain Score: 75/100 (Grade C)",
+  "summary": { "passed": 2, "failed": 7, "total": 9, "pass_rate": 0.222 },
+  "assertions": [
+    { "n": 1, "text": "Exactly 1 finding above Info severity", "result": "pass", "evidence": "One finding raised, on the bare except." },
+    { "n": 2, "text": "Finding is graded MAJOR", "result": "fail", "evidence": "Graded CRITICAL, on axis A1 (Logic), as a swallowed error." },
+    { "n": 3, "text": "Finding is on axis B5 (Design)", "result": "fail", "evidence": "Reported under Correctness / Logic (A1). Maintainability had no boundary-contract rule; boundaries-ddd.md's four pre-change bullets are layer breaches, anemic models, leaky abstractions, and primitive obsession." },
+    { "n": 4, "text": "Identifies the bare except in find_user collapsing failure and absence into the same None", "result": "pass", "evidence": "Raised — this is the same defect family as the existing swallowed_error eval, and the pre-change logic rules already reach a broad catch that suppresses." },
+    { "n": 5, "text": "Notes the docstring promises None only for a not-found result", "result": "fail", "evidence": "Not stated. The finding was about suppression, not about the contract the docstring asserts." },
+    { "n": 6, "text": "Identifies find_or_create inserting a stub on that None, so the ambiguity causes writes", "result": "fail", "evidence": "Not stated — the consequence of a stub user being created was not traced." },
+    { "n": 7, "text": "Contrast with list_users in the same file, which lets errors propagate", "result": "fail", "evidence": "Not stated; the internal inconsistency between the two functions was not used as evidence." },
+    { "n": 8, "text": "Fix recommends propagating the error and reserving None for absence, or a typed result", "result": "fail", "evidence": "Fix recommended logging inside the except, which preserves the collapse: a logged failure is still indistinguishable to the caller." },
+    { "n": 9, "text": "Header matches pattern: 1 finding · C:0 M:1 m:0 i:0", "result": "fail", "evidence": "Header rendered `1 finding · C:1 M:0 m:0 i:0`." }
+  ],
+  "notes": "Partial catch, and the residual is instructive: the pre-change logic rules found the swallowed exception and the suggested fix (log it) would not have helped at all, because the defect is the value the caller receives, not the absence of a log line."
+}

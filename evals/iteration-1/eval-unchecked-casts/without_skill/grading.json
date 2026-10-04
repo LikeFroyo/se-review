@@ -1,0 +1,22 @@
+{
+  "eval": "eval-unchecked-casts",
+  "eval_id": 72,
+  "fixture": "evals/fixtures/unchecked_casts.py",
+  "run": "without_skill",
+  "phase": "before",
+  "review": "0 findings · C:0 M:0 m:0 i:0 — Domain Score: 100/100 (Grade A) — `Aligns well`",
+  "summary": { "passed": 1, "failed": 9, "total": 10, "pass_rate": 0.1 },
+  "assertions": [
+    { "n": 1, "text": "Exactly 1 finding above Info severity", "result": "fail", "evidence": "0 findings above Info; graded Grade A. The file is annotated throughout and every function has a return type, so it reads as a typed module." },
+    { "n": 2, "text": "Finding is graded CRITICAL", "result": "fail", "evidence": "No finding to grade." },
+    { "n": 3, "text": "Finding is on axis A8 (Type & Contracts)", "result": "fail", "evidence": "The type-and-contracts sub-domain did not exist." },
+    { "n": 4, "text": "Identifies PAYMENT_CLIENT and LEDGER annotated as Any so no call is checked", "result": "fail", "evidence": "Missed, and deliberately so: se-review's universal ground rules state that missing or weak type hints are Minor or Info and never Major, and no linter work. `Any` on a client object is a type-hint choice, so the pre-change rule set was pointed away from it by design." },
+    { "n": 5, "text": "Identifies the untyped webhook payload in apply_ledger_entry", "result": "fail", "evidence": "Missed. Nothing pre-change asked whether an inbound payload was validated against its annotation before use; correctness/data owned queries and correctness/logic owned boundaries, and this is neither." },
+    { "n": 6, "text": "Identifies lookup_order trusting the annotation on an unvalidated row", "result": "fail", "evidence": "Missed. The comment 'The caller has already validated order_id' reads as the validation being handled upstream, and nothing pre-change challenges a claim like that without proof of death." },
+    { "n": 7, "text": "Identifies total_for defaulting a missing amount rather than rejecting it", "result": "fail", "evidence": "Missed. logic/edge-cases.md's 'wrong default values' bullet is scoped to a default that silently alters behaviour for existing callers; a defensive default on absent input is a different shape." },
+    { "n": 8, "text": "Failure scenario names a producer rename raising at 3am with the type checker silent", "result": "fail", "evidence": "Not stated." },
+    { "n": 9, "text": "Fix recommends declaring record types at the boundary and validating once at the edge", "result": "fail", "evidence": "No fix proposed." },
+    { "n": 10, "text": "Header matches pattern: 1 finding · C:1 M:0 m:0 i:0", "result": "pass", "evidence": "Header rendered in the required shape, with a zero tally." }
+  ],
+  "notes": "Total miss, and the sharpest illustration of a gap created by a correct prior decision. se-review deliberately refuses to grade type hints so it does not become a linter — which is right, and which left no way to grade a cast that suppresses a real check. The new sub-domain resolves this by scoping itself to the consequence, not to the annotation: its sub-leaf states that a cast is graded only where it suppresses a real check, and missing hints alone stay linter work."
+}

@@ -1,0 +1,21 @@
+{
+  "eval": "eval-string-truthiness",
+  "eval_id": 64,
+  "fixture": "evals/fixtures/string_truthiness.py",
+  "run": "without_skill",
+  "phase": "before",
+  "review": "0 findings · C:0 M:0 m:0 i:0 — Domain Score: 100/100 (Grade A) — `Aligns well`",
+  "summary": { "passed": 1, "failed": 8, "total": 9, "pass_rate": 0.125 },
+  "assertions": [
+    { "n": 1, "text": "Exactly 1 finding above Info severity", "result": "fail", "evidence": "0 findings above Info; graded Grade A. Centralised env-var constants at module scope, an explicit bool helper per flag, and a documented fallback all read as deliberate configuration design." },
+    { "n": 2, "text": "Finding is graded CRITICAL", "result": "fail", "evidence": "No finding to grade." },
+    { "n": 3, "text": "Finding is on axis A1 (Logic)", "result": "fail", "evidence": "No logic finding emitted." },
+    { "n": 4, "text": "Identifies should_rate_limit treating the string 'false' as true", "result": "fail", "evidence": "Missed. The pre-change logic sub-domain's edge-cases.md has five bullets: off-by-one, empty/null, wrong defaults, float precision, date/time. 'Wrong default values' is scoped to a default that changes behaviour for existing callers; it is not a rule about a value whose type does not match its use. Nothing pre-change asked what type a configuration value actually has." },
+    { "n": 5, "text": "Identifies is_maintenance treating the string '0' as true", "result": "fail", "evidence": "Missed, same reason." },
+    { "n": 6, "text": "Identifies zip_for coercing a zip code through int and dropping the leading zero", "result": "fail", "evidence": "Missed. maintainability's units-and-magnitude rules do not exist yet in the pre-change state, and edge-cases.md's float-precision bullet is about binary floating point, not about a string coerced to int." },
+    { "n": 7, "text": "Failure scenario names a control the operator disabled being active in production", "result": "fail", "evidence": "Not stated." },
+    { "n": 8, "text": "Fix recommends explicit parsing with rejection of unrecognised values", "result": "fail", "evidence": "No fix proposed." },
+    { "n": 9, "text": "Header matches pattern: 1 finding · C:1 M:0 m:0 i:0", "result": "pass", "evidence": "Header rendered in the required shape, with a zero tally." }
+  ],
+  "notes": "Total miss. This is the highest-yield single rule added in the correctness round: four defects, no exception raised in any of them, and every one invisible to a pre-change rule set. It is also the cheapest to check, because the trigger is a type at a boundary rather than a reasoning chain."
+}

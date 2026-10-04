@@ -1,0 +1,18 @@
+{
+  "tool_errors": [
+    {
+      "tool": "read",
+      "error": "This non-interactive run cannot ask the user for permission, so the request was rejected. Continue without this action."
+    },
+    {
+      "tool": "read",
+      "error": "This non-interactive run cannot ask the user for permission, so the request was rejected. Continue without this action."
+    },
+    {
+      "tool": "read",
+      "error": "This non-interactive run cannot ask the user for permission, so the request was rejected. Continue without this action."
+    }
+  ],
+  "reason": "no review body produced; output was preamble or truncated",
+  "output_chars": 2113
+}

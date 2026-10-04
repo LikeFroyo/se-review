@@ -1,0 +1,47 @@
+{
+  "eval_id": 25,
+  "eval_name": "eval-clean-service",
+  "assertion_results": [
+    {
+      "text": "Zero findings above Info severity",
+      "passed": false,
+      "evidence": "Missing or failed under baseline (lacked rubric/taxonomy/severity)."
+    },
+    {
+      "text": "Overall score is 100/100 (Grade A)",
+      "passed": false,
+      "evidence": "Missing or failed under baseline (lacked rubric/taxonomy/severity)."
+    },
+    {
+      "text": "Output includes 'Aligns well' section",
+      "passed": false,
+      "evidence": "Missing or failed under baseline (lacked rubric/taxonomy/severity)."
+    },
+    {
+      "text": "Identifies parameterized query preventing SQL injection as positive",
+      "passed": true,
+      "evidence": "Baseline model identified general concept."
+    },
+    {
+      "text": "Identifies exponential backoff with jitter in resilience loop as positive",
+      "passed": true,
+      "evidence": "Baseline model identified general concept."
+    },
+    {
+      "text": "Output does NOT invent nitpicks on clean service design",
+      "passed": false,
+      "evidence": "Missing or failed under baseline (lacked rubric/taxonomy/severity)."
+    },
+    {
+      "text": "Header matches pattern: 0 findings \u00b7 C:0 M:0 m:0 i:0 \u00b7 Overall Score: 100/100 (Grade A)",
+      "passed": false,
+      "evidence": "Missing or failed under baseline (lacked rubric/taxonomy/severity)."
+    }
+  ],
+  "summary": {
+    "passed": 2,
+    "failed": 5,
+    "total": 7,
+    "pass_rate": 0.286
+  }
+}

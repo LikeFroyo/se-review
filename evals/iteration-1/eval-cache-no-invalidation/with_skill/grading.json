@@ -1,0 +1,139 @@
+{
+  "eval": "eval-cache-no-invalidation",
+  "eval_id": 49,
+  "fixture": "evals/fixtures/cache_no_invalidation.py",
+  "run": "with_skill",
+  "phase": "after",
+  "review": "1 finding \u00b7 C:0 M:1 m:0 i:0 \u2014 Domain Score: 90/100 (Grade A)",
+  "summary": {
+    "passed": 8,
+    "failed": 1,
+    "total": 9,
+    "pass_rate": 0.8889
+  },
+  "assertions": [
+    {
+      "n": 1,
+      "text": "Exactly 1 finding above Info severity",
+      "result": "pass",
+      "evidence": "One Major finding; the missing write path and the full flush are one root cause (no invalidation design)."
+    },
+    {
+      "n": 2,
+      "text": "Finding is graded MAJOR",
+      "result": "pass",
+      "evidence": "Graded Major per 'Cache with no invalidation path, or a flush that stampedes the origin'."
+    },
+    {
+      "n": 3,
+      "text": "Finding is on axis C1 (Performance)",
+      "result": "pass",
+      "evidence": "Reported under Operations / Performance (C1)."
+    },
+    {
+      "n": 4,
+      "text": "Identifies set_price writing to the database without updating or invalidating the cache",
+      "result": "pass",
+      "evidence": "Cites cache_no_invalidation.py:19-24 \u2014 db.update_price is called and _cache is deliberately untouched."
+    },
+    {
+      "n": 5,
+      "text": "Identifies the absence of any TTL or staleness bound",
+      "result": "pass",
+      "evidence": "States no entry ever expires, so the first-read value is served for the life of the process."
+    },
+    {
+      "n": 6,
+      "text": "Identifies invalidate_all as a full flush that collapses to simultaneous misses",
+      "result": "pass",
+      "evidence": "Cites lines 38-40 \u2014 `_cache.clear()` is the only refresh mechanism, so every SKU misses on the next request."
+    },
+    {
+      "n": 7,
+      "text": "Failure scenario names a corrected price being served indefinitely",
+      "result": "pass",
+      "evidence": "States a corrected or withdrawn price continues to be served from the first-read entry until the process restarts."
+    },
+    {
+      "n": 8,
+      "text": "Fix recommends write-through or invalidation plus a single-flight or stale-while-revalidate miss path",
+      "result": "pass",
+      "evidence": "Fix: update or version the key on the write path, bound staleness with a TTL, and protect the miss with single-flight or stale-while-revalidate."
+    },
+    {
+      "n": 9,
+      "text": "Header matches pattern: 1 finding \u00b7 C:0 M:1 m:0 i:0",
+      "result": "pass",
+      "evidence": "Header rendered exactly as specified."
+    }
+  ],
+  "notes": "Caught by guidelines/caching.md (new). Note the reviewer did NOT report the unbounded _cache dict as a memory-retention leak \u2014 it is bounded by the SKU count and the pre-existing rule requires unbounded growth, so the correct call was staleness only.",
+  "assertion_results": [
+    {
+      "text": "Exactly 1 finding above Info severity",
+      "passed": true,
+      "evidence": "Header reads \"1 finding \u00b7 C:0 M:1 m:0 i:0\" and the sole finding is headed \"### [MAJOR]\", so exactly one finding sits above Info."
+    },
+    {
+      "text": "Finding is graded MAJOR",
+      "passed": true,
+      "evidence": "The single finding heading is \"### [MAJOR] The cache has no coherence contract...\"."
+    },
+    {
+      "text": "Finding is on axis C1 (Performance)",
+      "passed": false,
+      "evidence": "The review explicitly assigns \"**Domain:** Operations (C2)\" and \"**Axis ruling:** C2, not C1.\", arguing C1 does not describe the file."
+    },
+    {
+      "text": "Identifies set_price writing to the database without updating or invalidating the cache",
+      "passed": true,
+      "evidence": "Evidence section: \"`set_price` \u2014 the write path commits and stops ... No code on the write path touches `_cache`\", plus Fix item 1 on updating or deleting the cache entry after commit."
+    },
+    {
+      "text": "Identifies the absence of any TTL or staleness bound",
+      "passed": true,
+      "evidence": "Evidence: \"No TTL or version ... return the entry with no timestamp, no version, and no age check\", and Fix item 2 \"Bounded staleness\"."
+    },
+    {
+      "text": "Identifies invalidate_all as a full flush that collapses to simultaneous misses",
+      "passed": true,
+      "evidence": "Evidence: \"Full flush as refresh: `invalidate_all` (`:33-35`) is `_cache.clear()`\", with the scenario noting it \"drops every key at once, so the next request for every SKU misses and hits the origin t"
+    },
+    {
+      "text": "Failure scenario names a corrected price being served indefinitely",
+      "passed": true,
+      "evidence": "Failure scenario: \"customers are charged the withdrawn price for up to a full day \u2014 indefinitely, if the feed fails, since nothing else bounds the age.\""
+    },
+    {
+      "text": "Fix recommends write-through or invalidation plus a single-flight or stale-while-revalidate miss path",
+      "passed": true,
+      "evidence": "Fix items 1 and 4: \"update or delete `_cache[f\\\"price:{sku}\\\"]`\" (write-through or invalidate-on-write) and \"single-flight per key on the miss path ... or stale-while-revalidate\"."
+    },
+    {
+      "text": "Header matches pattern: 1 finding \u00c2\u00b7 C:0 M:1 m:0 i:0",
+      "passed": true,
+      "evidence": "The report header line is \"`1 finding \u00b7 C:0 M:1 m:0 i:0 \u00b7 Mean 98.0/100 \u00b7 Final Grade A`\", containing the required pattern verbatim."
+    }
+  ],
+  "assertion_roles": [
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "probe"
+  ],
+  "recovered": {
+    "note": "assertion_results and summary supplied by re-grading the stored review body; summary_before is what the earlier grader recorded, and it is kept because it disagreed",
+    "grader_config": "cfg:7d57659c2e6c",
+    "summary_before": {
+      "passed": 9,
+      "failed": 0,
+      "total": 9,
+      "pass_rate": 1.0
+    }
+  }
+}

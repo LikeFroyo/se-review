@@ -1,0 +1,21 @@
+{
+  "eval": "eval-unstable-pagination",
+  "eval_id": 65,
+  "fixture": "evals/fixtures/unstable_pagination.py",
+  "run": "with_skill",
+  "phase": "after",
+  "review": "2 findings · C:1 M:1 m:0 i:0 — Domain Score: 65/100 (Grade D)",
+  "summary": { "passed": 9, "failed": 0, "total": 9, "pass_rate": 1.0 },
+  "assertions": [
+    { "n": 1, "text": "Exactly 2 findings above Info severity", "result": "pass", "evidence": "Two findings; the page window and the response shape are separate client contracts." },
+    { "n": 2, "text": "Finding 1 is graded CRITICAL and finding 2 is graded MAJOR", "result": "pass", "evidence": "Pagination Critical (records silently lost, no error, total looks right); response shape Major (client breaks, loudly, on deployment)." },
+    { "n": 3, "text": "Both findings are on axis A4 (API Contracts)", "result": "pass", "evidence": "Both reported under Correctness / API Contracts (A4)." },
+    { "n": 4, "text": "Finding 1 identifies LIMIT/OFFSET over a table that grows between requests", "result": "pass", "evidence": "Cites unstable_pagination.py:22-24 — an offset computed from the page number, with no snapshot or keyset." },
+    { "n": 5, "text": "Finding 1 notes the ORDER BY column is not unique, so the sort is unstable across pages", "result": "pass", "evidence": "Cites `ORDER BY created_at` with no tiebreaker, so equal timestamps order differently between the two queries." },
+    { "n": 6, "text": "Finding 1 explains a client silently reconciling a duplicate and missing a real order", "result": "pass", "evidence": "States the last order of page 1 reappears as the first of page 2 while a genuine order is skipped, and `total` is computed separately so the discrepancy is undetectable." },
+    { "n": 7, "text": "Finding 2 identifies the closed status set with no unknown-value tolerance", "result": "pass", "evidence": "Cites list_order_statuses at lines 34-35 — a closed list the client switches on exhaustively, so a new server value fails every existing client." },
+    { "n": 8, "text": "Finding 2 identifies null used for both never-set and explicitly-cleared", "result": "pass", "evidence": "Cites serialize_order at lines 38-45 — shipped_at and cancelled_at both collapse missing and cleared into null." },
+    { "n": 9, "text": "Header matches pattern: 2 findings · C:1 M:1 m:0 i:0", "result": "pass", "evidence": "Header rendered exactly as specified." }
+  ],
+  "notes": "Caught by guidelines/pagination-and-lists.md (new) and the 'Response shape' section appended to guidelines/backward-compatibility.md. list_all_orders was noted separately as unbounded rather than folded in, because data/query-patterns.md owns result-set size and reporting it on A4 would duplicate that root cause."
+}

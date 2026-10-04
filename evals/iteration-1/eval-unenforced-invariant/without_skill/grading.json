@@ -1,0 +1,21 @@
+{
+  "eval": "eval-unenforced-invariant",
+  "eval_id": 58,
+  "fixture": "evals/fixtures/unenforced_invariant.py",
+  "run": "without_skill",
+  "phase": "before",
+  "review": "0 findings · C:0 M:0 m:0 i:0 — Domain Score: 100/100 (Grade A) — `Aligns well`",
+  "summary": { "passed": 0, "failed": 9, "total": 9, "pass_rate": 0.0 },
+  "assertions": [
+    { "n": 1, "text": "Exactly 1 finding above Info severity", "result": "fail", "evidence": "0 findings above Info; graded Grade A. Documenting a precondition in a comment above the function was read as good practice." },
+    { "n": 2, "text": "Finding is graded MAJOR", "result": "fail", "evidence": "No finding to grade." },
+    { "n": 3, "text": "Finding is on axis B4 (Clarity)", "result": "fail", "evidence": "No clarity finding emitted." },
+    { "n": 4, "text": "Identifies the two preconditions stated only in comments above score_transaction", "result": "fail", "evidence": "Missed. The pre-change clarity sub-domain had no rule of this shape: magic-values-comments.md's four bullets cover raw literals, echo comments, comments compensating for unclear code, and missing why-comments — and a precondition comment is none of those. doc-drift.md needs the comment to be wrong, and this one is right." },
+    { "n": 5, "text": "Notes nothing asserts the lock is held or that a transaction is open", "result": "fail", "evidence": "Not stated." },
+    { "n": 6, "text": "Failure scenario describes a caller missing the transaction running to completion with a lost write", "result": "fail", "evidence": "Not stated." },
+    { "n": 7, "text": "Distinguishes this from documentation drift: the comment is not stale, the rule was never enforced", "result": "fail", "evidence": "Not stated; the distinction did not exist in the pre-change rules." },
+    { "n": 8, "text": "Fix requires the function to take the lock and transaction, or to assert a supplied handle", "result": "fail", "evidence": "No fix proposed." },
+    { "n": 9, "text": "Header matches pattern: 1 finding · C:0 M:1 m:0 i:0", "result": "fail", "evidence": "Header rendered `0 findings · C:0 M:0 m:0 i:0`." }
+  ],
+  "notes": "Total miss, and a rule-shaped gap rather than a coverage gap: se-review already had both a comments guideline and a doc-drift guideline, and both point the wrong way. A comment that explains a rule is treated as evidence the rule is handled."
+}

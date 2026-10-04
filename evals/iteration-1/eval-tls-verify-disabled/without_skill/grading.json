@@ -1,0 +1,20 @@
+{
+  "eval": "eval-tls-verify-disabled",
+  "eval_id": 34,
+  "fixture": "evals/fixtures/tls_verify_disabled.py",
+  "run": "without_skill",
+  "phase": "before",
+  "review": "0 findings · C:0 M:0 m:0 i:0 — Domain Score: 100/100 (Grade A) — `Aligns well`",
+  "summary": { "passed": 1, "failed": 7, "total": 8, "pass_rate": 0.125 },
+  "assertions": [
+    { "n": 1, "text": "Exactly 1 finding above Info severity", "result": "fail", "evidence": "0 findings above Info; graded Grade A." },
+    { "n": 2, "text": "Finding is graded CRITICAL", "result": "fail", "evidence": "No finding to grade." },
+    { "n": 3, "text": "Finding is on axis A5 (Security)", "result": "fail", "evidence": "No security finding emitted." },
+    { "n": 4, "text": "Identifies verify=False on the outbound requests calls", "result": "fail", "evidence": "Missed. No pre-change check covered transport configuration: injection-secrets.md's SSRF bullet is about destination validation, and 'hardcoded secrets' is about literals in source. The pre-change rubric's only crypto line was 'Weak crypto / non-constant-time token check: MAJOR', which has no transport trigger." },
+    { "n": 5, "text": "Names the API key in the Authorization header as the exposed secret", "result": "fail", "evidence": "Not stated." },
+    { "n": 6, "text": "Failure scenario describes a network-position attacker presenting a certificate", "result": "fail", "evidence": "Not stated." },
+    { "n": 7, "text": "Fix restores certificate verification against a trusted CA bundle", "result": "fail", "evidence": "No fix proposed." },
+    { "n": 8, "text": "Header matches pattern: 1 finding · C:1 M:0 m:0 i:0", "result": "pass", "evidence": "Header rendered in the required shape, with a zero tally." }
+  ],
+  "notes": "Total miss on an outbound TLS misconfiguration — the largest single coverage gap the pre-change sub-domain had."
+}

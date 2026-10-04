@@ -1,0 +1,9 @@
+{
+  "reason": "skill markers not observed; recorded as unverified consultation rather than discarded, because the detector cannot see a skill auto-loaded into the system prompt",
+  "reads": [
+    "ws/.",
+    "ws/evals/fixtures/suppression_blind_nan_contract_CONSTRAINTS.md",
+    "ws/evals/fixtures/suppression_blind_nan_contract.py",
+    "ws/evals/fixtures"
+  ]
+}

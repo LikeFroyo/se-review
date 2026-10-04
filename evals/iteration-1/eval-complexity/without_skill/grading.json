@@ -1,0 +1,53 @@
+{
+  "eval_id": 8,
+  "eval_name": "eval-complexity",
+  "run_type": "without_skill",
+  "assertions": [
+    {
+      "assertion": "Exactly 1 finding above Info severity",
+      "passed": false,
+      "evidence": "Output is a list of 4 unranked suggestions with no severity grading."
+    },
+    {
+      "assertion": "Finding is graded MAJOR",
+      "passed": false,
+      "evidence": "No severity assigned to any suggestion."
+    },
+    {
+      "assertion": "Finding is on axis B1 (Complexity and size) or B5 (Design and boundaries)",
+      "passed": false,
+      "evidence": "No taxonomy axis specified."
+    },
+    {
+      "assertion": "Evidence identifies high cyclomatic complexity or deep nesting in process_order_checkout",
+      "passed": true,
+      "evidence": "Identifies that process_order_checkout is long with nested if statements, though without line citations."
+    },
+    {
+      "assertion": "Failure scenario describes high defect risk, maintenance fragility, or testing obstruction",
+      "passed": false,
+      "evidence": "No production or maintenance failure scenario provided."
+    },
+    {
+      "assertion": "Fix recommends decomposing into focused single-responsibility handlers and eliminating boolean flags",
+      "passed": false,
+      "evidence": "Suggests breaking into smaller functions, but omits addressing boolean flag parameters or single-responsibility boundaries."
+    },
+    {
+      "assertion": "Trade-off notes minor indirection or refactoring migration effort",
+      "passed": false,
+      "evidence": "No trade-off analyzed."
+    },
+    {
+      "assertion": "Header matches pattern: 1 finding · C:0 M:1 m:0 i:0",
+      "passed": false,
+      "evidence": "Standard unformatted heading without severity breakdown."
+    }
+  ],
+  "summary": {
+    "total": 8,
+    "passed": 1,
+    "failed": 7,
+    "pass_rate": 0.125
+  }
+}

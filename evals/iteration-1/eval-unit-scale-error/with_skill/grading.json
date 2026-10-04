@@ -1,0 +1,21 @@
+{
+  "eval": "eval-unit-scale-error",
+  "eval_id": 54,
+  "fixture": "evals/fixtures/unit_scale_error.py",
+  "run": "with_skill",
+  "phase": "after",
+  "review": "1 finding · C:1 M:0 m:0 i:0 — Domain Score: 75/100 (Grade C)",
+  "summary": { "passed": 9, "failed": 0, "total": 9, "pass_rate": 1.0 },
+  "assertions": [
+    { "n": 1, "text": "Exactly 1 finding above Info severity", "result": "pass", "evidence": "One Critical finding; all three conversions are the same root cause — a name states a magnitude the value does not carry." },
+    { "n": 2, "text": "Finding is graded CRITICAL", "result": "pass", "evidence": "Graded Critical: a 100x error in money is state corruption with no error raised, per the new B4 rule 'Unit or magnitude misstated by its name'." },
+    { "n": 3, "text": "Finding is on axis B4 (Clarity)", "result": "pass", "evidence": "Reported under Maintainability / Clarity (B4), not on correctness — the trigger is the misstating name, which is a clarity defect with a correctness consequence." },
+    { "n": 4, "text": "Identifies subtotal_cents receiving a whole-unit float in Invoice.__init__", "result": "pass", "evidence": "Cites unit_scale_error.py:14 — a float parameter assigned into a `_cents` field, from which tax_cents and total_cents are then derived." },
+    { "n": 5, "text": "Identifies settlement_window_seconds multiplying by MILLISECONDS_PER_SECOND where the difference is already seconds", "result": "pass", "evidence": "Cites line 30 — the epoch difference is in seconds and is multiplied by 1000." },
+    { "n": 6, "text": "Identifies convert_to_micros scaling a cent amount by 1000 to reach micro-units", "result": "pass", "evidence": "Cites line 34 — cents scaled by MILLISECONDS_PER_SECOND, a unit constant standing in for a magnitude constant." },
+    { "n": 7, "text": "Failure scenario names a silent 100x error in money with no exception", "result": "pass", "evidence": "States every persisted total is wrong by 100x and nothing raises, so the error survives every layer and is found at reconciliation." },
+    { "n": 8, "text": "Fix recommends a magnitude or money type validated at construction", "result": "pass", "evidence": "Fix: a money/magnitude type that validates its unit at construction, or explicit conversion at each boundary with the unit in the signature." },
+    { "n": 9, "text": "Header matches pattern: 1 finding · C:1 M:0 m:0 i:0", "result": "pass", "evidence": "Header rendered exactly as specified." }
+  ],
+  "notes": "Caught by guidelines/units-and-magnitude.md (new). The presence of named constants (TAX_RATE, MILLISECONDS_PER_SECOND) is what makes this a unit defect rather than a magic-number one, and the reviewer correctly declined to report the constants as magic values."
+}

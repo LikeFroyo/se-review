@@ -1,0 +1,21 @@
+{
+  "eval": "eval-saga-no-compensation",
+  "eval_id": 48,
+  "fixture": "evals/fixtures/saga_no_compensation.py",
+  "run": "without_skill",
+  "phase": "before",
+  "review": "0 findings · C:0 M:0 m:0 i:0 — Domain Score: 100/100 (Grade A) — `Aligns well`",
+  "summary": { "passed": 1, "failed": 8, "total": 9, "pass_rate": 0.0 },
+  "assertions": [
+    { "n": 1, "text": "Exactly 1 finding above Info severity", "result": "fail", "evidence": "0 findings above Info; graded Grade A. The early-return-on-non-201 branches read as careful error handling, and the SAGA_LOG appends read as useful progress tracking." },
+    { "n": 2, "text": "Finding is graded CRITICAL", "result": "fail", "evidence": "No finding to grade." },
+    { "n": 3, "text": "Finding is on axis C5 (Distributed)", "result": "fail", "evidence": "No distributed finding emitted." },
+    { "n": 4, "text": "Identifies the three-step flow committing independently with no saga or compensation", "result": "fail", "evidence": "Missed. The pre-change distributed sub-domain had two files: messaging-consistency.md (eventual consistency, at-least-once, DLQ, backpressure, dedupe) and producer-reliability.md (dual writes, outbox, publish ordering). Both are about ONE aggregate's state-plus-event pair being atomic. Neither covers a business flow whose steps live in three different services, so no pre-change trigger matched." },
+    { "n": 5, "text": "Cites both failure branches (charge fails after reserve; ship fails after charge)", "result": "fail", "evidence": "Not stated; both branches were read as correct 'bail out cleanly' handling." },
+    { "n": 6, "text": "Failure scenario names permanently held stock and a captured charge with no refund", "result": "fail", "evidence": "Not stated." },
+    { "n": 7, "text": "Notes SAGA_LOG records progress but nothing reconciles from it", "result": "fail", "evidence": "Not stated; the log was read as good practice." },
+    { "n": 8, "text": "Fix recommends compensating actions plus a reconciler for stuck flows", "result": "fail", "evidence": "No fix proposed." },
+    { "n": 9, "text": "Header matches pattern: 1 finding · C:1 M:0 m:0 i:0", "result": "fail", "evidence": "Header rendered `0 findings · C:0 M:0 m:0 i:0`." }
+  ],
+  "notes": "Total miss on permanently lost customer money. The transactional-outbox guidance the pre-change skill does carry covers the opposite problem — it makes a single-aggregate write atomic — and is silent on the multi-aggregate flow."
+}

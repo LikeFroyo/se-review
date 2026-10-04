@@ -1,0 +1,19 @@
+{
+  "reason": "isolation unproven",
+  "detail": "reached a forbidden directory: repo/evals/iteration-1/eval-suppression-blind-sibling/without_skill/review.md",
+  "reads": [
+    "ws/.",
+    "ws/evals/fixtures/suppress_unfiltered_fanout_CONSTRAINTS.md",
+    "ws/evals/fixtures/suppression_blind_sibling.py",
+    "ws/evals",
+    "ws/evals/fixtures",
+    "repo/.",
+    "repo/evals/README.md",
+    "repo/evals/fixtures/suppression_blind_sibling.py",
+    "repo/evals/iteration-1/eval-suppression-blind-sibling/without_skill/review.md",
+    "repo/evals/evals.json",
+    "repo/evals/fixtures/suppress_unfiltered_fanout_CONSTRAINTS.md",
+    "ws/SKILL.md",
+    "ws/shared/output-format.md"
+  ]
+}

@@ -1,0 +1,244 @@
+{
+  "eval_id": 5,
+  "eval_name": "eval-clean",
+  "condition": "with_skill",
+  "model_config": "cfg:567712ad39ee",
+  "judge_model_config": "cfg:1c50bc6e7d47",
+  "judge_disjoint": true,
+  "base_commit": "92b5a4c",
+  "no_axis_count": null,
+  "no_axis_count_reason": "no review body",
+  "grader_config": "cfg:458057126fc7",
+  "fixture_digests": {
+    "evals/fixtures/clean.py": "sha256:4baf438f4e76411b"
+  },
+  "skill_consulted": true,
+  "skill_consulted_reps": 1,
+  "reps_requested": 3,
+  "reps_completed": 3,
+  "assertion_results": [
+    {
+      "text": "The HTTPError-is-an-OSError retry bypass IS reported: a non-retryable 4xx is caught by `except OSError` and retried",
+      "passed": false,
+      "evidence": "The review reports \"0 findings \u00b7 C:0 M:0 m:0 i:0\" and instead praises \"Correct error propagation \u2014 catches `OSError` only\", never mentioning HTTPError being retried as a non-retryable 4xx."
+    },
+    {
+      "text": "Findings above Info severity are at most 2, because the fixture holds exactly two real defects",
+      "passed": true,
+      "evidence": "The header line \"0 findings \u00b7 C:0 M:0 m:0 i:0\" shows zero findings above Info, which is at most 2."
+    },
+    {
+      "text": "Every finding above Info severity is graded MINOR, not Major or Critical",
+      "passed": true,
+      "evidence": "The counters \"C:0 M:0 m:0\" show no Critical or Major findings, and \"Findings: None\" leaves no above-Info finding graded other than MINOR."
+    },
+    {
+      "text": "Each finding above Info cites a demonstrable failure scenario, not a speculative one",
+      "passed": true,
+      "evidence": "With \"## Findings\\n\\nNone.\" there are no above-Info findings that could carry a speculative scenario."
+    },
+    {
+      "text": "No style, type-hint, or docstring observation is graded above Info",
+      "passed": true,
+      "evidence": "The only style/lean observations (e.g. \"Minimal, cohesive module \u2014 no dead code, no unused surface\") sit under \"Aligns well\" as positive notes, not graded above-Info findings."
+    },
+    {
+      "text": "Final Grade is not F, and the mean score is above 95",
+      "passed": true,
+      "evidence": "The header states \"Mean 100/100 \u00b7 Final Grade A\", which is not F and above 95."
+    },
+    {
+      "text": "Output includes 'Aligns well', naming the jittered capped backoff and the per-attempt timeout",
+      "passed": true,
+      "evidence": "The \"## Aligns well\" section's first bullet names \"Bounded, timed retries with jitter\" with `timeout=TIMEOUT_S` and `_backoff()` with `min(2**attempt, 8) + random.uniform(0,1)`."
+    },
+    {
+      "text": "The 'Gated by' line is present and reads 'neither', because neither cap binds",
+      "passed": true,
+      "evidence": "The status line reads \"Gated by: neither \u2014 Grade A reached\", with the gating value 'neither'."
+    }
+  ],
+  "summary": {
+    "passed": 8,
+    "failed": 16,
+    "total": 24,
+    "pass_rate": 0.3333
+  },
+  "replicates": [
+    {
+      "rep": 1,
+      "skill_consulted": true,
+      "files_read": [
+        "evals/fixtures/clean.py"
+      ],
+      "searched": [],
+      "assertion_results": [
+        {
+          "text": "The HTTPError-is-an-OSError retry bypass IS reported: a non-retryable 4xx is caught by `except OSError` and retried",
+          "passed": false,
+          "evidence": "The review reports \"0 findings \u00b7 C:0 M:0 m:0 i:0\" and instead praises \"Correct error propagation \u2014 catches `OSError` only\", never mentioning HTTPError being retried as a non-retryable 4xx."
+        },
+        {
+          "text": "Findings above Info severity are at most 2, because the fixture holds exactly two real defects",
+          "passed": true,
+          "evidence": "The header line \"0 findings \u00b7 C:0 M:0 m:0 i:0\" shows zero findings above Info, which is at most 2."
+        },
+        {
+          "text": "Every finding above Info severity is graded MINOR, not Major or Critical",
+          "passed": true,
+          "evidence": "The counters \"C:0 M:0 m:0\" show no Critical or Major findings, and \"Findings: None\" leaves no above-Info finding graded other than MINOR."
+        },
+        {
+          "text": "Each finding above Info cites a demonstrable failure scenario, not a speculative one",
+          "passed": true,
+          "evidence": "With \"## Findings\\n\\nNone.\" there are no above-Info findings that could carry a speculative scenario."
+        },
+        {
+          "text": "No style, type-hint, or docstring observation is graded above Info",
+          "passed": true,
+          "evidence": "The only style/lean observations (e.g. \"Minimal, cohesive module \u2014 no dead code, no unused surface\") sit under \"Aligns well\" as positive notes, not graded above-Info findings."
+        },
+        {
+          "text": "Final Grade is not F, and the mean score is above 95",
+          "passed": true,
+          "evidence": "The header states \"Mean 100/100 \u00b7 Final Grade A\", which is not F and above 95."
+        },
+        {
+          "text": "Output includes 'Aligns well', naming the jittered capped backoff and the per-attempt timeout",
+          "passed": true,
+          "evidence": "The \"## Aligns well\" section's first bullet names \"Bounded, timed retries with jitter\" with `timeout=TIMEOUT_S` and `_backoff()` with `min(2**attempt, 8) + random.uniform(0,1)`."
+        },
+        {
+          "text": "The 'Gated by' line is present and reads 'neither', because neither cap binds",
+          "passed": true,
+          "evidence": "The status line reads \"Gated by: neither \u2014 Grade A reached\", with the gating value 'neither'."
+        }
+      ],
+      "summary": {
+        "passed": 7,
+        "failed": 1,
+        "total": 8,
+        "pass_rate": 0.875
+      }
+    },
+    {
+      "rep": 2,
+      "skill_consulted": false,
+      "files_read": [
+        "evals/fixtures/clean.py"
+      ],
+      "searched": [],
+      "assertion_results": [
+        {
+          "text": "The HTTPError-is-an-OSError retry bypass IS reported: a non-retryable 4xx is caught by `except OSError` and retried",
+          "passed": true,
+          "evidence": "Issue 2 states directly: 'Retries non-retryable 4xx (clean.py:30): HTTPError(400/401/403/404) is `OSError`, retried 3x.'"
+        },
+        {
+          "text": "Findings above Info severity are at most 2, because the fixture holds exactly two real defects",
+          "passed": false,
+          "evidence": "The 'Issues' section enumerates three items and item 3 carries a 'Minor' grade, which sits above Info, so above-Info findings number three, not at most two."
+        },
+        {
+          "text": "Every finding above Info severity is graded MINOR, not Major or Critical",
+          "passed": false,
+          "evidence": "Only item 3 is graded 'Minor'; items 1 and 2 carry no severity label at all, so not every above-Info finding is graded MINOR."
+        },
+        {
+          "text": "Each finding above Info cites a demonstrable failure scenario, not a speculative one",
+          "passed": false,
+          "evidence": "The above-Info Minor bundle cites conditionals and nits with no failure scenario ('0-indexed log, no exc_info', 'event.encode() assumes str', 'fails with TypeError if MAX_ATTEMPTS==0')."
+        },
+        {
+          "text": "No style, type-hint, or docstring observation is graded above Info",
+          "passed": false,
+          "evidence": "The Minor item bundles type/format observations ('event.encode() assumes str', 'no Content-Type', '0-indexed log') above Info rather than at Info."
+        },
+        {
+          "text": "Final Grade is not F, and the mean score is above 95",
+          "passed": false,
+          "evidence": "Searching the full review for 'Final Grade' or any mean/score line returns nothing; the only verdict text is 'correct on main paths'."
+        },
+        {
+          "text": "Output includes 'Aligns well', naming the jittered capped backoff and the per-attempt timeout",
+          "passed": false,
+          "evidence": "The review names 'Jittered backoff (clean.py:16)' and 'per-attempt timeout (clean.py:28)' under a 'Positives:' heading, but never the phrase 'Aligns well'."
+        },
+        {
+          "text": "The 'Gated by' line is present and reads 'neither', because neither cap binds",
+          "passed": false,
+          "evidence": "No 'Gated by' line appears anywhere in the review; its closest content is the header 'correct on main paths, 2 load-bearing issues'."
+        }
+      ],
+      "summary": {
+        "passed": 1,
+        "failed": 7,
+        "total": 8,
+        "pass_rate": 0.125
+      }
+    },
+    {
+      "rep": 3,
+      "skill_consulted": false,
+      "files_read": [
+        "evals/fixtures/clean.py"
+      ],
+      "searched": [],
+      "assertion_results": [
+        {
+          "text": "The HTTPError-is-an-OSError retry bypass IS reported: a non-retryable 4xx is caught by `except OSError` and retried",
+          "passed": false,
+          "evidence": "Searches for 'HTTPError', '4xx', '404', 'non-retryable' and 'subclass' return no match \u2014 the review instead praises `except OSError` as 'narrow' and mentions non-2xx status only in issue 3 as a custom-opener concern, never the OSError-catches-HTTPError retry bypass."
+        },
+        {
+          "text": "Findings above Info severity are at most 2, because the fixture holds exactly two real defects",
+          "passed": false,
+          "evidence": "The Issues section lists four numbered defects (1-4) and searches for 'severity', 'Info', 'MINOR' return no match, so nothing confines above-Info findings to the fixture's two real defects."
+        },
+        {
+          "text": "Every finding above Info severity is graded MINOR, not Major or Critical",
+          "passed": false,
+          "evidence": "No severity word appears anywhere in the review (grep for MINOR/MAJOR/CRITICAL/severity all miss), so the four Issues carry no MINOR grading."
+        },
+        {
+          "text": "Each finding above Info cites a demonstrable failure scenario, not a speculative one",
+          "passed": false,
+          "evidence": "Issue 2 is explicitly speculative ('fragile if MAX_ATTEMPTS<=0') and issue 3 is hypothetical ('if custom `opener` does not raise'), rather than demonstrable failures."
+        },
+        {
+          "text": "No style, type-hint, or docstring observation is graded above Info",
+          "passed": false,
+          "evidence": "Issue 3 ends with a documentation request ('Document or validate') and issue 4 is a testability nit ('Tests must patch `time.sleep`/`_backoff`'), both presented as Issues with no severity marking holding them at Info."
+        },
+        {
+          "text": "Final Grade is not F, and the mean score is above 95",
+          "passed": false,
+          "evidence": "Searches for 'Final', 'Grade', 'score' and 'mean' return no match; the review closes only with 'No unbounded loop, no uncaught hang, no broad except. Low risk.'"
+        },
+        {
+          "text": "Output includes 'Aligns well', naming the jittered capped backoff and the per-attempt timeout",
+          "passed": false,
+          "evidence": "'Aligns well' never appears (grep miss); the jittered backoff (`clean.py:16`) and per-attempt timeout (`clean.py:28`) are listed under a 'Correct:' heading instead."
+        },
+        {
+          "text": "The 'Gated by' line is present and reads 'neither', because neither cap binds",
+          "passed": false,
+          "evidence": "A search for 'Gated' returns no match \u2014 the review contains no 'Gated by' line at all, and states neither cap binding only as 'Low risk.'"
+        }
+      ],
+      "summary": {
+        "passed": 0,
+        "failed": 8,
+        "total": 8,
+        "pass_rate": 0.0
+      }
+    }
+  ],
+  "replicate_summary": {
+    "n": 3,
+    "mean_pass_rate": 0.3333,
+    "stdev_pass_rate": 0.4732,
+    "min_pass_rate": 0.0,
+    "max_pass_rate": 0.875
+  }
+}

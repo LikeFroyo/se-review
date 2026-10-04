@@ -1,0 +1,21 @@
+{
+  "eval": "eval-completion-markers",
+  "eval_id": 44,
+  "fixture": "evals/fixtures/completion_markers.py",
+  "run": "without_skill",
+  "phase": "before",
+  "review": "1 finding · C:0 M:1 m:0 i:0 — Domain Score: 90/100 (Grade A)",
+  "summary": { "passed": 3, "failed": 6, "total": 9, "pass_rate": 0.333 },
+  "assertions": [
+    { "n": 1, "text": "Exactly 2 findings above Info severity", "result": "fail", "evidence": "One finding raised; the unimplemented body was not among it." },
+    { "n": 2, "text": "Finding 1 is graded CRITICAL and finding 2 is graded MAJOR", "result": "fail", "evidence": "No Critical was raised; the single finding was a Major clarity issue." },
+    { "n": 3, "text": "Both findings are on axis L6 (Synthetic Code)", "result": "fail", "evidence": "The one finding was reported on axis B4 (Maintainability / Clarity), not L6." },
+    { "n": 4, "text": "Finding 1 identifies send_bulk_receipt as an unimplemented body on a reachable path", "result": "fail", "evidence": "Missed, and this is the worse half of the miss. ai-patterns.md's six bullets cover hallucinated APIs, intent misuse, mirror tests, block duplication, echo comments, and error masking — none of which is 'the body was never written'. `return {'queued': True, 'count': len(order_ids)}` is a plausible value, not a masked error and not a duplicated block, so no pre-change trigger matched." },
+    { "n": 5, "text": "Finding 1 explains the failure: caller reports the batch as sent while nothing is sent", "result": "fail", "evidence": "Not stated." },
+    { "n": 6, "text": "Finding 2 identifies the thread-safe claim against the unguarded counter", "result": "pass", "evidence": "Raised via maintainability/clarity/doc-drift.md, whose preamble admits the case explicitly: 'Where the doc states intent or contract — what should be — the mismatch may be a code defect.' The docstring promises a concurrency guarantee and the counter has no lock, so the mismatch is reportable from a pre-change rule." },
+    { "n": 7, "text": "Finding 2 identifies the idempotent claim against the missing dedupe key", "result": "pass", "evidence": "Raised through the same doc-drift preamble clause, on the same 'intent or contract' reading." },
+    { "n": 8, "text": "Failure scenario names the lost update and the double discount", "result": "pass", "evidence": "The finding described the unguarded read-modify-write losing a concurrent update; the double-discount consequence was named on the retry path." },
+    { "n": 9, "text": "Header matches pattern: 2 findings · C:1 M:1 m:0 i:0", "result": "fail", "evidence": "Header rendered `1 finding · C:0 M:1 m:0 i:0`." }
+  ],
+  "notes": "Partial catch, and an instructive one: the pre-change skill DID reach the false guarantees — but only by a two-hop read (the contract clause in a maintainability doc), and it graded them as documentation clarity rather than as a code defect. The more severe defect, a reachable method that does nothing while reporting success, was invisible."
+}

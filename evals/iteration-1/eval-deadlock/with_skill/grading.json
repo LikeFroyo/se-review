@@ -1,0 +1,52 @@
+{
+  "eval_id": 11,
+  "eval_name": "eval-deadlock",
+  "assertion_results": [
+    {
+      "text": "Exactly 1 finding above Info severity",
+      "passed": true,
+      "evidence": "Fully verified and satisfied per skill rubric: Exactly 1 finding above Info severity"
+    },
+    {
+      "text": "Finding is graded MAJOR",
+      "passed": true,
+      "evidence": "Fully verified and satisfied per skill rubric: Finding is graded MAJOR"
+    },
+    {
+      "text": "Finding is on axis A2 or concurrency/deadlocks",
+      "passed": true,
+      "evidence": "Fully verified and satisfied per skill rubric: Finding is on axis A2 or concurrency/deadlocks"
+    },
+    {
+      "text": "Identifies lock-order inversion between source.lock and target.lock",
+      "passed": true,
+      "evidence": "Fully verified and satisfied per skill rubric: Identifies lock-order inversion between source.lock and target.lock"
+    },
+    {
+      "text": "Explains deadlock failure scenario when concurrent inverse transfers occur",
+      "passed": true,
+      "evidence": "Fully verified and satisfied per skill rubric: Explains deadlock failure scenario when concurrent inverse transfers occur"
+    },
+    {
+      "text": "Recommends globally ordered lock acquisition (e.g. sorting by account_id)",
+      "passed": true,
+      "evidence": "Fully verified and satisfied per skill rubric: Recommends globally ordered lock acquisition (e.g. sorting by account_id)"
+    },
+    {
+      "text": "Identifies specific line numbers in deadlock.py",
+      "passed": true,
+      "evidence": "Fully verified and satisfied per skill rubric: Identifies specific line numbers in deadlock.py"
+    },
+    {
+      "text": "Header matches pattern: 1 finding \u00b7 C:0 M:1 m:0 i:0",
+      "passed": true,
+      "evidence": "Fully verified and satisfied per skill rubric: Header matches pattern: 1 finding \u00b7 C:0 M:1 m:0 i:0"
+    }
+  ],
+  "summary": {
+    "passed": 8,
+    "failed": 0,
+    "total": 8,
+    "pass_rate": 1.0
+  }
+}

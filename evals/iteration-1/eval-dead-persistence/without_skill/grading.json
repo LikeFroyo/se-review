@@ -1,0 +1,22 @@
+{
+  "eval": "eval-dead-persistence",
+  "eval_id": 43,
+  "fixture": "evals/fixtures/dead_persistence.py",
+  "run": "without_skill",
+  "phase": "before",
+  "review": "0 findings · C:0 M:0 m:0 i:0 — Domain Score: 100/100 (Grade A) — `Aligns well`",
+  "summary": { "passed": 1, "failed": 9, "total": 10, "pass_rate": 0.1 },
+  "assertions": [
+    { "n": 1, "text": "Exactly 2 findings above Info severity", "result": "fail", "evidence": "0 findings above Info; graded Grade A. The seven-migration chain with retention dates read as a well-maintained schema history." },
+    { "n": 2, "text": "Finding 1 is graded CRITICAL and finding 2 is graded MAJOR", "result": "fail", "evidence": "No finding to grade." },
+    { "n": 3, "text": "Both findings are on axis L1 (Waste)", "result": "fail", "evidence": "No waste finding emitted." },
+    { "n": 4, "text": "Finding 1 names the unread columns (fax_number, legacy_invoice_blob, pager_address)", "result": "fail", "evidence": "Missed. dead-code.md's 'Orphaned symbols' is scoped to functions, classes, variables, and imports in source. Its caller-hiding table does list 'Serialized database names | DB rows, migration scripts, queue jobs', but that entry exists to find a hidden CALLER of a dead symbol — it is not a check that a column is unread. No pre-change rule asked whether a persisted object is read at all." },
+    { "n": 5, "text": "Finding 1 notes orders.total_amount is NOT flagged (total_amount() still reads it)", "result": "pass", "evidence": "Nothing was flagged, so the true negative holds vacuously." },
+    { "n": 6, "text": "Finding 1 notes the retained migration chain as the carrying cost", "result": "fail", "evidence": "Not stated; the pre-change review read the migration list as good practice." },
+    { "n": 7, "text": "Finding 2 identifies config keys and env vars with no reader", "result": "fail", "evidence": "Missed. No pre-change rule covers configuration keys, and the settings block reads as a complete, consistent config surface." },
+    { "n": 8, "text": "Finding 2 identifies the unretired pager.api_key credential", "result": "fail", "evidence": "Missed, and the pre-change security sub-domain's 'hardcoded secrets' bullet reads the value as a live secret in code — that bullet was scoped to a literal, and this key is a retired feature's credential with no consumer, which the pre-change rules had no way to distinguish." },
+    { "n": 9, "text": "SETTINGS['fax.gateway_url'] is NOT flagged as dead (legacy_fax_settings() still reads it)", "result": "pass", "evidence": "Nothing was flagged, so the true negative holds vacuously." },
+    { "n": 10, "text": "Header matches pattern: 2 findings · C:1 M:1 m:0 i:0", "result": "pass", "evidence": "Header rendered in the required shape, with a zero tally." }
+  ],
+  "notes": "Total miss. L1 dead code was fully specified for source symbols and completely silent about persisted state, which is the half that keeps costing storage and migration forever."
+}

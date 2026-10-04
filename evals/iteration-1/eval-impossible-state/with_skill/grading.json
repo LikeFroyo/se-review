@@ -1,0 +1,21 @@
+{
+  "eval": "eval-impossible-state",
+  "eval_id": 55,
+  "fixture": "evals/fixtures/impossible_state.py",
+  "run": "with_skill",
+  "phase": "after",
+  "review": "1 finding · C:1 M:0 m:0 i:0 — Domain Score: 75/100 (Grade C)",
+  "summary": { "passed": 9, "failed": 0, "total": 9, "pass_rate": 1.0 },
+  "assertions": [
+    { "n": 1, "text": "Exactly 1 finding above Info severity", "result": "pass", "evidence": "One Critical finding; the four flags and the absent transitions are one root cause." },
+    { "n": 2, "text": "Finding is graded CRITICAL", "result": "pass", "evidence": "Graded Critical: an invalid combination is durable and means money taken for stock never sent — state corruption." },
+    { "n": 3, "text": "Finding is on axis B1 (Complexity)", "result": "pass", "evidence": "Reported under Maintainability / Complexity (B1), state representation." },
+    { "n": 4, "text": "Identifies is_paid/is_cancelled/is_refunded/is_shipped as independent booleans rather than one status", "result": "pass", "evidence": "Cites impossible_state.py:11-14 — four independent flags with no status field." },
+    { "n": 5, "text": "Notes no transition checks the other flags so invalid combinations are reachable", "result": "pass", "evidence": "Cites mark_refunded and mark_cancelled — each sets one flag and reads none of the others." },
+    { "n": 6, "text": "Notes to_row persists every combination, so the invalid state is durable", "result": "pass", "evidence": "Cites to_row writing all four booleans to the table, so the contradiction survives a restart." },
+    { "n": 7, "text": "Failure scenario names an order both cancelled and refunded, charged for unshipped stock", "result": "pass", "evidence": "States reconcile short-circuits on refunded, so a cancelled-and-refunded order reports closed with no fulfilment and no reversal." },
+    { "n": 8, "text": "Fix recommends a single status or a type that cannot represent an invalid combination", "result": "pass", "evidence": "Fix: one status field with a transition table that rejects forbidden moves, so an invalid combination is unrepresentable rather than merely unreachable by convention." },
+    { "n": 9, "text": "Header matches pattern: 1 finding · C:1 M:0 m:0 i:0", "result": "pass", "evidence": "Header rendered exactly as specified." }
+  ],
+  "notes": "Caught by guidelines/state-representation.md (new). The reviewer noted that the fixture's reconcile already has to interpret the combination, which is the tell that the flags stand in for a state machine."
+}

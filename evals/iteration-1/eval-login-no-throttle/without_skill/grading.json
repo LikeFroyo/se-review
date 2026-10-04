@@ -1,0 +1,21 @@
+{
+  "eval": "eval-login-no-throttle",
+  "eval_id": 40,
+  "fixture": "evals/fixtures/login_no_throttle.py",
+  "run": "without_skill",
+  "phase": "before",
+  "review": "0 findings · C:0 M:0 m:0 i:0 — Domain Score: 100/100 (Grade A) — `Aligns well`",
+  "summary": { "passed": 1, "failed": 8, "total": 9, "pass_rate": 0.111 },
+  "assertions": [
+    { "n": 1, "text": "Exactly 1 finding above Info severity", "result": "fail", "evidence": "0 findings above Info; graded Grade A. The explicit two-branch check with a clear error string each read as good, explicit error handling." },
+    { "n": 2, "text": "Finding is graded MAJOR", "result": "fail", "evidence": "No finding to grade." },
+    { "n": 3, "text": "Finding is on axis A5 (Security)", "result": "fail", "evidence": "No security finding emitted." },
+    { "n": 4, "text": "Identifies the absent rate limit, lockout, or backoff on the login path", "result": "fail", "evidence": "Missed. The pre-change sub-domain had no authentication coverage at all; the unused remote_ip parameter read as an interface prepared for future logging." },
+    { "n": 5, "text": "Identifies the distinct message disclosing whether an account exists", "result": "fail", "evidence": "Missed, and the review explicitly praised the two branches as clear, user-friendly error handling." },
+    { "n": 6, "text": "Failure scenario describes account enumeration followed by credential stuffing", "result": "fail", "evidence": "Not stated." },
+    { "n": 7, "text": "Fix recommends throttling plus a uniform failure response", "result": "fail", "evidence": "No fix proposed." },
+    { "n": 8, "text": "remote_ip being an unused parameter is noticed or noted as supporting the missing throttle", "result": "fail", "evidence": "Not noticed." },
+    { "n": 9, "text": "Header matches pattern: 1 finding · C:0 M:1 m:0 i:0", "result": "pass", "evidence": "Header rendered in the required shape, with a zero tally." }
+  ],
+  "notes": "Total miss, and the most misleading baseline: the pre-change review read the user-enumeration signal as a positive error-handling pattern."
+}

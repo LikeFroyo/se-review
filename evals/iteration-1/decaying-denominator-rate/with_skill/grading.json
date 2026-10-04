@@ -1,0 +1,40 @@
+{
+  "eval_id": 92,
+  "eval_name": "decaying-denominator-rate",
+  "condition": "with_skill",
+  "reps_requested": 1,
+  "reps_completed": 1,
+  "assertion_results": [
+    {
+      "text": "Identifies events_per_second dividing by a denominator (the elapsed span) that can approach zero",
+      "passed": true,
+      "evidence": "The MAJOR finding quotes `return len(self._events) / span` and says the denominator `span` shrinks and can make `span == 0.0`."
+    },
+    {
+      "text": "States that a single event yields an enormous finite rate, rather than guarding the empty/short window",
+      "passed": true,
+      "evidence": "It reports `immediate rate: 387143.26` from one just-recorded event and treats the empty guard as insufficient for the short window."
+    },
+    {
+      "text": "The finding is graded MINOR or lower, since no production failure is demonstrable",
+      "passed": false,
+      "evidence": "The denominator finding is labeled `[MAJOR]`, not MINOR or lower."
+    },
+    {
+      "text": "Does not claim the division is unsafe only for the empty case -- the empty case is already guarded",
+      "passed": true,
+      "evidence": "It explicitly says the docstring guards only the empty case while the near-zero span remains unguarded."
+    },
+    {
+      "text": "Does not report float precision or overflow as the defect",
+      "passed": true,
+      "evidence": "The review attributes the defect to a decaying denominator and possible `ZeroDivisionError`, never to float precision or overflow."
+    }
+  ],
+  "summary": {
+    "passed": 4,
+    "failed": 1,
+    "total": 5,
+    "pass_rate": 0.8
+  }
+}

@@ -1,0 +1,139 @@
+{
+  "eval": "eval-weak-password-hash",
+  "eval_id": 32,
+  "fixture": "evals/fixtures/weak_password_hash.py",
+  "run": "with_skill",
+  "phase": "after",
+  "review": "1 finding \u00b7 C:1 M:0 m:0 i:0 \u2014 Domain Score: 75/100 (Grade C)",
+  "summary": {
+    "passed": 6,
+    "failed": 3,
+    "total": 9,
+    "pass_rate": 0.6667
+  },
+  "assertions": [
+    {
+      "n": 1,
+      "text": "Exactly 1 finding above Info severity",
+      "result": "pass",
+      "evidence": "One Critical finding."
+    },
+    {
+      "n": 2,
+      "text": "Finding is graded CRITICAL",
+      "result": "pass",
+      "evidence": "Graded Critical per security/sub-leaf.md credential-storage breach class."
+    },
+    {
+      "n": 3,
+      "text": "Finding is on axis A5 (Security)",
+      "result": "pass",
+      "evidence": "Reported under Correctness / Security (A5)."
+    },
+    {
+      "n": 4,
+      "text": "Identifies the unsalted single-pass sha256 digest in create_account",
+      "result": "pass",
+      "evidence": "Cites weak_password_hash.py:22 `hashlib.sha256(password.encode(\"utf-8\")).hexdigest()`."
+    },
+    {
+      "n": 5,
+      "text": "Identifies the absent per-user salt and absent work factor",
+      "result": "pass",
+      "evidence": "States both: one table-wide absence of salt, and no iteration/memory cost."
+    },
+    {
+      "n": 6,
+      "text": "Failure scenario describes offline cracking of a stolen credential table",
+      "result": "pass",
+      "evidence": "GPU-speed dictionary attack on a dumped table; identical passwords visibly identical."
+    },
+    {
+      "n": 7,
+      "text": "Fix recommends a slow salted KDF (Argon2id, bcrypt, scrypt, or PBKDF2)",
+      "result": "pass",
+      "evidence": "Fix names Argon2id with a per-credential salt and calibrated work factor, citing the OWASP Password Storage thresholds."
+    },
+    {
+      "n": 8,
+      "text": "Trade-off names added CPU or memory cost per login",
+      "result": "pass",
+      "evidence": "Trade-off states added per-login CPU and memory cost and the resulting DoS exposure if the work factor is pushed too high."
+    },
+    {
+      "n": 9,
+      "text": "Header matches pattern: 1 finding \u00b7 C:1 M:0 m:0 i:0",
+      "result": "pass",
+      "evidence": "Header rendered exactly as specified."
+    }
+  ],
+  "notes": "Caught by the 'Credential storage' section of guidelines/authentication.md.",
+  "assertion_results": [
+    {
+      "text": "Exactly 1 finding above Info severity",
+      "passed": false,
+      "evidence": "The header reads \"6 findings \u00b7 C:2 M:1 m:2 i:1\" and the findings section contains 2 CRITICAL, 1 MAJOR and 2 MINOR entries, i.e. 5 findings above Info, not 1."
+    },
+    {
+      "text": "Finding is graded CRITICAL",
+      "passed": true,
+      "evidence": "The first finding is headed \"### [CRITICAL] Passwords stored as a single unsalted pass of a fast digest\"."
+    },
+    {
+      "text": "Finding is on axis S4 (cryptography) (Security)",
+      "passed": false,
+      "evidence": "Grepping the review for axis codes turns up only A5, A2, B1, B2, B4, C-series and L1-L3; the salted-hash finding is labelled \"Correctness / Security (A5)\", and no \"S4\" or \"cryptography\" axis code appe"
+    },
+    {
+      "text": "Identifies the unsalted single-pass sha256 digest in create_account",
+      "passed": true,
+      "evidence": "The CRITICAL finding's evidence quotes `evals/fixtures/weak_password_hash.py:22` in create_account, `\"password_hash\": hashlib.sha256(password.encode(\"utf-8\")).hexdigest(),`, under the heading \"single "
+    },
+    {
+      "text": "Identifies the absent per-user salt and absent work factor",
+      "passed": true,
+      "evidence": "The same finding's evidence states \"fast hash for a password, no per-credential salt, no work factor\"."
+    },
+    {
+      "text": "Failure scenario describes offline cracking of a stolen credential table",
+      "passed": true,
+      "evidence": "Its Failure scenario reads \"Any read of `USERS` \u2014 a backup, a crash dump, a test artifact ... yields passwords recoverable at commodity-GPU rates\"."
+    },
+    {
+      "text": "Fix recommends a slow salted KDF (Argon2id, bcrypt, scrypt, or PBKDF2)",
+      "passed": true,
+      "evidence": "The Fix recommends \"`argon2-cffi` (Argon2id, \u226519 MiB / t=2 / p=1) or `bcrypt` (cost \u226510), both of which manage salt\", with PBKDF2-HMAC-SHA256 also named."
+    },
+    {
+      "text": "Trade-off names added CPU or memory cost per login",
+      "passed": true,
+      "evidence": "The Trade-off names \"Login latency and memory per concurrent authentication ... roughly 100\u2013300 ms CPU per login; Argon2id at 19 MiB costs that memory per in-flight auth\"."
+    },
+    {
+      "text": "Header matches pattern: 1 finding \u00b7 C:1 M:0 m:0 i:0",
+      "passed": false,
+      "evidence": "The header line reads \"`6 findings \u00b7 C:2 M:1 m:2 i:1 \u00b7 Mean 78.0/100 \u00b7 Final Grade F`\", which does not match \"1 finding \u00b7 C:1 M:0 m:0 i:0\"."
+    }
+  ],
+  "assertion_roles": [
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "probe"
+  ],
+  "recovered": {
+    "note": "assertion_results and summary supplied by re-grading the stored review body; summary_before is what the earlier grader recorded, and it is kept because it disagreed",
+    "grader_config": "cfg:7d57659c2e6c",
+    "summary_before": {
+      "passed": 9,
+      "failed": 0,
+      "total": 9,
+      "pass_rate": 1.0
+    }
+  }
+}

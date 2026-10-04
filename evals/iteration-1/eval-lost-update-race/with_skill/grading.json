@@ -1,0 +1,21 @@
+{
+  "eval": "eval-lost-update-race",
+  "eval_id": 63,
+  "fixture": "evals/fixtures/lost_update_race.py",
+  "run": "with_skill",
+  "phase": "after",
+  "review": "1 finding · C:1 M:0 m:0 i:0 — Domain Score: 75/100 (Grade C)",
+  "summary": { "passed": 9, "failed": 0, "total": 9, "pass_rate": 1.0 },
+  "assertions": [
+    { "n": 1, "text": "Exactly 1 finding above Info severity", "result": "pass", "evidence": "One Critical finding; reserve and increment_view_counter are the same read-then-write shape." },
+    { "n": 2, "text": "Finding is graded CRITICAL", "result": "pass", "evidence": "Graded Critical: a lost reservation is silent data corruption — the store believes the stock is reserved and the customer believes it is theirs." },
+    { "n": 3, "text": "Finding is on axis A3 (Data)", "result": "pass", "evidence": "Reported under Correctness / Data (A3) on the isolation rule, not under A2 — no threads are involved; the interleaving is between transactions." },
+    { "n": 4, "text": "Identifies the separate SELECT and UPDATE in reserve with no lock and no atomic operator", "result": "pass", "evidence": "Cites lost_update_race.py:22-31 — a SELECT followed by an UPDATE on the same row inside one connection but not one atomic statement." },
+    { "n": 5, "text": "Notes the default isolation level permits an interleaving between the read and the write", "result": "pass", "evidence": "Cites the file's own DEFAULT_ISOLATION constant at line 8 and the absence of any isolation raise or lock." },
+    { "n": 6, "text": "Identifies increment_view_counter as the same read-then-write shape", "result": "pass", "evidence": "Cites lines 35-41 — the counter is written back from a value read two statements earlier." },
+    { "n": 7, "text": "Failure scenario names oversold stock with no row recording the lost update", "result": "pass", "evidence": "States both reservations commit, only one is persisted, and nothing in the schema or the logs records the shortfall." },
+    { "n": 8, "text": "Fix recommends a conditional atomic UPDATE or SELECT FOR UPDATE", "result": "pass", "evidence": "Fix: a single UPDATE ... SET available = available - qty WHERE sku = ? AND available >= qty, checking the affected-row count; or SELECT ... FOR UPDATE before the write." },
+    { "n": 9, "text": "Header matches pattern: 1 finding · C:1 M:0 m:0 i:0", "result": "pass", "evidence": "Header rendered exactly as specified." }
+  ],
+  "notes": "Caught by guidelines/isolation-and-consistency.md (new). Note the contrast with operations/performance/scaling-bounds.md, which covers the sequential unbounded fan-out in the same shape of code: this finding is about atomicity at the data layer, and the two are reported on different axes without overlap."
+}

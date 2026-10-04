@@ -1,0 +1,75 @@
+{
+  "eval_id": 43,
+  "eval_name": "eval-dead-persistence",
+  "condition": "with_skill",
+  "skill_consulted": true,
+  "files_read": [
+    "evals/fixtures/dead_persistence.py",
+    "evals/README.md",
+    "domains/leanness/waste/guidelines/dead-persistence.md",
+    "shared/output-format.md",
+    "shared/axis-codes.md",
+    "shared/severity-and-rules.md"
+  ],
+  "assertion_results": [
+    {
+      "text": "Exactly 2 findings above Info severity",
+      "passed": true,
+      "evidence": "The review's Findings section contains exactly two entries, one [CRITICAL] and one [MAJOR], both above Info."
+    },
+    {
+      "text": "Finding 1 is graded CRITICAL and finding 2 is graded MAJOR",
+      "passed": true,
+      "evidence": "Finding headings are '[CRITICAL] Orphaned schema retained...' and '[MAJOR] Configuration and one credential declared with no consumer'."
+    },
+    {
+      "text": "Both findings are on axis L1 (Waste)",
+      "passed": true,
+      "evidence": "Both findings list 'Domain: Leanness / Waste (L1)' and both headings end with '(L1)'."
+    },
+    {
+      "text": "Finding 1 names the unread columns (fax_number, legacy_invoice_blob, pager_address)",
+      "passed": true,
+      "evidence": "Finding 1 names 'orders.fax_number', 'orders.legacy_invoice_blob' and 'customers.pager_address' as having no reader."
+    },
+    {
+      "text": "Finding 1 notes orders.total_amount is NOT flagged (total_amount() still reads it)",
+      "passed": true,
+      "evidence": "Finding 1 states '**Not flagged:** `orders.total_amount` — `total_amount()` at `:46` reads it, so it is live.'"
+    },
+    {
+      "text": "Finding 1 notes the retained migration chain as the carrying cost",
+      "passed": true,
+      "evidence": "Finding 1 cites MIGRATIONS '0001'→'0714' retained and calls the frozen chain the tax: 'every deploy replays eight transformations over state nothing consumes'."
+    },
+    {
+      "text": "Finding 2 identifies config keys and env vars with no reader",
+      "passed": true,
+      "evidence": "Finding 2 names four UNREAD_ENV_VARS with no reader plus the SETTINGS key 'pager.api_key' as having no consumer."
+    },
+    {
+      "text": "Finding 2 identifies the unretired pager.api_key credential",
+      "passed": true,
+      "evidence": "Finding 2 quotes 'SETTINGS[\"pager.api_key\"] = \"pg_live_2f8c41ab90\"' as 'live-format with no consumer' and its fix says to revoke the credential at the issuer."
+    },
+    {
+      "text": "SETTINGS['fax.gateway_url'] is NOT flagged as dead (legacy_fax_settings() still reads it)",
+      "passed": true,
+      "evidence": "Finding 2 states '**Not flagged:** `SETTINGS[\"fax.gateway_url\"]` — `legacy_fax_settings()` at `:41` reads it, so the key is live'."
+    },
+    {
+      "text": "Header matches pattern: 2 findings · C:1 M:1 m:0 i:0",
+      "passed": true,
+      "evidence": "The header line reads '`2 findings · C:1 M:1 m:0 i:0 · Domain Score: 65/100 (Grade D) · Final Grade F`'."
+    }
+  ],
+  "summary": {
+    "passed": 10,
+    "failed": 0,
+    "total": 10,
+    "pass_rate": 1.0
+  },
+  "searched": [
+    "{AGENTS.md,README.md,*.md}"
+  ]
+}

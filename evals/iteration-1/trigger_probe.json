@@ -1,0 +1,284 @@
+{
+  "rows": [
+    {
+      "query": "review this diff for defects before I merge",
+      "should_trigger": true,
+      "consulted": true,
+      "read_surface": true,
+      "read": [
+        "SKILL.md",
+        "project-tree",
+        "shared/axis-codes.md",
+        "shared/domain-fanout.md",
+        "shared/output-format.md",
+        "shared/severity-and-rules.md"
+      ],
+      "reply_chars": 11011,
+      "reply_head": "Merging soon \u2014 scanning your diff for defects.\nYour full workspace diff is large \u2014 loading review standards before the deep check.\nScope exceeds the serial limi"
+    },
+    {
+      "query": "PR audit: grade correctness and security on the changed lines",
+      "should_trigger": true,
+      "consulted": true,
+      "read_surface": true,
+      "read": [
+        "SKILL.md",
+        "domains",
+        "domains/correctness/leaf.md",
+        "domains/security/leaf.md",
+        "shared/axis-codes.md",
+        "shared/output-format.md"
+      ],
+      "reply_chars": 1684,
+      "reply_head": "Grading your changed lines for correctness and security \u2014 first mapping the diff.\nFound your live diff in the parent workspace \u2014 now loading the correctness and"
+    },
+    {
+      "query": "audit security in auth paths for access bypass and injection",
+      "should_trigger": true,
+      "consulted": true,
+      "read_surface": true,
+      "read": [
+        "SKILL.md",
+        "domains/security",
+        "domains/security/cryptography-secrets",
+        "domains/security/cryptography-secrets/sub-leaf.md",
+        "domains/security/identity-access",
+        "domains/security/identity-access/guidelines/access-control.md"
+      ],
+      "reply_chars": 2694,
+      "reply_head": "Hunting access bypass and injection in your auth paths.\nI've mapped your security boundaries \u2014 now digging for auth implementations.\nNo dedicated auth modules f"
+    },
+    {
+      "query": "check this change for dead code, leaks, or race conditions",
+      "should_trigger": true,
+      "consulted": true,
+      "read_surface": true,
+      "read": [
+        "SKILL.md",
+        "domains",
+        "domains/correctness/concurrency/guidelines/cancellation-lifecycle.md",
+        "domains/correctness/concurrency/guidelines/race-conditions.md",
+        "domains/correctness/concurrency/sub-leaf.md",
+        "domains/correctness/logic/guidelines/error-handling.md"
+      ],
+      "reply_chars": 1820,
+      "reply_head": "Checking for dead code, leaks, and races.\nFound your live diff in the parent workspace \u2014 loading the targeted checks.\nMapped to dead-code, leak, and race checks"
+    },
+    {
+      "query": "are we current with the language standard, and what is outdated",
+      "should_trigger": true,
+      "consulted": true,
+      "read_surface": true,
+      "read": [
+        "SKILL.md",
+        "auditandevolve",
+        "domains",
+        "project-tree",
+        "project-tree/SKILL.md",
+        "project-tree/intent"
+      ],
+      "reply_chars": 3738,
+      "reply_head": "Checking language currency \u2014 auditing your implementation against current standards.\nThat phrase routes to a conformance and currency audit \u2014 loading the workfl"
+    },
+    {
+      "query": "what is this project meant to do, and does it do it",
+      "should_trigger": true,
+      "consulted": true,
+      "read_surface": true,
+      "read": [
+        "SKILL.md",
+        "auditandevolve",
+        "domains",
+        "project-tree",
+        "project-tree/SKILL.md",
+        "project-tree/intent/README.md"
+      ],
+      "reply_chars": 6382,
+      "reply_head": "Probing what that build does \u2014 and whether it works.\nThis looks like an intent-verification request \u2014 digging into its stated purpose.\nMapped the structure \u2014 no"
+    },
+    {
+      "query": "architecture inspection of the new module boundary",
+      "should_trigger": true,
+      "consulted": true,
+      "read_surface": true,
+      "read": [
+        "SKILL.md",
+        "auditandevolve",
+        "auditandevolve/SKILL.md",
+        "auditandevolve/hillclimb.md",
+        "auditandevolve/skill-adherence.md",
+        "domains"
+      ],
+      "reply_chars": 4071,
+      "reply_head": "Probing the new module boundary \u2014 mapping its structure.\nFound the layout \u2014 now inspecting the boundaries between modules.\nSpotted an undocumented module at the"
+    },
+    {
+      "query": "find the bug in the changed hunks and their callers",
+      "should_trigger": true,
+      "consulted": true,
+      "read_surface": true,
+      "read": [
+        "SKILL.md",
+        "auditandevolve",
+        "domains",
+        "project-tree",
+        "shared"
+      ],
+      "reply_chars": 2585,
+      "reply_head": "Fixing on the changed hunks and tracing their callers.\nLocated the review scope \u2014 now inspecting the changed hunks for defects.\nThis looks like a review trigger"
+    },
+    {
+      "query": "revie wthis dif for defcts befor I merge",
+      "should_trigger": true,
+      "consulted": true,
+      "read_surface": true,
+      "read": [
+        "SKILL.md",
+        "shared/axis-codes.md",
+        "shared/domain-fanout.md",
+        "shared/output-format.md",
+        "shared/severity-and-rules.md"
+      ],
+      "reply_chars": 13245,
+      "reply_head": "Fixing your typo'd path and lining up the diff for review.\nNo branch diff found \u2014 treating the initial 161-file commit as the review scope and starting the defe"
+    },
+    {
+      "query": "review auth.py --focus login paths, diff-only",
+      "should_trigger": true,
+      "consulted": true,
+      "read_surface": true,
+      "read": [
+        "SKILL.md",
+        "auditandevolve",
+        "domains",
+        "domains/security",
+        "project-tree",
+        "shared"
+      ],
+      "reply_chars": 1854,
+      "reply_head": "Diff-only login review \u2014 inspecting your trigger scope.\nNo auth.py or live diff in that snapshot \u2014 verifying scope before reporting.\nConfirmed empty scope \u2014 loa"
+    },
+    {
+      "query": "write a new feature for user profiles with validation",
+      "should_trigger": false,
+      "consulted": false,
+      "read_surface": true,
+      "read": [
+        "SKILL.md",
+        "project-tree"
+      ],
+      "reply_chars": 737,
+      "reply_head": "Writing your profile validation feature \u2014 first inspecting the trigger.\nThat request falls outside review scope \u2014 checking the workspace for context.\nse-review "
+    },
+    {
+      "query": "implement the fix for the login timeout we just found",
+      "should_trigger": false,
+      "consulted": false,
+      "read_surface": true,
+      "read": [
+        "SKILL.md"
+      ],
+      "reply_chars": 582,
+      "reply_head": "Fixing your login timeout \u2014 pulling the trigger details.\nThat implementation request is outside review scope \u2014 verifying before I rule it out.\nDeclined \u2014 outsid"
+    },
+    {
+      "query": "fix indentation, quotes, and import sorting across the tree",
+      "should_trigger": false,
+      "consulted": false,
+      "read_surface": true,
+      "read": [
+        "SKILL.md"
+      ],
+      "reply_chars": 500,
+      "reply_head": "Fixing style across the tree \u2014 sorting imports and normalizing format.\nOut of scope for `se-review`.\n\nPer `SKILL.md:169`: \u201cDo not do linter work: Indentation, q"
+    },
+    {
+      "query": "review my resume for tone and clarity",
+      "should_trigger": false,
+      "consulted": false,
+      "read_surface": false,
+      "read": [],
+      "reply_chars": 535,
+      "reply_head": "I'll locate your resume and review it for tone and clarity.\nThat path looks like a skill folder, not a resume \u2014 I'll verify with a thorough search.\nI checked `/"
+    },
+    {
+      "query": "audit my monthly expenses for overspending",
+      "should_trigger": false,
+      "consulted": false,
+      "read_surface": true,
+      "read": [
+        "SKILL.md"
+      ],
+      "reply_chars": 651,
+      "reply_head": "Auditing your expenses \u2014 gathering the numbers.\nThat expense audit request doesn't match the code-review skill at that path \u2014 checking what's actually there bef"
+    },
+    {
+      "query": "check formatting of this document for consistent headings",
+      "should_trigger": false,
+      "consulted": true,
+      "read_surface": true,
+      "read": [
+        "SKILL.md"
+      ],
+      "reply_chars": 1831,
+      "reply_head": "Checking your headings for consistency.\nThat path is a directory with 152 markdown files \u2014 I'll audit heading consistency across them.\nPath is a directory, not "
+    },
+    {
+      "query": "write a commit message for the staged change",
+      "should_trigger": false,
+      "consulted": false,
+      "read_surface": false,
+      "read": [],
+      "reply_chars": 438,
+      "reply_head": "Writing your commit message \u2014 inspecting the staged change.\nNo staged change in `ws` \u2014 `git status` i"
+    },
+    {
+      "query": "generate test data for the staging environment",
+      "should_trigger": false,
+      "consulted": false,
+      "read_surface": true,
+      "read": [
+        "SKILL.md",
+        "domains",
+        "project-tree",
+        "shared"
+      ],
+      "reply_chars": 583,
+      "reply_head": "Staging test data coming up \u2014 pulling your trigger file.\nThat request looks outside review scope \u2014 checking workspace context before acting.\nThis request is out"
+    },
+    {
+      "query": "explain how to configure the editor for this repo",
+      "should_trigger": false,
+      "consulted": false,
+      "read_surface": true,
+      "read": [
+        "SKILL.md",
+        "project-tree"
+      ],
+      "reply_chars": 1064,
+      "reply_head": "Locating your editor setup and repo configs.\nYour trigger looks like a review skill, not an editor config \u2014 I'll verify against the repo standards.\nConfirmed th"
+    },
+    {
+      "query": "summarize this article about review culture for the team",
+      "should_trigger": false,
+      "consulted": false,
+      "read_surface": true,
+      "read": [
+        "SKILL.md",
+        "auditandevolve",
+        "domains",
+        "project-tree",
+        "shared"
+      ],
+      "reply_chars": 813,
+      "reply_head": "Summarizing that review culture piece for your team \u2014 pulling it now.\nThat path isn't an article \u2014 checking what's actually there so I summarize accurately.\nTha"
+    }
+  ],
+  "asked": 20,
+  "scored": 20,
+  "engaged": 11,
+  "should_trigger": 10,
+  "agreed": 19,
+  "rate": 0.55,
+  "accuracy": 0.95
+}

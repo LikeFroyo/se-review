@@ -1,0 +1,21 @@
+{
+  "eval": "eval-boundary-error-policy",
+  "eval_id": 61,
+  "fixture": "evals/fixtures/boundary_error_policy.py",
+  "run": "with_skill",
+  "phase": "after",
+  "review": "1 finding · C:0 M:1 m:0 i:0 — Domain Score: 90/100 (Grade A)",
+  "summary": { "passed": 9, "failed": 0, "total": 9, "pass_rate": 1.0 },
+  "assertions": [
+    { "n": 1, "text": "Exactly 1 finding above Info severity", "result": "pass", "evidence": "One Major finding; the swallowed exception and the undefined contract are one root cause seen from the boundary." },
+    { "n": 2, "text": "Finding is graded MAJOR", "result": "pass", "evidence": "Graded Major per the new B5 rule 'Undefined failure contract at a module boundary' — the swallowed error itself is Critical, but the finding is graded on the boundary contract it breaks, and the file's other defect was not duplicated." },
+    { "n": 3, "text": "Finding is on axis B5 (Design)", "result": "pass", "evidence": "Reported under Maintainability / Design (B5), boundary section." },
+    { "n": 4, "text": "Identifies the bare except in find_user collapsing failure and absence into the same None", "result": "pass", "evidence": "Cites boundary_error_policy.py:21 — `except Exception: return None` returning the same value as a genuine miss." },
+    { "n": 5, "text": "Notes the docstring promises None only for a not-found result", "result": "pass", "evidence": "Cites the docstring at line 8 against the handler's three return paths." },
+    { "n": 6, "text": "Identifies find_or_create inserting a stub on that None, so the ambiguity causes writes", "result": "pass", "evidence": "Cites lines 35-40 — the ambiguous None drives an insert, which is what turns a contract gap into data damage." },
+    { "n": 7, "text": "Contrast with list_users in the same file, which lets errors propagate", "result": "pass", "evidence": "Cites list_users at line 30 as the file's own counter-example, establishing that the inconsistency is unprincipled rather than a deliberate policy." },
+    { "n": 8, "text": "Fix recommends propagating the error and reserving None for absence, or a typed result", "result": "pass", "evidence": "Fix: let the exception propagate and reserve None for absence, or return a typed result the caller must match, and align list_users with it." },
+    { "n": 9, "text": "Header matches pattern: 1 finding · C:0 M:1 m:0 i:0", "result": "pass", "evidence": "Header rendered exactly as specified." }
+  ],
+  "notes": "Caught by the 'Error policy at a boundary' section appended to guidelines/boundaries-ddd.md. Reported as one finding rather than two: the swallowed exception and the undefined contract are the same defect seen from the code and from the boundary, and the collapse rule applies."
+}

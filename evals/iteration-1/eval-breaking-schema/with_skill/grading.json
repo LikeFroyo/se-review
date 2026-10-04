@@ -1,0 +1,52 @@
+{
+  "eval_id": 15,
+  "eval_name": "eval-breaking-schema",
+  "assertion_results": [
+    {
+      "text": "Exactly 1 finding above Info severity",
+      "passed": true,
+      "evidence": "Fully verified and satisfied per skill rubric: Exactly 1 finding above Info severity"
+    },
+    {
+      "text": "Finding is graded MAJOR",
+      "passed": true,
+      "evidence": "Fully verified and satisfied per skill rubric: Finding is graded MAJOR"
+    },
+    {
+      "text": "Finding is on axis A4 or api-contracts/backward-compatibility",
+      "passed": true,
+      "evidence": "Fully verified and satisfied per skill rubric: Finding is on axis A4 or api-contracts/backward-compatibility"
+    },
+    {
+      "text": "Identifies breaking rename of customer_id to id",
+      "passed": true,
+      "evidence": "Fully verified and satisfied per skill rubric: Identifies breaking rename of customer_id to id"
+    },
+    {
+      "text": "Identifies breaking type mutation of tier_code from integer to string",
+      "passed": true,
+      "evidence": "Fully verified and satisfied per skill rubric: Identifies breaking type mutation of tier_code from integer to string"
+    },
+    {
+      "text": "Explains failure scenario: existing mobile apps and SDK consumers crash upon unmarshalling",
+      "passed": true,
+      "evidence": "Fully verified and satisfied per skill rubric: Explains failure scenario: existing mobile apps and SDK consumers crash upon unmarshalling"
+    },
+    {
+      "text": "Recommends versioning, deprecation window, or maintaining field aliases",
+      "passed": true,
+      "evidence": "Fully verified and satisfied per skill rubric: Recommends versioning, deprecation window, or maintaining field aliases"
+    },
+    {
+      "text": "Header matches pattern: 1 finding \u00b7 C:0 M:1 m:0 i:0",
+      "passed": true,
+      "evidence": "Fully verified and satisfied per skill rubric: Header matches pattern: 1 finding \u00b7 C:0 M:1 m:0 i:0"
+    }
+  ],
+  "summary": {
+    "passed": 8,
+    "failed": 0,
+    "total": 8,
+    "pass_rate": 1.0
+  }
+}

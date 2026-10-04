@@ -1,0 +1,33 @@
+I'll read that file.
+# Review: `evals/fixtures/saga_no_compensation.py` (full file, 48 lines)
+
+`1 finding · C:1 M:0 m:0 i:0 · Mean 95.0/100 · Final Grade F`
+Domain Scores: Correctness 100 · Maintainability 100 · Leanness 100 · Operations 75 · Interoperability 100
+Gated by: `Critical finding` **and** weakest domain: Operations — both caps bind (mean alone would report A).
+
+## Findings
+
+### [CRITICAL] Three-service checkout commits each step independently — no saga, no compensating action, no reconciler
+- **Domain:** Operations (C5)
+- **Evidence:** `saga_no_compensation.py` → `place_order`, lines 24–48. Three sequential `requests.post` calls, each its own service, each committing before the next begins: `POST {INVENTORY}/reservations` (24–26), `POST {PAYMENTS}/charges` (31–35), `POST {SHIPPING}/shipments` (41–43). The two mid-flow failure branches simply give up — `if charge.status_code != 201: return None` (36–38) and `if shipment.status_code != 201: return None` (44–46). No step has an inverse; nothing retries. `SAGA_LOG` (line 10) records progress via `append` (29, 39, 47) and is **read nowhere in the module** — a saga record with no runner, and an in-memory one, so it does not even survive a process restart or deploy. No durable order record exists anywhere, so an order has no state at all: not pending, not failed, not shipped.
+- **Failure scenario:** Two permanent, money-bearing outcomes, and both are silent.
+  1. *Charge fails after reserve* (36–38). Inventory has already committed the reservation. `place_order` returns `None`. The reservation is never released, so sellable stock for that SKU stays decremented against an order that will never ship — a slow, unbounded inventory leak that only a human audit surfaces. The caller's comment at line 37 says so: `# Stock is held and never released.`
+  2. *Ship fails after charge settles* (44–46). The customer's money is captured, stock is reserved, no shipment exists. The pair (captured charge, held stock, zero shipments) is unrecoverable by any automated process, because the only trace is a list no one reads. The caller's comment at line 45: `# Charged, never shipped, never reconciled.`
+  The same root cause holds on the transport path: a `requests` exception at line 41 (timeout, connection reset) leaves identical orphaned state *and* propagates out of the function. And the caller cannot distinguish outcomes — `None` is returned identically for a clean pre-reserve rejection (line 28) and for a captured charge with no shipment (line 46), so `Optional[Dict]` carries no signal to reconcile against. Neither the docstring (16–23) nor the inline comments downgrade this: per the skill's ground rule, a documented flaw is still graded at its true severity. This is CRITICAL on state corruption and financial loss, and it is **routinely** reachable, not exotic — the `timeout=10` calls mean transient 5xx from any of the three services is an expected event, and each one strands a different order.
+- **Fix:** Scope: **boundary** — plus the module's callers, since the return contract changes.
+  1. **Capture the handles first.** Parse each response body and persist `reservation_id` and `charge_id` against `order_id` *before* the next step. Today both are discarded (24–26, 31–35, 41–43), so compensation is not merely absent, it is *unimplementable* — there is no identifier to refund or release against. This is the prerequisite; nothing below works without it.
+  2. **Make every step idempotent** with a step-scoped `Idempotency-Key` derived from `order_id`. Without it, the fix below introduces a new failure: a retry after an ambiguous timeout double-charges. (`workflow-compensation.md` → *Non-idempotent compensation*.)
+  3. **Replace the in-memory `SAGA_LOG` with a durable saga record** carrying an explicit step machine — `PENDING_RESERVE → RESERVED → CHARGED → SHIPPED`, plus terminal `COMPENSATED` / `FAILED_TERMINAL` — persisted before each call, not appended after it.
+  4. **Add an inverse per completed step, in reverse order.** On ship failure: refund the charge by `charge_id`, then release the reservation by `reservation_id`. On charge failure: release the reservation. Each compensation is itself idempotent and keyed.
+  5. **Add a reconciler** — a periodic sweep of non-terminal saga records past a threshold age that retries compensation and escalates anything that has failed twice. This is the piece that makes `SAGA_LOG` worth having; without it, one failed compensation is also permanent.
+  6. **Decouple compensation from the failed service** — enqueue the refund rather than calling the service that just failed inline, so a partial outage cannot prevent the rollback from starting.
+  7. **Return a truthful state** (`PENDING` / `COMPENSATING`, not `None`) so the caller can reconcile instead of inferring.
+- **Trade-off:** This is the expensive class of fix and it should be priced honestly. It adds a durable saga store plus a background reconciler — new operational surface that must itself be monitored and alerted on, and a new failure mode in the compensation path that did not previously exist. The happy path pays three durable writes (one per step) and no additional network round trip; the failure path pays a refund and a release. The long pole is not this module: payments, inventory, and shipping must each *honour* an idempotency key, which is a cross-team dependency outside this file. Per the shape-before-behaviour rule, steps 1–3 are structural and 4–7 behavioural — the Critical-with-live-blast-radius exception applies, so the compensations ship now and the durable state machine is recorded as owed.
+
+## Aligns well
+
+- `amount_cents: int` crosses all three service boundaries as an integer — no float money anywhere on the charge path (D3). The unit is in the name, not just the type.
+- All three calls set an explicit `timeout=10` (25, 34, 42) — no call can hang a checkout indefinitely (C3). This is why there is no second, resilience-axis finding: the timeouts are present and correct, and the one Critical is not diluted across axes.
+- `place_order` is a linear three-step read with no hidden nesting, cyclomatic complexity in single digits, and constants hoisted to named module scope (6–8) with the API version pinned in the path (B1, B4, D4).
+
+**Verification limits:** single-file review — callers of `place_order` are outside scope, so the fix's return-contract change is priced against an unverified call surface. Dead-code proof was not run against `SAGA_LOG`; it is written by this module and read by none, but as a module-level log it may be an external audit surface, so it is folded into the C5 finding as the absent reconciler rather than graded separately as unearned code.

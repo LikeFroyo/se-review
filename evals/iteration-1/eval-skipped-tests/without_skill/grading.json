@@ -1,0 +1,21 @@
+{
+  "eval": "eval-skipped-tests",
+  "eval_id": 69,
+  "fixture": "evals/fixtures/skipped_tests.py",
+  "run": "without_skill",
+  "phase": "before",
+  "review": "0 findings · C:0 M:0 m:0 i:0 — Domain Score: 100/100 (Grade A) — `Aligns well`",
+  "summary": { "passed": 1, "failed": 8, "total": 9, "pass_rate": 0.125 },
+  "assertions": [
+    { "n": 1, "text": "Exactly 1 finding above Info severity", "result": "fail", "evidence": "0 findings above Info; graded Grade A. An xfail carrying a reason is the conventional, expected way to record a known-flaky test, and an empty skip is the conventional placeholder for work in progress." },
+    { "n": 2, "text": "Finding is graded MAJOR", "result": "fail", "evidence": "No finding to grade." },
+    { "n": 3, "text": "Finding is on axis A6 (Testing)", "result": "fail", "evidence": "No testing finding emitted." },
+    { "n": 4, "text": "Identifies test_price_bulk as skipped with no reason and no owner", "result": "fail", "evidence": "Missed. The pre-change testing sub-domain's ten bullets are all about tests that run: untested changed behaviour, assertion-free tests, mock-asserting-mock, happy-path-only, weak assertions, untested boundaries, sleep-based sync, wall-clock dependence, unordered containers, shared test state. A test that does not run is not a state any of them describes." },
+    { "n": 5, "text": "Identifies test_price_with_promotion as xfail with a vague reason and no expiry", "result": "fail", "evidence": "Missed, and the supplied reason reads as the practice the rules elsewhere reward — determinism.md wants flakiness eliminated, and an xfail is how a project records a flake it has not yet fixed." },
+    { "n": 6, "text": "Notes the suite still reports green and still counts both tests toward coverage", "result": "fail", "evidence": "Not stated." },
+    { "n": 7, "text": "Failure scenario names a bulk or promotion pricing regression shipping undetected", "result": "fail", "evidence": "Not stated." },
+    { "n": 8, "text": "Fix recommends deleting the skip or attaching a tracked reason and owner, with an expiry on any xfail", "result": "fail", "evidence": "No fix proposed." },
+    { "n": 9, "text": "Header matches pattern: 1 finding · C:0 M:1 m:0 i:0", "result": "pass", "evidence": "Header rendered in the required shape, with a zero tally." }
+  ],
+  "notes": "Total miss, and the rule-shaped version of the gap: every pre-change testing rule is written from the inside of a test that executes. The one thing none of them can express is a test that has been removed from execution while remaining in the report — which is what makes it more dangerous than a deleted test, because the count still says it is there."
+}

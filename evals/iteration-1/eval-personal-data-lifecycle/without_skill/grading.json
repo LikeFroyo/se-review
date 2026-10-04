@@ -1,0 +1,22 @@
+{
+  "eval": "eval-personal-data-lifecycle",
+  "eval_id": 74,
+  "fixture": "evals/fixtures/personal_data_lifecycle.py",
+  "run": "without_skill",
+  "phase": "before",
+  "review": "1 finding · C:0 M:0 m:1 i:0 — Domain Score: 97/100 (Grade A)",
+  "summary": { "passed": 1, "failed": 9, "total": 10, "pass_rate": 0.1 },
+  "assertions": [
+    { "n": 1, "text": "Exactly 2 findings above Info severity", "result": "fail", "evidence": "One finding raised, on the free-text support notes." },
+    { "n": 2, "text": "Both findings are graded CRITICAL", "result": "fail", "evidence": "The single finding was graded MINOR." },
+    { "n": 3, "text": "Finding 1 is on axis C8 (Data Protection) and finding 2 is on axis C7 (Durability)", "result": "fail", "evidence": "Neither sub-domain existed. The one finding was reported under Operations / Observability (C4) on the existing PII-in-logs rule." },
+    { "n": 4, "text": "Finding 1 identifies the primary row being the only copy removed", "result": "fail", "evidence": "Missed. The nearest pre-change rule is correctness/security's IDOR bullet, which is about a caller reaching a record; a system deleting its own record is not that shape." },
+    { "n": 5, "text": "Finding 1 identifies the search index, cache, warehouse, queue history and snapshots retaining the person", "result": "fail", "evidence": "Missed. leanness/waste could see the three dead module-level stores (SEARCH_INDEX, CACHE, WAREHOUSE are assigned and used) but the storage of personal data in them was not a question any pre-change rule asked." },
+    { "n": 6, "text": "Finding 1 notes the request is answered 'done' while the data remains", "result": "fail", "evidence": "Missed, and the return value reads as a correct confirmation." },
+    { "n": 7, "text": "Finding 2 identifies the snapshot sharing the account and region with the primary", "result": "fail", "evidence": "Missed. leanness/supply-chain/guidelines/build-integrity.md covers what the build executes, not where a runtime backup is written." },
+    { "n": 8, "text": "Finding 2 identifies LAST_RESTORE_TEST as never and restore() dropping the live database first", "result": "fail", "evidence": "Missed. The string 'never' read as an honest placeholder, and dropping the database before loading is what a restore does." },
+    { "n": 9, "text": "Finding 2 identifies retention_policy() as a returned dict that no job or lifecycle rule reads", "result": "fail", "evidence": "Missed. leanness/waste/dead-persistence.md covers configuration nothing reads, and this function does have a caller; the defect is that nothing enforces the schedule it returns, which is a different question." },
+    { "n": 10, "text": "Header matches pattern: 2 findings · C:2 M:0 m:0 i:0", "result": "fail", "evidence": "Header rendered `1 finding · C:0 M:0 m:1 i:0`." }
+  ],
+  "notes": "Near-total miss. The single catch is the weakest possible one: the pre-change observability rules found personal data in a free-text field, at MINOR, and every rule that should have fired — erasure completeness, retention enforcement, backup independence — was silent. This is the clearest case in the suite of a domain being absent rather than a rule being weak."
+}

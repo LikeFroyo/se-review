@@ -1,0 +1,23 @@
+{
+  "reason": "isolation unproven",
+  "detail": "reached a forbidden entry: repo/evals/evals.json",
+  "reads": [
+    "ws/.",
+    "ws/evals/fixtures/suppression_ledger_unprovable_site.py",
+    "ws/evals/fixtures/suppression_ledger_unprovable_site_CONSTRAINTS.md",
+    "ws/evals",
+    "ws/evals/fixtures",
+    "repo/.",
+    "ws/SKILL.md",
+    "repo/evals",
+    "repo/evals/evals.json",
+    "repo/evals/README.md",
+    "repo/evals/fixtures/suppression_ledger_unprovable_site_CONSTRAINTS.md",
+    "repo/evals/fixtures/suppression_ledger_unprovable_site.py",
+    "ws/shared",
+    "ws/domains",
+    "ws/shared/output-format.md",
+    "ws/shared/severity-and-rules.md",
+    "ws/shared/axis-codes.md"
+  ]
+}

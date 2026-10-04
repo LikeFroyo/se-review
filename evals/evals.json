@@ -1,0 +1,2978 @@
+{
+  "skill_name": "se-review",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Review evals/fixtures/dead_code.py",
+      "files": [
+        "evals/fixtures/dead_code.py"
+      ],
+      "expected_output": "Exactly 1 finding, graded CRITICAL under L1/L2: `LegacyPriceAdapter` has no callers (only `AuroraPricing` is used, via `price_order`); delete the class and its commented-out line (the `RateTable` import stays live via `price_order`). Header reads `1 finding \u00b7 C:1 M:0 m:0 i:0` (extra Info notes tolerated). Evidence cites dead_code.py lines; failure names the permanent read/test/port tax.",
+      "assertions": [
+        "Exactly 1 finding above Info severity",
+        "Finding is graded CRITICAL",
+        "Finding is on axis L1 or L2 (dead code / unused surface)",
+        "Finding identifies LegacyPriceAdapter as the dead code",
+        "Evidence cites specific lines in dead_code.py",
+        "Fix recommends deletion of the class",
+        "RateTable import is NOT flagged as dead (it is live via price_order)",
+        "Header matches pattern: 1 finding \u00b7 C:1 M:0 m:0 i:0",
+        "Failure scenario names the permanent carrying cost (read/test/port/migrate tax)"
+      ],
+      "assertion_roles": [
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "probe",
+        "verdict"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Review evals/fixtures/retry.py",
+      "files": [
+        "evals/fixtures/retry.py"
+      ],
+      "expected_output": "Exactly 1 finding, graded MAJOR under C3: immediate retries with no delay, backoff, or jitter (`for _ in range(5)` + direct re-POST). Failure scenario: 503 under load keeps every worker hammering at full rate. Fix: exponential backoff with jitter and a total-wait cap. Trade-off states added worst-case latency. Header `1 finding \u00b7 C:0 M:1 m:0 i:0` (extra Info tolerated).",
+      "assertions": [
+        "Exactly 1 finding above Info severity",
+        "Finding is graded MAJOR",
+        "Finding is on axis C3 (Resilience)",
+        "Evidence identifies the immediate retry loop (no delay between attempts)",
+        "Failure scenario describes thundering-herd or amplified load under 503",
+        "Fix mentions exponential backoff with jitter",
+        "Fix mentions a total-wait cap or bounded retry budget",
+        "Trade-off names increased worst-case latency for a single call",
+        "Header matches pattern: 1 finding \u00b7 C:0 M:1 m:0 i:0"
+      ],
+      "assertion_roles": [
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "probe"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Review evals/fixtures/injection.py",
+      "files": [
+        "evals/fixtures/injection.py"
+      ],
+      "expected_output": "2 findings, both CRITICAL under S3: (1) f-string SQL concatenation in `authenticate` \u2014 injectable; fix with parameterized queries. (2) Hardcoded live secret `API_KEY` \u2014 compromised at push; fix with secrets-manager/environment sourcing. Header `2 findings \u00b7 C:2 M:0 m:0 i:0`.",
+      "assertions": [
+        "Exactly 2 findings above Info severity",
+        "Both findings are graded CRITICAL",
+        "Both findings are on axis S3 (injection) (Security)",
+        "Finding 1 identifies the f-string SQL concatenation in authenticate()",
+        "Finding 1 fix recommends parameterized queries",
+        "Finding 2 identifies the hardcoded API_KEY as a live secret in code",
+        "Finding 2 fix recommends secrets-manager or environment variable sourcing",
+        "Header matches pattern: 2 findings \u00b7 C:2 M:0 m:0 i:0",
+        "DB_PATH is NOT promoted above Info (it is not a secret)"
+      ],
+      "assertion_roles": [
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "probe",
+        "verdict"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Review evals/fixtures/nplusone.py",
+      "files": [
+        "evals/fixtures/nplusone.py"
+      ],
+      "expected_output": "Exactly 1 finding, graded MAJOR under A3: N+1 query pattern \u2014 one query per member plus one per team inside the loop over `member_ids`; fix with a single batched JOIN. Impact quantified (e.g. 100 members \u2248 201 queries). Header `1 finding \u00b7 C:0 M:1 m:0 i:0` (extra Info tolerated).",
+      "assertions": [
+        "Exactly 1 finding above Info severity",
+        "Finding is graded MAJOR",
+        "Finding is on axis A3 (Data)",
+        "Evidence identifies the query loop over member_ids",
+        "Impact quantified (~2N+1 or query-per-iteration growth)",
+        "Fix recommends batched query or JOIN",
+        "Header matches pattern: 1 finding \u00b7 C:0 M:1 m:0 i:0"
+      ],
+      "assertion_roles": [
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "probe"
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "Review evals/fixtures/clean.py",
+      "files": [
+        "evals/fixtures/clean.py"
+      ],
+      "expected_output": "Reports the one real defect in the retry path and nothing else. `urllib.error.HTTPError` subclasses `OSError`, so a 4xx response is caught by `except OSError` and retried against a deterministic client error; that is a genuine Minor. `_backoff` also runs on the final attempt before the raise, wasting the last delay. Both are graded MINOR and both cite a demonstrable failure. Style, type-hint, and docstring observations are Info at most and must not appear as findings. `Aligns well` still praises the jittered capped backoff and the per-attempt timeout.",
+      "assertions": [
+        "The HTTPError-is-an-OSError retry bypass IS reported: a non-retryable 4xx is caught by `except OSError` and retried",
+        "Exactly 2 findings are reported above Info severity, because the fixture holds exactly two real defects",
+        "Both of the 2 reported above-Info findings are graded MINOR, not Major or Critical",
+        "Each of the 2 reported above-Info findings cites a demonstrable failure scenario naming the input or state that triggers it, not a speculative one",
+        "No style, type-hint, or docstring observation is graded above Info",
+        "The mean score follows the findings actually reported; a review reporting zero findings on a fixture holding two real defects does not report a mean above 95, and Final Grade is not F",
+        "Output includes 'Aligns well', naming the jittered capped backoff and the per-attempt timeout",
+        "The 'Gated by' line is present and reads 'neither', because neither cap binds"
+      ],
+      "assertion_roles": [
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "probe",
+        "probe",
+        "probe"
+      ]
+    },
+    {
+      "id": 6,
+      "prompt": "Review evals/fixtures/concurrency.py",
+      "files": [
+        "evals/fixtures/concurrency.py"
+      ],
+      "expected_output": "Exactly 1 finding, graded MAJOR under A2: race condition on shared mutable state `_CACHE` \u2014 check-then-act pattern (`if key in _CACHE`) and non-atomic counter increment without synchronization across concurrent threads. Fix: thread-safe lock or atomic dictionary operations. Header `1 finding \u00b7 C:0 M:1 m:0 i:0`.",
+      "assertions": [
+        "Exactly 1 finding above Info severity",
+        "Finding is graded MAJOR",
+        "Finding is on axis A2 (Concurrency)",
+        "Evidence identifies check-then-act pattern on _CACHE",
+        "Evidence identifies non-atomic counter increment",
+        "Failure scenario explains data corruption or lost updates under concurrent access",
+        "Fix recommends synchronization using a Lock or thread-safe container",
+        "Header matches pattern: 1 finding \u00b7 C:0 M:1 m:0 i:0"
+      ],
+      "assertion_roles": [
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "probe"
+      ]
+    },
+    {
+      "id": 7,
+      "prompt": "Review evals/fixtures/swallowed_error.py",
+      "files": [
+        "evals/fixtures/swallowed_error.py"
+      ],
+      "expected_output": "Exactly 1 finding, graded CRITICAL under A1/C5: bare `except:` clause catching and suppressing all exceptions without logging, re-raising, or cleanup, leaving order state in partial unrecoverable condition. Fix: narrow exception scope and preserve causal error chain.",
+      "assertions": [
+        "Exactly 1 finding above Info severity",
+        "Finding is graded CRITICAL",
+        "Finding is on axis A1 (Logic / Error Handling)",
+        "Evidence identifies the bare except clause",
+        "Evidence notes that exceptions are suppressed without re-raising",
+        "Failure scenario explains partial state corruption or silent failure",
+        "Fix recommends specific exception catching or re-raising with error chain",
+        "Header matches pattern: 1 finding \u00b7 C:1 M:0 m:0 i:0 \u00b7 Mean <score>/100 \u00b7 Final Grade F",
+        "Final Grade is F even though the mean score is well above 60",
+        "Report names the Critical finding as the binding cap, not the mean"
+      ],
+      "assertion_roles": [
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "probe",
+        "verdict",
+        "verdict"
+      ]
+    },
+    {
+      "id": 8,
+      "prompt": "Review evals/fixtures/complexity.py",
+      "files": [
+        "evals/fixtures/complexity.py"
+      ],
+      "expected_output": "Exactly 1 finding, graded MAJOR under B1/B5: cognitive and cyclomatic complexity >15, deep nesting (>4 levels), and god method handling divergent responsibilities with boolean flags. Fix: refactor using guard clauses and decompose into single-responsibility functions.",
+      "assertions": [
+        "Exactly 1 finding above Info severity",
+        "Finding is graded MAJOR",
+        "Finding is on axis B1 or B5 (Complexity)",
+        "Evidence identifies deep nesting past 3 levels",
+        "Evidence cites cyclomatic complexity or long multi-branch decision flow",
+        "Failure scenario explains regression risk and testing impediment",
+        "Fix proposes extraction of helper functions or guard clause flattening",
+        "Header matches pattern: 1 finding \u00b7 C:0 M:1 m:0 i:0"
+      ],
+      "assertion_roles": [
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "probe"
+      ]
+    },
+    {
+      "id": 9,
+      "prompt": "Review evals/fixtures/memory_leak.py",
+      "files": [
+        "evals/fixtures/memory_leak.py"
+      ],
+      "expected_output": "Exactly 1 finding, graded MAJOR under C1/C2: unbounded global cache accumulation with no TTL, size limit, or eviction policy, monotonically growing with every query until process crash (OOM). Fix: LRU cache with maxsize or bounded TTL collection.",
+      "assertions": [
+        "Exactly 1 finding above Info severity",
+        "Finding is graded MAJOR",
+        "Finding is on axis C1 or C2 (Operations / Memory Retention)",
+        "Evidence identifies QUERY_RESULT_CACHE dictionary growing unbounded",
+        "Evidence notes absence of TTL, max-size, or eviction policy",
+        "Failure scenario details OOM kill under sustained traffic",
+        "Fix recommends bounded cache (LRU) or TTL eviction",
+        "Header matches pattern: 1 finding \u00b7 C:0 M:1 m:0 i:0"
+      ],
+      "assertion_roles": [
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "probe"
+      ]
+    },
+    {
+      "id": 10,
+      "prompt": "Review evals/fixtures/idor_access.py",
+      "files": [
+        "evals/fixtures/idor_access.py"
+      ],
+      "expected_output": "Exactly 1 finding, graded CRITICAL under S2: Broken Object-Level Authorization (IDOR / BOLA) \u2014 `get_invoice` fetches record by ID directly from request parameter without verifying caller tenant or ownership. Fix: enforce tenant-scoped authorization query.",
+      "assertions": [
+        "Exactly 1 finding above Info severity",
+        "Finding is graded CRITICAL",
+        "Finding is on axis S2 (access control) (Security / Access Control)",
+        "Evidence identifies invoice_id lookup without caller ownership check",
+        "Failure scenario explains horizontal privilege escalation allowing any authenticated user to view arbitrary invoices",
+        "Fix recommends tenant-scoped query or authorization gate verification",
+        "Trade-off notes slight query overhead or auth cache check",
+        "Header matches pattern: 1 finding \u00b7 C:1 M:0 m:0 i:0"
+      ],
+      "assertion_roles": [
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "probe"
+      ]
+    },
+    {
+      "id": 11,
+      "prompt": "Review evals/fixtures/deadlock.py",
+      "files": [
+        "evals/fixtures/deadlock.py"
+      ],
+      "expected_output": "Exactly 1 finding, graded MAJOR under A2: lock-order inversion deadlock between source.lock and target.lock in transfer(). Failure scenario: concurrent transfers between the same two accounts in reverse order deadlocks both worker threads. Fix: acquire locks in a deterministic global order (e.g. sorted by account_id).",
+      "assertions": [
+        "Exactly 1 finding above Info severity",
+        "Finding is graded MAJOR",
+        "Finding is on axis A2 or concurrency/deadlocks",
+        "Identifies lock-order inversion between source.lock and target.lock",
+        "Explains deadlock failure scenario when concurrent inverse transfers occur",
+        "Recommends globally ordered lock acquisition (e.g. sorting by account_id)",
+        "Identifies specific line numbers in deadlock.py",
+        "Header matches pattern: 1 finding \u00b7 C:0 M:1 m:0 i:0"
+      ],
+      "assertion_roles": [
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "probe"
+      ]
+    },
+    {
+      "id": 12,
+      "prompt": "Review evals/fixtures/ssrf_webhook.py",
+      "files": [
+        "evals/fixtures/ssrf_webhook.py"
+      ],
+      "expected_output": "Exactly 1 finding, graded CRITICAL under S3: Server-Side Request Forgery (SSRF) accepting unvalidated user webhook URL. Failure scenario: attacker inputs link-local metadata address (169.254.169.254) or internal VPC endpoints to exfiltrate cloud IAM credentials. Fix: validate URL scheme and enforce private/loopback IP address blocklists.",
+      "assertions": [
+        "Exactly 1 finding above Info severity",
+        "Finding is graded CRITICAL",
+        "Finding is on axis S3 (injection) or security/injection-secrets",
+        "Identifies Server-Side Request Forgery (SSRF) in requests.post(webhook_url)",
+        "Cites risk of accessing cloud metadata (169.254.169.254) or internal network",
+        "Recommends URL validation with private IP / localhost CIDR blocking",
+        "Cites specific line numbers in ssrf_webhook.py",
+        "Header matches pattern: 1 finding \u00b7 C:1 M:0 m:0 i:0"
+      ],
+      "assertion_roles": [
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "probe"
+      ]
+    },
+    {
+      "id": 13,
+      "prompt": "Review evals/fixtures/hot_loop.py",
+      "files": [
+        "evals/fixtures/hot_loop.py"
+      ],
+      "expected_output": "Exactly 1 finding, graded MAJOR under C1: quadratic string concatenation (`csv_body += line`) and unbuffered disk writes inside a 100,000-iteration loop. Failure scenario: massive O(N^2) memory reallocation churn and I/O thrashing causing latency spikes and high GC pause times. Fix: append lines to a list and join, and write to file in buffered chunks.",
+      "assertions": [
+        "Exactly 1 finding above Info severity",
+        "Finding is graded MAJOR",
+        "Finding is on axis C1 or performance/hot-loops",
+        "Identifies quadratic string concatenation (`csv_body += line`) in hot loop",
+        "Identifies repeated unbuffered disk write inside loop",
+        "Explains O(N^2) memory allocation churn and I/O disk thrashing",
+        "Recommends list appending with join() and batched file writing",
+        "Header matches pattern: 1 finding \u00b7 C:0 M:1 m:0 i:0"
+      ],
+      "assertion_roles": [
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "probe"
+      ]
+    },
+    {
+      "id": 14,
+      "prompt": "Review evals/fixtures/missing_timeout.py",
+      "files": [
+        "evals/fixtures/missing_timeout.py"
+      ],
+      "expected_output": "Exactly 1 finding, graded MAJOR under C3: requests.get() call missing explicit timeout parameter. Failure scenario: downstream network stall causes worker threads to block indefinitely, cascading into pool exhaustion and global 504 gateway timeouts. Fix: pass explicit connect and read timeout tuple.",
+      "assertions": [
+        "Exactly 1 finding above Info severity",
+        "Finding is graded MAJOR",
+        "Finding is on axis C3 or resilience/timeouts",
+        "Identifies requests.get(url) missing explicit timeout parameter",
+        "Explains worker thread exhaustion and cascading gateway 504 outage",
+        "Fix recommends setting explicit connect and read timeouts (e.g. timeout=(3.05, 10))",
+        "Mentions latency or timeout trade-off",
+        "Header matches pattern: 1 finding \u00b7 C:0 M:1 m:0 i:0"
+      ],
+      "assertion_roles": [
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "probe"
+      ]
+    },
+    {
+      "id": 15,
+      "prompt": "Review evals/fixtures/breaking_schema.py",
+      "files": [
+        "evals/fixtures/breaking_schema.py"
+      ],
+      "expected_output": "Exactly 1 finding, graded MAJOR under A4: breaking API schema contract changes \u2014 unversioned rename of customer_id to id and mutation of tier_code from int to str. Failure scenario: existing client SDKs and mobile apps crash on unmarshalling. Fix: retain backward-compatible aliases and version the schema.",
+      "assertions": [
+        "Exactly 1 finding above Info severity",
+        "Finding is graded MAJOR",
+        "Finding is on axis A4 or api-contracts/backward-compatibility",
+        "Identifies breaking rename of customer_id to id",
+        "Identifies breaking type mutation of tier_code from integer to string",
+        "Explains failure scenario: existing mobile apps and SDK consumers crash upon unmarshalling",
+        "Recommends versioning, deprecation window, or maintaining field aliases",
+        "Header matches pattern: 1 finding \u00b7 C:0 M:1 m:0 i:0"
+      ],
+      "assertion_roles": [
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "probe"
+      ]
+    },
+    {
+      "id": 16,
+      "prompt": "Review evals/fixtures/non_idempotent_payment.py",
+      "files": [
+        "evals/fixtures/non_idempotent_payment.py"
+      ],
+      "expected_output": "Exactly 1 finding, graded CRITICAL under A4: payment charging mutation lacking idempotency protection. Failure scenario: client network timeout retry or duplicate webhook execution triggers double credit card charge. Fix: mandate client Idempotency-Key and transmit it to payment processor.",
+      "assertions": [
+        "Exactly 1 finding above Info severity",
+        "Finding is graded CRITICAL",
+        "Finding is on axis A4 or api-contracts/idempotency",
+        "Identifies payment charge execution lacking idempotency key",
+        "Explains failure scenario: network retry or redelivered webhook causes duplicate customer charge",
+        "Recommends requiring and passing client-generated Idempotency-Key",
+        "Cites specific line numbers in non_idempotent_payment.py",
+        "Header matches pattern: 1 finding \u00b7 C:1 M:0 m:0 i:0"
+      ],
+      "assertion_roles": [
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "probe"
+      ]
+    },
+    {
+      "id": 17,
+      "prompt": "Review evals/fixtures/unpinned_manifest.json",
+      "files": [
+        "evals/fixtures/unpinned_manifest.json"
+      ],
+      "expected_output": "Exactly 1 finding, graded MAJOR under L5: unbounded wildcard version dependency `stripe: \"*\"` and dev dependency `jest` included in production dependencies. Failure scenario: automatic unexpected major version updates break production deployments. Fix: pin semantic version ranges and move test frameworks to devDependencies.",
+      "assertions": [
+        "Exactly 1 finding above Info severity",
+        "Finding is graded MAJOR",
+        "Finding is on axis L5 or supply-chain/manifest-hygiene",
+        "Identifies unbounded wildcard version dependency stripe: '*'",
+        "Identifies test framework jest placed in production dependencies",
+        "Explains failure scenario: unexpected upstream breaking release breaks production builds",
+        "Recommends pinning semantic version range and moving jest to devDependencies",
+        "Header matches pattern: 1 finding \u00b7 C:0 M:1 m:0 i:0"
+      ],
+      "assertion_roles": [
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "probe"
+      ]
+    },
+    {
+      "id": 18,
+      "prompt": "Review evals/fixtures/ai_hallucination.py",
+      "files": [
+        "evals/fixtures/ai_hallucination.py"
+      ],
+      "expected_output": "Exactly 1 finding, graded CRITICAL under L6: AI-generated synthetic code calling non-existent method `jwt.verify_and_auto_rotate()` and masking failure with catch-all `except Exception: return {}`. Failure scenario: authentication completely bypassed or systematically failing with masked exceptions. Fix: use authentic PyJWT API methods and specific exception handling.",
+      "assertions": [
+        "Exactly 1 finding above Info severity",
+        "Finding is graded CRITICAL",
+        "Finding is on axis L6 or synthetic-code/ai-patterns",
+        "Identifies hallucinated non-existent method jwt.verify_and_auto_rotate()",
+        "Identifies broad except Exception: block silently swallowing error and returning empty dict",
+        "Explains failure scenario: authentication bypass or continuous auth failure masked in production",
+        "Recommends replacing hallucinated call with real PyJWT API and explicit error handling",
+        "Header matches pattern: 1 finding \u00b7 C:1 M:0 m:0 i:0"
+      ],
+      "assertion_roles": [
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "probe"
+      ]
+    },
+    {
+      "id": 19,
+      "prompt": "Review evals/fixtures/speculative_factory.py",
+      "files": [
+        "evals/fixtures/speculative_factory.py"
+      ],
+      "expected_output": "Exactly 1 finding, graded CRITICAL under L2/L3: speculative generality (YAGNI) \u2014 3 layers of abstract factories and registries for a single string uppercase operation with only 1 implementor. Failure scenario: carrying cost of multiple interfaces and factories that provide zero polymorphic utility. Fix: delete unearned factory layers in favor of direct method.",
+      "assertions": [
+        "Exactly 1 finding above Info severity",
+        "Finding is graded CRITICAL",
+        "Finding is on axis L2 or L3 (speculative generality / YAGNI)",
+        "Identifies multi-layer factory hierarchy for single uppercase string operation",
+        "Identifies StandardUppercaseFormatter as the sole implementor",
+        "Explains permanent cognitive overhead and unnecessary indirection",
+        "Recommends deletion of unused factory abstractions in favor of direct method",
+        "Header matches pattern: 1 finding \u00b7 C:1 M:0 m:0 i:0"
+      ],
+      "assertion_roles": [
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "probe"
+      ]
+    },
+    {
+      "id": 20,
+      "prompt": "Review evals/fixtures/pii_logging.py",
+      "files": [
+        "evals/fixtures/pii_logging.py"
+      ],
+      "expected_output": "Exactly 1 finding, graded CRITICAL under C4: logging plaintext Personally Identifiable Information (SSN) and credentials (password, CVV). Failure scenario: sensitive personal and financial data persisted in log aggregation systems, violating compliance (GDPR/PCI-DSS) and risking credential leaks. Fix: redact or mask sensitive parameters and sanitize log statements.",
+      "assertions": [
+        "Exactly 1 finding above Info severity",
+        "Finding is graded CRITICAL",
+        "Finding is on axis C4 or observability/log-hygiene",
+        "Identifies plaintext logging of user password and SSN",
+        "Identifies logging of credit card CVV",
+        "Explains security/compliance breach: secrets leaked to centralized log aggregators",
+        "Recommends strict redaction/masking filter and removing sensitive fields from log events",
+        "Header matches pattern: 1 finding \u00b7 C:1 M:0 m:0 i:0"
+      ],
+      "assertion_roles": [
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "probe"
+      ]
+    },
+    {
+      "id": 21,
+      "prompt": "Review evals/fixtures/poison_message.py",
+      "files": [
+        "evals/fixtures/poison_message.py"
+      ],
+      "expected_output": "Exactly 1 finding, graded MAJOR under C5: message consumer lacks Dead Letter Queue (DLQ) or redelivery limit on deserialization crash. Failure scenario: poison message continuously crashes worker, remains unacknowledged, and redelivers endlessly, stopping queue progress. Fix: route failed messages to DLQ after N retry attempts.",
+      "assertions": [
+        "Exactly 1 finding above Info severity",
+        "Finding is graded MAJOR",
+        "Finding is on axis C5 or distributed/messaging-consistency",
+        "Identifies missing Dead Letter Queue (DLQ) or retry cap on deserialization failure",
+        "Explains failure scenario: malformed message repeatedly fails and blocks entire queue processing",
+        "Recommends routing poison messages to a DLQ after max retry attempts",
+        "Cites specific line numbers in poison_message.py",
+        "Header matches pattern: 1 finding \u00b7 C:0 M:1 m:0 i:0"
+      ],
+      "assertion_roles": [
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "probe"
+      ]
+    },
+    {
+      "id": 22,
+      "prompt": "Review evals/fixtures/stale_flag.py",
+      "files": [
+        "evals/fixtures/stale_flag.py"
+      ],
+      "expected_output": "Exactly 1 finding, graded MAJOR under C6: feature flag evaluation lacking fallback handling and 18-month-old stale flag tech debt. Failure scenario: client variation call exception crashes user checkout flow with 500 error. Fix: wrap flag evaluation in try/except fallback and retire completed flag.",
+      "assertions": [
+        "Exactly 1 finding above Info severity",
+        "Finding is graded MAJOR",
+        "Finding is on axis C6 or delivery/feature-flags",
+        "Identifies missing fallback default when flag evaluation throws",
+        "Identifies stale 18-month-old flag at 100% rollout needing retirement",
+        "Explains failure scenario: flag server timeout crashes checkout flow with 500 error",
+        "Recommends safe try/except fallback and permanent flag removal",
+        "Header matches pattern: 1 finding \u00b7 C:0 M:1 m:0 i:0"
+      ],
+      "assertion_roles": [
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "probe"
+      ]
+    },
+    {
+      "id": 23,
+      "prompt": "Review evals/fixtures/mock_cheat.py",
+      "files": [
+        "evals/fixtures/mock_cheat.py"
+      ],
+      "expected_output": "Exactly 1 finding, graded MAJOR under A6: test adequacy defect \u2014 test mocks out the function under test and makes tautological assertion `assert True is True`. Failure scenario: 100% code coverage reported on CI while tax calculation logic is completely unverified. Fix: test OrderProcessor instance directly with state boundary values.",
+      "assertions": [
+        "Exactly 1 finding above Info severity",
+        "Finding is graded MAJOR",
+        "Finding is on axis A6 or testing/test-adequacy",
+        "Identifies that test mocks the function under test rather than real OrderProcessor",
+        "Identifies vacuous assertion assert True is True",
+        "Explains failure scenario: 100% false coverage metric while core tax calculation is untested",
+        "Recommends asserting real OrderProcessor behavior with representative state rates",
+        "Header matches pattern: 1 finding \u00b7 C:0 M:1 m:0 i:0"
+      ],
+      "assertion_roles": [
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "probe"
+      ]
+    },
+    {
+      "id": 24,
+      "prompt": "Review evals/fixtures/flaky_sleep.py",
+      "files": [
+        "evals/fixtures/flaky_sleep.py"
+      ],
+      "expected_output": "Exactly 1 finding, graded MAJOR under A6: test determinism defect \u2014 `time.sleep(0.05)` used for asynchronous worker synchronization. Failure scenario: on busy CI runner, 50ms expires before thread executes, causing intermittent test failure (flakiness). Fix: synchronize deterministically using threading.Event or joining the thread.",
+      "assertions": [
+        "Exactly 1 finding above Info severity",
+        "Finding is graded MAJOR",
+        "Finding is on axis A6 or testing/determinism",
+        "Identifies time.sleep(0.05) used for thread synchronization",
+        "Explains failure scenario: flaky test failure on busy or throttled CI runners",
+        "Recommends deterministic synchronization via threading.Event or thread.join()",
+        "Cites specific line numbers in flaky_sleep.py",
+        "Header matches pattern: 1 finding \u00b7 C:0 M:1 m:0 i:0"
+      ],
+      "assertion_roles": [
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "probe"
+      ]
+    },
+    {
+      "id": 25,
+      "prompt": "Review evals/fixtures/clean_service.py",
+      "files": [
+        "evals/fixtures/clean_service.py"
+      ],
+      "expected_output": "Reports the one real defect in the resilience helper and nothing else. `execute_with_resilience(..., max_attempts=0)` iterates an empty range and falls off the end returning `None` from a function annotated `-> dict`, so the caller's type contract is broken silently; that is a genuine Minor. The forensic log observation, the absent idempotency precondition, and the missing test seam are all Info and must not appear as findings. `Aligns well` still praises the parameterized query and the full-jitter backoff.",
+      "assertions": [
+        "The `max_attempts <= 0` fall-through IS reported: an empty range returns `None` from a `-> dict` function",
+        "Findings above Info severity are at most 1, because the fixture holds exactly one real defect",
+        "The `max_attempts` finding is graded MINOR, not Major, because no production failure is demonstrable",
+        "The retry-exhaustion log omitting the cause is graded Info, not Minor",
+        "The absent idempotency precondition and the untestable backoff seam are graded Info, not Minor",
+        "Final Grade is not F, and the mean score is above 95",
+        "Output includes 'Aligns well', naming the parameterized query and the full-jitter backoff",
+        "The 'Gated by' line is present and reads 'neither', because neither cap binds"
+      ],
+      "assertion_roles": [
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "probe",
+        "probe"
+      ]
+    },
+    {
+      "id": 26,
+      "prompt": "Review evals/fixtures/dual_write.py",
+      "files": [
+        "evals/fixtures/dual_write.py"
+      ],
+      "expected_output": "Exactly 1 finding, graded MAJOR under C5: publish-after-commit dual write in `place_order` \u2014 `conn.commit()` followed by `broker.publish()` with no shared atomic unit. Failure scenario: a crash between commit and publish loses OrderPlaced so downstream never fulfills; the reversed order would emit ghost events on rollback. Fix: write an outbox row in the same transaction plus a relay (or CDC). Trade-off states added relay latency and outbox maintenance. Header `1 finding \u00b7 C:0 M:1 m:0 i:0`.",
+      "assertions": [
+        "Exactly 1 finding above Info severity",
+        "Finding is graded MAJOR",
+        "Finding is on axis C5 or distributed/producer-reliability",
+        "Identifies the dual write: commit followed by publish with no shared atomic unit",
+        "Explains failure scenario: crash between commit and publish loses the event, ghost events on rollback",
+        "Fix recommends transactional outbox or CDC relay",
+        "Cites specific line numbers in dual_write.py",
+        "Header matches pattern: 1 finding \u00b7 C:0 M:1 m:0 i:0"
+      ],
+      "assertion_roles": [
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "probe"
+      ]
+    },
+    {
+      "id": 27,
+      "prompt": "Review evals/fixtures/comment_drift.py",
+      "files": [
+        "evals/fixtures/comment_drift.py"
+      ],
+      "expected_output": "Exactly 1 finding, graded MAJOR under B4: documentation drift sharing one root cause \u2014 the `# Retry at most 3 times` comment contradicts `range(5)`, and the docstring documents a nonexistent `timeout` param while omitting the real `retries` param. Failure scenario: maintainers trust the comment and shrink retries to an already-wrong bound, and callers pass `timeout` that is silently ignored. Fix: update the comment to the real bound and sync the docstring to the signature. Header `1 finding \u00b7 C:0 M:1 m:0 i:0`.",
+      "assertions": [
+        "Exactly 1 finding above Info severity",
+        "Finding is graded MAJOR",
+        "Finding is on axis B4 (Clarity)",
+        "Identifies the stale comment contradicting range(5)",
+        "Identifies the docstring documenting nonexistent timeout and omitting retries",
+        "Failure scenario explains maintainers or callers misled by the stale docs",
+        "Fix updates the comment and syncs the docstring to the signature",
+        "Header matches pattern: 1 finding \u00b7 C:0 M:1 m:0 i:0"
+      ],
+      "assertion_roles": [
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "probe"
+      ]
+    },
+    {
+      "id": 28,
+      "prompt": "Review evals/fixtures/stale_cli.py and evals/fixtures/stale_cli_README.md",
+      "files": [
+        "evals/fixtures/stale_cli.py",
+        "evals/fixtures/stale_cli_README.md"
+      ],
+      "expected_output": "Exactly 1 finding, graded MAJOR under B4: doc-file drift \u2014 the README documents a `--output` flag while the parser defines `--out-dir`, so the documented invocation fails. Failure scenario: users and agents copy the README command and get an argparse error on a required flag. Fix: update the README to `--out-dir`. Header `1 finding \u00b7 C:0 M:1 m:0 i:0`.",
+      "assertions": [
+        "Exactly 1 finding above Info severity",
+        "Finding is graded MAJOR",
+        "Finding is on axis B4 (Clarity)",
+        "Identifies the README `--output` claim contradicting the `--out-dir` parser definition",
+        "Failure scenario explains copied README invocation failing on the required flag",
+        "Fix updates the README flag to --out-dir",
+        "Cites specific lines in stale_cli.py and stale_cli_README.md",
+        "Header matches pattern: 1 finding \u00b7 C:0 M:1 m:0 i:0"
+      ],
+      "assertion_roles": [
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "probe"
+      ]
+    },
+    {
+      "id": 29,
+      "prompt": "Review evals/fixtures/stale_error.py",
+      "files": [
+        "evals/fixtures/stale_error.py"
+      ],
+      "expected_output": "Exactly 1 finding, graded MAJOR under C4: stale error text \u2014 `parser.error()` names a removed `--output` flag while the parser defines `--out-dir`. Failure scenario: a user hitting the empty-directory branch follows the error's own instruction and gets `unrecognized arguments`, a dead end. Fix: name `--out-dir` in the error string. Header `1 finding \u00b7 C:0 M:1 m:0 i:0`.",
+      "assertions": [
+        "Exactly 1 finding above Info severity",
+        "Finding is graded MAJOR",
+        "Finding is on axis C4 (Observability)",
+        "Identifies the error string naming the removed --output flag",
+        "Explains failure scenario: following the error text leads to unrecognized-arguments dead end",
+        "Fix renames the flag in the error string to --out-dir",
+        "Cites specific line numbers in stale_error.py",
+        "Header matches pattern: 1 finding \u00b7 C:0 M:1 m:0 i:0"
+      ],
+      "assertion_roles": [
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "probe"
+      ]
+    },
+    {
+      "id": 30,
+      "prompt": "Review evals/fixtures/weak_assertions.py",
+      "files": [
+        "evals/fixtures/weak_assertions.py"
+      ],
+      "expected_output": "Exactly 1 finding, graded MAJOR under A6: test-strength failure sharing one root cause \u2014 `test_typical_discount` asserts `>= 0` and `test_full_discount` asserts `is not None`, both passing for obviously-wrong outputs, and no test pins the 0/100 percent boundary on/off points with exact values. Failure scenario: green suite reporting protection it does not provide; regressions ship undetected. Fix: exact-value assertions plus boundary tests at 0 and 100 percent. Header `1 finding \u00b7 C:0 M:1 m:0 i:0`.",
+      "assertions": [
+        "Exactly 1 finding above Info severity",
+        "Finding is graded MAJOR",
+        "Finding is on axis A6 (Testing)",
+        "Identifies weak assertions passing for wrong outputs (>= 0, is not None)",
+        "Identifies untested 0/100 percent boundary on/off points",
+        "Failure scenario explains green suite with no fault-detection power",
+        "Fix recommends exact-value assertions plus boundary tests",
+        "Header matches pattern: 1 finding \u00b7 C:0 M:1 m:0 i:0"
+      ],
+      "assertion_roles": [
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "probe"
+      ]
+    },
+    {
+      "id": 31,
+      "prompt": "Review evals/fixtures/token_validation.py",
+      "files": [
+        "evals/fixtures/token_validation.py"
+      ],
+      "expected_output": "Exactly 1 finding, graded CRITICAL under S1: token verification bypass in `AuthGateway.authenticate` \u2014 `jwt.decode(..., options={\"verify_signature\": False})` never checks a signature, and `aud`/`exp` are never inspected, so a hand-forged {\"sub\": \"attacker\", \"role\": \"admin\"} token authenticates and then clears `is_permitted`. Failure scenario: total authentication bypass to admin actions. Fix: pin the algorithm set, verify the signature against the public key, and validate exp/iss/aud. Trade-off states JWKS caching and key rotation cost. Header `1 finding \u00b7 C:1 M:0 m:0 i:0`.",
+      "assertions": [
+        "Exactly 1 finding above Info severity",
+        "Finding is graded CRITICAL",
+        "Finding is on axis S2 (token validation) (Security)",
+        "Identifies the verify_signature=False decode in AuthGateway.authenticate",
+        "Identifies missing aud and exp claim validation",
+        "Failure scenario describes attacker forging a token with arbitrary sub/role claims",
+        "Fix recommends pinning the allowed algorithm and verifying the signature",
+        "Header matches pattern: 1 finding \u00b7 C:1 M:0 m:0 i:0"
+      ],
+      "assertion_roles": [
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "probe"
+      ]
+    },
+    {
+      "id": 32,
+      "prompt": "Review evals/fixtures/weak_password_hash.py",
+      "files": [
+        "evals/fixtures/weak_password_hash.py"
+      ],
+      "expected_output": "Exactly 1 finding, graded CRITICAL under S4: weak credential storage in `create_account` \u2014 `hashlib.sha256(password).hexdigest()` with no per-user salt and no work factor, so a dumped table cracks at GPU speed and identical passwords are visibly identical. Failure scenario: one database disclosure becomes mass account takeover. Fix: Argon2id (or bcrypt/scrypt/PBKDF2) with a per-credential salt and a calibrated work factor. Trade-off states per-login CPU and memory cost. Header `1 finding \u00b7 C:1 M:0 m:0 i:0`.",
+      "assertions": [
+        "Exactly 1 finding above Info severity",
+        "Finding is graded CRITICAL",
+        "Finding is on axis S4 (cryptography) (Security)",
+        "Identifies the unsalted single-pass sha256 digest in create_account",
+        "Identifies the absent per-user salt and absent work factor",
+        "Failure scenario describes offline cracking of a stolen credential table",
+        "Fix recommends a slow salted KDF (Argon2id, bcrypt, scrypt, or PBKDF2)",
+        "Trade-off names added CPU or memory cost per login",
+        "Header matches pattern: 1 finding \u00b7 C:1 M:0 m:0 i:0"
+      ],
+      "assertion_roles": [
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "probe"
+      ]
+    },
+    {
+      "id": 33,
+      "prompt": "Review evals/fixtures/session_fixation.py",
+      "files": [
+        "evals/fixtures/session_fixation.py"
+      ],
+      "expected_output": "Exactly 1 finding, graded CRITICAL under S2: session fixation in `login` \u2014 the session ID minted by `start_session` is returned unchanged after the credential check instead of being regenerated, so an ID planted before login becomes authenticated. Failure scenario: an attacker holding a pre-login ID is signed in by the victim's own login. Fix: issue a fresh session ID at authentication and destroy the old one. Trade-off states the cost of server-side session state. Header `1 finding \u00b7 C:1 M:0 m:0 i:0`.",
+      "assertions": [
+        "Exactly 1 finding above Info severity",
+        "Finding is graded CRITICAL",
+        "Finding is on axis S2 (session fixation) (Security)",
+        "Identifies the reuse of the pre-authentication session ID in login()",
+        "Failure scenario describes an attacker retaining access via a planted session ID",
+        "Fix requires regenerating the session identifier at authentication",
+        "Header matches pattern: 1 finding \u00b7 C:1 M:0 m:0 i:0"
+      ],
+      "assertion_roles": [
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "probe"
+      ]
+    },
+    {
+      "id": 34,
+      "prompt": "Review evals/fixtures/tls_verify_disabled.py",
+      "files": [
+        "evals/fixtures/tls_verify_disabled.py"
+      ],
+      "expected_output": "Exactly 1 finding, graded CRITICAL under S4: certificate validation disabled \u2014 both `requests` calls pass `verify=False`, so the API key in the Authorization header is exposed to anyone in the network path. Failure scenario: a self-signed certificate on a hostile network reads the partner API key. Fix: restore verification and trust the real CA bundle, installing the corporate root instead of disabling the check. Trade-off states no legitimate runtime cost once the correct CA is configured. Header `1 finding \u00b7 C:1 M:0 m:0 i:0`.",
+      "assertions": [
+        "Exactly 1 finding above Info severity",
+        "Finding is graded CRITICAL",
+        "Finding is on axis S2 (transport trust boundary bypassed to reach a privileged actor) (Security)",
+        "Identifies verify=False on the outbound requests calls",
+        "Names the API key in the Authorization header as the exposed secret",
+        "Failure scenario describes a network-position attacker presenting a certificate",
+        "Fix restores certificate verification against a trusted CA bundle",
+        "Header matches pattern: 1 finding \u00b7 C:1 M:0 m:0 i:0"
+      ],
+      "assertion_roles": [
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "probe"
+      ]
+    },
+    {
+      "id": 35,
+      "prompt": "Review evals/fixtures/unsafe_deserialization.py",
+      "files": [
+        "evals/fixtures/unsafe_deserialization.py"
+      ],
+      "expected_output": "Exactly 1 finding, graded CRITICAL under S3: insecure deserialization in `restore_cache_entry` \u2014 request-supplied bytes go straight to `pickle.loads`, which reconstructs arbitrary object graphs. Failure scenario: a crafted payload executes arbitrary code as the service account from a single request. Fix: replace with a data-only format (JSON) or, if pickle is unavoidable, verify a signature over the blob and allow-list types. Trade-off states loss of pickle-specific types. Header `1 finding \u00b7 C:1 M:0 m:0 i:0`.",
+      "assertions": [
+        "Exactly 1 finding above Info severity",
+        "Finding is graded CRITICAL",
+        "Finding is on axis S3 (unsafe parsing) (Security)",
+        "Identifies pickle.loads on client-supplied bytes in restore_cache_entry",
+        "Names arbitrary code execution as the consequence",
+        "Fix recommends a data-only format or signing plus type allow-listing",
+        "store_cache_entry is NOT flagged above Info (it is not the defect)",
+        "Header matches pattern: 1 finding \u00b7 C:1 M:0 m:0 i:0"
+      ],
+      "assertion_roles": [
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "probe"
+      ]
+    },
+    {
+      "id": 36,
+      "prompt": "Review evals/fixtures/path_traversal.py",
+      "files": [
+        "evals/fixtures/path_traversal.py"
+      ],
+      "expected_output": "Exactly 1 finding, graded CRITICAL under S3: path traversal in `read_attachment` and `write_upload` \u2014 request-supplied `attachment_name` is joined onto ATTACHMENT_ROOT with no containment check, so `..` segments escape the root. Failure scenario: a read of ../../../../etc/shadow discloses any file the service can read. Fix: resolve the real path and reject anything outside the root, and sanitize the archive or upload filename. Trade-off states the cost of a per-request realpath check. Header `1 finding \u00b7 C:1 M:0 m:0 i:0`.",
+      "assertions": [
+        "Exactly 1 finding above Info severity",
+        "Finding is graded CRITICAL",
+        "Finding is on axis S3 (injection) (Security)",
+        "Identifies the unvalidated os.path.join of a request-supplied name onto ATTACHMENT_ROOT",
+        "Notes the absence of a containment or realpath check",
+        "Failure scenario describes reading or writing outside the attachment root",
+        "Fix recommends resolving the path and enforcing containment within the root",
+        "Header matches pattern: 1 finding \u00b7 C:1 M:0 m:0 i:0"
+      ],
+      "assertion_roles": [
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "probe"
+      ]
+    },
+    {
+      "id": 37,
+      "prompt": "Review evals/fixtures/bfla_admin_route.py",
+      "files": [
+        "evals/fixtures/bfla_admin_route.py"
+      ],
+      "expected_output": "Exactly 1 finding, graded CRITICAL under S1: broken function-level authorization in `export_all_users` \u2014 the administrative export route takes `current_user` but never checks its role, because the guard lives on the `/api/admin/*` prefix this handler is not mounted under. Failure scenario: any authenticated user guessing the path dumps every user's email and role. Fix: enforce a role check inside the handler or on a route mounted under the guarded prefix. Trade-off states the cost of a centralized authorization module. Header `1 finding \u00b7 C:1 M:0 m:0 i:0`.",
+      "assertions": [
+        "Exactly 1 finding above Info severity",
+        "Finding is graded CRITICAL",
+        "Finding is on axis S2 (access control) (Security)",
+        "Identifies export_all_users as an unguarded privileged function",
+        "Notes that the role is never checked despite current_user being passed in",
+        "Failure scenario describes an ordinary authenticated user reaching an admin export",
+        "Fix requires a role check on the privileged route itself",
+        "Header matches pattern: 1 finding \u00b7 C:1 M:0 m:0 i:0"
+      ],
+      "assertion_roles": [
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "probe"
+      ]
+    },
+    {
+      "id": 38,
+      "prompt": "Review evals/fixtures/ecb_mode_cipher.py",
+      "files": [
+        "evals/fixtures/ecb_mode_cipher.py"
+      ],
+      "expected_output": "Exactly 1 finding, graded MAJOR under S4: weak cipher construction in `encrypt_field` \u2014 AES driven in ECB mode, so identical plaintext blocks produce identical ciphertext and stored blocks can be replayed between records. Failure scenario: field structure and repeated values leak from stored ciphertext. Fix: an AEAD mode (AES-GCM or ChaCha20-Poly1305) with a unique nonce per message under the key. Trade-off names the added per-message nonce storage. Header `1 finding \u00b7 C:0 M:1 m:0 i:0`.",
+      "assertions": [
+        "Exactly 1 finding above Info severity",
+        "Finding is graded MAJOR",
+        "Finding is on axis S4 (cryptography) (Security)",
+        "Identifies ECB mode in encrypt_field",
+        "Explains the consequence: identical plaintext blocks produce identical ciphertext",
+        "Fix recommends a modern AEAD mode with a unique nonce per message",
+        "encrypt_with_random_iv is NOT flagged above Info (it is the sound reference)",
+        "Header matches pattern: 1 finding \u00b7 C:0 M:1 m:0 i:0"
+      ],
+      "assertion_roles": [
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "probe"
+      ]
+    },
+    {
+      "id": 39,
+      "prompt": "Review evals/fixtures/cors_reflect_origin.py",
+      "files": [
+        "evals/fixtures/cors_reflect_origin.py"
+      ],
+      "expected_output": "Exactly 1 finding, graded MAJOR under S1: credentialed CORS reflection in `build_cors_headers` \u2014 the request Origin is echoed into Access-Control-Allow-Origin while Allow-Credentials is true, so any origin is trusted. Failure scenario: a page on an attacker domain issues a credentialed fetch and reads the victim's authenticated response. Fix: echo only an exact-match allowlisted origin, and pair with CSRF defense and SameSite cookies. Trade-off names the per-request allowlist lookup. Header `1 finding \u00b7 C:0 M:1 m:0 i:0`.",
+      "assertions": [
+        "Exactly 1 finding above Info severity",
+        "Finding is graded MAJOR",
+        "Finding is on axis S3 (cross-origin trust) (Security)",
+        "Identifies the echoed request origin in Access-Control-Allow-Origin",
+        "Notes the combination with Access-Control-Allow-Credentials: true",
+        "Failure scenario describes a hostile origin reading an authenticated response",
+        "Fix restricts the origin to an exact allowlist match",
+        "origin_is_known is NOT flagged above Info (it is the sound reference)",
+        "Header matches pattern: 1 finding \u00b7 C:0 M:1 m:0 i:0"
+      ],
+      "assertion_roles": [
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "probe"
+      ]
+    },
+    {
+      "id": 40,
+      "prompt": "Review evals/fixtures/login_no_throttle.py",
+      "files": [
+        "evals/fixtures/login_no_throttle.py"
+      ],
+      "expected_output": "Exactly 1 finding, graded MAJOR under S2: the login endpoint has no abuse control and leaks account existence, one root cause \u2014 no per-account or per-IP rate limit, lockout, or backoff, plus a distinct 'No account found' message for an unknown email. Failure scenario: an attacker enumerates valid addresses then runs unlimited credential stuffing from one connection. Fix: per-account and per-IP throttling with backoff, and one uniform failure response. Trade-off names the cost of a rate-limit store and the DoS exposure of an aggressive lockout. Header `1 finding \u00b7 C:0 M:1 m:0 i:0`.",
+      "assertions": [
+        "Exactly 1 finding above Info severity",
+        "Finding is graded MAJOR",
+        "Finding is on axis S2 (identity & access) (Security)",
+        "Identifies the absent rate limit, lockout, or backoff on the login path",
+        "Identifies the distinct message disclosing whether an account exists",
+        "Failure scenario describes account enumeration followed by credential stuffing",
+        "Fix recommends throttling plus a uniform failure response",
+        "remote_ip being an unused parameter is noticed or noted as supporting the missing throttle",
+        "Header matches pattern: 1 finding \u00b7 C:0 M:1 m:0 i:0"
+      ],
+      "assertion_roles": [
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "probe"
+      ]
+    },
+    {
+      "id": 41,
+      "prompt": "Review evals/fixtures/build_integrity.py",
+      "files": [
+        "evals/fixtures/build_integrity.py"
+      ],
+      "expected_output": "2 findings, both CRITICAL under L5: (1) Ungated install-time execution \u2014 the vendored helper's install-time shell-out to `curl \u2026 | sh` and the resolved tree's `postinstall` execute with the runner's credentials before review; fix with a script allowlist keyed on the lockfile's resolved coordinate, plus `ignore-scripts` in CI. (2) Mutable build references \u2014 `some-vendor/npm-publish-action@main`, `actions/checkout@v4`, `FROM node:20`, and the `ghcr.io/acme/orders-api:latest` push all float; fix by pinning to commit SHAs and image digests. Header `2 findings \u00b7 C:2 M:0 m:0 i:0`.",
+      "assertions": [
+        "Exactly 2 findings above Info severity",
+        "Both findings are graded CRITICAL",
+        "Both findings are on axis L5 (Supply Chain)",
+        "Finding 1 identifies the install-time hook executing a remote download",
+        "Finding 1 identifies that install scripts run before any review of the resolved tree",
+        "Finding 2 identifies a mutable action or image reference (floating tag rather than SHA or digest)",
+        "Finding 2 notes the release job publishes with the runner's NPM_TOKEN",
+        "Both fixes pin to an immutable reference or gate the script",
+        "Header matches pattern: 2 findings \u00b7 C:2 M:0 m:0 i:0"
+      ],
+      "assertion_roles": [
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "probe"
+      ]
+    },
+    {
+      "id": 42,
+      "prompt": "Review evals/fixtures/typosquat_dependency.py",
+      "files": [
+        "evals/fixtures/typosquat_dependency.py"
+      ],
+      "expected_output": "Exactly 1 finding, graded MAJOR under L5: confusable dependency name \u2014 `requsts` is declared alongside the intended `requests` and is a one-edit lookalike; `colourama` is the same attack against `colorama`. Failure scenario: a benign-until-later lookalike is installed and serves malicious code from a later version. Fix: delete the undeclared entries and gate additions on an allowlist plus a maintainer check. Header `1 finding \u00b7 C:0 M:1 m:0 i:0`.",
+      "assertions": [
+        "Exactly 1 finding above Info severity",
+        "Finding is graded MAJOR",
+        "Finding is on axis L5 (Supply Chain)",
+        "Identifies requsts as a lookalike of the intended requests package",
+        "Identifies colourama as a lookalike of colorama",
+        "Failure scenario describes a lookalike that is benign at install and malicious later",
+        "Fix recommends removing the undeclared entries and allow-listing additions",
+        "Header matches pattern: 1 finding \u00b7 C:0 M:1 m:0 i:0"
+      ],
+      "assertion_roles": [
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "probe"
+      ]
+    },
+    {
+      "id": 43,
+      "prompt": "Review evals/fixtures/dead_persistence.py",
+      "files": [
+        "evals/fixtures/dead_persistence.py"
+      ],
+      "expected_output": "2 findings under L1: (1) CRITICAL \u2014 orphaned schema: `orders.fax_number`, `orders.legacy_invoice_blob`, and `customers.pager_address` have no live reader, the migration chain 0001\u21920714 is retained wholesale, and `legacy_invoice_blob` holds retained personal data; fix is deletion plus a drop migration. (2) MAJOR \u2014 orphaned configuration: `ORDERS_API_URL`, `LEGACY_INVOICE_BUCKET`, `FAX_GATEWAY_URL`, and `PAGER_API_KEY` are declared with no reader, and `PAGER_API_KEY` is a live-format credential with no consumer. Header `2 findings \u00b7 C:1 M:1 m:0 i:0`.",
+      "assertions": [
+        "Exactly 2 findings above Info severity",
+        "Finding 1 is graded CRITICAL and finding 2 is graded MAJOR",
+        "Both findings are on axis L1 (Waste)",
+        "Finding 1 names the unread columns (fax_number, legacy_invoice_blob, pager_address)",
+        "Finding 1 notes orders.total_amount is NOT flagged (total_amount() still reads it)",
+        "Finding 1 notes the retained migration chain as the carrying cost",
+        "Finding 2 identifies config keys and env vars with no reader",
+        "Finding 2 identifies the unretired pager.api_key credential",
+        "SETTINGS['fax.gateway_url'] is NOT flagged as dead (legacy_fax_settings() still reads it)",
+        "Header matches pattern: 2 findings \u00b7 C:1 M:1 m:0 i:0"
+      ],
+      "assertion_roles": [
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "probe"
+      ]
+    },
+    {
+      "id": 44,
+      "prompt": "Review evals/fixtures/completion_markers.py",
+      "files": [
+        "evals/fixtures/completion_markers.py"
+      ],
+      "expected_output": "2 findings under L6: (1) CRITICAL \u2014 `send_bulk_receipt` was never implemented: the body is missing yet it returns `{'queued': True, 'count': N}`, so the end-of-month run reports every receipt sent while sending none. (2) MAJOR \u2014 two docstrings guarantee behaviour the code does not provide: `send_order_update` is called thread-safe while doing an unguarded read-modify-write on SENT_COUNTS, and `apply_discount` is called idempotent with no dedupe key, so a retried request discounts twice. Header `2 findings \u00b7 C:1 M:1 m:0 i:0`.",
+      "assertions": [
+        "Exactly 2 findings above Info severity",
+        "Finding 1 is graded CRITICAL and finding 2 is graded MAJOR",
+        "Both findings are on axis L6 (Synthetic Code)",
+        "Finding 1 identifies send_bulk_receipt as an unimplemented body on a reachable path",
+        "Finding 1 explains the failure: caller reports the batch as sent while nothing is sent",
+        "Finding 2 identifies the thread-safe claim against the unguarded counter",
+        "Finding 2 identifies the idempotent claim against the missing dedupe key",
+        "Failure scenario names the lost update and the double discount",
+        "Header matches pattern: 2 findings \u00b7 C:1 M:1 m:0 i:0"
+      ],
+      "assertion_roles": [
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "probe"
+      ]
+    },
+    {
+      "id": 45,
+      "prompt": "Review evals/fixtures/vendored_fork.py",
+      "files": [
+        "evals/fixtures/vendored_fork.py"
+      ],
+      "expected_output": "Exactly 1 finding, graded MAJOR under L4: un-synced vendored forks \u2014 vendor/manifest.json pins pyjwt 1.7.1, idna 2.8, and chardet 3.0.4 with `synced_through` 2019-08-14 and `vendor_issue_counts()` returning zero open tracking issues, while CVE-2022-29217 and CVE-2024-3651 are listed as known-unpatched. Because the copies are not dependencies, no dependency tooling sees the gap. Fix: upgrade to the declared dependencies or back-port and track upstream explicitly. Header `1 finding \u00b7 C:0 M:1 m:0 i:0`.",
+      "assertions": [
+        "Exactly 1 finding above Info severity",
+        "Finding is graded MAJOR",
+        "Finding is on axis L4 (Waste / Redundancy)",
+        "Identifies the in-tree copies frozen at 2019-era pinned versions",
+        "Notes that the vendored packages are invisible to dependency scanning",
+        "Cites the known-unpatched CVEs or the missing upstream tracking",
+        "Failure scenario describes upstream security fixes never arriving",
+        "Header matches pattern: 1 finding \u00b7 C:0 M:1 m:0 i:0"
+      ],
+      "assertion_roles": [
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "probe"
+      ]
+    },
+    {
+      "id": 46,
+      "prompt": "Review evals/fixtures/health_and_shutdown.py",
+      "files": [
+        "evals/fixtures/health_and_shutdown.py"
+      ],
+      "expected_output": "2 findings under C3: (1) CRITICAL \u2014 liveness is coupled to the database: the /healthz handler runs SELECT 1, so a brief database blip makes the platform restart every instance at once and each restart reconnects to a still-recovering database (fleet restart storm). Fix: liveness checks only the process; move the dependency probe to readiness. (2) MAJOR \u2014 no graceful shutdown: on_sigterm calls os._exit(0) with no drain, readiness is never withdrawn, and terminationGracePeriodSeconds is 15 against a 40-second monthly_report. Fix: flip readiness, stop intake, drain in-flight work, exit after the grace period. Header 2 findings \u00c2\u00b7 C:1 M:1 m:0 i:0.",
+      "assertions": [
+        "Exactly 2 findings above Info severity",
+        "Finding 1 is graded CRITICAL and finding 2 is graded MAJOR",
+        "Both findings are on axis C3 (Resilience)",
+        "Finding 1 identifies the liveness handler querying the database",
+        "Finding 1 explains the fleet-wide restart storm from a dependency blip",
+        "Finding 1 fix moves the dependency probe to readiness",
+        "Finding 2 identifies os._exit(0) with no drain or readiness withdrawal",
+        "Finding 2 compares the 15s grace period against the 40s request",
+        "Header matches pattern: 2 findings \u00c2\u00b7 C:1 M:1 m:0 i:0"
+      ],
+      "assertion_roles": [
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "probe"
+      ]
+    },
+    {
+      "id": 47,
+      "prompt": "Review evals/fixtures/unbounded_fanout.py",
+      "files": [
+        "evals/fixtures/unbounded_fanout.py"
+      ],
+      "expected_output": "2 findings under C1/C2: (1) CRITICAL \u2014 reconcile_all fans 50,000 requests out at once with no semaphore or chunking, so the provider recovering from a blip is immediately re-overloaded. Fix: bounded worker pool or chunked batches with a rate limit. (2) CRITICAL \u2014 total_due re-scans the invoice list inside its own loop, making the request quadratic in tenant size; it is fast at 500 invoices and times out at 20,000. Fix: one pass with a set of paid ids, or the query that already knows what is paid. Header 2 findings \u00c2\u00b7 C:2 M:0 m:0 i:0.",
+      "assertions": [
+        "Exactly 2 findings above Info severity",
+        "Both findings are graded CRITICAL",
+        "Finding 1 is on axis C1 or C2 (Performance) and finding 2 is on axis C1 or C2",
+        "Finding 1 identifies the unbounded fan-out over ACCOUNTS with no concurrency cap",
+        "Finding 1 explains the recovery herd re-overloading the provider",
+        "Finding 2 identifies the nested any() scan making total_due quadratic",
+        "Finding 2 quantifies the growth (~N squared, small at 500 and timing out at 20,000)",
+        "Both fixes bound the work (worker pool / single pass)",
+        "Header matches pattern: 2 findings \u00c2\u00b7 C:2 M:0 m:0 i:0"
+      ],
+      "assertion_roles": [
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "probe"
+      ]
+    },
+    {
+      "id": 48,
+      "prompt": "Review evals/fixtures/saga_no_compensation.py",
+      "files": [
+        "evals/fixtures/saga_no_compensation.py"
+      ],
+      "expected_output": "Exactly 1 finding, graded CRITICAL under C5: place_order runs a three-step cross-service flow where each step commits independently with no saga, no compensating action, and no reconciler. The two failure branches are the finding \u2014 a charge failure leaves the reservation held, and a shipping failure leaves the charge captured against stock that will never ship, with SAGA_LOG recording the progress but no process ever reading it to compensate. Fix: a saga with explicit compensating actions per step plus a reconciler for orders stuck mid-flow. Header 1 finding \u00c2\u00b7 C:1 M:0 m:0 i:0.",
+      "assertions": [
+        "Exactly 1 finding above Info severity",
+        "Finding is graded CRITICAL",
+        "Finding is on axis C5 (Distributed)",
+        "Identifies the three-step flow committing independently with no saga or compensation",
+        "Cites both failure branches (charge fails after reserve; ship fails after charge)",
+        "Failure scenario names permanently held stock and a captured charge with no refund",
+        "Notes SAGA_LOG records progress but nothing reconciles from it",
+        "Fix recommends compensating actions plus a reconciler for stuck flows",
+        "Header matches pattern: 1 finding \u00c2\u00b7 C:1 M:0 m:0 i:0"
+      ],
+      "assertion_roles": [
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "probe"
+      ]
+    },
+    {
+      "id": 49,
+      "prompt": "Review evals/fixtures/cache_no_invalidation.py",
+      "files": [
+        "evals/fixtures/cache_no_invalidation.py"
+      ],
+      "expected_output": "Exactly 1 finding, graded MAJOR under C1: the cache has no staleness bound and no write path. set_price commits to the database and never touches _cache, so a corrected or withdrawn price is served from the first-read entry indefinitely, and invalidate_all clears the whole keyspace so the next request for every SKU misses at once and the database takes the full read load. Fix: write-through or versioned keys on the update path, a bounded TTL, and single-flight or stale-while-revalidate on the miss path. Header 1 finding \u00c2\u00b7 C:0 M:1 m:0 i:0.",
+      "assertions": [
+        "Exactly 1 finding above Info severity",
+        "Finding is graded MAJOR",
+        "Finding is on axis C1 (Performance)",
+        "Identifies set_price writing to the database without updating or invalidating the cache",
+        "Identifies the absence of any TTL or staleness bound",
+        "Identifies invalidate_all as a full flush that collapses to simultaneous misses",
+        "Failure scenario names a corrected price being served indefinitely",
+        "Fix recommends write-through or invalidation plus a single-flight or stale-while-revalidate miss path",
+        "Header matches pattern: 1 finding \u00c2\u00b7 C:0 M:1 m:0 i:0"
+      ],
+      "assertion_roles": [
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "probe"
+      ]
+    },
+    {
+      "id": 50,
+      "prompt": "Review evals/fixtures/lease_no_fencing.py",
+      "files": [
+        "evals/fixtures/lease_no_fencing.py"
+      ],
+      "expected_output": "Exactly 1 finding, graded CRITICAL under C5: the lock is a Redis key with a 30s TTL and write_invoice presents no fencing token, so a holder that stalls past LEASE_SECONDS writes after a second worker has already acquired the lease and both commits land in an order neither observed. process_batch also relies on the key expiring rather than releasing in the finally. Fix: issue a monotonic fencing token on acquire and have the storage reject a write carrying a stale one. Header 1 finding \u00c2\u00b7 C:1 M:0 m:0 i:0.",
+      "assertions": [
+        "Exactly 1 finding above Info severity",
+        "Finding is graded CRITICAL",
+        "Finding is on axis C5 (Distributed)",
+        "Identifies the TTL key as the only proof of ownership with no fencing token",
+        "Explains the expiry-then-stale-write sequence and that no error is raised",
+        "Notes the lock is left to the TTL instead of released in the finally block",
+        "Failure scenario describes two workers writing in an unobserved order",
+        "Fix requires a monotonic fencing token checked on write",
+        "Header matches pattern: 1 finding \u00c2\u00b7 C:1 M:0 m:0 i:0"
+      ],
+      "assertion_roles": [
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "probe"
+      ]
+    },
+    {
+      "id": 51,
+      "prompt": "Review evals/fixtures/missing_audit_trail.py",
+      "files": [
+        "evals/fixtures/missing_audit_trail.py"
+      ],
+      "expected_output": "Exactly 1 finding, graded MAJOR under C4: no durable audit record for access, money, or data-ownership changes. grant_admin_role logs at debug (dropped in production), issue_refund records nothing, and export_customer_data records nothing at all, even though an _audit helper is defined in the file and no handler calls it. Failure scenario: a disputed refund or an unauthorised export cannot be attributed, so a breach investigation cannot establish scope or start the notification clock. Fix: route every one of these through the append-only audit sink with actor, target, prior and new state, and time. Header 1 finding \u00c2\u00b7 C:0 M:1 m:0 i:0.",
+      "assertions": [
+        "Exactly 1 finding above Info severity",
+        "Finding is graded MAJOR",
+        "Finding is on axis C4 (Observability)",
+        "Identifies grant_admin_role emitting its trace at debug level only",
+        "Identifies issue_refund and export_customer_data emitting no record at all",
+        "Notes the defined-but-uncalled _audit helper as the missing wiring",
+        "Failure scenario names a disputed refund or unauthorised export that cannot be attributed",
+        "Fix routes these actions to an append-only audit sink with actor, target, and before/after state",
+        "Header matches pattern: 1 finding \u00c2\u00b7 C:0 M:1 m:0 i:0"
+      ],
+      "assertion_roles": [
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "probe"
+      ]
+    },
+    {
+      "id": 52,
+      "prompt": "Review evals/fixtures/config_fails_open.py",
+      "files": [
+        "evals/fixtures/config_fails_open.py"
+      ],
+      "expected_output": "Exactly 1 finding, graded CRITICAL under C6: every security-relevant setting fails open. PAYMENTS_API_KEY defaults to the empty string and the service still starts; PAYMENTS_TLS_VERIFY defaults to false, so a deploy that forgets it stops validating the upstream certificate; WEBHOOK_SIGNING_SECRET falls back to a committed literal; and nothing validates the configuration at startup. Failure scenario: a secret fails to inject at deploy, the app serves traffic with auth absent and TLS verification off, and nothing logs. Fix: no permissive defaults on required settings, a startup assertion that fails the deploy, and a signed-secret requirement. Header 1 finding \u00c2\u00b7 C:1 M:0 m:0 i:0.",
+      "assertions": [
+        "Exactly 1 finding above Info severity",
+        "Finding is graded CRITICAL",
+        "Finding is on axis C6 (Delivery)",
+        "Identifies os.environ.get defaulting API_KEY to an empty string",
+        "Identifies TLS_VERIFY defaulting to false (verification off by default)",
+        "Identifies the hard-coded committed fallback for the webhook signing secret",
+        "Failure scenario describes a missing secret producing a silently insecure running service",
+        "Fix requires failing startup on a missing required setting rather than defaulting",
+        "Header matches pattern: 1 finding \u00c2\u00b7 C:1 M:0 m:0 i:0"
+      ],
+      "assertion_roles": [
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "probe"
+      ]
+    },
+    {
+      "id": 53,
+      "prompt": "Review evals/fixtures/irreversible_rollback.py",
+      "files": [
+        "evals/fixtures/irreversible_rollback.py"
+      ],
+      "expected_output": "Exactly 1 finding, graded CRITICAL under C6: the documented rollback cannot execute. upgrade_0417 renames a column, backfills from fax_number, then drops it, while downgrade_0417 raises NotImplementedError, so the runbook step that runs rollback.sh and restarts the previous image is unexecutable. Failure scenario: an outage caused by this release escalates to a full database restore because the previous version cannot read the current schema. Fix: expand-contract in two deploys (add, backfill, then drop in a later release) so the previous version stays readable, and record a real reversal path. Header 1 finding \u00c2\u00b7 C:1 M:0 m:0 i:0.",
+      "assertions": [
+        "Exactly 1 finding above Info severity",
+        "Finding is graded CRITICAL",
+        "Finding is on axis C6 (Delivery)",
+        "Identifies downgrade_0417 raising NotImplementedError",
+        "Identifies the DROP COLUMN in upgrade_0417 as irreversible",
+        "Notes the runbook assumes rollback.sh works, and ROLLBACK_STATE shows it was never rehearsed",
+        "Failure scenario names escalation to a full database restore during an outage",
+        "Fix recommends expand-contract across two deploys so the prior version stays readable",
+        "Header matches pattern: 1 finding \u00c2\u00b7 C:1 M:0 m:0 i:0"
+      ],
+      "assertion_roles": [
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "probe"
+      ]
+    },
+    {
+      "id": 54,
+      "prompt": "Review evals/fixtures/unit_scale_error.py",
+      "files": [
+        "evals/fixtures/unit_scale_error.py"
+      ],
+      "expected_output": "1 finding, graded CRITICAL under B4: unit/magnitude misstated by the name. Invoice.__init__ stores a whole-unit float into subtotal_cents and derives tax_cents and total_cents from it; settlement_window_seconds multiplies a millisecond timestamp by MILLISECONDS_PER_SECOND (1000) when the difference is already in seconds; convert_to_micros multiplies a cent amount by 1000 to reach micro-units. Failure scenario: every invoice total is wrong by 100x with no error raised. Fix: carry a validated money/magnitude type through construction, or rename and convert explicitly at each boundary. Header 1 finding \u00b7 C:1 M:0 m:0 i:0.",
+      "assertions": [
+        "Exactly 1 finding above Info severity",
+        "Finding is graded CRITICAL",
+        "Finding is on axis B4 (Clarity)",
+        "Identifies subtotal_cents receiving a whole-unit float in Invoice.__init__",
+        "Identifies settlement_window_seconds multiplying by MILLISECONDS_PER_SECOND where the difference is already seconds",
+        "Identifies convert_to_micros scaling a cent amount by 1000 to reach micro-units",
+        "Failure scenario names a silent 100x error in money with no exception",
+        "Fix recommends a magnitude or money type validated at construction",
+        "Header matches pattern: 1 finding \u00b7 C:1 M:0 m:0 i:0"
+      ],
+      "assertion_roles": [
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "probe"
+      ]
+    },
+    {
+      "id": 55,
+      "prompt": "Review evals/fixtures/impossible_state.py",
+      "files": [
+        "evals/fixtures/impossible_state.py"
+      ],
+      "expected_output": "1 finding, graded CRITICAL under B1: the order lifecycle is four independent booleans, so a record can be paid, cancelled, refunded and shipped at once, no transition checks the others, and to_row persists every combination. reconcile then has to interpret the combination. Failure scenario: an order is both cancelled and refunded, fulfilment never happens, and the customer is charged for stock that was never sent. Fix: a single status with mutually exclusive transitions, or a state type that cannot hold an invalid combination. Header 1 finding \u00b7 C:1 M:0 m:0 i:0.",
+      "assertions": [
+        "Exactly 1 finding above Info severity",
+        "Finding is graded CRITICAL",
+        "Finding is on axis B1 (Complexity)",
+        "Identifies is_paid/is_cancelled/is_refunded/is_shipped as independent booleans rather than one status",
+        "Notes no transition checks the other flags so invalid combinations are reachable",
+        "Notes to_row persists every combination, so the invalid state is durable",
+        "Failure scenario names an order both cancelled and refunded, charged for unshipped stock",
+        "Fix recommends a single status or a type that cannot represent an invalid combination",
+        "Header matches pattern: 1 finding \u00b7 C:1 M:0 m:0 i:0"
+      ],
+      "assertion_roles": [
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "probe"
+      ]
+    },
+    {
+      "id": 56,
+      "prompt": "Review evals/fixtures/ambient_clock_rules.py",
+      "files": [
+        "evals/fixtures/ambient_clock_rules.py"
+      ],
+      "expected_output": "1 finding, graded CRITICAL under B2: three business rules read ambient state instead of receiving it. is_promotion_active reads the clock; eligible_for_offer reads the clock and random.random() so the same customer and basket can flip between calls; price_for_basket reads BASKET_DISCOUNT_PCT mid-decision so the same basket prices differently per process. place_order then takes the buyer from module-level CURRENT_USER. Failure scenario: a replayed order prices differently from when it was placed, and the discrepancy is unresolvable because the inputs are not the inputs. Fix: pass time, randomness, configuration and identity in as parameters. Header 1 finding \u00b7 C:1 M:0 m:0 i:0.",
+      "assertions": [
+        "Exactly 1 finding above Info severity",
+        "Finding is graded CRITICAL",
+        "Finding is on axis B2 (Evolvability)",
+        "Identifies the clock read inside is_promotion_active and eligible_for_offer",
+        "Identifies random.random() inside a business rule, so the same input gives a different answer",
+        "Identifies the environment read inside price_for_basket as configuration leaking into logic",
+        "Notes place_order taking the buyer from module-level CURRENT_USER",
+        "Failure scenario explains a replayed order pricing differently from when it was placed",
+        "Fix recommends passing time, randomness, config and identity in as parameters",
+        "Header matches pattern: 1 finding \u00b7 C:1 M:0 m:0 i:0"
+      ],
+      "assertion_roles": [
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "probe"
+      ]
+    },
+    {
+      "id": 57,
+      "prompt": "Review evals/fixtures/no_test_seam.py",
+      "files": [
+        "evals/fixtures/no_test_seam.py"
+      ],
+      "expected_output": "2 findings under B2: (1) MAJOR \u2014 no seam at the highest-churn dependency: send_order_shipped reaches the module-level boto3 SQS client and the module-level SQLAlchemy engine directly, so verifying it needs a live queue, a live database, and the real template map. (2) MAJOR \u2014 the test is harder than the code: NotificationTests stands up a fake queue, a test database, an S3 bucket, registers a template, and seeds three messages, then asserts only that a string ends with a fixed suffix and that objects are not None. Failure scenario: every change to notification dispatch is verified against assertions that cannot fail. Fix: inject the client and engine, and assert the message body. Header 2 findings \u00b7 C:0 M:2 m:0 i:0.",
+      "assertions": [
+        "Exactly 2 findings above Info severity",
+        "Both findings are graded MAJOR",
+        "Both findings are on axis B2 (Evolvability)",
+        "Finding 1 identifies the module-level SQS client and SQLAlchemy engine as concrete, unseamed dependencies",
+        "Finding 1 notes verification therefore needs a live queue, a live database, and the real template map",
+        "Finding 2 identifies the setup (fake queue, test DB, bucket, template, three seeded messages) exceeding the function under test",
+        "Finding 2 notes the assertions cannot fail on a behaviour change",
+        "Both fixes inject the collaborators and assert the produced message",
+        "Header matches pattern: 2 findings \u00b7 C:0 M:2 m:0 i:0"
+      ],
+      "assertion_roles": [
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "probe"
+      ]
+    },
+    {
+      "id": 58,
+      "prompt": "Review evals/fixtures/unenforced_invariant.py",
+      "files": [
+        "evals/fixtures/unenforced_invariant.py"
+      ],
+      "expected_output": "1 finding, graded MAJOR under B4: score_transaction states two preconditions in comments only \u2014 the caller must hold the account lock, and the caller must invoke inside a transaction \u2014 with no assertion, guard, or type carrying either. Failure scenario: a caller that misses the transaction boundary runs to completion and the score write is silently lost, surfacing later as a wrong fraud score rather than at the call site. Fix: take the lock and the transaction inside the function, or accept an explicit handle and assert it. Header 1 finding \u00b7 C:0 M:1 m:0 i:0.",
+      "assertions": [
+        "Exactly 1 finding above Info severity",
+        "Finding is graded MAJOR",
+        "Finding is on axis B4 (Clarity)",
+        "Identifies the two preconditions stated only in comments above score_transaction",
+        "Notes nothing asserts the lock is held or that a transaction is open",
+        "Failure scenario describes a caller missing the transaction running to completion with a lost write",
+        "Distinguishes this from documentation drift: the comment is not stale, the rule was never enforced",
+        "Fix requires the function to take the lock and transaction, or to assert a supplied handle",
+        "Header matches pattern: 1 finding \u00b7 C:0 M:1 m:0 i:0"
+      ],
+      "assertion_roles": [
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "probe"
+      ]
+    },
+    {
+      "id": 59,
+      "prompt": "Review evals/fixtures/implementation_names.py",
+      "files": [
+        "evals/fixtures/implementation_names.py"
+      ],
+      "expected_output": "1 finding, graded MAJOR under B4: names encode the implementation or carry permanent temporary suffixes. get_widget_from_redis names the storage engine; _cache_v2 and get_widget_v2 carry a version suffix on a live symbol; get_widget_temp and _temp_rows keep a temporary name long after the migration; and get_client names the same record a third term. Failure scenario: a rename touches only the sites the current name appears in, so two live accessors keep diverging. Fix: name for the concept and the contract. Header 1 finding \u00b7 C:0 M:1 m:0 i:0.",
+      "assertions": [
+        "Exactly 1 finding above Info severity",
+        "Finding is graded MAJOR",
+        "Finding is on axis B4 (Clarity)",
+        "Identifies get_widget_from_redis as naming the storage engine in the function name",
+        "Identifies _cache_v2, get_widget_v2, get_widget_temp and _temp_rows as permanent temporary or version suffixes",
+        "Notes get_widget and get_widget_v2 each documenting the other as superseding, with both live",
+        "Notes get_client as a third term for the same record",
+        "Fix recommends naming the concept and contract rather than the implementation",
+        "Header matches pattern: 1 finding \u00b7 C:0 M:1 m:0 i:0"
+      ],
+      "assertion_roles": [
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "probe"
+      ]
+    },
+    {
+      "id": 60,
+      "prompt": "Review evals/fixtures/transposed_arguments.py",
+      "files": [
+        "evals/fixtures/transposed_arguments.py"
+      ],
+      "expected_output": "1 finding, graded MAJOR under B1: adjacent same-typed parameters are transposable with no type error and nothing to catch it. set_viewport(left, top, right, bottom) and clamp(value, lo, hi) both take runs of identical integers; clamp even documents that callers routinely pass (hi, lo). Failure scenario: a transposed clamp silently returns the input unclamped, and a transposed viewport mirrors the chart about the diagonal with no error at any layer. Fix: take a typed pair or range object, or order the parameters so a transposition is visible. Header 1 finding \u00b7 C:0 M:1 m:0 i:0.",
+      "assertions": [
+        "Exactly 1 finding above Info severity",
+        "Finding is graded MAJOR",
+        "Finding is on axis B1 (Complexity)",
+        "Identifies set_viewport taking four identical integers with left/top/right/bottom transposable",
+        "Identifies clamp(value, lo, hi) as transposable, citing its own docstring admission",
+        "Notes there is no type error and no name that catches a transposed call",
+        "Failure scenario names a clamp that silently returns an unclamped value or a mirrored viewport",
+        "Fix recommends a typed pair or range object",
+        "Header matches pattern: 1 finding \u00b7 C:0 M:1 m:0 i:0"
+      ],
+      "assertion_roles": [
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "probe"
+      ]
+    },
+    {
+      "id": 61,
+      "prompt": "Review evals/fixtures/boundary_error_policy.py",
+      "files": [
+        "evals/fixtures/boundary_error_policy.py"
+      ],
+      "expected_output": "1 finding, graded MAJOR under B5: find_user has no failure contract. The docstring says it returns None when not found, but the bare except also returns None for a failed lookup and for an unreachable shard, so absence and failure are the same value. find_or_create then acts on it and inserts a stub user. Failure scenario: a shard outage makes every user look nonexistent and the directory fills with stub records, and no caller can tell a definitive answer from a retryable failure. Fix: let errors propagate and reserve None for absence, or return a typed result the caller must match. Header 1 finding \u00b7 C:0 M:1 m:0 i:0.",
+      "assertions": [
+        "Exactly 1 finding above Info severity",
+        "Finding is graded MAJOR",
+        "Finding is on axis B5 (Design)",
+        "Identifies the bare except in find_user collapsing failure and absence into the same None",
+        "Notes the docstring promises None only for a not-found result",
+        "Identifies find_or_create inserting a stub on that None, so the ambiguity causes writes",
+        "Contrast with list_users in the same file, which lets errors propagate",
+        "Fix recommends propagating the error and reserving None for absence, or a typed result",
+        "Header matches pattern: 1 finding \u00b7 C:0 M:1 m:0 i:0"
+      ],
+      "assertion_roles": [
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "probe"
+      ]
+    },
+    {
+      "id": 62,
+      "prompt": "Review evals/fixtures/cancelled_child_work.py",
+      "files": [
+        "evals/fixtures/cancelled_child_work.py"
+      ],
+      "expected_output": "2 findings under A2: (1) CRITICAL \u2014 cancellation is not propagated: handle_cancellation_request creates the export task and on timeout logs and returns without cancelling it, so the 60-second export keeps running after the caller has given up. warm_cache and rebuild_cache spawn with no cancellation path at all. (2) CRITICAL \u2014 fire-and-forget task: warm_cache calls create_task(rebuild_cache(...)) and returns, holding no reference, with no error handler and no await, so the task may be collected before it runs. Header 2 findings \u00b7 C:2 M:0 m:0 i:0.",
+      "assertions": [
+        "Exactly 2 findings above Info severity",
+        "Both findings are graded CRITICAL",
+        "Both findings are on axis A2 (Concurrency)",
+        "Finding 1 identifies the timeout path in handle_cancellation_request not cancelling export_task",
+        "Finding 1 identifies warm_cache spawning work with no cancellation path",
+        "Finding 1 explains the orphaned work outliving the cancelled request",
+        "Finding 2 identifies create_task with no reference retained and no await",
+        "Finding 2 notes no error handler, so a rejection is never observed",
+        "Header matches pattern: 2 findings \u00b7 C:2 M:0 m:0 i:0"
+      ],
+      "assertion_roles": [
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "probe"
+      ]
+    },
+    {
+      "id": 63,
+      "prompt": "Review evals/fixtures/lost_update_race.py",
+      "files": [
+        "evals/fixtures/lost_update_race.py"
+      ],
+      "expected_output": "Exactly 1 finding, graded CRITICAL under A3: reserve reads available and writes it back in separate statements with no row lock and no atomic operator, at the default READ COMMITTED isolation the file names itself, so two concurrent reservations for the last units both read the same value and both commit \u2014 one reservation is lost with no error. increment_view_counter has the same read-then-write shape. Failure scenario: stock is oversold and the shortfall is undetectable because no row records the lost update. Fix: a single atomic UPDATE with a WHERE guard, or SELECT ... FOR UPDATE. Header 1 finding \u00b7 C:1 M:0 m:0 i:0.",
+      "assertions": [
+        "Exactly 1 finding above Info severity",
+        "Finding is graded CRITICAL",
+        "Finding is on axis A3 (Data)",
+        "Identifies the separate SELECT and UPDATE in reserve with no lock and no atomic operator",
+        "Notes the default isolation level permits an interleaving between the read and the write",
+        "Identifies increment_view_counter as the same read-then-write shape",
+        "Failure scenario names oversold stock with no row recording the lost update",
+        "Fix recommends a conditional atomic UPDATE or SELECT FOR UPDATE",
+        "Header matches pattern: 1 finding \u00b7 C:1 M:0 m:0 i:0"
+      ],
+      "assertion_roles": [
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "probe"
+      ]
+    },
+    {
+      "id": 64,
+      "prompt": "Review evals/fixtures/string_truthiness.py",
+      "files": [
+        "evals/fixtures/string_truthiness.py"
+      ],
+      "expected_output": "Exactly 1 finding, graded CRITICAL under A1: four environment-sourced values are consumed as booleans and numbers by truthiness. should_rate_limit sees RATE_LIMIT_ENABLED='false' as true, is_maintenance sees MAINTENANCE_MODE='0' as true, zip_for strips the leading zero from a zip because it coerces to int, and recipient_for falls through to 'none' because the string is truthy where absence was meant. Failure scenario: rate limiting that the operator explicitly turned off is on in production, and every maintenance branch is taken. Fix: parse explicitly and reject on an unrecognised value. Header 1 finding \u00b7 C:1 M:0 m:0 i:0.",
+      "assertions": [
+        "Exactly 1 finding above Info severity",
+        "Finding is graded CRITICAL",
+        "Finding is on axis A1 (Logic)",
+        "Identifies should_rate_limit treating the string 'false' as true",
+        "Identifies is_maintenance treating the string '0' as true",
+        "Identifies zip_for coercing a zip code through int and dropping the leading zero",
+        "Failure scenario names a control the operator disabled being active in production",
+        "Fix recommends explicit parsing with rejection of unrecognised values",
+        "Header matches pattern: 1 finding \u00b7 C:1 M:0 m:0 i:0"
+      ],
+      "assertion_roles": [
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "probe"
+      ]
+    },
+    {
+      "id": 65,
+      "prompt": "Review evals/fixtures/unstable_pagination.py",
+      "files": [
+        "evals/fixtures/unstable_pagination.py"
+      ],
+      "expected_output": "2 findings: (1) CRITICAL under A4 \u2014 list_orders pages with LIMIT/OFFSET over a table that receives orders continuously, ordered by a non-unique created_at, so a client walking the pages has rows shifted and silently receives a duplicate and misses an order while total still looks correct. list_all_orders has no limit at all. (2) MAJOR under A4 \u2014 response-shape contract: list_order_statuses returns a closed set with no tolerance rule, and serialize_order emits shipped_at/cancelled_at as null both when never set and when explicitly cleared, so a client cannot tell absent from cleared. Header 2 findings \u00b7 C:1 M:1 m:0 i:0.",
+      "assertions": [
+        "Exactly 2 findings above Info severity",
+        "Finding 1 is graded CRITICAL and finding 2 is graded MAJOR",
+        "Both findings are on axis A4 (API Contracts)",
+        "Finding 1 identifies LIMIT/OFFSET over a table that grows between requests",
+        "Finding 1 notes the ORDER BY column is not unique, so the sort is unstable across pages",
+        "Finding 1 explains a client silently reconciling a duplicate and missing a real order",
+        "Finding 2 identifies the closed status set with no unknown-value tolerance",
+        "Finding 2 identifies null used for both never-set and explicitly-cleared",
+        "Header matches pattern: 2 findings \u00b7 C:1 M:1 m:0 i:0"
+      ],
+      "assertion_roles": [
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "probe"
+      ]
+    },
+    {
+      "id": 66,
+      "prompt": "Review evals/fixtures/short_circuit_side_effects.py",
+      "files": [
+        "evals/fixtures/short_circuit_side_effects.py"
+      ],
+      "expected_output": "Exactly 1 finding, graded MAJOR under A1: the failure path does less work than the success path. Both 403 and 422 returns in update_email happen before the audit write and the metrics increment that the success path performs, and deactivate_account increments the forbidden counter but never writes the audit record, so the audit log contains successes and denials inconsistently. Failure scenario: a rejected permission change leaves no record, so an abuse pattern over rejected attempts is invisible and the audit log cannot answer how many were denied. Fix: perform the audit and metric effects on every exit path, or move them to a decorator or middleware. Header 1 finding \u00b7 C:0 M:1 m:0 i:0.",
+      "assertions": [
+        "Exactly 1 finding above Info severity",
+        "Finding is graded MAJOR",
+        "Finding is on axis A1 (Logic)",
+        "Identifies the 404, 422, and 403 early returns in update_email skipping the audit write and metrics increment",
+        "Identifies deactivate_account incrementing the counter but not writing the audit record",
+        "Notes the audit log therefore covers successes and failures inconsistently",
+        "Failure scenario names abuse over rejected attempts leaving no record",
+        "Fix recommends performing the effects on every exit path, e.g. in middleware",
+        "Header matches pattern: 1 finding \u00b7 C:0 M:1 m:0 i:0"
+      ],
+      "assertion_roles": [
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "probe"
+      ]
+    },
+    {
+      "id": 67,
+      "prompt": "Review evals/fixtures/lock_starvation.py",
+      "files": [
+        "evals/fixtures/lock_starvation.py"
+      ],
+      "expected_output": "Exactly 1 finding, graded MAJOR under A2: the lock is held across a whole batch and across a blocking queue drain. index_documents takes the lock once for 10,000 documents including a sleep per document, and drain_queue holds it while blocked on the wait, so every other worker is serialised behind one holder for the entire run. Failure scenario: with eight workers configured the indexer runs at one worker's speed, indefinitely, with no deadlock and no error to explain it. Fix: hold the lock per item, or use a queue with a bounded consumer count and no lock across the drain. Header 1 finding \u00b7 C:0 M:1 m:0 i:0.",
+      "assertions": [
+        "Exactly 1 finding above Info severity",
+        "Finding is graded MAJOR",
+        "Finding is on axis A2 (Concurrency)",
+        "Identifies the lock being held once for the whole batch including per-item work",
+        "Identifies drain_queue holding the lock while blocked waiting for the next item",
+        "Distinguishes this from deadlock: nothing is blocked on a cycle, throughput is simply one worker",
+        "Failure scenario names eight configured workers delivering one worker's throughput with no error",
+        "Fix recommends holding the lock per item or using a bounded consumer pool with no lock across the drain",
+        "Header matches pattern: 1 finding \u00b7 C:0 M:1 m:0 i:0"
+      ],
+      "assertion_roles": [
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "probe"
+      ]
+    },
+    {
+      "id": 68,
+      "prompt": "Review evals/fixtures/soft_delete_uniqueness.py",
+      "files": [
+        "evals/fixtures/soft_delete_uniqueness.py"
+      ],
+      "expected_output": "Exactly 1 finding, graded MAJOR under A3: soft_delete leaves the row in place, and the two unique indexes declared at the top of the file span it, so create_customer fails on a duplicate key for an email the customer previously deleted and the handler surfaces it as a 500. active_customers and customer_count scope by segment rather than by the deletion marker, so archived customers are returned and counted. Failure scenario: a user cannot re-register an address they deleted, and the enterprise dashboard total has never matched the visible list. Fix: scope unique indexes to live rows with a partial index, and filter archived rows in every default query. Header 1 finding \u00b7 C:0 M:1 m:0 i:0.",
+      "assertions": [
+        "Exactly 1 finding above Info severity",
+        "Finding is graded MAJOR",
+        "Finding is on axis A3 (Data)",
+        "Identifies the unique indexes declared at file scope spanning the tombstone row",
+        "Identifies create_customer failing on a duplicate key for a previously deleted email",
+        "Identifies active_customers and customer_count scoping by segment rather than by deleted_at",
+        "Failure scenario names an un-re-registerable address and a total that never matches the list",
+        "Fix recommends a partial unique index over live rows plus deletion-marker filters in default queries",
+        "Header matches pattern: 1 finding \u00b7 C:0 M:1 m:0 i:0"
+      ],
+      "assertion_roles": [
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "probe"
+      ]
+    },
+    {
+      "id": 69,
+      "prompt": "Review evals/fixtures/skipped_tests.py",
+      "files": [
+        "evals/fixtures/skipped_tests.py"
+      ],
+      "expected_output": "Exactly 1 finding, graded MAJOR under A6: two tests report green while covering nothing. test_price_bulk is marked skip with no reason and no owner and an empty body, and test_price_with_promotion is marked xfail with the reason 'flaky in CI' and no owner or expiry, so a real pricing defect would not fail the suite. Failure scenario: a regression in bulk pricing or in promotion pricing ships because the suite is green and its coverage badge still counts the tests. Fix: delete the skip or give it a tracked reason and owner, and never leave an xfail without an expiry. Header 1 finding \u00b7 C:0 M:1 m:0 i:0.",
+      "assertions": [
+        "Exactly 1 finding above Info severity",
+        "Finding is graded MAJOR",
+        "Finding is on axis A6 (Testing)",
+        "Identifies test_price_bulk as skipped with no reason and no owner",
+        "Identifies test_price_with_promotion as xfail with a vague reason and no expiry",
+        "Notes the suite still reports green and still counts both tests toward coverage",
+        "Failure scenario names a bulk or promotion pricing regression shipping undetected",
+        "Fix recommends deleting the skip or attaching a tracked reason and owner, with an expiry on any xfail",
+        "Header matches pattern: 1 finding \u00b7 C:0 M:1 m:0 i:0"
+      ],
+      "assertion_roles": [
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "probe"
+      ]
+    },
+    {
+      "id": 70,
+      "prompt": "Review evals/fixtures/rag_prompt_injection.py",
+      "files": [
+        "evals/fixtures/rag_prompt_injection.py"
+      ],
+      "expected_output": "3 findings under A7: (1) CRITICAL \u2014 the ticket body is concatenated into the message stream as user content alongside the system prompt, and KB chunks are appended with no provenance, so customer text can assert an instruction and the model calls run_sql with service credentials. (2) CRITICAL \u2014 handle_tool_call executes model-supplied arguments with no validation, using the service's own scope, and dispatches issue_refund on one model turn with no confirmation or ceiling. (3) MAJOR \u2014 retrieve mixes the shared KB with a tenant_notes index that has no tenant filter, so another tenant's content reaches the model. Header 3 findings \u00b7 C:2 M:1 m:0 i:0.",
+      "assertions": [
+        "Exactly 3 findings above Info severity",
+        "Findings 1 and 2 are graded CRITICAL and finding 3 is graded MAJOR",
+        "All 3 findings are on axis A7 (AI Systems)",
+        "Finding 1 identifies the ticket body concatenated into the same message list as the system prompt",
+        "Finding 1 identifies retrieved KB chunks appended with no provenance or trust label",
+        "Finding 1 explains that customer text can assert an instruction reaching run_sql with service credentials",
+        "Finding 2 identifies model-supplied tool arguments passed with no validation",
+        "Finding 2 identifies the tool running with service scope rather than the requester's",
+        "Finding 2 identifies issue_refund dispatched with no confirmation and no amount ceiling",
+        "Finding 3 identifies tenant_notes retrieved with no tenant filter",
+        "Header matches pattern: 3 findings \u00b7 C:2 M:1 m:0 i:0"
+      ],
+      "assertion_roles": [
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "probe"
+      ]
+    },
+    {
+      "id": 71,
+      "prompt": "Review evals/fixtures/model_output_trusted.py",
+      "files": [
+        "evals/fixtures/model_output_trusted.py"
+      ],
+      "expected_output": "1 finding, graded CRITICAL under A7: the model's completion is treated as structured data and as a decision. run_invoice_sql interpolates it into SQL, render_html persists it into a document staff open, classify_ticket regex-parses a category used to route the ticket and a discount applied straight to the order total, and fetch_report_url follows a URL the completion supplied with no allowlist. Failure scenario: a crafted invoice makes the model emit a quote-terminated statement the database executes and a script tag that lands in the daily PDF. Fix: never execute, interpolate, or route on model output \u2014 parameterise, validate against a closed set, and confirm consequential actions. Header 1 finding \u00b7 C:1 M:0 m:0 i:0.",
+      "assertions": [
+        "Exactly 1 finding above Info severity",
+        "Finding is graded CRITICAL",
+        "Finding is on axis A7 (AI Systems)",
+        "Identifies run_invoice_sql interpolating the completion into SQL",
+        "Identifies render_html persisting the completion into a rendered document",
+        "Identifies classify_ticket regex-parsing a category and a discount and applying both directly",
+        "Identifies fetch_report_url following a completion-supplied URL with no allowlist",
+        "Failure scenario names database execution plus a script tag landing in the daily PDF",
+        "Fix recommends parameterising, validating against a closed set, and confirming consequential actions",
+        "Header matches pattern: 1 finding \u00b7 C:1 M:0 m:0 i:0"
+      ],
+      "assertion_roles": [
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "probe"
+      ]
+    },
+    {
+      "id": 72,
+      "prompt": "Review evals/fixtures/unchecked_casts.py",
+      "files": [
+        "evals/fixtures/unchecked_casts.py"
+      ],
+      "expected_output": "1 finding, graded CRITICAL under A8: the module is typed as Any at every boundary. PAYMENT_CLIENT and LEDGER are Any, connection.execute().fetchone() is trusted as the declared order record, the webhook payload parameter is untyped so required keys and their types are unchecked, and total_for defaults a missing amount to 0. Failure scenario: a producer renames postedAt to posted_at and the ledger write raises at 3am on one webhook, with the type checker silent because the parameter was never typed. Fix: declare the record types at the boundary and validate untyped input once, at the edge, with a schema. Header 1 finding \u00b7 C:1 M:0 m:0 i:0.",
+      "assertions": [
+        "Exactly 1 finding above Info severity",
+        "Finding is graded CRITICAL",
+        "Finding is on axis A8 (Type & Contracts)",
+        "Identifies PAYMENT_CLIENT and LEDGER annotated as Any so no call is checked",
+        "Identifies the untyped webhook payload in apply_ledger_entry",
+        "Identifies lookup_order trusting the annotation on an unvalidated row",
+        "Identifies total_for defaulting a missing amount rather than rejecting it",
+        "Failure scenario names a producer rename raising at 3am with the type checker silent",
+        "Fix recommends declaring record types at the boundary and validating once at the edge",
+        "Header matches pattern: 1 finding \u00b7 C:1 M:0 m:0 i:0"
+      ],
+      "assertion_roles": [
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "probe"
+      ]
+    },
+    {
+      "id": 73,
+      "prompt": "Review evals/fixtures/region_failover.py",
+      "files": [
+        "evals/fixtures/region_failover.py"
+      ],
+      "expected_output": "2 findings under C7: (1) CRITICAL \u2014 the standby is promoted while the primary is still running and writable, with nothing fencing the old side, so both accept writes and diverge. recover_late_joiner then lets the old primary resume writing with no split-brain detection. (2) MAJOR \u2014 reconcile_after_failover is a no-op, so the divergence is never detected, and the runbook has LAST_REHEARSAL = None with a 30-minute SLO that has never been measured. Failure scenario: a region failover splits the database, both sides accept orders, and the discrepancy surfaces days later in a reconciliation that does not exist. Header 2 findings \u00b7 C:1 M:1 m:0 i:0.",
+      "assertions": [
+        "Exactly 2 findings above Info severity",
+        "Finding 1 is graded CRITICAL and finding 2 is graded MAJOR",
+        "Both findings are on axis C7 (Durability)",
+        "Finding 1 identifies the standby promoted while the primary is still writable",
+        "Finding 1 notes there is no fencing of the old primary",
+        "Finding 1 identifies recover_late_joiner letting the old primary resume writing",
+        "Finding 1 explains the two-writer split brain with no error on either side",
+        "Finding 2 identifies reconcile_after_failover as a no-op so divergence is never detected",
+        "Finding 2 identifies LAST_REHEARSAL as None against a stated failover SLO",
+        "Header matches pattern: 2 findings \u00b7 C:1 M:1 m:0 i:0"
+      ],
+      "assertion_roles": [
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "probe"
+      ]
+    },
+    {
+      "id": 74,
+      "prompt": "Review evals/fixtures/personal_data_lifecycle.py",
+      "files": [
+        "evals/fixtures/personal_data_lifecycle.py"
+      ],
+      "expected_output": "2 findings under C8: (1) CRITICAL \u2014 delete_customer removes only the primary row and answers 'done' while the person remains in the search index, the cache, the warehouse, the queue history, and every snapshot for the retention window. (2) CRITICAL \u2014 the backup posture cannot meet the stated objective: the snapshot is in the production account and region, LAST_RESTORE_TEST is 'never', restore() drops the live database before loading, retention is 7 days against an RPO of 0, and retention_policy() returns a schedule nothing reads. Failure scenario: a customer requests erasure, is told it is complete, and the data is restored from a snapshot during a later disaster. Header 2 findings \u00b7 C:2 M:0 m:0 i:0.",
+      "assertions": [
+        "Exactly 2 findings above Info severity",
+        "Both findings are graded CRITICAL",
+        "Finding 1 is on axis C8 (Data Protection) and finding 2 is on axis C7 (Durability)",
+        "Finding 1 identifies the primary row being the only copy removed",
+        "Finding 1 identifies the search index, cache, warehouse, queue history and snapshots retaining the person",
+        "Finding 1 notes the request is answered 'done' while the data remains",
+        "Finding 2 identifies the snapshot sharing the account and region with the primary",
+        "Finding 2 identifies LAST_RESTORE_TEST as never and restore() dropping the live database first",
+        "Finding 2 identifies retention_policy() as a returned dict that no job or lifecycle rule reads",
+        "Header matches pattern: 2 findings \u00b7 C:2 M:0 m:0 i:0"
+      ],
+      "assertion_roles": [
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "probe"
+      ]
+    },
+    {
+      "id": 75,
+      "prompt": "Review evals/fixtures/settlement_export.py",
+      "files": [
+        "evals/fixtures/settlement_export.py"
+      ],
+      "expected_output": "2 findings under D1: (1) CRITICAL \u2014 the export writes UTF-8 with an implicit StringIO default while the importer reads Latin-1 and splits on CRLF, so every non-ASCII merchant name is stored as mojibake and a stray CR stays on the last field of every line, making the partner's lookup by name miss. (2) CRITICAL \u2014 truncate_to_column slices a UTF-8 byte string to a byte limit and decodes, splitting a multi-byte character and raising on the whole line, so one long accented name loses every settlement in the file. build_lookup_key additionally normalises NFC on write and NFD on read, so the cache key never matches. Header 2 findings \u00b7 C:2 M:0 m:0 i:0.",
+      "assertions": [
+        "Exactly 2 findings above Info severity",
+        "Both findings are graded CRITICAL",
+        "Both findings are on axis D1 (Encoding & Text)",
+        "Finding 1 identifies the implicit encoding on write against an explicit Latin-1 read",
+        "Finding 1 identifies the newline mismatch leaving a stray CR on the last field of every line",
+        "Finding 1 explains the partner's merchant lookup missing because of both",
+        "Finding 2 identifies truncate_to_column slicing UTF-8 bytes to a byte limit and then decoding",
+        "Finding 2 explains the mid-character split invalidating the whole line on the reader",
+        "Finding 2 identifies the NFC-on-write against NFD-on-read key normalisation",
+        "Header matches pattern: 2 findings \u00b7 C:2 M:0 m:0 i:0"
+      ],
+      "assertion_roles": [
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "probe"
+      ]
+    },
+    {
+      "id": 76,
+      "prompt": "Review evals/fixtures/dst_boundary_schedules.py",
+      "files": [
+        "evals/fixtures/dst_boundary_schedules.py"
+      ],
+      "expected_output": "2 findings under D2: (1) CRITICAL \u2014 next_run_at schedules on a naive local wall clock, so across a DST transition 02:00 either does not exist (the settlement is skipped) or occurs twice (it is applied twice and double-charges merchants). (2) MAJOR \u2014 the same file disagrees with the partner on date representation and on week numbering: parse_issued_date reads dd/MM/YYYY while render_issued_date writes MM/dd/YYYY, weekly_report_rows uses ISO week numbers against the partner's week-1 rule, and last_updated_reports orders on the formatted string so January sorts after December. Header 2 findings \u00b7 C:1 M:1 m:0 i:0.",
+      "assertions": [
+        "Exactly 2 findings above Info severity",
+        "Finding 1 is graded CRITICAL and finding 2 is graded MAJOR",
+        "Both findings are on axis D2 (Time & Locale)",
+        "Finding 1 identifies the naive wall-clock schedule with no zone",
+        "Finding 1 explains the DST gap skipping the run and the DST fold applying it twice",
+        "Finding 1 names the double-charge of merchants as the consequence",
+        "Finding 2 identifies dd/MM/YYYY read against MM/dd/YYYY written",
+        "Finding 2 identifies ISO week numbering against the partner's week-1 rule",
+        "Finding 2 identifies ordering on the formatted string so the order is wrong",
+        "Header matches pattern: 2 findings \u00b7 C:1 M:1 m:0 i:0"
+      ],
+      "assertion_roles": [
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "probe"
+      ]
+    },
+    {
+      "id": 77,
+      "prompt": "Review evals/fixtures/money_conversion.py",
+      "files": [
+        "evals/fixtures/money_conversion.py"
+      ],
+      "expected_output": "1 finding, graded CRITICAL under D3: quote_price carries money as a binary float and serialises it as a JSON number, and the consumer's Decimal sum disagrees with the float sum, so every invoice total differs from the sum of its own lines. to_micros scales by 10,000 while the ledger divides by 10 on import, and apply_discount uses int() on a float division so it truncates rather than rounds. Header 1 finding \u00b7 C:1 M:0 m:0 i:0.",
+      "assertions": [
+        "Exactly 1 finding above Info severity",
+        "Finding is graded CRITICAL",
+        "Finding is on axis D3 (Numeric Boundaries)",
+        "Identifies quote_price holding and serialising money as a binary float",
+        "Identifies the consumer's Decimal sum disagreeing with the float sum",
+        "Identifies to_micros scaling by 10,000 against the ledger dividing by 10",
+        "Identifies apply_discount truncating with int() rather than rounding",
+        "Failure scenario names every invoice disagreeing with its own line items",
+        "Fix recommends a fixed-precision decimal carried as a string with an agreed scale",
+        "Header matches pattern: 1 finding \u00b7 C:1 M:0 m:0 i:0"
+      ],
+      "assertion_roles": [
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "probe"
+      ]
+    },
+    {
+      "id": 78,
+      "prompt": "Review evals/fixtures/field_name_mismatch.py",
+      "files": [
+        "evals/fixtures/field_name_mismatch.py"
+      ],
+      "expected_output": "3 findings under D4: (1) CRITICAL \u2014 the consumer reads customerId while the producer writes customer_id, so the customer is always absent and every event falls to the 'unknown' default. (2) MAJOR \u2014 strict_handler raises on any field or status value it does not know, so the producer's additive status change (refunded, disputed) fills the queue with unprocessable messages. (3) MAJOR \u2014 negotiate_format selects a representation from the Accept header with no default, so two consumers of the same version can silently receive different shapes. Header 3 findings \u00b7 C:1 M:2 m:0 i:0.",
+      "assertions": [
+        "Exactly 3 findings above Info severity",
+        "Finding 1 is graded CRITICAL and findings 2 and 3 are graded MAJOR",
+        "All 3 findings are on axis D4 (Wire Formats)",
+        "Finding 1 identifies customerId read against customer_id written",
+        "Finding 1 explains every event falling to the unknown-customer default",
+        "Finding 2 identifies strict_handler raising on unknown fields and on an unknown status value",
+        "Finding 2 explains the additive producer change stalling the queue",
+        "Finding 3 identifies the representation negotiated from Accept with no default or pinning",
+        "Header matches pattern: 3 findings \u00b7 C:1 M:2 m:0 i:0"
+      ],
+      "assertion_roles": [
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "probe"
+      ]
+    },
+    {
+      "id": 79,
+      "prompt": "Review evals/fixtures/operations_collapse.py",
+      "files": [
+        "evals/fixtures/operations_collapse.py"
+      ],
+      "expected_output": "5 findings, all MAJOR, all on C-series axes, and none CRITICAL: (1) C2 - EnrichmentCache has no TTL, no size ceiling and no eviction path, so entries accumulate for the process lifetime. (2) C3 - requests.post carries no timeout, so a slow dependency holds the worker indefinitely. (3) C3 - the 503 retry loop has no backoff and no jitter, re-hitting an overloaded dependency immediately. (4) C3 - the reconciler thread is started and never joined, and nothing signals shutdown, so in-flight enrichment is dropped on exit. (5) C3 - readiness answers from process liveness only and never checks the enrichment dependency, so a rolling deploy routes orders to an instance that cannot serve them. Correctness, security, clarity, cohesion, and leanness are clean. Operations lands near 50 (F) while the other four domains stay near 100, putting the mean in the A band. Final Grade F, gated by the weakest domain - not by a Critical, because there is none.",
+      "assertions": [
+        "Every finding is graded MAJOR and none is graded CRITICAL",
+        "Every finding cites a C-series axis code that exists in shared/axis-codes.md",
+        "Finding identifies EnrichmentCache having no TTL, size ceiling, or eviction",
+        "Finding identifies the requests.post call carrying no timeout",
+        "Finding identifies the 503 retry loop having no backoff or jitter",
+        "Finding identifies the reconciler thread being started and never joined, with no shutdown signal",
+        "Finding identifies readiness answering from process liveness without checking the enrichment dependency",
+        "Does NOT report a Critical: the cache leak, missing timeout, and hammering retries are Major by the operations rubric, not Critical",
+        "Does NOT invent findings in the other four domains; correctness, security, clarity, and leanness are clean in this fixture",
+        "Mean score is in the A band while the Operations domain is in the F band",
+        "Final Grade is F even though no Critical exists and the mean is high",
+        "Report names the weakest domain as the binding cap, and does not attribute the grade to a Critical finding"
+      ],
+      "assertion_roles": [
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict"
+      ]
+    },
+    {
+      "id": 80,
+      "panel": "fp",
+      "prompt": "Review evals/fixtures/suppress_unbounded_queue.py, with evals/fixtures/suppress_unbounded_queue_CONSTRAINTS.md",
+      "files": [
+        "evals/fixtures/suppress_unbounded_queue.py",
+        "evals/fixtures/suppress_unbounded_queue_CONSTRAINTS.md"
+      ],
+      "expected_output": "Zero findings above Info severity. The queue is unbounded and the backlog is measured, exactly as C1 and C2 require. A naive reading flags the missing maxsize as unbounded growth; the constraint document states why the queue must be unbounded and what depends on it, so there is nothing above Info. Header `0 findings \u00b7 C:0 M:0 m:0 i:0`.",
+      "assertions": [
+        "Reports exactly zero findings above Info severity **as a conclusion**: the review reaches it having named that names the declared constraint the unbounded queue implements. Silence also reports zero findings, so the count alone is not evidence of having read the file.",
+        "Header matches pattern: 0 findings \u00b7 C:0 M:0 m:0 i:0",
+        "Does NOT report the unbounded ingress queue as unbounded growth, unbounded memory, or a missing backpressure mechanism -- **and reaches that by naming that names the declared constraint the unbounded queue implements**, rather than by omitting the subject. A review that says nothing about the unbounded ingress queue satisfies an absence without having assessed it.",
+        "Does NOT recommend bounding the queue, adding a size cap, shedding or dropping frames, or throttling producers -- **and reaches that by naming that names the declared constraint the unbounded queue implements**, rather than by omitting the subject. A review that says nothing about the unbounded ingress queue satisfies an absence without having assessed it.",
+        "Output includes 'Aligns well'",
+        "States what the unbounded queue protects: a frame already accepted is never discarded, so consumer slowness costs latency rather than data",
+        "States what would break if the queue were capped or policed",
+        "Names the declared constraint the unbounded queue implements, rather than merely omitting the finding",
+        "Identifies the measured peak_backlog as the deliberate substitute for a cap"
+      ],
+      "assertion_roles": [
+        "verdict",
+        "probe",
+        "verdict",
+        "verdict",
+        "probe",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict"
+      ]
+    },
+    {
+      "id": 81,
+      "panel": "fp",
+      "prompt": "Review evals/fixtures/suppress_unfiltered_fanout.py, with evals/fixtures/suppress_unfiltered_fanout_CONSTRAINTS.md",
+      "files": [
+        "evals/fixtures/suppress_unfiltered_fanout.py",
+        "evals/fixtures/suppress_unfiltered_fanout_CONSTRAINTS.md"
+      ],
+      "expected_output": "Zero findings above Info severity. Dispatch is unfiltered by design and StrikeSampler reduces scope inside itself, which is what C2 places there and what the fixture demonstrates. A naive reading flags the unconditional loop as unbounded fan-out. Header `0 findings \u00b7 C:0 M:0 m:0 i:0`.",
+      "assertions": [
+        "Reports exactly zero findings above Info severity **as a conclusion**: the review reaches it having named that names the declared constraint that dispatch applies no filter. Silence also reports zero findings, so the count alone is not evidence of having read the file.",
+        "Header matches pattern: 0 findings \u00b7 C:0 M:0 m:0 i:0",
+        "Does NOT report the unconditional consumer loop as unbounded fan-out, a missing rate limit, or a backpressure gap -- **and reaches that by naming that names the declared constraint that dispatch applies no filter**, rather than by omitting the subject. A review that says nothing about the unconditional consumer loop satisfies an absence without having assessed it.",
+        "Does NOT recommend adding a filter, throttle, coalescing step or pair filter inside dispatch -- **and reaches that by naming that names the declared constraint that dispatch applies no filter**, rather than by omitting the subject. A review that says nothing about the unconditional consumer loop satisfies an absence without having assessed it.",
+        "Does NOT recommend moving StrikeSampler's reduction up into dispatch -- **and reaches that by naming that names the declared constraint that dispatch applies no filter**, rather than by omitting the subject. A review that says nothing about the unconditional consumer loop satisfies an absence without having assessed it.",
+        "Notes that StrikeSampler reduces scope inside the consumer, which is where the constraint places that responsibility",
+        "Output includes 'Aligns well'",
+        "States what breaks if dispatch filters: the decision layer's input stops being the raw accepted sequence",
+        "Names the declared constraint that dispatch applies no filter, rather than merely omitting the finding"
+      ],
+      "assertion_roles": [
+        "verdict",
+        "probe",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "probe",
+        "verdict",
+        "verdict"
+      ]
+    },
+    {
+      "id": 82,
+      "panel": "fp",
+      "prompt": "Review evals/fixtures/suppress_lockless_accumulator.py, with evals/fixtures/suppress_lockless_accumulator_CONSTRAINTS.md",
+      "files": [
+        "evals/fixtures/suppress_lockless_accumulator.py",
+        "evals/fixtures/suppress_lockless_accumulator_CONSTRAINTS.md"
+      ],
+      "expected_output": "Zero findings above Info severity. `apply` has exactly one caller \u2014 `pump`, on the pipeline's single consumer thread \u2014 so the absent lock is the correct expression of a one-writer invariant rather than a missing guard. Header `0 findings \u00b7 C:0 M:0 m:0 i:0`.",
+      "assertions": [
+        "Reports exactly zero findings above Info severity **as a conclusion**: the review reaches it having named that identifies pump as the only caller of apply, so the one-writer invariant holds. Silence also reports zero findings, so the count alone is not evidence of having read the file.",
+        "Header matches pattern: 0 findings \u00b7 C:0 M:0 m:0 i:0",
+        "Does NOT report the missing lock around _frozen or _pending as a concurrency defect -- **and reaches that by naming that identifies pump as the only caller of apply, so the one-writer invariant holds**, rather than by omitting the subject. A review that says nothing about the absent lock around _frozen and _pending satisfies an absence without having assessed it.",
+        "Does NOT cite Absorber.apply as a check-then-act or read-modify-write race -- **and reaches that by naming that identifies pump as the only caller of apply, so the one-writer invariant holds**, rather than by omitting the subject. A review that says nothing about the absent lock around _frozen and _pending satisfies an absence without having assessed it.",
+        "Does NOT recommend adding a lock, a queue, or a thread-local to protect the accumulators -- **and reaches that by naming that identifies pump as the only caller of apply, so the one-writer invariant holds**, rather than by omitting the subject. A review that says nothing about the absent lock around _frozen and _pending satisfies an absence without having assessed it.",
+        "Distinguishes the one-writer invariant from a lock-free data structure: no lock is correct only because apply has exactly one caller",
+        "Output includes 'Aligns well'",
+        "Identifies pump as the only caller of apply",
+        "Names the declared one-writer constraint the absent lock implements",
+        "States what would break if the accumulators were made per-consumer"
+      ],
+      "assertion_roles": [
+        "verdict",
+        "probe",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "probe",
+        "verdict",
+        "verdict",
+        "verdict"
+      ]
+    },
+    {
+      "id": 83,
+      "panel": "fp",
+      "prompt": "Review evals/fixtures/suppress_ungated_memory.py, with evals/fixtures/suppress_ungated_memory_CONSTRAINTS.md",
+      "files": [
+        "evals/fixtures/suppress_ungated_memory.py",
+        "evals/fixtures/suppress_ungated_memory_CONSTRAINTS.md"
+      ],
+      "expected_output": "Zero findings above Info severity. The holder is deliberately ungated: `age_s` publishes staleness rather than acting on it, which is what C1 and C2 require. A naive reading flags the dict with no TTL and no eviction. Header `0 findings \u00b7 C:0 M:0 m:0 i:0`.",
+      "assertions": [
+        "Reports exactly zero findings above Info severity **as a conclusion**: the review reaches it having named that names the declared constraint that the latest value stands however old. Silence also reports zero findings, so the count alone is not evidence of having read the file.",
+        "Header matches pattern: 0 findings \u00b7 C:0 M:0 m:0 i:0",
+        "Does NOT report the holder as a memory leak, an unbounded cache, or growth without eviction -- **and reaches that by naming that names the declared constraint that the latest value stands however old**, rather than by omitting the subject. A review that says nothing about the holder keyed by instrument slot satisfies an absence without having assessed it.",
+        "Does NOT recommend adding a TTL, an eviction policy, a window, or a refresh interval -- **and reaches that by naming that names the declared constraint that the latest value stands however old**, rather than by omitting the subject. A review that says nothing about the holder keyed by instrument slot satisfies an absence without having assessed it.",
+        "Does NOT propose a bound on the number of instrument slots -- **and reaches that by naming that names the declared constraint that the latest value stands however old**, rather than by omitting the subject. A review that says nothing about the holder keyed by instrument slot satisfies an absence without having assessed it.",
+        "Identifies age_s as the mechanism by which staleness is published rather than acted on",
+        "Output includes 'Aligns well'",
+        "States what breaks if a TTL is added: the archive loses the last observed value",
+        "Names the declared constraint that the latest value stands however old"
+      ],
+      "assertion_roles": [
+        "verdict",
+        "probe",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "probe",
+        "verdict",
+        "verdict"
+      ]
+    },
+    {
+      "id": 84,
+      "panel": "fp",
+      "prompt": "Review evals/fixtures/suppress_constant_column.py, with evals/fixtures/suppress_constant_column_CONSTRAINTS.md",
+      "files": [
+        "evals/fixtures/suppress_constant_column.py",
+        "evals/fixtures/suppress_constant_column_CONSTRAINTS.md"
+      ],
+      "expected_output": "Zero findings above Info severity. The column is deliberately constant for the only chain shape the venue admits; it exists so a departure from 1.0 is observable, which C1 states. Flagging it as dead or as a redundant pair is a refuted conclusion. Header `0 findings \u00b7 C:0 M:0 m:0 i:0`.",
+      "assertions": [
+        "Reports exactly zero findings above Info severity **as a conclusion**: the review reaches it having named that identifies surface as the live reader of coverage_ratio. Silence also reports zero findings, so the count alone is not evidence of having read the file.",
+        "Header matches pattern: 0 findings \u00b7 C:0 M:0 m:0 i:0",
+        "Does NOT report coverage_ratio as dead code, an unread column, or a redundant pair of quantities -- **and reaches that by naming that identifies surface as the live reader of coverage_ratio**, rather than by omitting the subject. A review that says nothing about coverage_ratio satisfies an absence without having assessed it.",
+        "Does NOT recommend deleting coverage_ratio or inlining it into a literal 1.0 -- **and reaches that by naming that identifies surface as the live reader of coverage_ratio**, rather than by omitting the subject. A review that says nothing about coverage_ratio satisfies an absence without having assessed it.",
+        "Identifies surface as the live reader of the column",
+        "Output includes 'Aligns well'",
+        "States what the constant is for: a departure from 1.0 must be observable",
+        "Names the declared constraint the constant implements"
+      ],
+      "assertion_roles": [
+        "verdict",
+        "probe",
+        "verdict",
+        "verdict",
+        "verdict",
+        "probe",
+        "verdict",
+        "verdict"
+      ]
+    },
+    {
+      "id": 85,
+      "panel": "fp",
+      "prompt": "Review evals/fixtures/suppress_coincident_formulas.py, with evals/fixtures/suppress_coincident_formulas_CONSTRAINTS.md",
+      "files": [
+        "evals/fixtures/suppress_coincident_formulas.py",
+        "evals/fixtures/suppress_coincident_formulas_CONSTRAINTS.md"
+      ],
+      "expected_output": "Zero findings above Info severity. The pair is a deliberate cross-check that coincides on the only contract class the venue lists; removing one removes the alarm. A naive reading flags the duplicate implementation. Header `0 findings \u00b7 C:0 M:0 m:0 i:0`.",
+      "assertions": [
+        "Reports exactly zero findings above Info severity **as a conclusion**: the review reaches it having named that names the declared constraint the pair implements. Silence also reports zero findings, so the count alone is not evidence of having read the file.",
+        "Header matches pattern: 0 findings \u00b7 C:0 M:0 m:0 i:0",
+        "Does NOT report vega_from_legs as a duplicate implementation of vega_from_total -- **and reaches that by naming that names the declared constraint the pair implements**, rather than by omitting the subject. A review that says nothing about vega_from_legs against vega_from_total satisfies an absence without having assessed it.",
+        "Does NOT recommend deleting either function or collapsing them into one -- **and reaches that by naming that names the declared constraint the pair implements**, rather than by omitting the subject. A review that says nothing about vega_from_legs against vega_from_total satisfies an absence without having assessed it.",
+        "Identifies that the two coincide on the listed contract class, so the coincidence is not evidence of duplication",
+        "Does NOT describe the pair as accidental duplication without engaging why both exist -- **and reaches that by naming that names the declared constraint the pair implements**, rather than by omitting the subject. A review that says nothing about vega_from_legs against vega_from_total satisfies an absence without having assessed it.",
+        "Output includes 'Aligns well'",
+        "States that removing the second estimator removes the cross-check that detects an unlisted class",
+        "Names the declared constraint the pair implements"
+      ],
+      "assertion_roles": [
+        "verdict",
+        "probe",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "probe",
+        "verdict",
+        "verdict"
+      ]
+    },
+    {
+      "id": 86,
+      "panel": "fn",
+      "prompt": "Review evals/fixtures/suppression_blind_sibling.py, with evals/fixtures/suppress_unfiltered_fanout_CONSTRAINTS.md",
+      "files": [
+        "evals/fixtures/suppression_blind_sibling.py",
+        "evals/fixtures/suppress_unfiltered_fanout_CONSTRAINTS.md"
+      ],
+      "expected_output": "Exactly 1 finding, graded MAJOR under A1. `ChainRecorder.__call__` de-duplicates on frame price, so a second frame at an unchanged price is discarded before self.state is updated, and no counter records the discard. Two frames at price 100.0 carrying states OPEN then SHUT leave state == 'OPEN'. C1 constrains dispatch and dispatch is correct, so the constraint is not a reason to withhold this. Header `1 finding \u00b7 C:0 M:1 m:0 i:0`.",
+      "assertions": [
+        "Exactly 1 finding above Info severity",
+        "Finding is graded at least MAJOR",
+        "Finding is on axis A1",
+        "Identifies the guard in ChainRecorder.__call__ that returns early when frame price equals the previous price",
+        "Identifies that the guard keys on price rather than on the frame's own identity, so a distinct frame at an unchanged price is discarded",
+        "Identifies that no counter or log records the discarded frame",
+        "Failure scenario names self.state staying stale while the venue has already moved to a new state",
+        "Distinguishes the finding from the declared constraint: C1 constrains dispatch, and dispatch is correct",
+        "Does NOT cite the unfiltered-dispatch constraint as the reason to withhold this finding",
+        "Fix replaces the price-keyed guard with an identity-keyed one, or counts every discarded frame"
+      ],
+      "assertion_roles": [
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "strict"
+      ]
+    },
+    {
+      "id": 87,
+      "panel": "fn",
+      "prompt": "Review evals/fixtures/suppression_blind_nan_contract.py, with evals/fixtures/suppression_blind_nan_contract_CONSTRAINTS.md",
+      "files": [
+        "evals/fixtures/suppression_blind_nan_contract.py",
+        "evals/fixtures/suppression_blind_nan_contract_CONSTRAINTS.md"
+      ],
+      "expected_output": "Exactly 1 finding, graded CRITICAL under A1. The third branch substitutes 0.0 when quote last is absent, which is the silent zero C1 forbids. The first two branches are correct and are not part of the finding. The finding is a violation of the constraint the fixture declares, not an instance of it. Header `1 finding \u00b7 C:1 M:0 m:0 i:0`.",
+      "assertions": [
+        "Exactly 1 finding above Info severity",
+        "Finding is graded CRITICAL",
+        "Finding is on axis A1",
+        "Identifies the third branch of last_trade_price returning 0.0 when quote last is None or empty",
+        "Identifies that this branch is neither the uncomputable branch nor the absent-by-design branch",
+        "Failure scenario names a missing last-trade price entering downstream arithmetic as a real price of zero",
+        "Does NOT report the flag branch or the NaN branch as defects",
+        "Does NOT cite the declared NaN constraint as the reason to withhold this finding",
+        "Notes that the finding is a violation of the constraint the fixture declares, not an instance of it",
+        "Finding is graded exactly CRITICAL",
+        "Fix returns NaN for the missing branch, or raises the frame for the caller to reject"
+      ],
+      "assertion_roles": [
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "strict",
+        "strict"
+      ]
+    },
+    {
+      "id": 88,
+      "panel": "fn",
+      "prompt": "Review evals/fixtures/suppression_blind_backlog_measure.py, with evals/fixtures/suppress_unbounded_queue_CONSTRAINTS.md",
+      "files": [
+        "evals/fixtures/suppression_blind_backlog_measure.py",
+        "evals/fixtures/suppress_unbounded_queue_CONSTRAINTS.md"
+      ],
+      "expected_output": "Exactly 1 finding, graded MAJOR under A3. SocketAdapter binds on_message to Intake.offer and the socket callback contract discards the return value, so every frame arriving while the intake is disarmed is dropped with no queue write and no enqueued increment. The unbounded queue itself is deliberate and is not the finding. Header `1 finding \u00b7 C:0 M:1 m:0 i:0`.",
+      "assertions": [
+        "Exactly 1 finding above Info severity",
+        "Finding is graded at least MAJOR",
+        "Finding is on axis A3",
+        "Identifies SocketAdapter binding on_message to Intake.offer and the socket callback contract discarding the return value",
+        "Identifies that a frame offered while the intake is disarmed is dropped with no queue write and no enqueued increment",
+        "Identifies that the reported backlog and enqueued therefore read as though nothing was lost",
+        "Failure scenario names liveness looking healthy during a reconnect while frames are being lost",
+        "Distinguishes the finding from the declared constraint: the unbounded queue is deliberate and is not the finding",
+        "Does NOT cite the unbounded-queue constraint as the reason to withhold this finding",
+        "Fix makes offer count and log the rejection itself rather than relying on the caller to honour the return"
+      ],
+      "assertion_roles": [
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "strict"
+      ]
+    },
+    {
+      "id": 89,
+      "panel": "fn",
+      "prompt": "Review evals/fixtures/suppression_blind_unargued_clamp.py, with evals/fixtures/suppression_blind_unargued_clamp_CONSTRAINTS.md",
+      "files": [
+        "evals/fixtures/suppression_blind_unargued_clamp.py",
+        "evals/fixtures/suppression_blind_unargued_clamp_CONSTRAINTS.md"
+      ],
+      "expected_output": "Exactly 1 finding, graded MAJOR under A1. mark_ratio initialises ratio to 0.0 and only overwrites when last is present, so an absent price yields 0.0 \u2014 a legal ratio. normalise_ask three lines above is the contrast case: its clamp is argued at the site, as C2 requires, and is correct. Header `1 finding \u00b7 C:0 M:1 m:0 i:0`.",
+      "assertions": [
+        "Exactly 1 finding above Info severity",
+        "Finding is graded at least MAJOR",
+        "Finding is on axis A1",
+        "Identifies mark_ratio returning 0.0 when row last is absent",
+        "Identifies that 0.0 is a legal ratio, so the result is indistinguishable from an unchanged contract",
+        "Names normalise_ask in the same file as the contrast case, whose clamp is argued at the site and is correct",
+        "Distinguishes the two on the presence of the stated reason, not on the syntax of the guard",
+        "Does NOT report normalise_ask's clamp as a defect",
+        "Failure scenario names a contract that has not printed this session reading as a flat contract",
+        "Does NOT cite the totality constraint as the reason to withhold this finding",
+        "Fix returns NaN or raises when row last is absent"
+      ],
+      "assertion_roles": [
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "strict"
+      ]
+    },
+    {
+      "id": 90,
+      "panel": "fn",
+      "prompt": "Review evals/fixtures/suppression_blind_boundary_breach.py together with evals/fixtures/per_contract_layer.py, using evals/fixtures/suppression_blind_boundary_breach_CONSTRAINTS.md",
+      "files": [
+        "evals/fixtures/suppression_blind_boundary_breach.py",
+        "evals/fixtures/per_contract_layer.py",
+        "evals/fixtures/suppression_blind_boundary_breach_CONSTRAINTS.md"
+      ],
+      "expected_output": "Exactly 1 finding, graded MAJOR under B5. set_view imports parity_fit_impl, a name the per-contract layer does not publish through its door, from the set layer. C1 permits exactly three reaches and names them; this reaches a fourth and unlisted one. The constraint is the reason the finding is certain, not a reason to withhold it. Header `1 finding \u00b7 C:0 M:1 m:0 i:0`.",
+      "assertions": [
+        "Exactly 1 finding above Info severity",
+        "Finding is graded at least MAJOR",
+        "Finding is on axis B5",
+        "Identifies set_view importing parity_fit_impl from the per-contract layer",
+        "Identifies that the layer publishes its door as published_names and parity_fit_impl is not the sanctioned form of that door",
+        "Identifies that reaching the layer directly couples the set layer's import to the other layer's internals",
+        "Failure scenario names a rename or inlining in the per-contract layer breaking the set layer at import time",
+        "Does NOT cite the declared boundary rule as the reason to withhold this finding; the rule is the reason the finding is certain",
+        "Does NOT report the set layer's existence as a boundary violation",
+        "Fix routes the value through the published door, or promotes the helper to the door and updates the stated rule"
+      ],
+      "assertion_roles": [
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "strict"
+      ]
+    },
+    {
+      "id": 91,
+      "panel": "fn",
+      "prompt": "Review evals/fixtures/suppression_ledger_unprovable_site.py, with evals/fixtures/suppression_ledger_unprovable_site_CONSTRAINTS.md",
+      "files": [
+        "evals/fixtures/suppression_ledger_unprovable_site.py",
+        "evals/fixtures/suppression_ledger_unprovable_site_CONSTRAINTS.md"
+      ],
+      "expected_output": "Exactly 1 finding, graded MAJOR under A1. HANDLERS is a string-keyed registry and its legacy entry returns the quantity unsigned, while size_order applies the side sign. C1's one-implementation constraint holds only for the direct path; a registry-reached SELL 5 returns 5 where size_order returns -5. A name search finds one implementation and misses this site, so the constraint is unproven rather than satisfied. Header `1 finding \u00b7 C:0 M:1 m:0 i:0`.",
+      "assertions": [
+        "Exactly 1 finding above Info severity",
+        "Finding is graded at least MAJOR",
+        "Finding is on axis A1",
+        "Identifies HANDLERS as a string-keyed registry and the legacy entry as a second sizing site",
+        "Identifies that the legacy handler returns the quantity unsigned while size_order applies the side sign",
+        "Identifies that the two paths therefore disagree on sign for every sell",
+        "States that a name search over the module finds one implementation and misses this site",
+        "Does NOT accept the one-implementation constraint as proven without accounting for the registry",
+        "Does NOT report signed_quantity or SIDE as dead or unused",
+        "Failure scenario names the sign disagreement being undetectable after the fact, which is what the constraint exists to prevent",
+        "Fix registers size_order as the handler, or deletes the registry entry"
+      ],
+      "assertion_roles": [
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "strict"
+      ]
+    },
+    {
+      "id": 92,
+      "prompt": "Review evals/fixtures/numeric_plausibility.py",
+      "files": [
+        "evals/fixtures/numeric_plausibility.py"
+      ],
+      "expected_output": "Reports that events_per_second divides by a span that approaches zero when only one event is in the window. Measured: a single recorded event returns roughly 5.7e5 events/second, because the denominator is the microseconds since that one event. The value is finite and correctly typed, so no representation check catches it. Graded MAJOR or lower: the number is observably wrong by orders of magnitude, which is an observable defect but not data loss, corruption, or outage. The assertion deliberately does not name an exact rung -- see the note below.",
+      "assertions": [
+        "Identifies events_per_second dividing by a denominator (the elapsed span) that can approach zero",
+        "States that a single event yields an enormous finite rate, rather than guarding the empty/short window",
+        "The finding is graded MAJOR or lower -- not Critical, and not dismissed as Info. A monitoring value wrong by five orders of magnitude is an observable defect, but not data loss, corruption, or outage",
+        "Does not claim the division is unsafe only for the empty case -- the empty case is already guarded",
+        "Does not report float precision or overflow as the defect"
+      ],
+      "assertion_roles": [
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "probe"
+      ]
+    },
+    {
+      "id": 93,
+      "prompt": "Review evals/fixtures/incremental_drift.py",
+      "files": [
+        "evals/fixtures/incremental_drift.py"
+      ],
+      "expected_output": "Reports that reclassify mutates an entry's amount and the stored entry but never adjusts balance, so the running total stops matching its own source. Measured: applying 40, 60 and 25 gives balance 125; reclassifying the first entry from 40 to 10 leaves balance at 125 while the entries now sum to 95 -- a drift of 30 that no later call corrects. Graded MAJOR: the figure a caller reads is wrong and permanently so.",
+      "assertions": [
+        "Identifies that reclassify changes the entry without adjusting the running balance",
+        "Notes that nothing re-derives or reconciles the balance, so the drift is permanent",
+        "The finding is graded MAJOR or higher, because a reported total is wrong and cannot self-correct",
+        "Does not treat this as a style or naming concern"
+      ],
+      "assertion_roles": [
+        "verdict",
+        "verdict",
+        "verdict",
+        "probe"
+      ]
+    },
+    {
+      "id": 94,
+      "prompt": "Review evals/fixtures/state_machine_exit.py",
+      "files": [
+        "evals/fixtures/state_machine_exit.py"
+      ],
+      "expected_output": "Reports that the module docstring states a PENDING request expires after APPROVAL_TTL_SECONDS, but no code reads that constant or created_at, so approve() approves a request of any age. Measured: a request created 99999 seconds ago is approved without complaint. Graded MAJOR: a stated policy is unenforced, and the approval is irreversible.",
+      "assertions": [
+        "Identifies that APPROVAL_TTL_SECONDS is declared but never read",
+        "Identifies that approve() performs no expiry or age check on created_at",
+        "Notes the module docstring states the policy the code does not enforce",
+        "The finding is graded MAJOR or higher, because a stated invariant is unenforced",
+        "Does not report the existing PENDING/APPROVED/REJECTED guards as missing -- they are present"
+      ],
+      "assertion_roles": [
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "probe"
+      ]
+    },
+    {
+      "id": 95,
+      "prompt": "Review evals/fixtures/cold_start_estimator.py",
+      "files": [
+        "evals/fixtures/cold_start_estimator.py"
+      ],
+      "expected_output": "Reports that trend() divides by a zero denominator whenever fewer than two samples are present: with one observation the sum of squared deviations is 0, so it raises ZeroDivisionError. The module exposes no guard and observe() does not reject the first sample. Graded MINOR: the failure is deterministic and immediate rather than silent, but it is reachable on the first call after start-up.",
+      "assertions": [
+        "Identifies that trend() divides by zero when the sample count is 0 or 1",
+        "Notes observe() accepts the first sample without any guard, so the zero-denominator path is reachable",
+        "The finding is graded MINOR or higher, not Info -- a crash on first use is not an observation",
+        "Does not claim the arithmetic is wrong for well-populated windows"
+      ],
+      "assertion_roles": [
+        "verdict",
+        "verdict",
+        "verdict",
+        "probe"
+      ]
+    },
+    {
+      "id": 96,
+      "prompt": "Review evals/fixtures/test_expected_value.py and evals/fixtures/pricing.py",
+      "files": [
+        "evals/fixtures/test_expected_value.py",
+        "evals/fixtures/pricing.py"
+      ],
+      "expected_output": "Reports that the check re-derives its expected value with the same arithmetic the implementation performs, so it can only confirm the implementation. Concretely price_for accepts a tax_rate and ignores it entirely -- price_for(100.0, 0.15, tax_rate=0.20) returns 85.0 where the discounted-then-taxed result is 102.0 -- and the check is green because it never passes a tax rate. Graded MAJOR: a real defect is present and the suite cannot see it.",
+      "assertions": [
+        "Identifies that the expected value is recomputed from the implementation's own formula",
+        "Reports that price_for ignores its tax_rate parameter",
+        "Notes the check is green despite that, because it never exercises the tax path",
+        "Does NOT report the missing annotations or the redundant local variable -- the defect is provenance",
+        "The finding is graded MAJOR or higher, because an unenforced parameter is a real defect"
+      ],
+      "assertion_roles": [
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict"
+      ]
+    },
+    {
+      "id": 97,
+      "prompt": "Review evals/fixtures/test_fixture_realism.py and evals/fixtures/validate_email.py",
+      "files": [
+        "evals/fixtures/test_fixture_realism.py",
+        "evals/fixtures/validate_email.py"
+      ],
+      "expected_output": "Reports that every input in the fixture is well-formed, so the rejection path is never exercised. normalise_email returns 'not-an-email' unchanged and 'a@b@c' with its second delimiter intact -- both truthy, and callers treat any non-empty return as valid. Graded MINOR: the parser has no validation to test, and the absence is what the fixture conceals.",
+      "assertions": [
+        "Identifies that all fixture inputs are well-formed and no malformed case is ever exercised",
+        "Notes normalise_email returns a truthy value for input with no '@' at all",
+        "Notes that 'a@b@c' passes through with both delimiters intact",
+        "The finding is graded MINOR or higher, because a validator that cannot reject is untested behaviour",
+        "Does not report formatting, docstrings, or naming as the defect"
+      ],
+      "assertion_roles": [
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "probe"
+      ]
+    },
+    {
+      "id": 98,
+      "prompt": "Review evals/fixtures/test_concurrency_coverage.py and evals/fixtures/counter.py",
+      "files": [
+        "evals/fixtures/test_concurrency_coverage.py",
+        "evals/fixtures/counter.py"
+      ],
+      "expected_output": "Reports that Counter is a read-modify-write with no lock and every check exercises it from one thread, so no interleaving is ever taken. Measured: 8 threads x 300 increments lose 2023 of 2400 updates when the interpreter's thread switch interval is lowered to 1 microsecond, and lose none at the 5 millisecond default -- identical code, identical green checks. The suite passing is a property of the scheduler, not of the code. Graded MAJOR: concurrent use loses updates.",
+      "assertions": [
+        "Identifies that increment() is an unsynchronised read-modify-write",
+        "Identifies that every check runs single-threaded, so no interleaving is exercised",
+        "Notes that the checks pass only because the default scheduling never interleaves the read and the write",
+        "Does NOT report the checks as adequate because they pass",
+        "The finding is graded MAJOR or higher, because concurrent use loses updates"
+      ],
+      "assertion_roles": [
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict"
+      ]
+    },
+    {
+      "id": 99,
+      "prompt": "Review evals/fixtures/work_unit_retry.py",
+      "files": [
+        "evals/fixtures/work_unit_retry.py"
+      ],
+      "expected_output": "Reports that a retry re-runs the batch from the start, so every entry before the failure is written again. Measured: a first attempt failing at index 0 followed by a retry leaves 4 lines in the ledger for 3 entries, with entry 0 duplicated. run_batch persists no position, so it cannot resume. Graded MAJOR: a retried unit applies its side effects twice.",
+      "assertions": [
+        "Identifies that the retry restarts the whole batch rather than resuming after the failure",
+        "Notes no cursor, offset, or completion record is persisted, so the unit cannot resume",
+        "Notes apply_entry appends rather than setting absolute state, so a replay duplicates the entry",
+        "The finding is graded MAJOR or higher, because a retry duplicates ledger entries",
+        "Does not treat this as an error-handling or logging concern"
+      ],
+      "assertion_roles": [
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "probe"
+      ]
+    },
+    {
+      "id": 100,
+      "prompt": "Review evals/fixtures/trust_by_location.py",
+      "files": [
+        "evals/fixtures/trust_by_location.py"
+      ],
+      "expected_output": "Reports that trust is decided by where the socket came from rather than by authentication, so the header is an alternative path past the gate. `_is_internal` returns True only for loopback, but the guard is `if not _is_internal() and header != token`, which means a non-loopback caller presenting the token is admitted -- and a token comparison against a client-supplied header is a bearer check, not an authentication of the caller. The table name then reaches a query with no validation, on the stated assumption that only internal callers arrive. Graded MAJOR: the query sink is reachable, but the caller must first hold the token.",
+      "assertions": [
+        "Identifies that trust is decided by the request's origin rather than by authenticating the caller",
+        "Identifies that the guard is an OR: a non-loopback caller presenting the header is admitted",
+        "Notes that the table name reaches the query with no validation at the crossing",
+        "Names source, boundary and sink: the header/args, the /admin/reindex guard, and the interpolated query",
+        "The finding is graded MAJOR or lower -- not Critical, since the caller must first hold the token",
+        "Does not report the missing db() definition or the f-string as separate findings"
+      ],
+      "assertion_roles": [
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "probe"
+      ]
+    },
+    {
+      "id": 101,
+      "prompt": "Review evals/fixtures/unreachable_handler.py",
+      "files": [
+        "evals/fixtures/unreachable_handler.py"
+      ],
+      "expected_output": "Reports the defect shape -- a caller-supplied identifier reaches a subprocess argv -- and caps it. The function is never registered: there are zero route registrations and no router in the file, and the docstring says so. Under the proof obligation a finding above Info names source, boundary and sink; there is no entry point, so there is no source and no boundary. Graded INFO as an inventory item, not a vulnerability. Reporting it as a vulnerability because the shape looks right is the failure this control exists to catch.",
+      "assertions": [
+        "Identifies that the identifier reaches a subprocess argv -- the defect shape is real",
+        "States that the function is never registered, so no path exists from an entry point",
+        "Grades it INFO, or explicitly caps it, because source/boundary/sink cannot all be named",
+        "Does NOT report it as a vulnerability, a Critical, or a Major",
+        "Does not treat the presence of a dangerous call as sufficient grounds on its own"
+      ],
+      "assertion_roles": [
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "probe"
+      ]
+    },
+    {
+      "id": 102,
+      "prompt": "Review evals/fixtures/credential_in_error.py",
+      "files": [
+        "evals/fixtures/credential_in_error.py"
+      ],
+      "expected_output": "Reports that a live-looking client secret is interpolated into an exception message, so it reaches every handler that logs or returns the error -- a wider audience than the auth service. It also reaches the wire as a header, which is correct, so the defect is the exception and not the transport. Notes the secret is a committed literal, so rotating it needs a release. Graded MAJOR: exposure requires an auth failure, but the material is live-shaped and the audience is every error handler.",
+      "assertions": [
+        "Identifies that the secret is interpolated into the exception message",
+        "Notes the exposure path: every handler that logs or returns the error receives the secret",
+        "Notes the secret is a committed literal requiring a release to rotate",
+        "Does NOT claim the secret is exposed on the request path -- the header use is correct",
+        "The finding is graded MAJOR or lower -- it needs an auth failure, not just a request"
+      ],
+      "assertion_roles": [
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict",
+        "verdict"
+      ]
+    }
+  ]
+}

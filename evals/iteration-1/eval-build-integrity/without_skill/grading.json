@@ -1,0 +1,21 @@
+{
+  "eval": "eval-build-integrity",
+  "eval_id": 41,
+  "fixture": "evals/fixtures/build_integrity.py",
+  "run": "without_skill",
+  "phase": "before",
+  "review": "0 findings · C:0 M:0 m:0 i:0 — Domain Score: 100/100 (Grade A) — `Aligns well`",
+  "summary": { "passed": 1, "failed": 8, "total": 9, "pass_rate": 0.111 },
+  "assertions": [
+    { "n": 1, "text": "Exactly 2 findings above Info severity", "result": "fail", "evidence": "0 findings above Info; graded Grade A and praised for pinned manifest versions." },
+    { "n": 2, "text": "Both findings are graded CRITICAL", "result": "fail", "evidence": "No finding to grade." },
+    { "n": 3, "text": "Both findings are on axis L5 (Supply Chain)", "result": "fail", "evidence": "No supply-chain finding emitted." },
+    { "n": 4, "text": "Finding 1 identifies the install-time hook executing a remote download", "result": "fail", "evidence": "Missed. The pre-change leanness sub-domains had no install-time-execution check: manifest-hygiene.md's five bullets are declaration-level (ranges, scope, trivial, registry order, abandonment) and lockfile-integrity.md's are install-integrity-level. Neither asks what runs when a package lands. Note the `curl | sh` shell-out has no untrusted input reaching it, so the pre-change command-injection rule in the security sub-domain did not reach it either." },
+    { "n": 5, "text": "Finding 1 identifies that install scripts run before any review of the resolved tree", "result": "fail", "evidence": "Not stated." },
+    { "n": 6, "text": "Finding 2 identifies a mutable action or image reference (floating tag rather than SHA or digest)", "result": "fail", "evidence": "Missed. lockfile-integrity.md's 'Mutable installs in release images' is scoped to editable installs (`pip install -e`, `npm link`); a floating `FROM` tag or `@main` action reference does not match that trigger. manifest-hygiene.md's 'Unbounded version ranges' is scoped to manifest declarations, not to CI workflows or Dockerfiles, which are not manifests the pre-change rules read." },
+    { "n": 7, "text": "Finding 2 notes the release job publishes with the runner's NPM_TOKEN", "result": "fail", "evidence": "Not stated." },
+    { "n": 8, "text": "Both fixes pin to an immutable reference or gate the script", "result": "fail", "evidence": "No fix proposed." },
+    { "n": 9, "text": "Header matches pattern: 2 findings · C:2 M:0 m:0 i:0", "result": "pass", "evidence": "Header rendered in the required shape, with a zero tally." }
+  ],
+  "notes": "Total miss. The pre-change gate domain passed a build whose release step runs unreviewed remote code with the publishing token."
+}

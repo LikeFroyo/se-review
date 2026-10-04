@@ -1,0 +1,57 @@
+{
+  "eval_id": 5,
+  "eval_name": "eval-clean",
+  "condition": "without_skill",
+  "skill_consulted": false,
+  "files_read": [
+    "evals/fixtures/clean.py"
+  ],
+  "assertion_results": [
+    {
+      "text": "Zero findings above Info severity",
+      "passed": false,
+      "evidence": "The review reports a \"real bug\", a \"highest-severity design issue\" and four numbered fix items, so it is far above Info severity."
+    },
+    {
+      "text": "Mean score is 100/100 and Final Grade is A",
+      "passed": false,
+      "evidence": "No score or grade appears anywhere in the review; there is no \"Mean 100/100\" and no \"Final Grade A\"."
+    },
+    {
+      "text": "Output includes 'Aligns well' section",
+      "passed": false,
+      "evidence": "The only praise is the inline sentence \"The core loop is sound — bounded, timed, injectable\", with no 'Aligns well' section."
+    },
+    {
+      "text": "Output specifically notes the exponential backoff with jitter as positive",
+      "passed": false,
+      "evidence": "The backoff is only criticized (trailing sleep on the terminal attempt, ~4.5s dead time) and never praised as exponential backoff with jitter."
+    },
+    {
+      "text": "Output does NOT invent nitpicks on clean error handling",
+      "passed": false,
+      "evidence": "It invents nitpicks on error handling: item 3 on `raise last_error` raising TypeError when MAX_ATTEMPTS is 0, plus the \"No status check\" note about 503 being returned as success."
+    },
+    {
+      "text": "Output does NOT invent nitpicks on imports or style",
+      "passed": false,
+      "evidence": "It invents style nitpicks — the trailing \"Nit: `response.status` requires Python ≥3.9; `.getcode()` is the portable accessor\" and the request to hoist `event.encode()` above the loop."
+    },
+    {
+      "text": "Header matches pattern: 0 findings · C:0 M:0 m:0 i:0 · Mean 100/100 · Final Grade A",
+      "passed": false,
+      "evidence": "There is no findings/severity header of any kind, let alone the \"0 findings · C:0 M:0 m:0 i:0 · Mean 100/100 · Final Grade A\" pattern."
+    },
+    {
+      "text": "No 'Gated by' line, because neither cap binds",
+      "passed": true,
+      "evidence": "The review contains no 'Gated by' line anywhere, so it did not introduce that artifact."
+    }
+  ],
+  "summary": {
+    "passed": 1,
+    "failed": 7,
+    "total": 8,
+    "pass_rate": 0.125
+  }
+}

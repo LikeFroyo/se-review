@@ -1,0 +1,21 @@
+{
+  "eval": "eval-health-and-shutdown",
+  "eval_id": 46,
+  "fixture": "evals/fixtures/health_and_shutdown.py",
+  "run": "with_skill",
+  "phase": "after",
+  "review": "2 findings · C:1 M:1 m:0 i:0 — Domain Score: 65/100 (Grade D)",
+  "summary": { "passed": 9, "failed": 0, "total": 9, "pass_rate": 1.0 },
+  "assertions": [
+    { "n": 1, "text": "Exactly 2 findings above Info severity", "result": "pass", "evidence": "Two findings; the liveness defect and the shutdown defect have different fixes and different blast radius, so they are not one root cause." },
+    { "n": 2, "text": "Finding 1 is graded CRITICAL and finding 2 is graded MAJOR", "result": "pass", "evidence": "Liveness CRITICAL (fleet restart storm = total outage); shutdown MAJOR (a high-probability defect on every release, not an outage). This grade split is the one the sub-leaf encodes, and it was corrected from the Phase 1 draft during the Phase 3 item-4 check." },
+    { "n": 3, "text": "Both findings are on axis C3 (Resilience)", "result": "pass", "evidence": "Reported under Operations / Resilience (C3)." },
+    { "n": 4, "text": "Finding 1 identifies the liveness handler querying the database", "result": "pass", "evidence": "Cites health_and_shutdown.py:16-26 — psycopg2.connect plus SELECT 1 inside the /healthz handler." },
+    { "n": 5, "text": "Finding 1 explains the fleet-wide restart storm from a dependency blip", "result": "pass", "evidence": "States the platform restarts every instance at once on a database blip and each restart reconnects to a still-recovering database." },
+    { "n": 6, "text": "Finding 1 fix moves the dependency probe to readiness", "result": "pass", "evidence": "Fix: liveness proves only that the process is running; the dependency check belongs on readiness, which already exists and is correctly dependency-free here." },
+    { "n": 7, "text": "Finding 2 identifies os._exit(0) with no drain or readiness withdrawal", "result": "pass", "evidence": "Cites line 46 — SIGTERM handled by immediate process exit, with TERMINATING/readiness never consulted on the shutdown path." },
+    { "n": 8, "text": "Finding 2 compares the 15s grace period against the 40s request", "result": "pass", "evidence": "Cites the inline Kubernetes block (`terminationGracePeriodSeconds: 15`) against the documented ~40s monthly_report." },
+    { "n": 9, "text": "Header matches pattern: 2 findings · C:1 M:1 m:0 i:0", "result": "pass", "evidence": "Header rendered exactly as specified." }
+  ],
+  "notes": "Caught by guidelines/process-lifecycle.md (new). The fixture's readiness handler was correctly recognised as sound and not flagged."
+}

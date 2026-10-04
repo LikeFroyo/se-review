@@ -1,0 +1,21 @@
+{
+  "eval": "eval-missing-audit-trail",
+  "eval_id": 51,
+  "fixture": "evals/fixtures/missing_audit_trail.py",
+  "run": "without_skill",
+  "phase": "before",
+  "review": "0 findings · C:0 M:0 m:0 i:0 — Domain Score: 100/100 (Grade A) — `Aligns well`",
+  "summary": { "passed": 2, "failed": 7, "total": 9, "pass_rate": 0.222 },
+  "assertions": [
+    { "n": 1, "text": "Exactly 1 finding above Info severity", "result": "fail", "evidence": "0 findings above Info; graded Grade A. The presence of an `_audit` helper and a `logger.debug` call read as audit instrumentation being present." },
+    { "n": 2, "text": "Finding is graded MAJOR", "result": "fail", "evidence": "No finding to grade." },
+    { "n": 3, "text": "Finding is on axis C4 (Observability)", "result": "fail", "evidence": "No observability finding emitted." },
+    { "n": 4, "text": "Identifies grant_admin_role emitting its trace at debug level only", "result": "fail", "evidence": "Missed. The pre-change observability sub-domain had logging-telemetry.md (4 bullets) and log-hygiene.md (5 bullets). log-hygiene asks what must NOT be logged and about volume; logging-telemetry asks about structure, correlation IDs, RED signals, and silent error branches. Neither asks whether a record exists at all for an action." },
+    { "n": 5, "text": "Identifies issue_refund and export_customer_data emitting no record at all", "result": "fail", "evidence": "Missed. With no 'missing record' rule, a handler that logs nothing is indistinguishable from a handler whose logging is adequate." },
+    { "n": 6, "text": "Notes the defined-but-uncalled _audit helper as the missing wiring", "result": "fail", "evidence": "Not noticed. The nearest pre-change rule, `leanness/waste/guidelines/dead-code.md`, would classify `_audit` as an orphaned symbol — a L1 Critical deletion, which is the wrong axis, the wrong grade, and a fix that would make the file worse by removing the audit helper entirely." },
+    { "n": 7, "text": "Failure scenario names a disputed refund or unauthorised export that cannot be attributed", "result": "fail", "evidence": "Not stated." },
+    { "n": 8, "text": "Fix routes these actions to an append-only audit sink with actor, target, and before/after state", "result": "fail", "evidence": "No fix proposed." },
+    { "n": 9, "text": "Header matches pattern: 1 finding · C:0 M:1 m:0 i:0", "result": "pass", "evidence": "Header rendered in the required shape, with a zero tally." }
+  ],
+  "notes": "Total miss, and the one case where a pre-change rule pointed the wrong way: the leanness gate would have reached the unused _audit helper and recommended deleting it. The pre-change skill could tell you a system logs too much and had no way to ask whether it logs the one thing that matters."
+}

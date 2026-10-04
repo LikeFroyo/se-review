@@ -1,0 +1,21 @@
+{
+  "eval": "eval-irreversible-rollback",
+  "eval_id": 53,
+  "fixture": "evals/fixtures/irreversible_rollback.py",
+  "run": "without_skill",
+  "phase": "before",
+  "review": "1 finding · C:0 M:1 m:0 i:0 — Domain Score: 90/100 (Grade A)",
+  "summary": { "passed": 4, "failed": 5, "total": 9, "pass_rate": 0.444 },
+  "assertions": [
+    { "n": 1, "text": "Exactly 1 finding above Info severity", "result": "pass", "evidence": "One Major finding was raised." },
+    { "n": 2, "text": "Finding is graded CRITICAL", "result": "fail", "evidence": "Graded MAJOR, not Critical." },
+    { "n": 3, "text": "Finding is on axis C6 (Delivery)", "result": "pass", "evidence": "Reported under Operations / Delivery (C6)." },
+    { "n": 4, "text": "Identifies downgrade_0417 raising NotImplementedError", "result": "pass", "evidence": "Cited the NotImplementedError in the downgrade path." },
+    { "n": 5, "text": "Identifies the DROP COLUMN in upgrade_0417 as irreversible", "result": "fail", "evidence": "Partially reached: the finding noted the drop as destructive but graded it as a migration-ordering concern, not as a reversal impossibility — the pre-change bullet 'Migration deploy coupling' is about deploying code before columns exist, which is not this shape." },
+    { "n": 6, "text": "Notes the runbook assumes rollback.sh works, and ROLLBACK_STATE shows it was never rehearsed", "result": "fail", "evidence": "Not stated. 'Rollback procedure never rehearsed' had no pre-change counterpart; rollout-rollback.md's three bullets are big-bang rollout, missing automated rollback, and migration ordering." },
+    { "n": 7, "text": "Failure scenario names escalation to a full database restore during an outage", "result": "fail", "evidence": "Not stated; the consequence was described as a manual migration fix rather than as a failed recovery path." },
+    { "n": 8, "text": "Fix recommends expand-contract across two deploys so the prior version stays readable", "result": "fail", "evidence": "The fix recommended writing a real downgrade, which cannot restore the dropped column's data — the suggestion is not executable either." },
+    { "n": 9, "text": "Header matches pattern: 1 finding · C:1 M:0 m:0 i:0", "result": "fail", "evidence": "Header rendered `1 finding · C:0 M:1 m:0 i:0`." }
+  ],
+  "notes": "Partial catch with a material residual: the pre-change rule found the symptom (an unexecutable downgrade) but neither the root cause (irreversibility, not ordering), the right grade, nor an executable fix — 'write the downgrade' cannot recover dropped data. This is the closest pre-change miss in the operations round."
+}

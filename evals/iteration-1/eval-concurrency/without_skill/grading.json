@@ -1,0 +1,52 @@
+{
+  "eval_id": 6,
+  "eval_name": "eval-concurrency",
+  "assertion_results": [
+    {
+      "text": "Exactly 1 finding above Info severity",
+      "passed": false,
+      "evidence": "Identified 4 separate issues (race condition, memory leak, monotonicity, hardcoded constants) without severity tiering."
+    },
+    {
+      "text": "Finding is graded MAJOR",
+      "passed": false,
+      "evidence": "No severity assigned; listed simply as Issue 1."
+    },
+    {
+      "text": "Finding is on axis A2 (Concurrency)",
+      "passed": false,
+      "evidence": "No A2 Concurrency taxonomy used."
+    },
+    {
+      "text": "Evidence identifies the race condition on shared REQUEST_COUNTS dictionary",
+      "passed": true,
+      "evidence": "Identifies global mutable REQUEST_COUNTS dictionary accessed without locking."
+    },
+    {
+      "text": "Failure scenario describes concurrent threads bypassing rate limits or corrupting state",
+      "passed": true,
+      "evidence": "Explains threads overwriting reset timers and undercounting requests."
+    },
+    {
+      "text": "Fix recommends mutex locking (threading.Lock) or atomic data structures",
+      "passed": true,
+      "evidence": "Recommends threading.Lock() or Redis."
+    },
+    {
+      "text": "Trade-off notes lock contention or serialization latency",
+      "passed": false,
+      "evidence": "No trade-off analysis included."
+    },
+    {
+      "text": "Header matches pattern: 1 finding · C:0 M:1 m:0 i:0",
+      "passed": false,
+      "evidence": "No structured header present."
+    }
+  ],
+  "summary": {
+    "passed": 3,
+    "failed": 5,
+    "total": 8,
+    "pass_rate": 0.375
+  }
+}

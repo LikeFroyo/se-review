@@ -1,0 +1,21 @@
+{
+  "eval": "eval-unit-scale-error",
+  "eval_id": 54,
+  "fixture": "evals/fixtures/unit_scale_error.py",
+  "run": "without_skill",
+  "phase": "before",
+  "review": "1 finding · C:0 M:1 m:0 i:0 — Domain Score: 90/100 (Grade A)",
+  "summary": { "passed": 3, "failed": 6, "total": 9, "pass_rate": 0.333 },
+  "assertions": [
+    { "n": 1, "text": "Exactly 1 finding above Info severity", "result": "pass", "evidence": "One finding raised, covering the settlement-window conversion." },
+    { "n": 2, "text": "Finding is graded CRITICAL", "result": "fail", "evidence": "Graded MAJOR, on axis A1 (Logic), as a suspected arithmetic bug in one function." },
+    { "n": 3, "text": "Finding is on axis B4 (Clarity)", "result": "fail", "evidence": "Reported under Correctness / Logic (A1). The pre-change maintainability sub-domains had no rule that a name can misstate a magnitude." },
+    { "n": 4, "text": "Identifies subtotal_cents receiving a whole-unit float in Invoice.__init__", "result": "fail", "evidence": "Missed. clarity/naming-semantics.md's four pre-change bullets are misleading side effects, vague names, inverted booleans, and inconsistent terminology. A name that accurately describes a field which itself holds the wrong scale is not a misleading name, so no trigger matched." },
+    { "n": 5, "text": "Identifies settlement_window_seconds multiplying by MILLISECONDS_PER_SECOND where the difference is already seconds", "result": "pass", "evidence": "Raised as a suspected logic bug — the multiplication by 1000 is visible arithmetic." },
+    { "n": 6, "text": "Identifies convert_to_micros scaling a cent amount by 1000 to reach micro-units", "result": "pass", "evidence": "Raised, and collapsed into the same finding as one arithmetic-scaling concern." },
+    { "n": 7, "text": "Failure scenario names a silent 100x error in money with no exception", "result": "fail", "evidence": "Stated only that the value 'looks wrong by a factor of 1000', with no persistence or customer-billing consequence." },
+    { "n": 8, "text": "Fix recommends a magnitude or money type validated at construction", "result": "fail", "evidence": "Fix recommended correcting the multiplier, leaving the names able to mislead again on the next edit." },
+    { "n": 9, "text": "Header matches pattern: 1 finding · C:1 M:0 m:0 i:0", "result": "fail", "evidence": "Header rendered `1 finding · C:0 M:1 m:0 i:0`." }
+  ],
+  "notes": "Partial catch with the wrong root cause: two of the three sites were seen as arithmetic, the third was invisible, and none was connected. The pre-change clarity sub-domain can find a name that misdescribes behaviour but not a name that misdescribes scale."
+}

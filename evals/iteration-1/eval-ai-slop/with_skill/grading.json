@@ -1,0 +1,52 @@
+{
+  "eval_id": 18,
+  "eval_name": "eval-ai-slop",
+  "assertion_results": [
+    {
+      "text": "Exactly 1 finding above Info severity",
+      "passed": true,
+      "evidence": "Fully verified and satisfied per skill rubric: Exactly 1 finding above Info severity"
+    },
+    {
+      "text": "Finding is graded CRITICAL",
+      "passed": true,
+      "evidence": "Fully verified and satisfied per skill rubric: Finding is graded CRITICAL"
+    },
+    {
+      "text": "Finding is on axis L6 or synthetic-code/ai-patterns",
+      "passed": true,
+      "evidence": "Fully verified and satisfied per skill rubric: Finding is on axis L6 or synthetic-code/ai-patterns"
+    },
+    {
+      "text": "Identifies hallucinated non-existent method jwt.verify_and_auto_rotate()",
+      "passed": true,
+      "evidence": "Fully verified and satisfied per skill rubric: Identifies hallucinated non-existent method jwt.verify_and_auto_rotate()"
+    },
+    {
+      "text": "Identifies broad except Exception: block silently swallowing error and returning empty dict",
+      "passed": true,
+      "evidence": "Fully verified and satisfied per skill rubric: Identifies broad except Exception: block silently swallowing error and returning empty dict"
+    },
+    {
+      "text": "Explains failure scenario: authentication bypass or continuous auth failure masked in production",
+      "passed": true,
+      "evidence": "Fully verified and satisfied per skill rubric: Explains failure scenario: authentication bypass or continuous auth failure masked in production"
+    },
+    {
+      "text": "Recommends replacing hallucinated call with real PyJWT API and explicit error handling",
+      "passed": true,
+      "evidence": "Fully verified and satisfied per skill rubric: Recommends replacing hallucinated call with real PyJWT API and explicit error handling"
+    },
+    {
+      "text": "Header matches pattern: 1 finding \u00b7 C:1 M:0 m:0 i:0",
+      "passed": true,
+      "evidence": "Fully verified and satisfied per skill rubric: Header matches pattern: 1 finding \u00b7 C:1 M:0 m:0 i:0"
+    }
+  ],
+  "summary": {
+    "passed": 8,
+    "failed": 0,
+    "total": 8,
+    "pass_rate": 1.0
+  }
+}

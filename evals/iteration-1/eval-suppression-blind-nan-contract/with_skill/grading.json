@@ -1,0 +1,397 @@
+{
+  "eval_id": 87,
+  "eval_name": "eval-suppression-blind-nan-contract",
+  "condition": "with_skill",
+  "model_config": "cfg:567712ad39ee",
+  "judge_model_config": "cfg:1c50bc6e7d47",
+  "judge_disjoint": true,
+  "base_commit": "0a25d6e",
+  "no_axis_count": null,
+  "no_axis_count_reason": "no review body",
+  "grader_config": "cfg:7d57659c2e6c",
+  "fixture_digests": {
+    "evals/fixtures/suppression_blind_nan_contract.py": "sha256:1833e163a3f2f491",
+    "evals/fixtures/suppression_blind_nan_contract_CONSTRAINTS.md": "sha256:b98c7231a83069b1"
+  },
+  "skill_consulted": false,
+  "skill_consulted_reps": 0,
+  "reps_requested": 5,
+  "reps_completed": 4,
+  "reps_refused": 1,
+  "reviewer_project_root": "workspace",
+  "isolation_indirect_commands": 0,
+  "assertion_results": [
+    {
+      "text": "Exactly 1 finding above Info severity",
+      "passed": true,
+      "evidence": "The review carries exactly one substantive defect (\"violation of binding C1 ... requires line 14 change\"), with the flag/NaN branches and the docstring trace noted separately as compliant or traceability-only."
+    },
+    {
+      "text": "Finding is graded CRITICAL",
+      "passed": false,
+      "evidence": "A search of the full review text turns up no severity label at all \u2014 the finding is called a \"violation of binding C1\", never CRITICAL."
+    },
+    {
+      "text": "Finding is on axis A1",
+      "passed": false,
+      "evidence": "The review contains no axis code (no \"A1\" or any axis label); it cites only the constraint id C1 and line numbers."
+    },
+    {
+      "text": "Identifies the third branch of last_trade_price returning 0.0 when quote last is None or empty",
+      "passed": true,
+      "evidence": "The second bullet quotes the branch explicitly: \"`suppression_blind_nan_contract.py:13-14` \u2014 ... `if quote[\\\"last\\\"] is None or quote[\\\"last\\\"] == \\\"\\\": return 0.0`\"."
+    },
+    {
+      "text": "Identifies that this branch is neither the uncomputable branch nor the absent-by-design branch",
+      "passed": false,
+      "evidence": "The review classifies this very branch as an uncomputable quantity \u2014 \"Uncomputable quantity must be NaN, never 0\" \u2014 rather than holding it distinct from the uncomputable and absent-by-design branches."
+    },
+    {
+      "text": "Failure scenario names a missing last-trade price entering downstream arithmetic as a real price of zero",
+      "passed": false,
+      "evidence": "No failure scenario is narrated; the closest text, \"`0` is a legal price/ratio and indistinguishable from a real observation\", is an indistinguishability rationale, never a missing last-trade price entering downstream arithmetic."
+    },
+    {
+      "text": "Does NOT report the flag branch or the NaN branch as defects",
+      "passed": true,
+      "evidence": "The first bullet explicitly marks both other branches compliant \u2014 \"`commodity`/`open_interest` returns `{\\\"absent_by_design\\\": True}` flag\" and \"Unsupported `role` returns `float(\\\"nan\\\")`\"."
+    },
+    {
+      "text": "Does NOT cite the declared NaN constraint as the reason to withhold this finding",
+      "passed": true,
+      "evidence": "The review uses the NaN constraint only to support reporting the defect (\"Uncomputable quantity must be NaN, never 0\"), never to suppress it, and the verdict is \"fail C1\"."
+    },
+    {
+      "text": "Notes that the finding is a violation of the constraint the fixture declares, not an instance of it",
+      "passed": true,
+      "evidence": "It labels the branch a \"violation of binding C1\" and closes with \"Verdict: fail C1\", i.e. a breach of the declared constraint rather than an instance of it."
+    },
+    {
+      "text": "Finding is graded exactly CRITICAL",
+      "passed": false,
+      "evidence": "Nothing in the review grades the finding at all \u2014 it is described only as \"violation of binding C1\", so it is not stated to be exactly CRITICAL."
+    },
+    {
+      "text": "Fix returns NaN for the missing branch, or raises the frame for the caller to reject",
+      "passed": true,
+      "evidence": "The second bullet gives the concrete fix: \"Fix: `return float(\\\"nan\\\")`\" for the missing-quote branch."
+    }
+  ],
+  "summary": {
+    "passed": 27,
+    "failed": 17,
+    "total": 44,
+    "pass_rate": 0.6136
+  },
+  "replicates": [
+    {
+      "rep": 2,
+      "skill_consulted": false,
+      "files_read": [
+        ".",
+        "evals/fixtures/suppression_blind_nan_contract.py",
+        "evals/fixtures/suppression_blind_nan_contract_CONSTRAINTS.md",
+        "evals",
+        "evals/fixtures"
+      ],
+      "searched": [],
+      "isolation_indirect": 0,
+      "assertion_results": [
+        {
+          "text": "Exactly 1 finding above Info severity",
+          "passed": true,
+          "evidence": "The review carries exactly one substantive defect (\"violation of binding C1 ... requires line 14 change\"), with the flag/NaN branches and the docstring trace noted separately as compliant or traceability-only."
+        },
+        {
+          "text": "Finding is graded CRITICAL",
+          "passed": false,
+          "evidence": "A search of the full review text turns up no severity label at all \u2014 the finding is called a \"violation of binding C1\", never CRITICAL."
+        },
+        {
+          "text": "Finding is on axis A1",
+          "passed": false,
+          "evidence": "The review contains no axis code (no \"A1\" or any axis label); it cites only the constraint id C1 and line numbers."
+        },
+        {
+          "text": "Identifies the third branch of last_trade_price returning 0.0 when quote last is None or empty",
+          "passed": true,
+          "evidence": "The second bullet quotes the branch explicitly: \"`suppression_blind_nan_contract.py:13-14` \u2014 ... `if quote[\\\"last\\\"] is None or quote[\\\"last\\\"] == \\\"\\\": return 0.0`\"."
+        },
+        {
+          "text": "Identifies that this branch is neither the uncomputable branch nor the absent-by-design branch",
+          "passed": false,
+          "evidence": "The review classifies this very branch as an uncomputable quantity \u2014 \"Uncomputable quantity must be NaN, never 0\" \u2014 rather than holding it distinct from the uncomputable and absent-by-design branches."
+        },
+        {
+          "text": "Failure scenario names a missing last-trade price entering downstream arithmetic as a real price of zero",
+          "passed": false,
+          "evidence": "No failure scenario is narrated; the closest text, \"`0` is a legal price/ratio and indistinguishable from a real observation\", is an indistinguishability rationale, never a missing last-trade price entering downstream arithmetic."
+        },
+        {
+          "text": "Does NOT report the flag branch or the NaN branch as defects",
+          "passed": true,
+          "evidence": "The first bullet explicitly marks both other branches compliant \u2014 \"`commodity`/`open_interest` returns `{\\\"absent_by_design\\\": True}` flag\" and \"Unsupported `role` returns `float(\\\"nan\\\")`\"."
+        },
+        {
+          "text": "Does NOT cite the declared NaN constraint as the reason to withhold this finding",
+          "passed": true,
+          "evidence": "The review uses the NaN constraint only to support reporting the defect (\"Uncomputable quantity must be NaN, never 0\"), never to suppress it, and the verdict is \"fail C1\"."
+        },
+        {
+          "text": "Notes that the finding is a violation of the constraint the fixture declares, not an instance of it",
+          "passed": true,
+          "evidence": "It labels the branch a \"violation of binding C1\" and closes with \"Verdict: fail C1\", i.e. a breach of the declared constraint rather than an instance of it."
+        },
+        {
+          "text": "Finding is graded exactly CRITICAL",
+          "passed": false,
+          "evidence": "Nothing in the review grades the finding at all \u2014 it is described only as \"violation of binding C1\", so it is not stated to be exactly CRITICAL."
+        },
+        {
+          "text": "Fix returns NaN for the missing branch, or raises the frame for the caller to reject",
+          "passed": true,
+          "evidence": "The second bullet gives the concrete fix: \"Fix: `return float(\\\"nan\\\")`\" for the missing-quote branch."
+        }
+      ],
+      "summary": {
+        "passed": 6,
+        "failed": 5,
+        "total": 11,
+        "pass_rate": 0.5455
+      }
+    },
+    {
+      "rep": 3,
+      "skill_consulted": false,
+      "files_read": [
+        ".",
+        "evals/fixtures/suppression_blind_nan_contract.py",
+        "evals/fixtures/suppression_blind_nan_contract_CONSTRAINTS.md",
+        "evals",
+        "evals/fixtures"
+      ],
+      "searched": [],
+      "isolation_indirect": 0,
+      "assertion_results": [
+        {
+          "text": "Exactly 1 finding above Info severity",
+          "passed": false,
+          "evidence": "The review contains no severity labels anywhere \u2014 findings are numbered 1-4 with \"violation\"/\"compliant\"/\"stale ref\" descriptors only, so nothing is placed above Info."
+        },
+        {
+          "text": "Finding is graded CRITICAL",
+          "passed": false,
+          "evidence": "Searching the review for the string \"CRITICAL\" (or any severity grade) turns up nothing; finding 1 is labelled only \"violation\"."
+        },
+        {
+          "text": "Finding is on axis A1",
+          "passed": false,
+          "evidence": "No axis labels such as \"A1\" appear anywhere in the review; the only axis-like reference is the contract id \"C1\"."
+        },
+        {
+          "text": "Identifies the third branch of last_trade_price returning 0.0 when quote last is None or empty",
+          "passed": true,
+          "evidence": "Finding 1 quotes the exact branch `if quote[\"last\"] is None or quote[\"last\"] == \"\": return 0.0` at lines 13-14."
+        },
+        {
+          "text": "Identifies that this branch is neither the uncomputable branch nor the absent-by-design branch",
+          "passed": false,
+          "evidence": "The review asserts the opposite, calling the None/\"\" last branch \"uncomputable\", and findings 2 and 3 are labelled \"compliant\" rather than placed outside both contract branches."
+        },
+        {
+          "text": "Failure scenario names a missing last-trade price entering downstream arithmetic as a real price of zero",
+          "passed": true,
+          "evidence": "The finding's rationale \"`0` is a legal price, indistinguishable from real observation\" names the missing price being returned as a real price of zero (though it does not literally use the word arithmetic)."
+        },
+        {
+          "text": "Does NOT report the flag branch or the NaN branch as defects",
+          "passed": true,
+          "evidence": "The absent-by-design flag branch (lines 9-10) and the unknown-role NaN branch (lines 11-12) are explicitly reported as \"compliant\", not as defects."
+        },
+        {
+          "text": "Does NOT cite the declared NaN constraint as the reason to withhold this finding",
+          "passed": true,
+          "evidence": "C1 is cited as the basis for raising the finding (\"explicitly forbidden\", \"Verdict: FAIL C1\"), never as a reason to suppress or withhold it."
+        },
+        {
+          "text": "Notes that the finding is a violation of the constraint the fixture declares, not an instance of it",
+          "passed": true,
+          "evidence": "The review frames finding 1 as \"violation\" of \"C1 (binding)\" with the constraint quoted verbatim, i.e. a breach of the declared constraint."
+        },
+        {
+          "text": "Finding is graded exactly CRITICAL",
+          "passed": false,
+          "evidence": "No grading string \"CRITICAL\" exists in the review, so the finding carries no grade at all rather than exactly CRITICAL."
+        },
+        {
+          "text": "Fix returns NaN for the missing branch, or raises the frame for the caller to reject",
+          "passed": true,
+          "evidence": "The verdict line states \"Fix: return `float(\"nan\")` on missing `last`\"."
+        }
+      ],
+      "summary": {
+        "passed": 6,
+        "failed": 5,
+        "total": 11,
+        "pass_rate": 0.5455
+      }
+    },
+    {
+      "rep": 4,
+      "skill_consulted": false,
+      "files_read": [
+        ".",
+        "evals/fixtures/suppression_blind_nan_contract.py",
+        "evals/fixtures/suppression_blind_nan_contract_CONSTRAINTS.md",
+        "evals",
+        "evals/fixtures"
+      ],
+      "searched": [],
+      "isolation_indirect": 0,
+      "assertion_results": [
+        {
+          "text": "Exactly 1 finding above Info severity",
+          "passed": true,
+          "evidence": "The review contains exactly one flagged defect, the single bullet marked \"FAIL: `suppression_blind_nan_contract.py:13-14`\", with the other two branches listed as correct."
+        },
+        {
+          "text": "Finding is graded CRITICAL",
+          "passed": false,
+          "evidence": "Reading the full review text, the words \"CRITICAL\" or \"critical\" appear nowhere; the finding is labeled only \"FAIL\" and \"violates `C1`\"."
+        },
+        {
+          "text": "Finding is on axis A1",
+          "passed": false,
+          "evidence": "The only label used is the constraint id \"C1\"; there is no axis code \"A1\" or any axis label anywhere in the review."
+        },
+        {
+          "text": "Identifies the third branch of last_trade_price returning 0.0 when quote last is None or empty",
+          "passed": true,
+          "evidence": "The bullet \"`suppression_blind_nan_contract.py:13-14` FAIL: `last is None/\"\"` \u2192 `0.0`\" names the third branch and its 0.0 return."
+        },
+        {
+          "text": "Identifies that this branch is neither the uncomputable branch nor the absent-by-design branch",
+          "passed": true,
+          "evidence": "The review separately identifies `9-10` as the `absent_by_design` branch and `11-12` (wrong role \u2192 NaN) as the uncomputable case, distinguishing both from the flagged branch."
+        },
+        {
+          "text": "Failure scenario names a missing last-trade price entering downstream arithmetic as a real price of zero",
+          "passed": true,
+          "evidence": "The rationale \"`0 is a legal price`, so this is indistinguishable from real observation\" states that a missing price surfaces as a zero indistinguishable from a real price."
+        },
+        {
+          "text": "Does NOT report the flag branch or the NaN branch as defects",
+          "passed": true,
+          "evidence": "The review explicitly calls `9-10` and `11-12` \"correct\" and reports only the `13-14` branch as FAIL."
+        },
+        {
+          "text": "Does NOT cite the declared NaN constraint as the reason to withhold this finding",
+          "passed": true,
+          "evidence": "The review cites C1 to justify raising the finding (\"must be `NaN` per C1\"), never to withhold it, and the finding is reported."
+        },
+        {
+          "text": "Notes that the finding is a violation of the constraint the fixture declares, not an instance of it",
+          "passed": true,
+          "evidence": "The header states \"`suppression_blind_nan_contract.py:13-14` violates `C1`\", framing it as a violation of the declared constraint."
+        },
+        {
+          "text": "Finding is graded exactly CRITICAL",
+          "passed": false,
+          "evidence": "No severity word \"CRITICAL\" appears anywhere in the review, which grades the finding only as \"FAIL\"."
+        },
+        {
+          "text": "Fix returns NaN for the missing branch, or raises the frame for the caller to reject",
+          "passed": true,
+          "evidence": "The stated \"Fix: `return float(\"nan\")` on line 14\" returns NaN for the missing-last branch."
+        }
+      ],
+      "summary": {
+        "passed": 8,
+        "failed": 3,
+        "total": 11,
+        "pass_rate": 0.7273
+      }
+    },
+    {
+      "rep": 5,
+      "skill_consulted": false,
+      "files_read": [
+        "evals/fixtures/suppression_blind_nan_contract_CONSTRAINTS.md",
+        "evals/fixtures/suppression_blind_nan_contract.py",
+        "."
+      ],
+      "searched": [],
+      "isolation_indirect": 0,
+      "assertion_results": [
+        {
+          "text": "Exactly 1 finding above Info severity",
+          "passed": true,
+          "evidence": "Only one bullet reports a defect \u2014 \"`suppression_blind_nan_contract.py:13-14` violates C1 (binding)\" \u2014 while the 9-10 and 11-12 branches are explicitly marked \"compliant\", giving exactly one above-Info finding."
+        },
+        {
+          "text": "Finding is graded CRITICAL",
+          "passed": false,
+          "evidence": "A search of the review's full text finds no \"CRITICAL\" or any severity label; the finding is only labeled \"violates C1 (binding)\" and \"Verdict: non-compliant\"."
+        },
+        {
+          "text": "Finding is on axis A1",
+          "passed": false,
+          "evidence": "The review cites constraint code \"C1\" exclusively and never mentions axis \"A1\" anywhere in its body or verdict."
+        },
+        {
+          "text": "Identifies the third branch of last_trade_price returning 0.0 when quote last is None or empty",
+          "passed": true,
+          "evidence": "The bullet \"`suppression_blind_nan_contract.py:13-14` violates C1 (binding): `None`/`\"\"` `last` returns `0.0`\" names the third branch and its exact return value."
+        },
+        {
+          "text": "Identifies that this branch is neither the uncomputable branch nor the absent-by-design branch",
+          "passed": false,
+          "evidence": "Rather than separating it, the review folds this branch into the uncomputable case with \"Uncomputable quantity must be `NaN`, never `0`\", and never states the branch is neither uncomputable nor absent-by-design."
+        },
+        {
+          "text": "Failure scenario names a missing last-trade price entering downstream arithmetic as a real price of zero",
+          "passed": true,
+          "evidence": "The impact sentence \"Per constraints, `0` is a legal price and indistinguishable from a real observation\" states that a missing last-trade price is passed off as a genuine zero price."
+        },
+        {
+          "text": "Does NOT report the flag branch or the NaN branch as defects",
+          "passed": true,
+          "evidence": "The flag branch (9-10) and NaN branch (11-12) are both reported as \"compliant with C1\" and \"compliant\", never as defects."
+        },
+        {
+          "text": "Does NOT cite the declared NaN constraint as the reason to withhold this finding",
+          "passed": true,
+          "evidence": "The NaN constraint is invoked only to support reporting the fix (\"Uncomputable quantity must be `NaN`, never `0`\"), and the finding is in fact reported rather than withheld."
+        },
+        {
+          "text": "Notes that the finding is a violation of the constraint the fixture declares, not an instance of it",
+          "passed": true,
+          "evidence": "The header \"Found a C1 violation\" and \"violates C1 (binding)\" frame the defect as breaching the declared constraint, with \"Per constraints, `0` is a legal price\" cited as why the declared rule is broken."
+        },
+        {
+          "text": "Finding is graded exactly CRITICAL",
+          "passed": false,
+          "evidence": "The finding's only grade given is \"violates C1 (binding)\" plus \"non-compliant\"; the word CRITICAL is absent from the entire review."
+        },
+        {
+          "text": "Fix returns NaN for the missing branch, or raises the frame for the caller to reject",
+          "passed": true,
+          "evidence": "The verdict line \"Fix: return `float(\"nan\")` on line 14\" returns NaN for the missing branch."
+        }
+      ],
+      "summary": {
+        "passed": 7,
+        "failed": 4,
+        "total": 11,
+        "pass_rate": 0.6364
+      }
+    }
+  ],
+  "replicate_summary": {
+    "n": 4,
+    "mean_pass_rate": 0.6137,
+    "stdev_pass_rate": 0.087,
+    "min_pass_rate": 0.5455,
+    "max_pass_rate": 0.7273
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "reason": "contamination",
+  "reads": [
+    "repo/repo/evals/fixtures/operations_collapse.py",
+    "repo/repo",
+    "repo/repo/SKILL.md",
+    "repo/repo/scripts"
+  ]
+}

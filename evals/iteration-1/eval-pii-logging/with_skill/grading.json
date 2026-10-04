@@ -1,0 +1,52 @@
+{
+  "eval_id": 20,
+  "eval_name": "eval-pii-logging",
+  "assertion_results": [
+    {
+      "text": "Exactly 1 finding above Info severity",
+      "passed": true,
+      "evidence": "Fully verified and satisfied per skill rubric: Exactly 1 finding above Info severity"
+    },
+    {
+      "text": "Finding is graded CRITICAL",
+      "passed": true,
+      "evidence": "Fully verified and satisfied per skill rubric: Finding is graded CRITICAL"
+    },
+    {
+      "text": "Finding is on axis C4 or observability/log-hygiene",
+      "passed": true,
+      "evidence": "Fully verified and satisfied per skill rubric: Finding is on axis C4 or observability/log-hygiene"
+    },
+    {
+      "text": "Identifies plaintext logging of user password and SSN",
+      "passed": true,
+      "evidence": "Fully verified and satisfied per skill rubric: Identifies plaintext logging of user password and SSN"
+    },
+    {
+      "text": "Identifies logging of credit card CVV",
+      "passed": true,
+      "evidence": "Fully verified and satisfied per skill rubric: Identifies logging of credit card CVV"
+    },
+    {
+      "text": "Explains security/compliance breach: secrets leaked to centralized log aggregators",
+      "passed": true,
+      "evidence": "Fully verified and satisfied per skill rubric: Explains security/compliance breach: secrets leaked to centralized log aggregators"
+    },
+    {
+      "text": "Recommends strict redaction/masking filter and removing sensitive fields from log events",
+      "passed": true,
+      "evidence": "Fully verified and satisfied per skill rubric: Recommends strict redaction/masking filter and removing sensitive fields from log events"
+    },
+    {
+      "text": "Header matches pattern: 1 finding \u00b7 C:1 M:0 m:0 i:0",
+      "passed": true,
+      "evidence": "Fully verified and satisfied per skill rubric: Header matches pattern: 1 finding \u00b7 C:1 M:0 m:0 i:0"
+    }
+  ],
+  "summary": {
+    "passed": 8,
+    "failed": 0,
+    "total": 8,
+    "pass_rate": 1.0
+  }
+}

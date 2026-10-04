@@ -1,0 +1,72 @@
+{
+  "eval_id": 3,
+  "eval_name": "eval-injection",
+  "condition": "with_skill",
+  "model_config": "cfg:567712ad39ee",
+  "judge_model_config": "cfg:1c50bc6e7d47",
+  "judge_disjoint": true,
+  "base_commit": "92b5a4c",
+  "no_axis_count": null,
+  "no_axis_count_reason": "no review body",
+  "grader_config": "cfg:458057126fc7",
+  "fixture_digests": {
+    "evals/fixtures/injection.py": "sha256:6b6c4ef6d61b46fb"
+  },
+  "skill_consulted": true,
+  "skill_consulted_reps": 1,
+  "reps_requested": 3,
+  "reps_completed": 1,
+  "assertion_results": [
+    {
+      "text": "Exactly 2 findings above Info severity",
+      "passed": true,
+      "evidence": "The '## Findings' section contains exactly two entries, both labeled '### [CRITICAL]', and no other findings appear elsewhere in the document."
+    },
+    {
+      "text": "Both findings are graded CRITICAL",
+      "passed": true,
+      "evidence": "Both finding headings read '### [CRITICAL] SQL injection via f-string query in `authenticate`' and '### [CRITICAL] Hardcoded live-format service key in source'."
+    },
+    {
+      "text": "Both findings are on axis S3 (injection) (Security)",
+      "passed": false,
+      "evidence": "Finding 1 is tagged '**Domain:** Security (S3)' but Finding 2 is tagged '**Domain:** Security (S4)', not S3."
+    },
+    {
+      "text": "Finding 1 identifies the f-string SQL concatenation in authenticate()",
+      "passed": true,
+      "evidence": "Finding 1's evidence quotes `query = f\"SELECT id, name FROM users WHERE name = '{username}' AND pass = '{password}'\"` inside `authenticate(username, password)` at `injection.py:12-16`."
+    },
+    {
+      "text": "Finding 1 fix recommends parameterized queries",
+      "passed": true,
+      "evidence": "Finding 1's Fix line says 'Parameterize' and shows `db.execute(\"SELECT id, name FROM users WHERE name = ? AND pass = ?\", (username, password))`."
+    },
+    {
+      "text": "Finding 2 identifies the hardcoded API_KEY as a live secret in code",
+      "passed": true,
+      "evidence": "Finding 2 quotes `injection.py:5` \u2014 `API_KEY = \"sk-live-9f2c41aa77d84e0fb31c5d90a2e77c1d\"` and notes it 'is committed in clear'."
+    },
+    {
+      "text": "Finding 2 fix recommends secrets-manager or environment variable sourcing",
+      "passed": true,
+      "evidence": "Finding 2's Fix says 'load from env / secret manager at runtime, rotate the exposed value immediately'."
+    },
+    {
+      "text": "Header matches pattern: 2 findings \u00b7 C:2 M:0 m:0 i:0",
+      "passed": true,
+      "evidence": "The header line reads '`2 findings \u00b7 C:2 M:0 m:0 i:0 \u00b7 Mean 92/100 \u00b7 Final Grade F`', matching the required pattern."
+    },
+    {
+      "text": "DB_PATH is NOT promoted above Info (it is not a secret)",
+      "passed": true,
+      "evidence": "A grep of the full review text for 'DB_PATH' returns no match, so the non-secret database path is never raised above Info."
+    }
+  ],
+  "summary": {
+    "passed": 8,
+    "failed": 1,
+    "total": 9,
+    "pass_rate": 0.8889
+  }
+}

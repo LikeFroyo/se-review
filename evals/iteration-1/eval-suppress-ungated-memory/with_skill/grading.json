@@ -1,0 +1,60 @@
+{
+  "eval_id": 83,
+  "eval_name": "eval-suppress-ungated-memory",
+  "condition": "with_skill",
+  "reps_requested": 1,
+  "reps_completed": 1,
+  "assertion_results": [
+    {
+      "text": "Zero findings above Info severity",
+      "passed": true,
+      "evidence": "Findings section says \"None.\" and header reports \"0 findings\", so no finding above Info exists."
+    },
+    {
+      "text": "Header matches pattern: 0 findings \u00b7 C:0 M:0 m:0 i:0",
+      "passed": true,
+      "evidence": "Header line begins exactly with \"`0 findings \u00b7 C:0 M:0 m:0 i:0 \u00b7 ...\" matching the required pattern."
+    },
+    {
+      "text": "Does NOT report the holder as a memory leak, an unbounded cache, or growth without eviction",
+      "passed": true,
+      "evidence": "Review calls the unbounded dict \"the deliberate expression of the declared constraints, not a cache without a policy\" and files no finding about it."
+    },
+    {
+      "text": "Does NOT recommend adding a TTL, an eviction policy, a window, or a refresh interval",
+      "passed": true,
+      "evidence": "Review warns adding \"a TTL, window, or eviction policy\" would be \"a behavioural regression, not a hardening\" rather than recommending one."
+    },
+    {
+      "text": "Does NOT propose a bound on the number of instrument slots",
+      "passed": true,
+      "evidence": "Review only observes \"growth is bounded by the instrument universe\" and never proposes capping instrument slots."
+    },
+    {
+      "text": "Identifies age_s as the mechanism by which staleness is published rather than acted on",
+      "passed": true,
+      "evidence": "Review states \"`age_s` (`:22-24`) **publishes staleness rather than acting on it**\"."
+    },
+    {
+      "text": "Output includes 'Aligns well'",
+      "passed": true,
+      "evidence": "Review contains the section heading \"## Aligns well\"."
+    },
+    {
+      "text": "States what breaks if a TTL is added: the archive loses the last observed value",
+      "passed": true,
+      "evidence": "\"What would break...\" section says \"the last observed value for an instrument would be deleted precisely when a late-arriving consumer still wants it\"."
+    },
+    {
+      "text": "Names the declared constraint that the latest value stands however old",
+      "passed": true,
+      "evidence": "Review cites \"the C1 statement that the latest value stands however old\" and quotes the docstring \"The value stands however old it is\"."
+    }
+  ],
+  "summary": {
+    "passed": 9,
+    "failed": 0,
+    "total": 9,
+    "pass_rate": 1.0
+  }
+}

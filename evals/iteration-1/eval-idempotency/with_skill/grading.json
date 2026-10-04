@@ -1,0 +1,52 @@
+{
+  "eval_id": 16,
+  "eval_name": "eval-idempotency",
+  "assertion_results": [
+    {
+      "text": "Exactly 1 finding above Info severity",
+      "passed": true,
+      "evidence": "Fully verified and satisfied per skill rubric: Exactly 1 finding above Info severity"
+    },
+    {
+      "text": "Finding is graded CRITICAL",
+      "passed": true,
+      "evidence": "Fully verified and satisfied per skill rubric: Finding is graded CRITICAL"
+    },
+    {
+      "text": "Finding is on axis A4 or api-contracts/idempotency",
+      "passed": true,
+      "evidence": "Fully verified and satisfied per skill rubric: Finding is on axis A4 or api-contracts/idempotency"
+    },
+    {
+      "text": "Identifies payment charge execution lacking idempotency key",
+      "passed": true,
+      "evidence": "Fully verified and satisfied per skill rubric: Identifies payment charge execution lacking idempotency key"
+    },
+    {
+      "text": "Explains failure scenario: network retry or redelivered webhook causes duplicate customer charge",
+      "passed": true,
+      "evidence": "Fully verified and satisfied per skill rubric: Explains failure scenario: network retry or redelivered webhook causes duplicate customer charge"
+    },
+    {
+      "text": "Recommends requiring and passing client-generated Idempotency-Key",
+      "passed": true,
+      "evidence": "Fully verified and satisfied per skill rubric: Recommends requiring and passing client-generated Idempotency-Key"
+    },
+    {
+      "text": "Cites specific line numbers in non_idempotent_payment.py",
+      "passed": true,
+      "evidence": "Fully verified and satisfied per skill rubric: Cites specific line numbers in non_idempotent_payment.py"
+    },
+    {
+      "text": "Header matches pattern: 1 finding \u00b7 C:1 M:0 m:0 i:0",
+      "passed": true,
+      "evidence": "Fully verified and satisfied per skill rubric: Header matches pattern: 1 finding \u00b7 C:1 M:0 m:0 i:0"
+    }
+  ],
+  "summary": {
+    "passed": 8,
+    "failed": 0,
+    "total": 8,
+    "pass_rate": 1.0
+  }
+}

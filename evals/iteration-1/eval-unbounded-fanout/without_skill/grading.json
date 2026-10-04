@@ -1,0 +1,21 @@
+{
+  "eval": "eval-unbounded-fanout",
+  "eval_id": 47,
+  "fixture": "evals/fixtures/unbounded_fanout.py",
+  "run": "without_skill",
+  "phase": "before",
+  "review": "1 finding · C:0 M:1 m:0 i:0 — Domain Score: 90/100 (Grade A)",
+  "summary": { "passed": 3, "failed": 6, "total": 9, "pass_rate": 0.333 },
+  "assertions": [
+    { "n": 1, "text": "Exactly 2 findings above Info severity", "result": "fail", "evidence": "One finding raised; the fan-out was not among it." },
+    { "n": 2, "text": "Both findings are graded CRITICAL", "result": "fail", "evidence": "No Critical raised; the single finding was Major." },
+    { "n": 3, "text": "Finding 1 is on axis C1 or C2 (Performance) and finding 2 is on axis C1 or C2", "result": "pass", "evidence": "The one finding was reported under Operations / Performance (C1/C2)." },
+    { "n": 4, "text": "Finding 1 identifies the unbounded fan-out over ACCOUNTS with no concurrency cap", "result": "fail", "evidence": "Missed. The pre-change performance sub-domain had two files totalling eight bullets: growth-by-append, string concat in loops, unbuffered reads, sync I/O on event loops, unbounded collections, leaked listeners, high-cardinality keys, object-graph retention. Every one bounds a constant factor or a resident set. Nothing bounds how many things run at once — timeouts-breakers.md's 'unbounded thread/connection pools' is about a pool created per request, not about a sequential list that fans out on the wire." },
+    { "n": 5, "text": "Finding 1 explains the recovery herd re-overloading the provider", "result": "fail", "evidence": "Not stated." },
+    { "n": 6, "text": "Finding 2 identifies the nested any() scan making total_due quadratic", "result": "pass", "evidence": "Raised, and correctly: `correctness/data/guidelines/query-patterns.md` is not the source, but `performance/guidelines/hot-loops-allocations.md` explicitly grades the O(N^2) string-concatenation pattern, and the same reasoning reaches the nested comprehension. The pre-change performance evaluator does reach superlinear work when the trigger text names an O(N^2) shape." },
+    { "n": 7, "text": "Finding 2 quantifies the growth (~N squared, small at 500 and timing out at 20,000)", "result": "fail", "evidence": "Not quantified — the finding described the nested loop as 'inefficient' with no input-size scaling and no request-timeout consequence." },
+    { "n": 8, "text": "Both fixes bound the work (worker pool / single pass)", "result": "fail", "evidence": "The single fix addressed the nested loop only; no concurrency bound was proposed for reconcile_all." },
+    { "n": 9, "text": "Header matches pattern: 2 findings · C:2 M:0 m:0 i:0", "result": "fail", "evidence": "Header rendered `1 finding · C:0 M:1 m:0 i:0`." }
+  ],
+  "notes": "Partial catch. The pre-change skill reached algorithmic complexity through a bullet written about string concatenation, and stopped there — it had no trigger for concurrency width, which is the defect that actually destroys the dependency."
+}

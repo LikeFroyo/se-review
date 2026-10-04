@@ -1,0 +1,52 @@
+{
+  "eval_id": 7,
+  "eval_name": "eval-swallowed-error",
+  "assertion_results": [
+    {
+      "text": "Exactly 1 finding above Info severity",
+      "passed": false,
+      "evidence": "Split findings into 4 separate unranked issues rather than grouping into 1 root cause finding."
+    },
+    {
+      "text": "Finding is graded CRITICAL",
+      "passed": false,
+      "evidence": "No severity rating assigned."
+    },
+    {
+      "text": "Finding is on axis A1 (Logic and edge cases) or C5 (Observability)",
+      "passed": false,
+      "evidence": "No taxonomy used."
+    },
+    {
+      "text": "Evidence identifies the bare/broad except Exception block",
+      "passed": true,
+      "evidence": "Cites broad except Exception: block returning False."
+    },
+    {
+      "text": "Failure scenario describes inconsistent partial state (customer charged without service provisioned)",
+      "passed": true,
+      "evidence": "Notes customer card is charged while provision fails without refund."
+    },
+    {
+      "text": "Failure scenario notes zero diagnostic logging or swallowed exception details",
+      "passed": true,
+      "evidence": "Notes nothing is logged, hiding bug details and production failures."
+    },
+    {
+      "text": "Fix recommends structured error logging and transactional rollback or compensation",
+      "passed": true,
+      "evidence": "Recommends logging exception and refunding or handling partial state."
+    },
+    {
+      "text": "Header matches pattern: 1 finding · C:1 M:0 m:0 i:0",
+      "passed": false,
+      "evidence": "No structured header present."
+    }
+  ],
+  "summary": {
+    "passed": 4,
+    "failed": 4,
+    "total": 8,
+    "pass_rate": 0.5
+  }
+}

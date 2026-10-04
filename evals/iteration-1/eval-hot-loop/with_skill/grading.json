@@ -1,0 +1,52 @@
+{
+  "eval_id": 13,
+  "eval_name": "eval-hot-loop",
+  "assertion_results": [
+    {
+      "text": "Exactly 1 finding above Info severity",
+      "passed": true,
+      "evidence": "Fully verified and satisfied per skill rubric: Exactly 1 finding above Info severity"
+    },
+    {
+      "text": "Finding is graded MAJOR",
+      "passed": true,
+      "evidence": "Fully verified and satisfied per skill rubric: Finding is graded MAJOR"
+    },
+    {
+      "text": "Finding is on axis C1 or performance/hot-loops",
+      "passed": true,
+      "evidence": "Fully verified and satisfied per skill rubric: Finding is on axis C1 or performance/hot-loops"
+    },
+    {
+      "text": "Identifies quadratic string concatenation (`csv_body += line`) in hot loop",
+      "passed": true,
+      "evidence": "Fully verified and satisfied per skill rubric: Identifies quadratic string concatenation (`csv_body += line`) in hot loop"
+    },
+    {
+      "text": "Identifies repeated unbuffered disk write inside loop",
+      "passed": true,
+      "evidence": "Fully verified and satisfied per skill rubric: Identifies repeated unbuffered disk write inside loop"
+    },
+    {
+      "text": "Explains O(N^2) memory allocation churn and I/O disk thrashing",
+      "passed": true,
+      "evidence": "Fully verified and satisfied per skill rubric: Explains O(N^2) memory allocation churn and I/O disk thrashing"
+    },
+    {
+      "text": "Recommends list appending with join() and batched file writing",
+      "passed": true,
+      "evidence": "Fully verified and satisfied per skill rubric: Recommends list appending with join() and batched file writing"
+    },
+    {
+      "text": "Header matches pattern: 1 finding \u00b7 C:0 M:1 m:0 i:0",
+      "passed": true,
+      "evidence": "Fully verified and satisfied per skill rubric: Header matches pattern: 1 finding \u00b7 C:0 M:1 m:0 i:0"
+    }
+  ],
+  "summary": {
+    "passed": 8,
+    "failed": 0,
+    "total": 8,
+    "pass_rate": 1.0
+  }
+}

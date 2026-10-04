@@ -1,0 +1,62 @@
+{
+  "eval_id": 33,
+  "eval_name": "eval-session-fixation",
+  "condition": "with_skill",
+  "skill_consulted": true,
+  "files_read": [
+    "evals/fixtures/session_fixation.py",
+    "SKILL.md",
+    "domains/correctness/security/sub-leaf.md",
+    "shared/severity-and-rules.md",
+    "domains/correctness/security/guidelines/authentication.md",
+    "shared/output-format.md",
+    "shared/axis-codes.md",
+    "./"
+  ],
+  "assertion_results": [
+    {
+      "text": "Exactly 1 finding above Info severity",
+      "passed": false,
+      "evidence": "The header and findings list report two findings above Info — one CRITICAL and one MAJOR — not exactly1."
+    },
+    {
+      "text": "Finding is graded CRITICAL",
+      "passed": true,
+      "evidence": "The leading finding is headed \"### [CRITICAL] Session identifier is not regenerated at the privilege boundary\"."
+    },
+    {
+      "text": "Finding is on axis A5 (Security)",
+      "passed": true,
+      "evidence": "That finding's Domain line reads \"Correctness / Security (`A5`)\"."
+    },
+    {
+      "text": "Identifies the reuse of the pre-authentication session ID in login()",
+      "passed": true,
+      "evidence": "The evidence block states \"`login()` fetches the existing record and mutates it in place, returning the same value it was given ... `return session_id`\"."
+    },
+    {
+      "text": "Failure scenario describes an attacker retaining access via a planted session ID",
+      "passed": true,
+      "evidence": "The failure scenario says \"attacker and victim now share one authenticated record, and the attacker is signed in by the victim's own credentials\" from a pre-authentication session_id."
+    },
+    {
+      "text": "Fix requires regenerating the session identifier at authentication",
+      "passed": true,
+      "evidence": "The fix section requires \"destroy it, mint fresh, and return the new ID\" with `new_id = secrets.token_urlsafe(32)`."
+    },
+    {
+      "text": "Header matches pattern: 1 finding · C:1 M:0 m:0 i:0",
+      "passed": false,
+      "evidence": "The header reads \"4 findings · C:1 M:1 m:0 i:2\", not the required \"1 finding · C:1 M:0 m:0 i:0\"."
+    }
+  ],
+  "summary": {
+    "passed": 5,
+    "failed": 2,
+    "total": 7,
+    "pass_rate": 0.7143
+  },
+  "searched": [
+    "session_fixation|start_session|end_session"
+  ]
+}

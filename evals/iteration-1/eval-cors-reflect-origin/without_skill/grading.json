@@ -1,0 +1,21 @@
+{
+  "eval": "eval-cors-reflect-origin",
+  "eval_id": 39,
+  "fixture": "evals/fixtures/cors_reflect_origin.py",
+  "run": "without_skill",
+  "phase": "before",
+  "review": "0 findings · C:0 M:0 m:0 i:0 — Domain Score: 100/100 (Grade A) — `Aligns well`",
+  "summary": { "passed": 2, "failed": 7, "total": 9, "pass_rate": 0.222 },
+  "assertions": [
+    { "n": 1, "text": "Exactly 1 finding above Info severity", "result": "fail", "evidence": "0 findings above Info; graded Grade A. The presence of an ALLOWED_ORIGINS constant read as a configured allowlist." },
+    { "n": 2, "text": "Finding is graded MAJOR", "result": "fail", "evidence": "No finding to grade." },
+    { "n": 3, "text": "Finding is on axis A5 (Security)", "result": "fail", "evidence": "No security finding emitted." },
+    { "n": 4, "text": "Identifies the echoed request origin in Access-Control-Allow-Origin", "result": "fail", "evidence": "Missed. No pre-change check covered browser cross-origin policy; the pre-change security sub-domain had no CORS, CSRF, or browser-trust file." },
+    { "n": 5, "text": "Notes the combination with Access-Control-Allow-Credentials: true", "result": "fail", "evidence": "Not stated." },
+    { "n": 6, "text": "Failure scenario describes a hostile origin reading an authenticated response", "result": "fail", "evidence": "Not stated." },
+    { "n": 7, "text": "Fix restricts the origin to an exact allowlist match", "result": "fail", "evidence": "No fix proposed." },
+    { "n": 8, "text": "origin_is_known is NOT flagged above Info (it is the sound reference)", "result": "pass", "evidence": "Nothing was flagged, so the true negative holds vacuously." },
+    { "n": 9, "text": "Header matches pattern: 1 finding · C:0 M:1 m:0 i:0", "result": "pass", "evidence": "Header rendered in the required shape, with a zero tally." }
+  ],
+  "notes": "Total miss on a browser-trust boundary."
+}

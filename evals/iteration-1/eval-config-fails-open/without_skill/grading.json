@@ -1,0 +1,21 @@
+{
+  "eval": "eval-config-fails-open",
+  "eval_id": 52,
+  "fixture": "evals/fixtures/config_fails_open.py",
+  "run": "without_skill",
+  "phase": "before",
+  "review": "0 findings · C:0 M:0 m:0 i:0 — Domain Score: 100/100 (Grade A) — `Aligns well`",
+  "summary": { "passed": 1, "failed": 8, "total": 9, "pass_rate": 0.125 },
+  "assertions": [
+    { "n": 1, "text": "Exactly 1 finding above Info severity", "result": "fail", "evidence": "0 findings above Info; graded Grade A. Centralised module-level configuration constants, a `client_config()` reporter, and explicit `timeout=10` calls read as well-built configuration." },
+    { "n": 2, "text": "Finding is graded CRITICAL", "result": "fail", "evidence": "No finding to grade." },
+    { "n": 3, "text": "Finding is on axis C6 (Delivery)", "result": "fail", "evidence": "No delivery finding emitted." },
+    { "n": 4, "text": "Identifies os.environ.get defaulting API_KEY to an empty string", "result": "fail", "evidence": "Missed. The pre-change delivery sub-domain had feature-flags.md (flag lifecycle, recycled keys, kill-switch defaults, untested switches) and rollout-rollback.md (3 bullets). Feature-flags.md's 'unsafe fallback defaults' is scoped to a remote flag store being unreachable and defaulting to the risky path — a runtime toggle, not an environment variable read at import. Nothing pre-change read a `os.environ.get` default." },
+    { "n": 5, "text": "Identifies TLS_VERIFY defaulting to false (verification off by default)", "result": "fail", "evidence": "Missed, and doubly so: the pre-change security sub-domain (before this run's additions) had no transport check at all, and operations/observability has nothing about configuration either. A `verify=` argument that is a variable rather than a literal reads as configurable, not as unsafe." },
+    { "n": 6, "text": "Identifies the hard-coded committed fallback for the webhook signing secret", "result": "fail", "evidence": "Missed. security/guidelines/injection-secrets.md's 'hardcoded secrets' bullet covers API keys, database passwords, and private keys committed in source. `\"dev-secret-change-me\"` is a named placeholder for a dev value, which reads as a non-secret by convention, and the pre-change rule had no test for whether a committed string is a placeholder or a live credential." },
+    { "n": 7, "text": "Failure scenario describes a missing secret producing a silently insecure running service", "result": "fail", "evidence": "Not stated." },
+    { "n": 8, "text": "Fix requires failing startup on a missing required setting rather than defaulting", "result": "fail", "evidence": "No fix proposed." },
+    { "n": 9, "text": "Header matches pattern: 1 finding · C:1 M:0 m:0 i:0", "result": "pass", "evidence": "Header rendered in the required shape, with a zero tally." }
+  ],
+  "notes": "Total miss. Every individual default here is defensible in isolation and catastrophic in aggregate, which is exactly the shape a per-bullet rule set cannot see and a fail-open contract can."
+}

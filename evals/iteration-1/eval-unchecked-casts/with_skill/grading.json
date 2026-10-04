@@ -1,0 +1,22 @@
+{
+  "eval": "eval-unchecked-casts",
+  "eval_id": 72,
+  "fixture": "evals/fixtures/unchecked_casts.py",
+  "run": "with_skill",
+  "phase": "after",
+  "review": "1 finding · C:1 M:0 m:0 i:0 — Domain Score: 75/100 (Grade C)",
+  "summary": { "passed": 10, "failed": 0, "total": 10, "pass_rate": 1.0 },
+  "assertions": [
+    { "n": 1, "text": "Exactly 1 finding above Info severity", "result": "pass", "evidence": "One Critical finding; the five sites are one root cause — the module opted out of checking at every boundary and then relied on the annotations anyway." },
+    { "n": 2, "text": "Finding is graded CRITICAL", "result": "pass", "evidence": "Graded Critical per the A8 rule: an unchecked cast on a money and ledger path, where the failure is a silent 3am webhook raise." },
+    { "n": 3, "text": "Finding is on axis A8 (Type & Contracts)", "result": "pass", "evidence": "Reported under Correctness / Type & Contracts (A8), not under Logic — the defect is an absent check, not a wrong computation." },
+    { "n": 4, "text": "Identifies PAYMENT_CLIENT and LEDGER annotated as Any so no call is checked", "result": "pass", "evidence": "Cites unchecked_casts.py:9-10 — two module-level Any declarations, so every method call on them resolves and nothing is verified." },
+    { "n": 5, "text": "Identifies the untyped webhook payload in apply_ledger_entry", "result": "pass", "evidence": "Cites line 30 — the parameter is annotated `dict`, so entry[\"account\"], entry[\"amount\"] and entry[\"postedAt\"] are all unchecked, and `currency` is defaulted rather than required." },
+    { "n": 6, "text": "Identifies lookup_order trusting the annotation on an unvalidated row", "result": "pass", "evidence": "Cites lines 16-18 — the return annotation asserts an order record for a row that was never validated against one." },
+    { "n": 7, "text": "Identifies total_for defaulting a missing amount rather than rejecting it", "result": "pass", "evidence": "Cites line 39 — e.get(\"amount\", 0) converts a missing amount into a zero, so a malformed feed entry silently disappears from a total instead of failing." },
+    { "n": 8, "text": "Failure scenario names a producer rename raising at 3am with the type checker silent", "result": "pass", "evidence": "States renaming postedAt to posted_at in the upstream feed raises a KeyError inside a webhook handler, with nothing catching it at compile time because the parameter was never typed." },
+    { "n": 9, "text": "Fix recommends declaring record types at the boundary and validating once at the edge", "result": "pass", "evidence": "Fix: type the clients, declare the record shapes, and validate untyped input once at the deserialisation edge with a schema, so the rest of the module is checked rather than asserted." },
+    { "n": 10, "text": "Header matches pattern: 1 finding · C:1 M:0 m:0 i:0", "result": "pass", "evidence": "Header rendered exactly as specified." }
+  ],
+  "notes": "Caught by guidelines/type-and-contract-assertions.md (new). config_value's getattr and get_status's false annotation were both noted and correctly kept below the finding count: the getattr is genuinely dynamic and the sub-leaf's scope rule says a well-justified cast at a dynamic boundary is Info, so reporting them would have inflated the finding."
+}

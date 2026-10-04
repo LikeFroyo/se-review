@@ -1,0 +1,22 @@
+{
+  "eval": "eval-ambient-clock-rules",
+  "eval_id": 56,
+  "fixture": "evals/fixtures/ambient_clock_rules.py",
+  "run": "without_skill",
+  "phase": "before",
+  "review": "1 finding · C:0 M:1 m:0 i:0 — Domain Score: 90/100 (Grade A)",
+  "summary": { "passed": 2, "failed": 8, "total": 10, "pass_rate": 0.2 },
+  "assertions": [
+    { "n": 1, "text": "Exactly 1 finding above Info severity", "result": "pass", "evidence": "One finding raised, covering the module-level state." },
+    { "n": 2, "text": "Finding is graded CRITICAL", "result": "fail", "evidence": "Graded MAJOR, as a coupling concern rather than as a correctness threat." },
+    { "n": 3, "text": "Finding is on axis B2 (Evolvability)", "result": "fail", "evidence": "Reported under Maintainability / Design (B5) via design/guidelines/coupling-cohesion.md, 'Global mutable singletons'." },
+    { "n": 4, "text": "Identifies the clock read inside is_promotion_active and eligible_for_offer", "result": "fail", "evidence": "Missed. The pre-change 'Global mutable singletons' bullet is about module-level state coupling unrelated callers; a `datetime.now()` call inside a function is not global mutable state, so the nearest trigger did not match." },
+    { "n": 5, "text": "Identifies random.random() inside a business rule, so the same input gives a different answer", "result": "fail", "evidence": "Missed. No pre-change rule asked whether a function is repeatable, and `random.random()` is idiomatic enough to read as sampling rather than as a hidden input." },
+    { "n": 6, "text": "Identifies the environment read inside price_for_basket as configuration leaking into logic", "result": "fail", "evidence": "Missed. Reading an env var is the normal way to configure an application, and no pre-change rule separated configuration read at decision time from configuration read at start-up." },
+    { "n": 7, "text": "Notes place_order taking the buyer from module-level CURRENT_USER", "result": "pass", "evidence": "Raised — this one genuinely is module-level mutable state and matched the pre-existing coupling bullet." },
+    { "n": 8, "text": "Failure scenario explains a replayed order pricing differently from when it was placed", "result": "fail", "evidence": "Not stated; the finding described coupling between callers, not the loss of reproducibility." },
+    { "n": 9, "text": "Fix recommends passing time, randomness, config and identity in as parameters", "result": "fail", "evidence": "Fix recommended moving the identity into a request-scoped object; nothing about the clock, the random draw, or the environment." },
+    { "n": 10, "text": "Header matches pattern: 1 finding · C:1 M:0 m:0 i:0", "result": "fail", "evidence": "Header rendered `1 finding · C:0 M:1 m:0 i:0`." }
+  ],
+  "notes": "Partial catch, on the one of the four that happened to be module-level. The pre-change design sub-domain could see shared state; it had no concept of a function whose inputs are not its parameters, which is the actual defect and the one that makes results unreproducible."
+}

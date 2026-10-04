@@ -1,0 +1,21 @@
+{
+  "eval": "eval-soft-delete-uniqueness",
+  "eval_id": 68,
+  "fixture": "evals/fixtures/soft_delete_uniqueness.py",
+  "run": "without_skill",
+  "phase": "before",
+  "review": "0 findings · C:0 M:0 m:0 i:0 — Domain Score: 100/100 (Grade A) — `Aligns well`",
+  "summary": { "passed": 1, "failed": 8, "total": 9, "pass_rate": 0.125 },
+  "assertions": [
+    { "n": 1, "text": "Exactly 1 finding above Info severity", "result": "fail", "evidence": "0 findings above Info; graded Grade A. A soft-delete with a nullable deleted_at and retained unique indexes is the most conventional schema in the file, and the declared indexes read as deliberate constraint design." },
+    { "n": 2, "text": "Finding is graded MAJOR", "result": "fail", "evidence": "No finding to grade." },
+    { "n": 3, "text": "Finding is on axis A3 (Data)", "result": "fail", "evidence": "No data finding emitted." },
+    { "n": 4, "text": "Identifies the unique indexes declared at file scope spanning the tombstone row", "result": "fail", "evidence": "Missed. The pre-change data sub-domain's nine bullets concern query shape and transaction scope. transactions-migrations.md covers destructive migrations and expand-contract, which is about changing a schema, not about which rows a live index spans. Nothing pre-change asked whether an index's scope matches the table's soft-delete semantics." },
+    { "n": 5, "text": "Identifies create_customer failing on a duplicate key for a previously deleted email", "result": "fail", "evidence": "Missed; the insert looks minimal and the constraint is declared in a comment above." },
+    { "n": 6, "text": "Identifies active_customers and customer_count scoping by segment rather than by deleted_at", "result": "fail", "evidence": "Missed. The queries are bounded and filtered, which is what query-patterns.md asks for, and the missing filter is not a missing LIMIT or a missing index." },
+    { "n": 7, "text": "Failure scenario names an un-re-registerable address and a total that never matches the list", "result": "fail", "evidence": "Not stated." },
+    { "n": 8, "text": "Fix recommends a partial unique index over live rows plus deletion-marker filters in default queries", "result": "fail", "evidence": "No fix proposed." },
+    { "n": 9, "text": "Header matches pattern: 1 finding · C:0 M:1 m:0 i:0", "result": "pass", "evidence": "Header rendered in the required shape, with a zero tally." }
+  ],
+  "notes": "Total miss. Soft delete is invisible to a rule set built on query shape and transaction scope, because every individual query and index in the file is individually reasonable; the defect exists only in the relationship between them."
+}

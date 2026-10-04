@@ -1,0 +1,31 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Raw model event streams from run_evals.py. Regenerable by re-running a sweep,
+# ~4MB, and they exist only to derive trigger rate. Verdicts and reviews are the
+# evidence and are committed; the streams are not.
+evals/**/events.jsonl
+# The grader's raw event stream, same reasoning as the reviewer's above: a transcript
+# of a run, regenerable, and it carries the staged workspace path. Found by the
+# portable-evidence rule the moment a run wrote one -- a new evidence file that no
+# ignore rule covered is a leak waiting for the next commit.
+evals/**/judge_stream.jsonl
+# Research reports stay out of version control. The gap register does not, and the
+# distinction is the point: an adoption lands only when it closes a *named, cited* gap,
+# so the register is the citation list for that test. Ignored, it made every "closes G7"
+# claim in this history cite a row that existed on one machine and in no clone -- the test
+# unverifiable by construction while appearing to be enforced.
+#
+# `/docs/*`, not `/docs`: git cannot re-include a file whose parent *directory* is
+# excluded, so the negation below was silently inert until the pattern excluded the
+# contents rather than the directory. The rule looked right and did nothing.
+/docs/*
+!/docs/named-gaps.md
+
+# Scratch directory for probes and temporary run artifacts. Lives inside the tree so a
+# staged path never carries a per-user temporary directory, and ignored so nothing in it is
+# ever published. Never a place to keep evidence.
+/probe
+# The grader raw reply, same reasoning as its event stream above.
+evals/**/judge_reply.txt

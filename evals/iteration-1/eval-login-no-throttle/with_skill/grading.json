@@ -1,0 +1,21 @@
+{
+  "eval": "eval-login-no-throttle",
+  "eval_id": 40,
+  "fixture": "evals/fixtures/login_no_throttle.py",
+  "run": "with_skill",
+  "phase": "after",
+  "review": "1 finding · C:0 M:1 m:0 i:0 — Domain Score: 90/100 (Grade A)",
+  "summary": { "passed": 9, "failed": 0, "total": 9, "pass_rate": 1.0 },
+  "assertions": [
+    { "n": 1, "text": "Exactly 1 finding above Info severity", "result": "pass", "evidence": "One Major finding; the absent throttle and the enumerating message were merged as one root cause (the login path carries no abuse control)." },
+    { "n": 2, "text": "Finding is graded MAJOR", "result": "pass", "evidence": "Graded Major per 'No login throttling or user enumeration' in the security sub-leaf Major list." },
+    { "n": 3, "text": "Finding is on axis A5 (Security)", "result": "pass", "evidence": "Reported under Correctness / Security (A5)." },
+    { "n": 4, "text": "Identifies the absent rate limit, lockout, or backoff on the login path", "result": "pass", "evidence": "Cites authenticate() taking remote_ip and never using it, and having no counter, delay, or lockout." },
+    { "n": 5, "text": "Identifies the distinct message disclosing whether an account exists", "result": "pass", "evidence": "Cites the two different failure strings at login_no_throttle.py:21 and :24." },
+    { "n": 6, "text": "Failure scenario describes account enumeration followed by credential stuffing", "result": "pass", "evidence": "States the attacker confirms registered addresses from the messages, then runs unlimited attempts from one connection." },
+    { "n": 7, "text": "Fix recommends throttling plus a uniform failure response", "result": "pass", "evidence": "Fix: per-account and per-IP throttling with backoff, and one uniform failure message with constant timing." },
+    { "n": 8, "text": "remote_ip being an unused parameter is noticed or noted as supporting the missing throttle", "result": "pass", "evidence": "The unused remote_ip parameter is cited as the evidence that per-IP limiting was intended and never wired up." },
+    { "n": 9, "text": "Header matches pattern: 1 finding · C:0 M:1 m:0 i:0", "result": "pass", "evidence": "Header rendered exactly as specified." }
+  ],
+  "notes": "Caught by the 'Login throttling' section of guidelines/authentication.md."
+}

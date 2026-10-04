@@ -1,0 +1,21 @@
+{
+  "eval": "eval-cache-no-invalidation",
+  "eval_id": 49,
+  "fixture": "evals/fixtures/cache_no_invalidation.py",
+  "run": "without_skill",
+  "phase": "before",
+  "review": "0 findings · C:0 M:0 m:0 i:0 — Domain Score: 100/100 (Grade A) — `Aligns well`",
+  "summary": { "passed": 1, "failed": 8, "total": 9, "pass_rate": 0.125 },
+  "assertions": [
+    { "n": 1, "text": "Exactly 1 finding above Info severity", "result": "fail", "evidence": "0 findings above Info; graded Grade A. A read-through cache with a get/set helper pair and an explicit invalidate_all reads as textbook." },
+    { "n": 2, "text": "Finding is graded MAJOR", "result": "fail", "evidence": "No finding to grade." },
+    { "n": 3, "text": "Finding is on axis C1 (Performance)", "result": "fail", "evidence": "No performance finding emitted." },
+    { "n": 4, "text": "Identifies set_price writing to the database without updating or invalidating the cache", "result": "fail", "evidence": "Missed. `performance/guidelines/memory-retention.md` asks whether resident memory is bounded; it does not ask whether a cached value is correct. Nothing pre-change treated a cache as a claim about staleness, so a write path that skips the cache was invisible — the shape reads as a deliberate write-behind." },
+    { "n": 5, "text": "Identifies the absence of any TTL or staleness bound", "result": "fail", "evidence": "Missed; the absence of a TTL read as a deliberate trade-off, not a defect." },
+    { "n": 6, "text": "Identifies invalidate_all as a full flush that collapses to simultaneous misses", "result": "fail", "evidence": "Missed, and doubly so: the pre-change rules have a thundering-herd rule (retries-backoff.md) but scoped it to retries, so the same failure shape in a cache was not recognised." },
+    { "n": 7, "text": "Failure scenario names a corrected price being served indefinitely", "result": "fail", "evidence": "Not stated." },
+    { "n": 8, "text": "Fix recommends write-through or invalidation plus a single-flight or stale-while-revalidate miss path", "result": "fail", "evidence": "No fix proposed." },
+    { "n": 9, "text": "Header matches pattern: 1 finding · C:0 M:1 m:0 i:0", "result": "pass", "evidence": "Header rendered in the required shape, with a zero tally." }
+  ],
+  "notes": "Total miss. The pre-change performance sub-domain sized caches and never aged them."
+}

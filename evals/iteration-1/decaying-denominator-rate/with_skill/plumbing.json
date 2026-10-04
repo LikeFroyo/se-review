@@ -1,0 +1,9 @@
+{
+  "tool_errors": [
+    {
+      "tool": "skill",
+      "error": "Unable to load skill se-review"
+    }
+  ],
+  "reason": "review body present and graded despite tool errors; the errors did not prevent the review"
+}

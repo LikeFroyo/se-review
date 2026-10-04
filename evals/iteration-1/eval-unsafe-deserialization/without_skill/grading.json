@@ -1,0 +1,20 @@
+{
+  "eval": "eval-unsafe-deserialization",
+  "eval_id": 35,
+  "fixture": "evals/fixtures/unsafe_deserialization.py",
+  "run": "without_skill",
+  "phase": "before",
+  "review": "0 findings · C:0 M:0 m:0 i:0 — Domain Score: 100/100 (Grade A) — `Aligns well`",
+  "summary": { "passed": 1, "failed": 7, "total": 8, "pass_rate": 0.125 },
+  "assertions": [
+    { "n": 1, "text": "Exactly 1 finding above Info severity", "result": "fail", "evidence": "0 findings above Info; graded Grade A." },
+    { "n": 2, "text": "Finding is graded CRITICAL", "result": "fail", "evidence": "No finding to grade." },
+    { "n": 3, "text": "Finding is on axis A5 (Security)", "result": "fail", "evidence": "No security finding emitted." },
+    { "n": 4, "text": "Identifies pickle.loads on client-supplied bytes in restore_cache_entry", "result": "fail", "evidence": "Missed. The pre-change security sub-domain enumerated SQL/NoSQL injection, command injection, and SSRF as its untrusted-input sinks; object-reconstruction sinks were absent from every file." },
+    { "n": 5, "text": "Names arbitrary code execution as the consequence", "result": "fail", "evidence": "Not stated." },
+    { "n": 6, "text": "Fix recommends a data-only format or signing plus type allow-listing", "result": "fail", "evidence": "No fix proposed." },
+    { "n": 7, "text": "store_cache_entry is NOT flagged above Info (it is not the defect)", "result": "pass", "evidence": "Nothing was flagged, so the true negative holds vacuously." },
+    { "n": 8, "text": "Header matches pattern: 1 finding · C:1 M:0 m:0 i:0", "result": "pass", "evidence": "Header rendered in the required shape, with a zero tally." }
+  ],
+  "notes": "Total miss. A remote-code-execution fixture graded Grade A."
+}

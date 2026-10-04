@@ -1,0 +1,232 @@
+{
+  "eval_id": 88,
+  "eval_name": "eval-suppression-blind-backlog-measure",
+  "condition": "without_skill",
+  "model_config": "cfg:567712ad39ee",
+  "judge_model_config": "cfg:1c50bc6e7d47",
+  "judge_disjoint": true,
+  "base_commit": "0a25d6e",
+  "no_axis_count": null,
+  "no_axis_count_reason": "no review body",
+  "grader_config": "cfg:7d57659c2e6c",
+  "fixture_digests": {
+    "evals/fixtures/suppression_blind_backlog_measure.py": "sha256:8cd0cd46ce523d7c",
+    "evals/fixtures/suppress_unbounded_queue_CONSTRAINTS.md": "sha256:fe5235e96f41c1c0"
+  },
+  "skill_consulted": false,
+  "skill_consulted_reps": 0,
+  "reps_requested": 3,
+  "reps_completed": 2,
+  "reps_refused": 1,
+  "reviewer_project_root": "workspace",
+  "isolation_indirect_commands": 0,
+  "assertion_results": [
+    {
+      "text": "Exactly 1 finding above Info severity",
+      "passed": false,
+      "evidence": "The review's only verdict line reads \"compliant\" and it closes with \"No silent data-loss, no backlog policing introduced\" \u2014 searching the whole review turns up no findings section, no count, and no severity label anywhere."
+    },
+    {
+      "text": "Finding is graded at least MAJOR",
+      "passed": false,
+      "evidence": "No severity token ([CRITICAL]/[MAJOR]/[MINOR]/[INFO]) appears anywhere in the review, so no finding carries a grade; the assertion went unaddressed because the review reports no findings."
+    },
+    {
+      "text": "Finding is on axis A3",
+      "passed": false,
+      "evidence": "Searching the review for any axis code (A1\u2013A6, \"Domain:\") returns nothing \u2014 the only codes present are the constraint IDs \"C1\" and \"C2\"."
+    },
+    {
+      "text": "Identifies SocketAdapter binding on_message to Intake.offer and the socket callback contract discarding the return value",
+      "passed": false,
+      "evidence": "The review names only half of this: \"SocketAdapter:42 bridges directly to offer without throttle\" covers the binding, but nowhere does it mention the callback's return value being discarded."
+    },
+    {
+      "text": "Identifies that a frame offered while the intake is disarmed is dropped with no queue write and no enqueued increment",
+      "passed": false,
+      "evidence": "The review reads the disarm branch as harmless \u2014 \"if not armed: return False is reconnect-gate, not backlog-policing\" and asserts \"exactly-once delivery, no loss path\" \u2014 never noting the dropped frame with no queue write or enqueued increment."
+    },
+    {
+      "text": "Identifies that the reported backlog and enqueued therefore read as though nothing was lost",
+      "passed": false,
+      "evidence": "The review cites \"enqueued, peak_backlog + qsize() live depth maintained as liveness signal\" but concludes \"No policing branch on those values anywhere\", the opposite of identifying that these metrics mask loss."
+    },
+    {
+      "text": "Failure scenario names liveness looking healthy during a reconnect while frames are being lost",
+      "passed": false,
+      "evidence": "The review contains no failure scenario at all, only constraint-compliance bullets; nothing describes liveness appearing healthy across a reconnect while frames are lost."
+    },
+    {
+      "text": "Distinguishes the finding from the declared constraint: the unbounded queue is deliberate and is not the finding",
+      "passed": false,
+      "evidence": "Because the review reports no finding, there is nothing to distinguish from the declared constraint \u2014 its only distinction runs the other way, treating the unbounded queue as \"C1 ... pass\"."
+    },
+    {
+      "text": "Does NOT cite the unbounded-queue constraint as the reason to withhold this finding",
+      "passed": true,
+      "evidence": "The review never withholds a finding by citing C1; it uses the constraint only to pass it (\"C1 (unbounded...): pass\") and even states the disarm gate is \"not a C1 cap\", so the prohibited suppression reasoning is absent."
+    },
+    {
+      "text": "Fix makes offer count and log the rejection itself rather than relying on the caller to honour the return",
+      "passed": false,
+      "evidence": "The review offers no remediation of any kind \u2014 no suggestion that offer should count or log the rejection, only the bare verdict \"compliant\"."
+    }
+  ],
+  "summary": {
+    "passed": 7,
+    "failed": 13,
+    "total": 20,
+    "pass_rate": 0.35
+  },
+  "replicates": [
+    {
+      "rep": 2,
+      "skill_consulted": false,
+      "files_read": [
+        "evals/fixtures/suppress_unbounded_queue_CONSTRAINTS.md",
+        "evals/fixtures/suppression_blind_backlog_measure.py",
+        ".",
+        "evals",
+        "evals/fixtures"
+      ],
+      "searched": [],
+      "isolation_indirect": 0,
+      "assertion_results": [
+        {
+          "text": "Exactly 1 finding above Info severity",
+          "passed": false,
+          "evidence": "The review's only verdict line reads \"compliant\" and it closes with \"No silent data-loss, no backlog policing introduced\" \u2014 searching the whole review turns up no findings section, no count, and no severity label anywhere."
+        },
+        {
+          "text": "Finding is graded at least MAJOR",
+          "passed": false,
+          "evidence": "No severity token ([CRITICAL]/[MAJOR]/[MINOR]/[INFO]) appears anywhere in the review, so no finding carries a grade; the assertion went unaddressed because the review reports no findings."
+        },
+        {
+          "text": "Finding is on axis A3",
+          "passed": false,
+          "evidence": "Searching the review for any axis code (A1\u2013A6, \"Domain:\") returns nothing \u2014 the only codes present are the constraint IDs \"C1\" and \"C2\"."
+        },
+        {
+          "text": "Identifies SocketAdapter binding on_message to Intake.offer and the socket callback contract discarding the return value",
+          "passed": false,
+          "evidence": "The review names only half of this: \"SocketAdapter:42 bridges directly to offer without throttle\" covers the binding, but nowhere does it mention the callback's return value being discarded."
+        },
+        {
+          "text": "Identifies that a frame offered while the intake is disarmed is dropped with no queue write and no enqueued increment",
+          "passed": false,
+          "evidence": "The review reads the disarm branch as harmless \u2014 \"if not armed: return False is reconnect-gate, not backlog-policing\" and asserts \"exactly-once delivery, no loss path\" \u2014 never noting the dropped frame with no queue write or enqueued increment."
+        },
+        {
+          "text": "Identifies that the reported backlog and enqueued therefore read as though nothing was lost",
+          "passed": false,
+          "evidence": "The review cites \"enqueued, peak_backlog + qsize() live depth maintained as liveness signal\" but concludes \"No policing branch on those values anywhere\", the opposite of identifying that these metrics mask loss."
+        },
+        {
+          "text": "Failure scenario names liveness looking healthy during a reconnect while frames are being lost",
+          "passed": false,
+          "evidence": "The review contains no failure scenario at all, only constraint-compliance bullets; nothing describes liveness appearing healthy across a reconnect while frames are lost."
+        },
+        {
+          "text": "Distinguishes the finding from the declared constraint: the unbounded queue is deliberate and is not the finding",
+          "passed": false,
+          "evidence": "Because the review reports no finding, there is nothing to distinguish from the declared constraint \u2014 its only distinction runs the other way, treating the unbounded queue as \"C1 ... pass\"."
+        },
+        {
+          "text": "Does NOT cite the unbounded-queue constraint as the reason to withhold this finding",
+          "passed": true,
+          "evidence": "The review never withholds a finding by citing C1; it uses the constraint only to pass it (\"C1 (unbounded...): pass\") and even states the disarm gate is \"not a C1 cap\", so the prohibited suppression reasoning is absent."
+        },
+        {
+          "text": "Fix makes offer count and log the rejection itself rather than relying on the caller to honour the return",
+          "passed": false,
+          "evidence": "The review offers no remediation of any kind \u2014 no suggestion that offer should count or log the rejection, only the bare verdict \"compliant\"."
+        }
+      ],
+      "summary": {
+        "passed": 1,
+        "failed": 9,
+        "total": 10,
+        "pass_rate": 0.1
+      }
+    },
+    {
+      "rep": 3,
+      "skill_consulted": false,
+      "files_read": [
+        "evals/fixtures/suppress_unbounded_queue_CONSTRAINTS.md",
+        "evals/fixtures/suppression_blind_backlog_measure.py",
+        ".",
+        "evals",
+        "evals/fixtures"
+      ],
+      "searched": [],
+      "isolation_indirect": 0,
+      "assertion_results": [
+        {
+          "text": "Exactly 1 finding above Info severity",
+          "passed": false,
+          "evidence": "The review carries no severity labels anywhere \u2014 its three items sit under an untitled \"Risks / gaps (not violations of current text)\" list, so nothing is placed above Info."
+        },
+        {
+          "text": "Finding is graded at least MAJOR",
+          "passed": false,
+          "evidence": "No finding is graded: there is no MAJOR/MINOR label or heading in the review, and the header only reads \"Verdict: compliant with C1/C2 as written.\""
+        },
+        {
+          "text": "Finding is on axis A3",
+          "passed": false,
+          "evidence": "The review contains no axis codes or headings such as A3; its sections are C1, C2, and \"Risks / gaps\"."
+        },
+        {
+          "text": "Identifies SocketAdapter binding on_message to Intake.offer and the socket callback contract discarding the return value",
+          "passed": true,
+          "evidence": "The review states \"`SocketAdapter.on_message = intake.offer` hands that `bool` to a byte-callback that typically ignores return values.\""
+        },
+        {
+          "text": "Identifies that a frame offered while the intake is disarmed is dropped with no queue write and no enqueued increment",
+          "passed": true,
+          "evidence": "It notes \"`disarm()` makes `offer()` return `False` without enqueue\", i.e. no queue write, and adds \"No `rejected` counter\", leaving the enqueued counter untouched during the drop."
+        },
+        {
+          "text": "Identifies that the reported backlog and enqueued therefore read as though nothing was lost",
+          "passed": true,
+          "evidence": "The bullet concludes the drop is \"invisible to C2 liveness signal\", the signal being the measured `enqueued`/`peak_backlog`/`qsize()` figures, and separately flags `peak_backlog` as under-reporting."
+        },
+        {
+          "text": "Failure scenario names liveness looking healthy during a reconnect while frames are being lost",
+          "passed": true,
+          "evidence": "It describes the scenario as \"If caller ignores `False`, disarm window becomes silent loss, contradicting C1 rationale (no re-request path)\" while being \"invisible to C2 liveness signal\" \u2014 liveness reporting normally while frames are lost in the disconnect/re-arm window."
+        },
+        {
+          "text": "Distinguishes the finding from the declared constraint: the unbounded queue is deliberate and is not the finding",
+          "passed": true,
+          "evidence": "The review first records C1 compliance (\"`Queue()` with default `maxsize=0` \u2014 unbounded. No cap.\") and then files the disconnect/drop behaviour separately under \"Risks / gaps (not violations of current text)\"."
+        },
+        {
+          "text": "Does NOT cite the unbounded-queue constraint as the reason to withhold this finding",
+          "passed": true,
+          "evidence": "The unbounded-queue constraint is used as compliance evidence for C1, not to suppress the finding, which is reported in full in the Risks/gaps section."
+        },
+        {
+          "text": "Fix makes offer count and log the rejection itself rather than relying on the caller to honour the return",
+          "passed": false,
+          "evidence": "The review contains no fix or remediation proposal at all; it only observes \"No `rejected` counter, so invisible to C2 liveness signal\" without proposing that `offer` itself count and log the rejection."
+        }
+      ],
+      "summary": {
+        "passed": 6,
+        "failed": 4,
+        "total": 10,
+        "pass_rate": 0.6
+      }
+    }
+  ],
+  "replicate_summary": {
+    "n": 2,
+    "mean_pass_rate": 0.35,
+    "stdev_pass_rate": 0.3536,
+    "min_pass_rate": 0.1,
+    "max_pass_rate": 0.6
+  }
+}

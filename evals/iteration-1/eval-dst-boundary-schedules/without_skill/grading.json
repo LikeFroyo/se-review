@@ -1,0 +1,22 @@
+{
+  "eval": "eval-dst-boundary-schedules",
+  "eval_id": 76,
+  "fixture": "evals/fixtures/dst_boundary_schedules.py",
+  "run": "without_skill",
+  "phase": "before",
+  "review": "1 finding · C:0 M:1 m:0 i:0 — Domain Score: 90/100 (Grade A)",
+  "summary": { "passed": 2, "failed": 8, "total": 10, "pass_rate": 0.2 },
+  "assertions": [
+    { "n": 1, "text": "Exactly 2 findings above Info severity", "result": "fail", "evidence": "One finding raised, on the naive datetime." },
+    { "n": 2, "text": "Finding 1 is graded CRITICAL and finding 2 is graded MAJOR", "result": "fail", "evidence": "The single finding was graded MAJOR; no Critical was raised and the representation disagreements were not reported." },
+    { "n": 3, "text": "Both findings are on axis D2 (Time & Locale)", "result": "fail", "evidence": "Reported under Correctness / Logic (A1), via the pre-existing edge-cases bullet on naive timestamps and DST." },
+    { "n": 4, "text": "Finding 1 identifies the naive wall-clock schedule with no zone", "result": "pass", "evidence": "Raised — correctness/logic/guidelines/edge-cases.md names 'Treating naive timestamps as UTC' and 'ignoring daylight savings shifts' as triggers, and both are present here." },
+    { "n": 5, "text": "Finding 1 explains the DST gap skipping the run and the DST fold applying it twice", "result": "fail", "evidence": "Named the DST hazard in the abstract, but not the specific skip-twice-run consequence or the double charge." },
+    { "n": 6, "text": "Finding 1 names the double-charge of merchants as the consequence", "result": "fail", "evidence": "Not stated." },
+    { "n": 7, "text": "Finding 2 identifies dd/MM/YYYY read against MM/dd/YYYY written", "result": "fail", "evidence": "Missed. This is the pre-change rule set's clearest remaining gap: a strftime and a strptime in the same file using opposite orders, with a partner on the other end. No pre-change rule compares a format written against a format read." },
+    { "n": 8, "text": "Finding 2 identifies ISO week numbering against the partner's week-1 rule", "result": "fail", "evidence": "Missed." },
+    { "n": 9, "text": "Finding 2 identifies ordering on the formatted string so the order is wrong", "result": "fail", "evidence": "Missed. correctness/data/query-patterns.md asks about N+1, limits, indexes, and client-side filtering; ordering a list by a formatted string is none of those." },
+    { "n": 10, "text": "Header matches pattern: 2 findings · C:1 M:1 m:0 i:0", "result": "fail", "evidence": "Header rendered `1 finding · C:0 M:1 m:0 i:0`." }
+  ],
+  "notes": "Partial catch, and the split is diagnostic. The pre-change edge-cases rule reached the naive datetime because it names DST explicitly. The three representation disagreements were invisible because they are not defects in any single statement — the strftime is correct, the strptime is correct, and they are wrong relative to each other."
+}

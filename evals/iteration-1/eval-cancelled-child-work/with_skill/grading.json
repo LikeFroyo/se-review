@@ -1,0 +1,21 @@
+{
+  "eval": "eval-cancelled-child-work",
+  "eval_id": 62,
+  "fixture": "evals/fixtures/cancelled_child_work.py",
+  "run": "with_skill",
+  "phase": "after",
+  "review": "2 findings · C:2 M:0 m:0 i:0 — Domain Score: 50/100 (Grade F)",
+  "summary": { "passed": 9, "failed": 0, "total": 9, "pass_rate": 1.0 },
+  "assertions": [
+    { "n": 1, "text": "Exactly 2 findings above Info severity", "result": "pass", "evidence": "Two Critical findings; cancellation propagation and task ownership are separate contracts." },
+    { "n": 2, "text": "Both findings are graded CRITICAL", "result": "pass", "evidence": "Both graded Critical per the new A2 rule: orphaned work after cancellation, and a task that may never run." },
+    { "n": 3, "text": "Both findings are on axis A2 (Concurrency)", "result": "pass", "evidence": "Reported under Correctness / Concurrency (A2), not under Operations / Resilience — the defect is the task's lifetime, not the service's behaviour under failure." },
+    { "n": 4, "text": "Finding 1 identifies the timeout path in handle_cancellation_request not cancelling export_task", "result": "pass", "evidence": "Cites lines 40-46 — wait_for raises, the handler logs and returns, and export_task is never cancelled, so run_export's 60s sleep continues." },
+    { "n": 5, "text": "Finding 1 identifies warm_cache spawning work with no cancellation path", "result": "pass", "evidence": "Cites lines 60-63 — rebuild_cache is started from a handler that has no cancel token to pass it." },
+    { "n": 6, "text": "Finding 1 explains the orphaned work outliving the cancelled request", "result": "pass", "evidence": "States the export keeps consuming a worker and its outbound request for a caller that already received its answer." },
+    { "n": 7, "text": "Finding 2 identifies create_task with no reference retained and no await", "result": "pass", "evidence": "Cites line 62 — the task object is discarded immediately, so the runtime may collect it before it runs." },
+    { "n": 8, "text": "Finding 2 notes no error handler, so a rejection is never observed", "result": "pass", "evidence": "States a failing rebuild_cache raises where nothing is watching, so the failure produces no log and no metric." },
+    { "n": 9, "text": "Header matches pattern: 2 findings · C:2 M:0 m:0 i:0", "result": "pass", "evidence": "Header rendered exactly as specified." }
+  ],
+  "notes": "Caught by guidelines/cancellation-lifecycle.md (new), both sections. handle_order_event's asyncio.gather was correctly NOT flagged — it awaits both children and is bounded by the caller's task, which is the sound pattern and the contrast that makes the two defects visible."
+}

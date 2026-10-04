@@ -1,0 +1,21 @@
+{
+  "eval": "eval-field-name-mismatch",
+  "eval_id": 78,
+  "fixture": "evals/fixtures/field_name_mismatch.py",
+  "run": "without_skill",
+  "phase": "before",
+  "review": "1 finding · C:0 M:1 m:0 i:0 — Domain Score: 90/100 (Grade A)",
+  "summary": { "passed": 2, "failed": 7, "total": 9, "pass_rate": 0.222 },
+  "assertions": [
+    { "n": 1, "text": "Exactly 3 findings above Info severity", "result": "fail", "evidence": "One finding raised, on the strict consumer." },
+    { "n": 2, "text": "Finding 1 is graded CRITICAL and findings 2 and 3 are graded MAJOR", "result": "fail", "evidence": "The single finding was graded MAJOR; the name mismatch was not reported at all, so no Critical was raised." },
+    { "n": 3, "text": "All 3 findings are on axis D4 (Wire Formats)", "result": "fail", "evidence": "Reported under Correctness / API Contracts (A4). The D axes did not exist." },
+    { "n": 4, "text": "Finding 1 identifies customerId read against customer_id written", "result": "fail", "evidence": "Missed — and this is the single most consequential miss in the interoperability round. Two schema dictionaries sit in the same file declaring different field names, and .get() with a default means nothing raises. correctness/api-contracts' rules are about a change breaking a client, not about two sides in the same codebase already disagreeing about a field name on an unchanged contract." },
+    { "n": 5, "text": "Finding 1 explains every event falling to the unknown-customer default", "result": "fail", "evidence": "Not stated." },
+    { "n": 6, "text": "Finding 2 identifies strict_handler raising on unknown fields and on an unknown status value", "result": "pass", "evidence": "Raised via the pre-existing backward-compatibility rule that a producer widening a closed response set breaks existing consumers — a genuine, if narrower, reading of the same defect." },
+    { "n": 7, "text": "Finding 2 explains the additive producer change stalling the queue", "result": "fail", "evidence": "Partially stated: the break was identified, but the queue-stall consequence and the fact that the change is purely additive were not." },
+    { "n": 8, "text": "Finding 3 identifies the representation negotiated from Accept with no default or pinning", "result": "fail", "evidence": "Missed. operations/delivery covers configuration defaults, and the pre-change config-and-secrets file did not exist; nothing pre-change asked whether a payload's shape varies per client." },
+    { "n": 9, "text": "Header matches pattern: 3 findings · C:1 M:2 m:0 i:0", "result": "fail", "evidence": "Header rendered `1 finding · C:0 M:1 m:0 i:0`." }
+  ],
+  "notes": "Partial catch, and the lesson is about default arguments. The pre-change API rules correctly identified the forward-compatibility break. They missed the already-broken field name because .get(key, default) converts a total mismatch into a plausible value — a rule set graded on crashes and type errors systematically misses defects that have been given a default."
+}

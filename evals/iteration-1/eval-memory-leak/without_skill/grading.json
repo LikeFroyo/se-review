@@ -1,0 +1,53 @@
+{
+  "eval_id": 9,
+  "eval_name": "eval-memory-leak",
+  "run_type": "without_skill",
+  "assertions": [
+    {
+      "assertion": "Exactly 1 finding above Info severity",
+      "passed": false,
+      "evidence": "Lists 4 unranked recommendations without severity assessment."
+    },
+    {
+      "assertion": "Finding is graded MAJOR",
+      "passed": false,
+      "evidence": "No severity assigned to memory growth or cache retention."
+    },
+    {
+      "assertion": "Finding is on axis C1 (Performance) or C2 (Caching)",
+      "passed": false,
+      "evidence": "No operational or performance taxonomy axis provided."
+    },
+    {
+      "assertion": "Evidence identifies unbounded growth in QUERY_RESULT_CACHE without TTL or eviction",
+      "passed": true,
+      "evidence": "Notices cache lacks an expiration mechanism, although frames it as staleness rather than memory leakage."
+    },
+    {
+      "assertion": "Failure scenario describes monotonic memory growth leading to process OOM crash under traffic",
+      "passed": false,
+      "evidence": "Fails to identify the memory leak or OOM crash scenario, focusing only on stale data."
+    },
+    {
+      "assertion": "Fix recommends bounded LRU/LFU cache, TTL expiry, or external cache store",
+      "passed": false,
+      "evidence": "Recommends encapsulating the global variable in a class rather than introducing a bounded LRU/TTL cache."
+    },
+    {
+      "assertion": "Trade-off notes cache eviction overhead or cache misses under high churn",
+      "passed": false,
+      "evidence": "No trade-off analyzed."
+    },
+    {
+      "assertion": "Header matches pattern: 1 finding · C:0 M:1 m:0 i:0",
+      "passed": false,
+      "evidence": "Missing structured review header."
+    }
+  ],
+  "summary": {
+    "total": 8,
+    "passed": 1,
+    "failed": 7,
+    "pass_rate": 0.125
+  }
+}

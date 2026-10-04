@@ -1,0 +1,65 @@
+{
+  "eval_id": 7,
+  "eval_name": "eval-swallowed-error",
+  "condition": "with_skill",
+  "reps_requested": 1,
+  "reps_completed": 1,
+  "assertion_results": [
+    {
+      "text": "Exactly 1 finding above Info severity",
+      "passed": false,
+      "evidence": "Header and Findings list show 3 findings, including 2 CRITICAL and 1 MAJOR."
+    },
+    {
+      "text": "Finding is graded CRITICAL",
+      "passed": true,
+      "evidence": "Two findings are explicitly headed [CRITICAL]."
+    },
+    {
+      "text": "Finding is on axis A1 (Logic / Error Handling)",
+      "passed": true,
+      "evidence": "The first critical finding is labeled Domain: Correctness (A1), and the major finding also cites A1."
+    },
+    {
+      "text": "Evidence identifies the bare except clause",
+      "passed": false,
+      "evidence": "Evidence cites `except Exception:` rather than a bare `except:` clause."
+    },
+    {
+      "text": "Evidence notes that exceptions are suppressed without re-raising",
+      "passed": true,
+      "evidence": "Review says the handler returns False and discards exception type, message, and traceback with no re-raise."
+    },
+    {
+      "text": "Failure scenario explains partial state corruption or silent failure",
+      "passed": true,
+      "evidence": "Failure scenario describes charged-but-not-fulfilled stuck state, no refund/log, and outage invisibility."
+    },
+    {
+      "text": "Fix recommends specific exception catching or re-raising with error chain",
+      "passed": true,
+      "evidence": "Fix recommends catching specific exceptions, logging with logger.exception, compensating, and/or re-raising."
+    },
+    {
+      "text": "Header matches pattern: 1 finding \u00b7 C:1 M:0 m:0 i:0 \u00b7 Mean <score>/100 \u00b7 Final Grade F",
+      "passed": false,
+      "evidence": "Actual header is `3 findings \u00b7 C:2 M:1 m:0 i:0 \u00b7 Mean 85/100 \u00b7 Final Grade F`, not the required 1-finding C:1 header."
+    },
+    {
+      "text": "Final Grade is F even though the mean score is well above 60",
+      "passed": true,
+      "evidence": "Mean is 85/100 while Final Grade is F."
+    },
+    {
+      "text": "Report names the Critical finding as the binding cap, not the mean",
+      "passed": true,
+      "evidence": "Header says `Gated by: **Critical finding**` and states any Critical caps the grade at F."
+    }
+  ],
+  "summary": {
+    "passed": 7,
+    "failed": 3,
+    "total": 10,
+    "pass_rate": 0.7
+  }
+}

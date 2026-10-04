@@ -1,0 +1,21 @@
+{
+  "eval": "eval-lease-no-fencing",
+  "eval_id": 50,
+  "fixture": "evals/fixtures/lease_no_fencing.py",
+  "run": "with_skill",
+  "phase": "after",
+  "review": "1 finding · C:1 M:0 m:0 i:0 — Domain Score: 75/100 (Grade C)",
+  "summary": { "passed": 9, "failed": 0, "total": 9, "pass_rate": 1.0 },
+  "assertions": [
+    { "n": 1, "text": "Exactly 1 finding above Info severity", "result": "pass", "evidence": "One Critical finding; the missing fencing token is the root cause behind both the write and the release behaviour." },
+    { "n": 2, "text": "Finding is graded CRITICAL", "result": "pass", "evidence": "Graded Critical per 'Distributed lease without a fencing token (concurrent stale writer)'." },
+    { "n": 3, "text": "Finding is on axis C5 (Distributed)", "result": "pass", "evidence": "Reported under Operations / Distributed (C5), not under C2 Concurrency — the failure needs a clock or a partition, not a thread." },
+    { "n": 4, "text": "Identifies the TTL key as the only proof of ownership with no fencing token", "result": "pass", "evidence": "Cites lease_no_fencing.py:16-24 — SET NX EX with a constant 'held' value carrying no monotonic token." },
+    { "n": 5, "text": "Explains the expiry-then-stale-write sequence and that no error is raised", "result": "pass", "evidence": "States a stalled holder writes after LEASE_SECONDS has passed and a second worker has acquired, with both commits landing in an order neither observed and no exception." },
+    { "n": 6, "text": "Notes the lock is left to the TTL instead of released in the finally block", "result": "pass", "evidence": "Cites lines 55-60 — `finally: pass` with the comment that release is left to the key's TTL." },
+    { "n": 7, "text": "Failure scenario describes two workers writing in an unobserved order", "result": "pass", "evidence": "Names the GC pause / slow call / partition as the stall, and the resulting interleaved invoice writes as silent corruption." },
+    { "n": 8, "text": "Fix requires a monotonic fencing token checked on write", "result": "pass", "evidence": "Fix: issue an increasing token on acquire, store it, and have the storage reject a write whose token is below the last one it accepted." },
+    { "n": 9, "text": "Header matches pattern: 1 finding · C:1 M:0 m:0 i:0", "result": "pass", "evidence": "Header rendered exactly as specified." }
+  ],
+  "notes": "Caught by guidelines/coordinated-state.md (new). This finding was deliberately graded on the C5 distributed axis rather than C2: correctness/concurrency/guidelines/deadlocks-locking.md would have found the `finally: pass`, but a single-process lock review does not reach the expiry case."
+}
