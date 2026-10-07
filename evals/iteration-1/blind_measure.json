@@ -1,0 +1,590 @@
+{
+  "fixtures": [
+    2,
+    1,
+    4,
+    6,
+    7,
+    8,
+    9,
+    10,
+    14,
+    26,
+    27,
+    28
+  ],
+  "arms": [
+    "full",
+    "bare"
+  ],
+  "rows": [
+    {
+      "eval_id": 2,
+      "arm": "full",
+      "ok": true,
+      "stripped": true,
+      "concerns": {
+        "detection": [
+          3,
+          5
+        ],
+        "severity": [
+          2,
+          2
+        ],
+        "remediation": [
+          2,
+          2
+        ]
+      },
+      "body_len": 3845,
+      "name": "eval-retry"
+    },
+    {
+      "eval_id": 2,
+      "arm": "bare",
+      "ok": true,
+      "stripped": true,
+      "concerns": {
+        "detection": [
+          3,
+          5
+        ],
+        "severity": [
+          2,
+          2
+        ],
+        "remediation": [
+          2,
+          2
+        ]
+      },
+      "body_len": 4590,
+      "name": "eval-retry"
+    },
+    {
+      "eval_id": 1,
+      "arm": "full",
+      "ok": true,
+      "stripped": true,
+      "concerns": {
+        "detection": [
+          5,
+          6
+        ],
+        "severity": [
+          2,
+          2
+        ],
+        "remediation": [
+          1,
+          1
+        ]
+      },
+      "body_len": 2998,
+      "name": "eval-dead-code"
+    },
+    {
+      "eval_id": 1,
+      "arm": "bare",
+      "ok": true,
+      "stripped": true,
+      "concerns": {
+        "detection": [
+          6,
+          6
+        ],
+        "severity": [
+          2,
+          2
+        ],
+        "remediation": [
+          1,
+          1
+        ]
+      },
+      "body_len": 2327,
+      "name": "eval-dead-code"
+    },
+    {
+      "eval_id": 4,
+      "arm": "full",
+      "ok": true,
+      "stripped": true,
+      "concerns": {
+        "detection": [
+          2,
+          4
+        ],
+        "severity": [
+          2,
+          2
+        ],
+        "remediation": [
+          1,
+          1
+        ]
+      },
+      "body_len": 3694,
+      "name": "eval-nplusone"
+    },
+    {
+      "eval_id": 4,
+      "arm": "bare",
+      "ok": true,
+      "stripped": true,
+      "concerns": {
+        "detection": [
+          2,
+          4
+        ],
+        "severity": [
+          2,
+          2
+        ],
+        "remediation": [
+          1,
+          1
+        ]
+      },
+      "body_len": 3452,
+      "name": "eval-nplusone"
+    },
+    {
+      "eval_id": 6,
+      "arm": "full",
+      "ok": true,
+      "stripped": true,
+      "concerns": {
+        "detection": [
+          2,
+          5
+        ],
+        "severity": [
+          2,
+          2
+        ],
+        "remediation": [
+          1,
+          1
+        ]
+      },
+      "body_len": 4091,
+      "name": "eval-concurrency"
+    },
+    {
+      "eval_id": 6,
+      "arm": "bare",
+      "ok": true,
+      "stripped": true,
+      "concerns": {
+        "detection": [
+          2,
+          5
+        ],
+        "severity": [
+          2,
+          2
+        ],
+        "remediation": [
+          1,
+          1
+        ]
+      },
+      "body_len": 4055,
+      "name": "eval-concurrency"
+    },
+    {
+      "eval_id": 7,
+      "arm": "full",
+      "ok": true,
+      "stripped": true,
+      "concerns": {
+        "detection": [
+          5,
+          7
+        ],
+        "severity": [
+          2,
+          2
+        ],
+        "remediation": [
+          1,
+          1
+        ]
+      },
+      "body_len": 3625,
+      "name": "eval-swallowed-error"
+    },
+    {
+      "eval_id": 7,
+      "arm": "bare",
+      "ok": true,
+      "stripped": true,
+      "concerns": {
+        "detection": [
+          5,
+          7
+        ],
+        "severity": [
+          2,
+          2
+        ],
+        "remediation": [
+          1,
+          1
+        ]
+      },
+      "body_len": 2692,
+      "name": "eval-swallowed-error"
+    },
+    {
+      "eval_id": 8,
+      "arm": "full",
+      "ok": true,
+      "stripped": true,
+      "concerns": {
+        "detection": [
+          2,
+          5
+        ],
+        "severity": [
+          0,
+          2
+        ],
+        "remediation": [
+          1,
+          1
+        ]
+      },
+      "body_len": 1776,
+      "name": "eval-complexity"
+    },
+    {
+      "eval_id": 8,
+      "arm": "bare",
+      "ok": true,
+      "stripped": true,
+      "concerns": {
+        "detection": [
+          3,
+          5
+        ],
+        "severity": [
+          2,
+          2
+        ],
+        "remediation": [
+          1,
+          1
+        ]
+      },
+      "body_len": 8229,
+      "name": "eval-complexity"
+    },
+    {
+      "eval_id": 9,
+      "arm": "full",
+      "ok": true,
+      "stripped": true,
+      "concerns": {
+        "detection": [
+          2,
+          5
+        ],
+        "severity": [
+          0,
+          2
+        ],
+        "remediation": [
+          1,
+          1
+        ]
+      },
+      "body_len": 1881,
+      "name": "eval-memory-leak"
+    },
+    {
+      "eval_id": 9,
+      "arm": "bare",
+      "ok": true,
+      "stripped": true,
+      "concerns": {
+        "detection": [
+          3,
+          5
+        ],
+        "severity": [
+          2,
+          2
+        ],
+        "remediation": [
+          1,
+          1
+        ]
+      },
+      "body_len": 3433,
+      "name": "eval-memory-leak"
+    },
+    {
+      "eval_id": 10,
+      "arm": "full",
+      "ok": true,
+      "stripped": true,
+      "concerns": {
+        "detection": [
+          3,
+          5
+        ],
+        "severity": [
+          2,
+          2
+        ],
+        "remediation": [
+          1,
+          1
+        ]
+      },
+      "body_len": 2523,
+      "name": "eval-idor-access"
+    },
+    {
+      "eval_id": 10,
+      "arm": "bare",
+      "ok": true,
+      "stripped": true,
+      "concerns": {
+        "detection": [
+          1,
+          5
+        ],
+        "severity": [
+          2,
+          2
+        ],
+        "remediation": [
+          1,
+          1
+        ]
+      },
+      "body_len": 6409,
+      "name": "eval-idor-access"
+    },
+    {
+      "eval_id": 14,
+      "arm": "full",
+      "ok": true,
+      "stripped": true,
+      "concerns": {
+        "detection": [
+          4,
+          5
+        ],
+        "severity": [
+          2,
+          2
+        ],
+        "remediation": [
+          1,
+          1
+        ]
+      },
+      "body_len": 1807,
+      "name": "eval-missing-timeout"
+    },
+    {
+      "eval_id": 14,
+      "arm": "bare",
+      "ok": true,
+      "stripped": true,
+      "concerns": {
+        "detection": [
+          5,
+          5
+        ],
+        "severity": [
+          2,
+          2
+        ],
+        "remediation": [
+          1,
+          1
+        ]
+      },
+      "body_len": 2444,
+      "name": "eval-missing-timeout"
+    },
+    {
+      "eval_id": 26,
+      "arm": "full",
+      "ok": true,
+      "stripped": true,
+      "concerns": {
+        "detection": [
+          3,
+          5
+        ],
+        "severity": [
+          2,
+          2
+        ],
+        "remediation": [
+          1,
+          1
+        ]
+      },
+      "body_len": 4219,
+      "name": "eval-dual-write"
+    },
+    {
+      "eval_id": 26,
+      "arm": "bare",
+      "ok": true,
+      "stripped": true,
+      "concerns": {
+        "detection": [
+          2,
+          5
+        ],
+        "severity": [
+          2,
+          2
+        ],
+        "remediation": [
+          1,
+          1
+        ]
+      },
+      "body_len": 4403,
+      "name": "eval-dual-write"
+    },
+    {
+      "eval_id": 27,
+      "arm": "full",
+      "ok": true,
+      "stripped": true,
+      "concerns": {
+        "detection": [
+          0,
+          5
+        ],
+        "severity": [
+          1,
+          2
+        ],
+        "remediation": [
+          0,
+          1
+        ]
+      },
+      "body_len": 4857,
+      "name": "eval-comment-drift"
+    },
+    {
+      "eval_id": 27,
+      "arm": "bare",
+      "ok": true,
+      "stripped": true,
+      "concerns": {
+        "detection": [
+          0,
+          5
+        ],
+        "severity": [
+          1,
+          2
+        ],
+        "remediation": [
+          0,
+          1
+        ]
+      },
+      "body_len": 3159,
+      "name": "eval-comment-drift"
+    },
+    {
+      "eval_id": 28,
+      "arm": "full",
+      "ok": true,
+      "stripped": true,
+      "concerns": {
+        "detection": [
+          4,
+          5
+        ],
+        "severity": [
+          1,
+          2
+        ],
+        "remediation": [
+          1,
+          1
+        ]
+      },
+      "body_len": 2317,
+      "name": "eval-stale-readme"
+    },
+    {
+      "eval_id": 28,
+      "arm": "bare",
+      "ok": true,
+      "stripped": true,
+      "concerns": {
+        "detection": [
+          5,
+          5
+        ],
+        "severity": [
+          2,
+          2
+        ],
+        "remediation": [
+          1,
+          1
+        ]
+      },
+      "body_len": 2800,
+      "name": "eval-stale-readme"
+    }
+  ],
+  "summary": {
+    "detection": {
+      "full": [
+        35,
+        62
+      ],
+      "bare": [
+        37,
+        62
+      ],
+      "delta": -3.2258064516129004,
+      "fixtures": 12
+    },
+    "severity": {
+      "full": [
+        18,
+        24
+      ],
+      "bare": [
+        23,
+        24
+      ],
+      "delta": -20.833333333333336,
+      "fixtures": 12
+    },
+    "remediation": {
+      "full": [
+        12,
+        13
+      ],
+      "bare": [
+        12,
+        13
+      ],
+      "delta": 0.0,
+      "fixtures": 12
+    }
+  },
+  "grader_config": "cfg:7d57659c2e6c",
+  "note": "Reviewer identity is deliberately absent; compare on the grader digest."
+}
