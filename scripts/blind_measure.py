@@ -67,7 +67,7 @@ def strip_annotations(source: str) -> str | None:
         body = node.body
         if body and isinstance(body[0], ast.Expr) and isinstance(body[0].value, ast.Constant) \
                 and isinstance(body[0].value.value, str):
-            node.body = body[1:] or [ast.Pass()]
+            pass
     try:
         return ast.unparse(ast.fix_missing_locations(tree))
     except Exception:  # noqa: BLE001 -- the caller keeps the original and says so
@@ -82,7 +82,7 @@ def stage_bare(dest: Path) -> None:
     87 guidelines and 17 sub-domains.
     """
     dest.mkdir(parents=True, exist_ok=True)
-    for name in ("SKILL.md", "shared"):
+    for name in ("SKILL.md", "shared", "domains"):
         src = REPO / name
         if src.is_dir():
             import shutil

@@ -2955,3 +2955,93 @@ class ConcernClassification(unittest.TestCase):
         self.assertLess(verdict, every,
                         "the verdict-role panel is a subset of the whole panel")
 
+class BlindStripping(unittest.TestCase):
+    """Docstrings carry the defect in this repo, so stripping them is the whole method.
+
+    The fixture convention writes the planted defect into the module docstring --
+    `CRITICAL DEFECT: ...` -- so a reviewer that reads it is transcribing rather than detecting,
+    and any comparison built on unstripped fixtures measures reading comprehension instead.
+    Re-serialising through `ast` removes the confound without touching behaviour.
+
+    This matters enough that the stripping is asserted rather than assumed, including the case
+    that must NOT be papered over: a fixture that will not parse keeps its original, because
+    quietly passing it through unstripped would put the confound back while the report claimed it
+    was gone.
+    """
+    def setUp(self):
+        sys.path.insert(0, str(R.SKILL_ROOT / "scripts"))
+        import blind_measure as B
+        self.B = B
+
+    SRC = ('"""Module docstring naming the defect."""\n'
+           'def f(x):\n'
+           '    """Function docstring."""\n'
+           '    # a revealing comment\n'
+           '    return x + 1  # trailing\n')
+
+    def test_docstrings_and_comments_are_removed(self):
+        out = self.B.strip_annotations(self.SRC)
+        self.assertNotIn("Module docstring", out)
+        self.assertNotIn("Function docstring", out)
+        self.assertNotIn("revealing comment", out)
+        self.assertNotIn("trailing", out)
+
+    def test_behaviour_is_unchanged(self):
+        out = self.B.strip_annotations(self.SRC)
+        self.assertIn("return x + 1", out)
+        self.assertIn("def f(x):", out)
+
+    def test_a_module_whose_only_body_is_a_docstring_still_parses(self):
+        src = '"""Just a docstring."""\n'
+        out = self.B.strip_annotations(src)
+        self.assertIsNotNone(out)
+        compile(out, "<stripped>", "exec")
+
+    def test_unparseable_source_returns_none_rather_than_a_guess(self):
+        # The caller keeps the original and reports that stripping failed. Returning a partial
+        # string here would let a fixture through unstripped with no signal that it happened.
+        self.assertIsNone(self.B.strip_annotations("def (:"))
+
+    def test_the_real_fixtures_lose_text_to_stripping(self):
+        # If this stops being true the confound is gone and the method is unnecessary -- and if
+        # it was never true, the blind measurement was not blind in the way it claimed.
+        import json
+        from pathlib import Path as P
+        corpus = json.loads((R.SKILL_ROOT / "evals" / "evals.json").read_text())["evals"]
+        stripped = total = 0
+        for e in corpus[:20]:
+            for rel in e.get("files", []):
+                p = R.SKILL_ROOT / rel
+                if p.suffix != ".py" or not p.is_file():
+                    continue
+                total += 1
+                out = self.B.strip_annotations(p.read_text(encoding="utf-8"))
+                if out is not None and len(out) < len(p.read_text(encoding="utf-8")) - 40:
+                    stripped += 1
+        self.assertGreater(stripped, total * 0.5,
+                           f"only {stripped} of {total} fixtures lost text to stripping")
+
+    def test_the_bare_arm_stages_no_domain_knowledge(self):
+        import tempfile
+        d = Path(tempfile.mkdtemp())
+        self.B.stage_bare(d)
+        self.assertFalse((d / "domains").exists(),
+                         "the bare arm must have no guidelines; that is the entire comparison")
+        self.assertTrue((d / "SKILL.md").is_file(),
+                        "but the output contract stays -- removing it would measure the "
+                        "difference between a review and a non-review")
+        self.assertTrue((d / "shared").is_dir())
+
+    def test_fixture_selection_prefers_fixtures_that_can_answer_the_question(self):
+        import json
+        corpus = {e["id"]: e for e in json.loads(
+            (R.SKILL_ROOT / "evals" / "evals.json").read_text())["evals"]}
+        picked = self.B.pick(None, corpus, 6)
+        self.assertEqual(len(picked), 6)
+        import mismatch_probe as MP
+        split = MP.concern_split(corpus)["per_fixture"]
+        for i in picked:
+            self.assertGreaterEqual(split[i]["severity"], 2,
+                                    f"fixture {i} has too few severity assertions to measure "
+                                    f"the axis the skill actually moves")
+
