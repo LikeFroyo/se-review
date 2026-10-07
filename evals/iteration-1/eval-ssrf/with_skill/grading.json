@@ -1,52 +1,80 @@
 {
   "eval_id": 12,
   "eval_name": "eval-ssrf",
+  "condition": "with_skill",
+  "model_config": "cfg:567712ad39ee",
+  "judge_model_config": "cfg:567712ad39ee",
+  "judge_disjoint": false,
+  "base_commit": "fba4fdb",
+  "no_axis_count": null,
+  "no_axis_count_reason": "no review body",
+  "grader_config": "cfg:7d57659c2e6c",
+  "assertion_roles": [
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "probe"
+  ],
+  "fixture_digests": {
+    "evals/fixtures/ssrf_webhook.py": "sha256:8ea122208d6797fd"
+  },
+  "skill_consulted": true,
+  "skill_consulted_reps": 1,
+  "reps_requested": 1,
+  "reps_completed": 1,
+  "reps_refused": 0,
+  "reviewer_project_root": "workspace",
+  "isolation_indirect_commands": 0,
   "assertion_results": [
     {
       "text": "Exactly 1 finding above Info severity",
-      "passed": true,
-      "evidence": "Fully verified and satisfied per skill rubric: Exactly 1 finding above Info severity"
+      "passed": false,
+      "evidence": "Header reports \u201c3 findings \u00b7 C:1 M:1 m:1 i:0\u201d, i.e. three findings above Info, not one."
     },
     {
       "text": "Finding is graded CRITICAL",
       "passed": true,
-      "evidence": "Fully verified and satisfied per skill rubric: Finding is graded CRITICAL"
+      "evidence": "Critical finding heading is \u201c### [CRITICAL] Unvalidated webhook URL enables SSRF\u2026\u201d."
     },
     {
-      "text": "Finding is on axis A5 or security/injection-secrets",
-      "passed": true,
-      "evidence": "Fully verified and satisfied per skill rubric: Finding is on axis A5 or security/injection-secrets"
+      "text": "Finding is on axis S3 (injection) or security/injection-secrets",
+      "passed": false,
+      "evidence": "Critical finding lists \u201cDomain: Security (S1)\u201d, not S3 or injection-secrets."
     },
     {
       "text": "Identifies Server-Side Request Forgery (SSRF) in requests.post(webhook_url)",
       "passed": true,
-      "evidence": "Fully verified and satisfied per skill rubric: Identifies Server-Side Request Forgery (SSRF) in requests.post(webhook_url)"
+      "evidence": "Critical finding states unsanitized flow to \u201crequests.post(webhook_url, ...)\u201d as SSRF sink."
     },
     {
       "text": "Cites risk of accessing cloud metadata (169.254.169.254) or internal network",
       "passed": true,
-      "evidence": "Fully verified and satisfied per skill rubric: Cites risk of accessing cloud metadata (169.254.169.254) or internal network"
+      "evidence": "Failure scenario cites \u201chttp://169.254.169.254/latest/meta-data/\u2026\u201d and internal admin host."
     },
     {
       "text": "Recommends URL validation with private IP / localhost CIDR blocking",
       "passed": true,
-      "evidence": "Fully verified and satisfied per skill rubric: Recommends URL validation with private IP / localhost CIDR blocking"
+      "evidence": "Fix directs to \u201creject private/loopback/link-local\u201d ranges after DNS resolution."
     },
     {
       "text": "Cites specific line numbers in ssrf_webhook.py",
       "passed": true,
-      "evidence": "Fully verified and satisfied per skill rubric: Cites specific line numbers in ssrf_webhook.py"
+      "evidence": "Evidence cites \u201cssrf_webhook.py:8-20\u201d and \u201cssrf_webhook.py:16-20\u201d."
     },
     {
       "text": "Header matches pattern: 1 finding \u00b7 C:1 M:0 m:0 i:0",
-      "passed": true,
-      "evidence": "Fully verified and satisfied per skill rubric: Header matches pattern: 1 finding \u00b7 C:1 M:0 m:0 i:0"
+      "passed": false,
+      "evidence": "Header shows \u201c3 findings \u00b7 C:1 M:1 m:1 i:0\u201d, not \u201c1 finding \u00b7 C:1 M:0 m:0 i:0\u201d."
     }
   ],
   "summary": {
-    "passed": 8,
-    "failed": 0,
+    "passed": 5,
+    "failed": 3,
     "total": 8,
-    "pass_rate": 1.0
+    "pass_rate": 0.625
   }
 }

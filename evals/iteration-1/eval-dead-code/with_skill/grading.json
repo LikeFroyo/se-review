@@ -5,7 +5,7 @@
   "model_config": "cfg:567712ad39ee",
   "judge_model_config": "cfg:567712ad39ee",
   "judge_disjoint": false,
-  "base_commit": "fa7743a",
+  "base_commit": "fba4fdb",
   "no_axis_count": null,
   "no_axis_count_reason": "no review body",
   "grader_config": "cfg:7d57659c2e6c",
@@ -34,47 +34,47 @@
     {
       "text": "Exactly 1 finding above Info severity",
       "passed": true,
-      "evidence": "Header `1 findings \u00b7 C:1 M:0 m:0 i:0` plus one CRITICAL finding shows exactly one above-Info finding."
+      "evidence": "Header states `1 findings \u00b7 C:1 M:0 m:0 i:0` with single listed finding."
     },
     {
       "text": "Finding is graded CRITICAL",
       "passed": true,
-      "evidence": "Heading `### [CRITICAL] Retired V1 pricing adapter` grades the finding CRITICAL."
+      "evidence": "Finding heading is `### [CRITICAL] Retired LegacyPriceAdapter`."
     },
     {
       "text": "Finding is on axis L1 or L2 (dead code / unused surface)",
       "passed": true,
-      "evidence": "Line `**Domain:** Leanness (L1)` places the finding on L1."
+      "evidence": "Finding lists `Domain: Leanness (L1)`."
     },
     {
       "text": "Finding identifies LegacyPriceAdapter as the dead code",
       "passed": true,
-      "evidence": "Finding title and evidence cite `class LegacyPriceAdapter` as the orphaned symbol."
+      "evidence": "Finding titles `LegacyPriceAdapter` as orphaned after v2 cutover."
     },
     {
       "text": "Evidence cites specific lines in dead_code.py",
       "passed": true,
-      "evidence": "Evidence cites `evals/fixtures/dead_code.py:7-15` with quoted class code."
+      "evidence": "Evidence cites `evals/fixtures/dead_code.py:7`, `:8`, `:26`, `:28`, `:14`."
     },
     {
       "text": "Fix recommends deletion of the class",
       "passed": true,
-      "evidence": "Fix line `Delete LegacyPriceAdapter (:7-15)` recommends deletion."
+      "evidence": "Fix line says `Delete LegacyPriceAdapter (:7-:15)`."
     },
     {
       "text": "RateTable import is NOT flagged as dead (it is live via price_order)",
       "passed": true,
-      "evidence": "Only LegacyPriceAdapter is flagged dead while RateTable/AuroraPricing is described as live path."
+      "evidence": "Searched for RateTable; no finding flags it, only finding targets LegacyPriceAdapter."
     },
     {
       "text": "Header matches pattern: 1 finding \u00b7 C:1 M:0 m:0 i:0",
       "passed": true,
-      "evidence": "Header contains `1 findings \u00b7 C:1 M:0 m:0 i:0` matching the required counts."
+      "evidence": "Header contains `1 findings \u00b7 C:1 M:0 m:0 i:0`."
     },
     {
       "text": "Failure scenario names the permanent carrying cost (read/test/port/migrate tax)",
       "passed": true,
-      "evidence": "Failure scenario opens `Permanent carrying cost` with migration and onboarding tax."
+      "evidence": "Failure scenario states `Permanent carrying cost \u2014 every reader, migration, and test sweep pays`."
     }
   ],
   "summary": {

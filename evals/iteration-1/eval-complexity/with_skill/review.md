@@ -1,40 +1,57 @@
-I'll read that file.
-Let me check how this fixture is used before reviewing.
-This is eval #8. Let me check the guideline IDs it maps to and measure the complexity claims rather than trusting the docstring.
-My measurement script was wrong (it didn't descend properly). Let me rewrite it correctly.
-Still undercounting — my visitor has a bug. Let me verify with a flat, unambiguous count plus `radon` as a cross-check.
-Flat count confirms 20 decision points (CC = 20). Now let me find the B1/B5 guideline definitions to grade correctly.
-# Complexity Review: `process_order_checkout`
+Reviewing the file and run directory.
+Found the complexity hotspot — now checking the eval context.
+This looks like a full review — discovering the relevant domains.
+I've got the domain overview — now digging into the specific checklists.
+The structure confirms the smells — now verifying the metrics.
+# Review: `evals/fixtures/complexity.py` (`process_order_checkout`)
 
-`1 finding · C:0 M:1 m:0 i:0 · Sub-Domain Score: 90/100 (Grade A-)`
+`5 findings · C:0 M:2 m:3 i:0 · Mean 95/100 · Final Grade C`
+Covered: 1/1 files · Scope: focused on: evals/fixtures/complexity.py · Not examined: 0 — none
+Paths: 0 · Unmapped: 0 — no attacker-reachable sink; inputs are pricing/inventory data, only sinks are arithmetic, dict return, and list append
+Unclassified: 0 findings fit no axis code
+Domain Scores: Maintainability: 77/100 · Correctness: 97/100 · Leanness: 100/100 · Security: 100/100 · Operations: 97/100 · Interoperability: 100/100
+Gated by: weakest domain: Maintainability — **always printed.**
+
+Serial review (1 file, well under 30-file / 5,000-line fan-out ceiling). No `--focus` / `--min` / `--diff-only` filters applied.
 
 ## Findings
 
-### [MAJOR] Single 88-line function owns five divergent responsibilities, gated by three boolean flags
-- **Domain:** Maintainability (B1 Complexity, B5 Design)
-- **Evidence:** `evals/fixtures/complexity.py:9-98` — `process_order_checkout` carries **19 decision points** (cyclomatic complexity **20**, measured via AST: `if` at 28, 36, 39, 40, 43, 48, 49, 50, 55, 62, 63, 68, 74, 86, 87, 88; `elif` at 54, 76; `for` at 31), against a guideline threshold of 10–15 (`complexity/guidelines/cognitive-cyclomatic.md:8`). Body is 88 lines against a 50-line threshold (`:9`).
+### [MAJOR] God function: cyclomatic complexity ~20, nesting to 4-5, pricing + inventory + notification in one body
+- **Domain:** Maintainability (B1)
+- **Verified by:** DERIVED — AST walk of `process_order_checkout`: ~20 `If/For/BoolOp` decision nodes; max block nesting 5; 98-line body. Trace chain: `for item in items` (complexity.py:31) → `if stock < qty` (complexity.py:39) → `else: if audit_log is not None` (complexity.py:42-44); parallel chain `if is_vip` (complexity.py:48) → `if user_tier == "PLATINUM"` (complexity.py:49) → `if line_price > 1000.0` (complexity.py:50); parallel chain `if send_receipt` (complexity.py:83) → `if email` (complexity.py:86) → `if "@" in email` (complexity.py:87) → `if audit_log is not None` (complexity.py:88).
+- **Evidence:** `evals/fixtures/complexity.py:9-98` — `def process_order_checkout(...)`, body spans discount math (complexity.py:48-70), inventory gate (complexity.py:39-44), tax dispatch (complexity.py:74-79), receipt side-effect (complexity.py:83-89).
+- **Failure scenario:** Any discount-rule, tax-rule, or stock-policy change forces editing the same 90-line body; a tax fix risks breaking VIP discount branches with no seam to test in isolation. Permanent carrying tax, not a one-time read cost.
+- **Fix:** Split by responsibility at module scope: `validate_inventory(item, apply_override)`, `price_line(item, user_tier, is_vip)`, `compute_tax(taxable, currency)`, `maybe_queue_receipt(order, send_receipt, audit_log)`; `process_order_checkout` becomes orchestration only.
+- **Trade-off:** Adds 3-4 small functions and call overhead (negligible latency); pays back in isolated unit tests per rule. Scope: module.
 
-  **Nesting reaches 4 levels past the guideline's 3-level limit** in three independent places:
-  - `complexity.py:39-44` — `for` → `if stock < qty` → `if not apply_override` / `else:` → `if audit_log is not None`
-  - `complexity.py:48-60` — `for` → `if is_vip` → `if user_tier == "PLATINUM"` → `if line_price > 1000.0`
-  - `complexity.py:83-89` — `if send_receipt` → `if email` → `if "@" in email` → `if audit_log is not None`
+### [MAJOR] Boolean flag arguments switching execution paths plus 7-parameter arity
+- **Domain:** Maintainability (B1)
+- **Verified by:** DERIVED — signature at complexity.py:9-17 has `is_vip: bool`, `apply_override: bool`, `send_receipt: bool` (3 flags) plus 7 total params; each flag selects a distinct path: `if not apply_override: return ...` (complexity.py:40), `if is_vip: ... else: ...` (complexity.py:48-70), `if send_receipt: ...` (complexity.py:83).
+- **Evidence:** `evals/fixtures/complexity.py:9-17` — `def process_order_checkout(order, user_tier, items, is_vip, apply_override, send_receipt, audit_log=None)`.
+- **Failure scenario:** Callers combine flags into 2³ behaviours verified only through the full checkout; adding a fourth tier/flag multiplies untested combinations and transposition risk at call sites.
+- **Fix:** Replace flags with explicit seams at boundary scope: a `DiscountPolicy` enum/strategy for `is_vip`+`user_tier`, an `InventoryPolicy` (`strict` vs `backorder`) for `apply_override`, and a separate `queue_receipt()` call instead of `send_receipt`; group params into `OrderContext` object.
+- **Trade-off:** More types and one extra call site for receipts; cost is upfront API churn for fewer combinatorial tests later. Scope: boundary.
 
-  **Divergent duties in one body:** cart validation (`:28-29`), inventory/stock enforcement (`:39-44`), tiered discount policy (`:48-69`), tax-rate selection (`:74-79`), receipt dispatch (`:83-89`), and audit recording (`:44`, `:89`) — six, where the guideline names "validating input + computing pricing + updating database + sending notifications" as the canonical conflation (`:9`).
+### [MINOR] Magic discount rates, thresholds, and tax rates with no named constants
+- **Domain:** Maintainability (B4)
+- **Verified by:** READ
+- **Evidence:** `evals/fixtures/complexity.py:50-79` — `0.25, 0.20, 0.15, 0.10, 0.05, 0.08, 0.03, 0.02`, thresholds `1000.0, 500.0, 5000.0`, rates `0.0825, 0.21, 0.10`.
+- **Fix:** Hoist to module constants (`PLATINUM_HIGH_VALUE_RATE`, `USD_TAX_RATE`, ...) or a rate table.
 
-  **Three boolean flags branch behavior** — `is_vip`, `apply_override`, `send_receipt` (`:13-15`) — plus arity 7 with a defaulted `audit_log: Optional[List[str]] = None` (`:16`). `parameter-lists.md:7-8,10` names both the flag pattern and the arity/`None`-default pattern explicitly. `is_vip` also *partially duplicates* `user_tier`: the `else` branch at `:61-69` re-tests `user_tier == "SILVER"` for non-VIP users, so the two parameters encode overlapping policy state that no single value owns.
+### [MINOR] Unenforced input contract: unvalidated `dict.get` defaults silently change behaviour
+- **Domain:** Correctness (A8)
+- **Verified by:** DERIVED — chain: `order.get("currency", "USD")` (complexity.py:26) → `if currency == "USD" / elif "EUR" / else 0.10` (complexity.py:74-79); `item.get("stock", 0)` (complexity.py:34) → `if stock < qty: return Out of stock` (complexity.py:39); `item.get("price", 0.0)` with no negativity check.
+- **Evidence:** `evals/fixtures/complexity.py:26,31-34,74-79`
+- **Fix:** Validate at function entry (local scope): reject unknown currency, negative price, and missing stock explicitly instead of defaulting.
 
-- **Failure scenario:** The discount ladder is 8 mutually exclusive terminal paths (`:48-69`) whose coverage cannot be exercised independently — a test of the tax path (`:74-79`) must first construct an `items` list that survives stock validation, VIP branching, and every line-item default. There is no seam: `total`, `discount`, and `tax` are locals discarded at return, so no test can assert a discount rate in isolation. The concrete regression risk is the *silent* kind. At `:59-60`, a VIP with tier `SILVER` or `BRONZE` falls to `discount += line_price * 0.05`; at `:68-69`, a non-VIP `BRONZE` line at or under $5 000 gets **no discount at all**, because `discount` is only incremented inside the `if line_price > 5000.0` guard and there is no `else`. Adding a fourth tier or moving the $5 000 threshold means editing a branch inside a nesting level an author has to re-derive to locate — and the change is invisible in review precisely because 88 lines of nesting suppress the diff's legibility. A maintainer who "just adds an else" to the $5 000 path silently re-prices every bronze cart in production.
-
-- **Fix:** Decompose into four single-responsibility functions, replacing all three booleans (scope: **local** to the module):
-  1. `price_cart(items, discount_policy) -> PricingResult` — pure, no flags. Move the `:48-69` ladder into a `TierDiscountPolicy` lookup keyed on `(tier, is_vip)`, so the 8 paths become a data table with one branch. This is where the missing-`else` defect becomes visible as a *missing table row* rather than a missing nested block.
-  2. `validate_inventory(items) -> list[StockShortfall]` — pure, returns shortfalls instead of returning early, so `apply_override` (`:40`) becomes a caller's decision rather than an internal branch.
-  3. `tax_for(currency, taxable) -> Decimal` — extract `:74-79`; the currency ladder becomes a rate table.
-  4. `dispatch_receipt(order) -> None` and audit emission — pull `:83-89` out entirely. This is the highest-value single change: it removes the only side effect from the calculation path and drops nesting from 4 levels to 1.
-
-  Within what remains, flatten `:39-44` by inverting to a guard clause (`if stock < qty and not apply_override: return ...`) and delete the `else:` at `:42`, which is redundant after the `return` at `:41`. Replace `total`/`discount`/`tax` floats with `Decimal` and return a typed `PricingResult` dataclass — this kills the three `round()` calls at `:93-96` and gives tests a seam.
-
-- **Trade-off:** At local scope the cost is one refactor commit touching no call sites in this file, plus a new policy table. The real price is elsewhere: the three flags are almost certainly load-bearing for callers *outside* this file, so splitting them into a policy object is a boundary change that needs caller migration — worth doing, but schedule it separately from the local extraction. The `Decimal` switch will surface any latent float drift in stored totals that the current `round()` is masking; expect that to generate its own follow-up rather than being a free correctness win.
+### [MINOR] Audit trail via mutated `audit_log` list plus hidden notification side-effect
+- **Domain:** Operations (C4)
+- **Verified by:** READ
+- **Evidence:** `evals/fixtures/complexity.py:43-44,88-89` — `audit_log.append(...)` inside pricing loop and inside `if send_receipt:` calculation function.
+- **Fix:** Return audit events as structured data in the result dict (local scope) instead of mutating the caller's list; move receipt queuing out of the totals computation.
 
 ## Aligns well
-- Early-exit on empty cart (`complexity.py:28-29`) is the right shape for a guard clause — the function just fails to apply that pattern consistently to the four deeper branches.
-- `currency = order.get("currency", "USD")` (`:26`) defaults sensibly and keeps the currency explicit in the returned payload (`:97`), so the caller is not left inferring it.
+- Early return on empty cart (complexity.py:28-29) fails fast on (A1).
+- No dead code, unused surface, or speculative generality found; every parameter is read (L1–L4 clean).
+- No attacker-controlled source reaches a harmful sink; no auth, crypto, or deserialization surface in scope (S1 clean).
+- Float-money rounding is single-process here so no cross-boundary (D3) finding is raised per the interoperability boundary rule; the residual precision note belongs to Correctness, not the seam.

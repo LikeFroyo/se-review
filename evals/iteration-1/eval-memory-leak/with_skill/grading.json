@@ -1,97 +1,14 @@
 {
   "eval_id": 9,
   "eval_name": "eval-memory-leak",
-  "run_type": "with_skill",
-  "assertions": [
-    {
-      "assertion": "Exactly 1 finding above Info severity",
-      "passed": true,
-      "evidence": "Report contains exactly one finding: [MAJOR] Unbounded in-memory cache accumulation causes process memory leak."
-    },
-    {
-      "assertion": "Finding is graded MAJOR",
-      "passed": true,
-      "evidence": "Severity tag is [MAJOR]."
-    },
-    {
-      "assertion": "Finding is on axis C1 (Performance) or C2 (Caching)",
-      "passed": true,
-      "evidence": "Axis line specifies C1 (Performance)."
-    },
-    {
-      "assertion": "Evidence identifies unbounded growth in QUERY_RESULT_CACHE without TTL or eviction",
-      "passed": true,
-      "evidence": "Evidence cites lines 10 and 39-44, noting high cardinality keys, retained raw samples, and lack of TTL, size bound, or eviction."
-    },
-    {
-      "assertion": "Failure scenario describes monotonic memory growth leading to process OOM crash under traffic",
-      "passed": true,
-      "evidence": "Failure scenario explicitly details monotonic memory growth, garbage collection failure due to strong references, and Linux OOM killer termination."
-    },
-    {
-      "assertion": "Fix recommends bounded LRU/LFU cache, TTL expiry, or external cache store",
-      "passed": true,
-      "evidence": "Fix recommends bounded cache with TTL (e.g. cachetools.TTLCache, functools.lru_cache) or external Redis store."
-    },
-    {
-      "assertion": "Trade-off notes cache eviction overhead or cache misses under high churn",
-      "passed": true,
-      "evidence": "Trade-off notes cache misses and recomputation latency under churn, plus network serialization overhead if Redis is used."
-    },
-    {
-      "assertion": "Header matches pattern: 1 finding \u00b7 C:0 M:1 m:0 i:0",
-      "passed": true,
-      "evidence": "Header matches `1 finding \u00b7 C:0 M:1 m:0 i:0`."
-    }
-  ],
-  "summary": {
-    "passed": 8,
-    "failed": 0,
-    "total": 8,
-    "pass_rate": 1.0
-  },
-  "assertion_results": [
-    {
-      "text": "Exactly 1 finding above Info severity",
-      "passed": true,
-      "evidence": "The header reads \"1 finding \u00b7 C:0 M:1 m:0 i:0\" and the Findings section contains exactly one entry, the [MAJOR] cache finding, with no other findings listed."
-    },
-    {
-      "text": "Finding is graded MAJOR",
-      "passed": true,
-      "evidence": "The sole finding heading is \"### [MAJOR] Unbounded in-memory cache accumulation causes process memory leak\"."
-    },
-    {
-      "text": "Finding is on axis C1 or C2 (Operations / Memory Retention)",
-      "passed": true,
-      "evidence": "The finding's Axis line reads \"C1 (Performance)\", satisfying the C1 axis code requirement despite the parenthetical label differing."
-    },
-    {
-      "text": "Evidence identifies QUERY_RESULT_CACHE dictionary growing unbounded",
-      "passed": true,
-      "evidence": "The Evidence line states \"QUERY_RESULT_CACHE is a module-level dictionary keyed by high-cardinality composite strings\" and that every query writes into it, retaining results indefinitely."
-    },
-    {
-      "text": "Evidence notes absence of TTL, max-size, or eviction policy",
-      "passed": true,
-      "evidence": "Evidence explicitly says \"with no TTL expiry, no maximum size bound, and no eviction policy\"."
-    },
-    {
-      "text": "Failure scenario details OOM kill under sustained traffic",
-      "passed": true,
-      "evidence": "The Failure scenario says \"Under continuous production analytics traffic with unique session IDs, the process resident memory climbs monotonically\" until \"the Linux OOM killer will abruptly terminate "
-    },
-    {
-      "text": "Fix recommends bounded cache (LRU) or TTL eviction",
-      "passed": true,
-      "evidence": "The Fix recommends \"a bounded cache structure featuring size limits and time-to-live expiration (e.g. cachetools.TTLCache(maxsize=1000, ttl=300) or functools.lru_cache)\"."
-    },
-    {
-      "text": "Header matches pattern: 1 finding \u00b7 C:0 M:1 m:0 i:0",
-      "passed": true,
-      "evidence": "The header line reads verbatim \"1 finding \u00b7 C:0 M:1 m:0 i:0\", matching the required pattern exactly."
-    }
-  ],
+  "condition": "with_skill",
+  "model_config": "cfg:567712ad39ee",
+  "judge_model_config": "cfg:567712ad39ee",
+  "judge_disjoint": false,
+  "base_commit": "fba4fdb",
+  "no_axis_count": null,
+  "no_axis_count_reason": "no review body",
+  "grader_config": "cfg:7d57659c2e6c",
   "assertion_roles": [
     "verdict",
     "verdict",
@@ -102,14 +19,62 @@
     "verdict",
     "probe"
   ],
-  "recovered": {
-    "note": "assertion_results and summary supplied by re-grading the stored review body; summary_before is what the earlier grader recorded, and it is kept because it disagreed",
-    "grader_config": "cfg:7d57659c2e6c",
-    "summary_before": {
-      "total": 8,
-      "passed": 8,
-      "failed": 0,
-      "pass_rate": 1.0
+  "fixture_digests": {
+    "evals/fixtures/memory_leak.py": "sha256:15c48f27637c3453"
+  },
+  "skill_consulted": true,
+  "skill_consulted_reps": 1,
+  "reps_requested": 1,
+  "reps_completed": 1,
+  "reps_refused": 0,
+  "reviewer_project_root": "workspace",
+  "isolation_indirect_commands": 0,
+  "assertion_results": [
+    {
+      "text": "Exactly 1 finding above Info severity",
+      "passed": false,
+      "evidence": "Header `3 findings \u00b7 C:0 M:1 m:2 i:0` shows three findings above Info, not one."
+    },
+    {
+      "text": "Finding is graded MAJOR",
+      "passed": true,
+      "evidence": "Finding heading `### [MAJOR] Unbounded global QUERY_RESULT_CACHE` grades it MAJOR."
+    },
+    {
+      "text": "Finding is on axis C1 or C2 (Operations / Memory Retention)",
+      "passed": true,
+      "evidence": "Line `- **Domain:** Operations (C1)` places the MAJOR finding on C1."
+    },
+    {
+      "text": "Evidence identifies QUERY_RESULT_CACHE dictionary growing unbounded",
+      "passed": true,
+      "evidence": "Evidence cites `QUERY_RESULT_CACHE: Dict... = {}` growing to `len==5000` with distinct keys."
+    },
+    {
+      "text": "Evidence notes absence of TTL, max-size, or eviction policy",
+      "passed": true,
+      "evidence": "Verified-by notes `no ttl/evict/lru/maxsize attribute exists` and title says no cap/TTL/eviction."
+    },
+    {
+      "text": "Failure scenario details OOM kill under sustained traffic",
+      "passed": true,
+      "evidence": "Failure scenario states memory grows monotonically until `OOM kill / process restart` under continuous traffic."
+    },
+    {
+      "text": "Fix recommends bounded cache (LRU) or TTL eviction",
+      "passed": true,
+      "evidence": "Fix recommends `functools.lru_cache(maxsize=N)` or `cachetools.TTLCache(maxsize=1000, ttl=300)`."
+    },
+    {
+      "text": "Header matches pattern: 1 finding \u00b7 C:0 M:1 m:0 i:0",
+      "passed": false,
+      "evidence": "Header reads `3 findings \u00b7 C:0 M:1 m:2 i:0`, not `1 finding \u00b7 C:0 M:1 m:0 i:0`."
     }
+  ],
+  "summary": {
+    "passed": 6,
+    "failed": 2,
+    "total": 8,
+    "pass_rate": 0.75
   }
 }

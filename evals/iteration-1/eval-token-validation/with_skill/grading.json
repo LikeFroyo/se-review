@@ -2,68 +2,79 @@
   "eval_id": 31,
   "eval_name": "eval-token-validation",
   "condition": "with_skill",
-  "skill_consulted": true,
-  "files_read": [
-    "evals/fixtures/token_validation.py",
-    "./",
-    "SKILL.md",
-    "domains/correctness/security/sub-leaf.md",
-    "domains/correctness/security/guidelines/token-validation.md",
-    "domains/correctness/security/guidelines/access-control.md",
-    "evals/iteration-1/eval-token-validation/with_skill/grading.json",
-    "shared/axis-codes.md",
-    "shared/output-format.md",
-    "shared/severity-and-rules.md"
+  "model_config": "cfg:567712ad39ee",
+  "judge_model_config": "cfg:567712ad39ee",
+  "judge_disjoint": false,
+  "base_commit": "fba4fdb",
+  "no_axis_count": null,
+  "no_axis_count_reason": "no review body",
+  "grader_config": "cfg:7d57659c2e6c",
+  "assertion_roles": [
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "probe"
   ],
+  "fixture_digests": {
+    "evals/fixtures/token_validation.py": "sha256:a9e7541269d69c6a"
+  },
+  "skill_consulted": true,
+  "skill_consulted_reps": 1,
+  "reps_requested": 1,
+  "reps_completed": 1,
+  "reps_refused": 0,
+  "reviewer_project_root": "workspace",
+  "isolation_indirect_commands": 0,
   "assertion_results": [
     {
       "text": "Exactly 1 finding above Info severity",
-      "passed": true,
-      "evidence": "Header reads `1 finding · C:1 M:0 m:0 i:0` and the body carries one Critical with all other observations explicitly filed as Info."
+      "passed": false,
+      "evidence": "Header reports \"4 findings \u00b7 C:1 M:2 m:1 i:0\", not 1 finding above Info."
     },
     {
       "text": "Finding is graded CRITICAL",
       "passed": true,
-      "evidence": "The single finding header is `### [CRITICAL] Token is decoded with signature verification disabled and its claims trusted as identity`."
+      "evidence": "First finding heading is \"### [CRITICAL] JWT accepted without signature\"."
     },
     {
-      "text": "Finding is on axis A5 (Security)",
+      "text": "Finding is on axis S2 (token validation) (Security)",
       "passed": true,
-      "evidence": "The finding's Domain line states `Correctness / Security (A5)`."
+      "evidence": "First finding lists \"Domain: Security (S2)\"."
     },
     {
       "text": "Identifies the verify_signature=False decode in AuthGateway.authenticate",
       "passed": true,
-      "evidence": "Evidence quotes `token_validation.py:AuthGateway.authenticate:24-26` — `jwt.decode(token, JWT_SECRET, options={\"verify_signature\": False})`."
+      "evidence": "Evidence cites \"jwt.decode(token, JWT_SECRET, options={\\\"verify_signature\\\": False})\" at token_validation.py:24-26."
     },
     {
       "text": "Identifies missing aud and exp claim validation",
       "passed": true,
-      "evidence": "Failure scenario states PyJWT `setdefault`s the other flags so `exp`, `nbf`, `iat`, and `aud` are skipped, with a note verifying the docstring's claim that `aud`/`exp` are never inspected."
+      "evidence": "Title and fix cite missing \"audience, or expiry check\" and require exp/aud/sub."
     },
     {
       "text": "Failure scenario describes attacker forging a token with arbitrary sub/role claims",
       "passed": true,
-      "evidence": "Failure scenario says any unauthenticated caller sends a self-minted `{\"sub\":\"attacker\",\"role\":\"admin\"}` and gets `delete_workspace` and `billing_refund`."
+      "evidence": "Failure scenario says attacker mints \"{\\\"sub\\\":\\\"attacker\\\",\\\"role\\\":\\\"admin\\\"}\"."
     },
     {
       "text": "Fix recommends pinning the allowed algorithm and verifying the signature",
       "passed": true,
-      "evidence": "The Fix line says to pin `algorithms=[\"RS256\"]` at the call site with the issuer public key and drop the `verify_signature` override."
+      "evidence": "Fix recommends \"jwt.decode(token, JWT_SECRET, algorithms=[\\\"HS256\\\"]\" with Verify signature."
     },
     {
-      "text": "Header matches pattern: 1 finding · C:1 M:0 m:0 i:0",
-      "passed": true,
-      "evidence": "The report's header line is `1 finding · C:1 M:0 m:0 i:0 · Domain Score: 75/100 (Grade C) · Final Grade: F`, containing the required pattern."
+      "text": "Header matches pattern: 1 finding \u00b7 C:1 M:0 m:0 i:0",
+      "passed": false,
+      "evidence": "Header is \"4 findings \u00b7 C:1 M:2 m:1 i:0\", not \"1 finding \u00b7 C:1 M:0 m:0 i:0\"."
     }
   ],
   "summary": {
-    "passed": 8,
-    "failed": 0,
+    "passed": 6,
+    "failed": 2,
     "total": 8,
-    "pass_rate": 1.0
-  },
-  "searched": [
-    "token_validation"
-  ]
+    "pass_rate": 0.75
+  }
 }

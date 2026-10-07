@@ -3,186 +3,78 @@
   "eval_name": "eval-concurrency",
   "condition": "with_skill",
   "model_config": "cfg:567712ad39ee",
-  "judge_model_config": "cfg:1c50bc6e7d47",
-  "judge_disjoint": true,
-  "base_commit": "92b5a4c",
+  "judge_model_config": "cfg:567712ad39ee",
+  "judge_disjoint": false,
+  "base_commit": "fba4fdb",
   "no_axis_count": null,
   "no_axis_count_reason": "no review body",
-  "grader_config": "cfg:458057126fc7",
+  "grader_config": "cfg:7d57659c2e6c",
+  "assertion_roles": [
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "probe"
+  ],
   "fixture_digests": {
     "evals/fixtures/concurrency.py": "sha256:6773b966b031be9a"
   },
   "skill_consulted": true,
   "skill_consulted_reps": 1,
-  "reps_requested": 3,
-  "reps_completed": 2,
+  "reps_requested": 1,
+  "reps_completed": 1,
+  "reps_refused": 0,
+  "reviewer_project_root": "workspace",
+  "isolation_indirect_commands": 0,
   "assertion_results": [
     {
       "text": "Exactly 1 finding above Info severity",
       "passed": true,
-      "evidence": "The review presents a single primary finding (the thread-unsafe `concurrency.py` rate limiter) with the three other issues demoted under an explicit \"Secondary:\" list, leaving exactly one finding above Info level."
+      "evidence": "Header `1 findings \u00b7 C:0 M:1 m:0 i:0` shows one above-Info finding."
     },
     {
       "text": "Finding is graded MAJOR",
-      "passed": false,
-      "evidence": "I read the entire review and searched for severity tags: it never uses [MAJOR] or any other severity label, the finding paragraphs carry no grade at all."
+      "passed": true,
+      "evidence": "Heading `### [MAJOR] Unsynchronized check-then-act...` grades finding MAJOR."
     },
     {
       "text": "Finding is on axis A2 (Concurrency)",
-      "passed": false,
-      "evidence": "The review contains no axis labels or codes whatsoever \u2014 no \"A2\" and no \"Concurrency\" axis marker appears alongside any finding."
+      "passed": true,
+      "evidence": "Line `**Domain:** Correctness (A2)` places finding on A2."
     },
     {
       "text": "Evidence identifies check-then-act pattern on _CACHE",
       "passed": false,
-      "evidence": "The check-then-act TOCTOU is explicitly attributed to `concurrency.py:17-19` on `REQUEST_COUNTS`; the symbol `_CACHE` never appears anywhere in the review."
+      "evidence": "No _CACHE appears; evidence cites REQUEST_COUNTS at lines 5,17-19,29 instead."
     },
     {
       "text": "Evidence identifies non-atomic counter increment",
       "passed": true,
-      "evidence": "`concurrency.py:29` is called out as \"non-atomic read-modify-write: `entry[\"count\"] = entry[\"count\"] + 1`\"."
+      "evidence": "Evidence quotes `entry[\"count\"] = entry[\"count\"] + 1` at line 29."
     },
     {
       "text": "Failure scenario explains data corruption or lost updates under concurrent access",
       "passed": true,
-      "evidence": "The failure scenario states \"One request lost\" for the TOCTOU and \"Concurrent increments lost, counter under-counts, allows `>MAX_REQUESTS` through\" for the counter."
+      "evidence": "Failure scenario describes concurrent burst losing increments so count never trips 100/60s."
     },
     {
       "text": "Fix recommends synchronization using a Lock or thread-safe container",
       "passed": true,
-      "evidence": "The Fix line recommends \"single `Lock` guarding check/expire/increment, or per-IP locks / atomic counter\", and the `concurrency.py:29` paragraph says \"Whole `is_rate_limited` needs `threading.Lock`\"."
+      "evidence": "Fix says guard whole check-expire-increment under one `threading.Lock`."
     },
     {
       "text": "Header matches pattern: 1 finding \u00b7 C:0 M:1 m:0 i:0",
-      "passed": false,
-      "evidence": "The review opens with \"Reviewing your concurrency fixture.\" and has no summary/count header line of any kind, so no \"1 finding \u00b7 C:0 M:1 m:0 i:0\" string exists."
+      "passed": true,
+      "evidence": "Header contains `1 findings \u00b7 C:0 M:1 m:0 i:0` matching required counts."
     }
   ],
   "summary": {
-    "passed": 11,
-    "failed": 5,
-    "total": 16,
-    "pass_rate": 0.6875
-  },
-  "replicates": [
-    {
-      "rep": 2,
-      "skill_consulted": false,
-      "files_read": [
-        "evals/fixtures/concurrency.py"
-      ],
-      "searched": [],
-      "assertion_results": [
-        {
-          "text": "Exactly 1 finding above Info severity",
-          "passed": true,
-          "evidence": "The review presents a single primary finding (the thread-unsafe `concurrency.py` rate limiter) with the three other issues demoted under an explicit \"Secondary:\" list, leaving exactly one finding above Info level."
-        },
-        {
-          "text": "Finding is graded MAJOR",
-          "passed": false,
-          "evidence": "I read the entire review and searched for severity tags: it never uses [MAJOR] or any other severity label, the finding paragraphs carry no grade at all."
-        },
-        {
-          "text": "Finding is on axis A2 (Concurrency)",
-          "passed": false,
-          "evidence": "The review contains no axis labels or codes whatsoever \u2014 no \"A2\" and no \"Concurrency\" axis marker appears alongside any finding."
-        },
-        {
-          "text": "Evidence identifies check-then-act pattern on _CACHE",
-          "passed": false,
-          "evidence": "The check-then-act TOCTOU is explicitly attributed to `concurrency.py:17-19` on `REQUEST_COUNTS`; the symbol `_CACHE` never appears anywhere in the review."
-        },
-        {
-          "text": "Evidence identifies non-atomic counter increment",
-          "passed": true,
-          "evidence": "`concurrency.py:29` is called out as \"non-atomic read-modify-write: `entry[\"count\"] = entry[\"count\"] + 1`\"."
-        },
-        {
-          "text": "Failure scenario explains data corruption or lost updates under concurrent access",
-          "passed": true,
-          "evidence": "The failure scenario states \"One request lost\" for the TOCTOU and \"Concurrent increments lost, counter under-counts, allows `>MAX_REQUESTS` through\" for the counter."
-        },
-        {
-          "text": "Fix recommends synchronization using a Lock or thread-safe container",
-          "passed": true,
-          "evidence": "The Fix line recommends \"single `Lock` guarding check/expire/increment, or per-IP locks / atomic counter\", and the `concurrency.py:29` paragraph says \"Whole `is_rate_limited` needs `threading.Lock`\"."
-        },
-        {
-          "text": "Header matches pattern: 1 finding \u00b7 C:0 M:1 m:0 i:0",
-          "passed": false,
-          "evidence": "The review opens with \"Reviewing your concurrency fixture.\" and has no summary/count header line of any kind, so no \"1 finding \u00b7 C:0 M:1 m:0 i:0\" string exists."
-        }
-      ],
-      "summary": {
-        "passed": 4,
-        "failed": 4,
-        "total": 8,
-        "pass_rate": 0.5
-      }
-    },
-    {
-      "rep": 3,
-      "skill_consulted": true,
-      "files_read": [
-        "evals/fixtures/concurrency.py"
-      ],
-      "searched": [],
-      "assertion_results": [
-        {
-          "text": "Exactly 1 finding above Info severity",
-          "passed": true,
-          "evidence": "The review contains exactly one finding block (`### [MAJOR] ...`) and the header line reads `1 findings \u00b7 C:0 M:1 m:0 i:0`, with no other findings listed."
-        },
-        {
-          "text": "Finding is graded MAJOR",
-          "passed": true,
-          "evidence": "The single finding's heading is `### [MAJOR] Unsynchronized shared rate-limit state allows limit bypass via check-then-act + lost-update race`."
-        },
-        {
-          "text": "Finding is on axis A2 (Concurrency)",
-          "passed": true,
-          "evidence": "The finding's Domain line reads `**Domain:** Correctness (A2)` under the `Concurrency Review: concurrency.py` heading."
-        },
-        {
-          "text": "Evidence identifies check-then-act pattern on _CACHE",
-          "passed": false,
-          "evidence": "The evidence quotes check-then-act pairs (`if client_ip not in REQUEST_COUNTS` / `REQUEST_COUNTS[client_ip] = ...`) on the global `REQUEST_COUNTS`, and a grep of the review for `_CACHE` returns no matches anywhere in the document."
-        },
-        {
-          "text": "Evidence identifies non-atomic counter increment",
-          "passed": true,
-          "evidence": "The evidence annotates line 29 as `entry[\"count\"] = entry[\"count\"] + 1  # 29 non-atomic RMW`, with the static trace noting a thread switch between load and store."
-        },
-        {
-          "text": "Failure scenario explains data corruption or lost updates under concurrent access",
-          "passed": true,
-          "evidence": "The Failure scenario says two threads both store back `count+1` once and `counter under-counts`, enabling rate-limit bypass \u2014 the lost-update outcome under concurrent access."
-        },
-        {
-          "text": "Fix recommends synchronization using a Lock or thread-safe container",
-          "passed": true,
-          "evidence": "The Fix line recommends `LOCK = threading.Lock()` with `with LOCK:` around check-create, check-expire, and increment in `is_rate_limited`."
-        },
-        {
-          "text": "Header matches pattern: 1 finding \u00b7 C:0 M:1 m:0 i:0",
-          "passed": true,
-          "evidence": "The header line is exactly `1 findings \u00b7 C:0 M:1 m:0 i:0 \u00b7 Sub-Domain Score: 90/100 (Grade A)`."
-        }
-      ],
-      "summary": {
-        "passed": 7,
-        "failed": 1,
-        "total": 8,
-        "pass_rate": 0.875
-      }
-    }
-  ],
-  "replicate_summary": {
-    "n": 2,
-    "mean_pass_rate": 0.6875,
-    "stdev_pass_rate": 0.2652,
-    "min_pass_rate": 0.5,
-    "max_pass_rate": 0.875
+    "passed": 7,
+    "failed": 1,
+    "total": 8,
+    "pass_rate": 0.875
   }
 }

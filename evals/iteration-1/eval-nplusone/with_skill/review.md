@@ -1,37 +1,41 @@
-Reviewing your N+1 fixture — inspecting the code.
-That path is outside my workspace — trying another way to reach it.
-Got the file contents — now pulling the review templates to format the findings.
-I've mapped the N+1 pattern to the relevant checks — now getting exact line references.
-# Review: `evals/fixtures/nplusone.py`
+Reviewing the N+1 fixture and run artifacts.
+Found the classic N+1 loop — now gathering the eval context.
+Identified the performance and data-access domains — now examining the detailed checklists.
+Analysis points to an N+1 and a missing-row edge case — now verifying with execution.
+# Review: `evals/fixtures/nplusone.py` — team directory N+1
 
-`3 findings · C:0 M:1 m:1 i:1 · Mean 94/100 · Final Grade B`
+`2 findings · C:0 M:1 m:1 i:0 · Mean 98/100 · Final Grade B`
 Covered: 1/1 files · Scope: focused on: `evals/fixtures/nplusone.py` · Not examined: 0 — none
+Paths: 0 · Unmapped: 0 — none
 Unclassified: 0 findings fit no axis code
-Domain Scores: Correctness: 87/100 · Operations: 100/100 · Security: 100/100
-Gated by: `weakest domain: Correctness` — **always printed.**
+Domain Scores: Correctness: 87/100 · Operations: 100/100 · Security: 100/100 · Leanness: 100/100 · Maintainability: 100/100 · Interoperability: 100/100
+Gated by: `weakest domain: Correctness (B)` — **always printed.**
 
 ## Findings
 
-### [MAJOR] N+1 query loop in `directory` — 2N round-trips
+### [MAJOR] N+1 query loop in `directory()` — 2 queries per member
 - **Domain:** Correctness (A3)
-- **Verified by:** `DERIVED` — chain: `directory:19` loop → `get_member:4-8` 1 SELECT per `mid` → `get_team_name:11-13` 1 SELECT per `mid`.
-- **Evidence:** `nplusone.py:19-21` — `for mid in member_ids: member = get_member(conn, mid)` + `get_team_name(conn, member[2])`
-- **Failure scenario:** Directory page with 500 members issues ~1000 sequential DB round-trips; latency scales linearly, collapses under normal list size. Operations C1 cross-references, no separate deduction.
-- **Fix:** Module scope: single batched query — `SELECT m.name, t.name FROM members m LEFT JOIN teams t ON t.id=m.team_id WHERE m.id IN (...)`, map by id, fallback `"unknown"`.
-- **Trade-off:** Adds dynamic placeholder construction + result-map; one larger payload vs N round-trips — net win past ~2-3 rows.
+- **Verified by:** `RAN` — executed `directory()` against in-memory sqlite with 3 and 5 members; observed 6 and 10 `execute()` calls respectively (2N), and correct results.
+- **Evidence:** `evals/fixtures/nplusone.py:16-22` — loop issues two round-trips per iteration:
+```python
+for mid in member_ids:
+    member = get_member(conn, mid)          # SELECT ... FROM members WHERE id = ?
+    cards.append({"name": member[1], "team": get_team_name(conn, member[2])})  # SELECT name FROM teams WHERE id = ?
+```
+Matches `domains/correctness/data/guidelines/query-patterns.md`: "Executing queries inside a loop over prior results."
+- **Failure scenario:** Directory page with N=500 members issues 1,000 sequential queries. Latency grows linearly with page size; under load the handler times out while a single `JOIN`/`IN` would stay flat. Per `data/sub-leaf.md`: N+1 on production read path is MAJOR (-10).
+- **Fix:** Batch at module scope — one `SELECT id, name, team_id FROM members WHERE id IN (...)` plus one `SELECT id, name FROM teams WHERE id IN (...)` (or a single `JOIN`), then assemble in memory. Scope: module.
+- **Trade-off:** Adds one dict-build and `IN`-clause chunking for very large `member_ids`; saves N-1 round-trips. No extra memory beyond the result set already returned.
 
-### [MINOR] Unhandled missing member dereference
-- **Domain:** Correctness (A1)
-- **Verified by:** `DERIVED` — `get_member:8` can return `None` → `directory:21` does `member[1]` unguarded.
-- **Evidence:** `nplusone.py:20-21` — no `None` check, unlike `get_team_name:13` which handles it.
-- **Fix:** Skip, filter, or raise explicit error for unknown `mid`; don't let one bad id crash whole page.
+Ownership note: Operations Performance (C1/C2) sees the same linear scaling but takes no separate deduction — Correctness owns the root cause per Phase 5; Operations cross-references this finding.
 
-### [INFO / SUGGESTION] Silent `"unknown"` fallback masks referential break
+### [MINOR] Unhandled missing member crashes whole directory
 - **Domain:** Correctness (A1)
-- **Verified by:** `READ`
-- **Evidence:** `nplusone.py:13` — `return row[0] if row else "unknown"`
-- **Fix:** Log/metric on fallback or enforce FK constraint; keep display fallback.
+- **Verified by:** `RAN` — `directory(wrapped, [999])` raises `TypeError: 'NoneType' object is not subscriptable`.
+- **Evidence:** `evals/fixtures/nplusone.py:20-21` — `member = get_member(conn, mid)` returns `None` on miss, then `member[1]` subscripts it. Sibling `get_team_name:12-13` handles miss (`"unknown"`), `get_member:4-8` does not.
+- **Fix:** Localized cleanup — skip, or emit `{"name": ..., "team": "unknown"}` consistently, at `directory:20-21`.
+- **Failure scenario:** One stale/deleted id in `member_ids` aborts the entire page instead of degrading one card.
 
 ## Aligns well
-- Parameterized queries throughout (`nplusone.py:6,12`) — no injection shape (S3).
-- Narrow projections (`id, name, team_id` / `name`), no `SELECT *` (A3).
+- Parameterized `?` placeholders in both queries (A3/S3): no string-interpolated SQL, no injection sink.
+- Small, single-purpose functions with a clear contract (`B5` design, `B4` clarity).

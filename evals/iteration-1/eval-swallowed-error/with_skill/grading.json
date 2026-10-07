@@ -2,64 +2,91 @@
   "eval_id": 7,
   "eval_name": "eval-swallowed-error",
   "condition": "with_skill",
+  "model_config": "cfg:567712ad39ee",
+  "judge_model_config": "cfg:567712ad39ee",
+  "judge_disjoint": false,
+  "base_commit": "fba4fdb",
+  "no_axis_count": null,
+  "no_axis_count_reason": "no review body",
+  "grader_config": "cfg:7d57659c2e6c",
+  "assertion_roles": [
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "probe",
+    "verdict",
+    "verdict"
+  ],
+  "fixture_digests": {
+    "evals/fixtures/swallowed_error.py": "sha256:c7314a531c85d7eb"
+  },
+  "skill_consulted": true,
+  "skill_consulted_reps": 1,
   "reps_requested": 1,
   "reps_completed": 1,
+  "reps_refused": 0,
+  "reviewer_project_root": "workspace",
+  "isolation_indirect_commands": 0,
   "assertion_results": [
     {
       "text": "Exactly 1 finding above Info severity",
       "passed": false,
-      "evidence": "Header and Findings list show 3 findings, including 2 CRITICAL and 1 MAJOR."
+      "evidence": "Header states `2 findings \u00b7 C:1 M:1 m:0 i:0` showing two findings above Info."
     },
     {
       "text": "Finding is graded CRITICAL",
       "passed": true,
-      "evidence": "Two findings are explicitly headed [CRITICAL]."
+      "evidence": "Finding heading is `### [CRITICAL] Bare except swallows fulfillment failure`."
     },
     {
       "text": "Finding is on axis A1 (Logic / Error Handling)",
       "passed": true,
-      "evidence": "The first critical finding is labeled Domain: Correctness (A1), and the major finding also cites A1."
+      "evidence": "Finding lists `Domain: Correctness (A1)` directly below the heading."
     },
     {
       "text": "Evidence identifies the bare except clause",
-      "passed": false,
-      "evidence": "Evidence cites `except Exception:` rather than a bare `except:` clause."
+      "passed": true,
+      "evidence": "Evidence block quotes `except Exception: return False` at lines 18-23."
     },
     {
       "text": "Evidence notes that exceptions are suppressed without re-raising",
       "passed": true,
-      "evidence": "Review says the handler returns False and discards exception type, message, and traceback with no re-raise."
+      "evidence": "Verified-by notes `return False, no log, no traceback, no refund` with no re-raise."
     },
     {
       "text": "Failure scenario explains partial state corruption or silent failure",
       "passed": true,
-      "evidence": "Failure scenario describes charged-but-not-fulfilled stuck state, no refund/log, and outage invisibility."
+      "evidence": "Failure scenario states `payment_status='PAID'` persisted while fulfillment never completed."
     },
     {
       "text": "Fix recommends specific exception catching or re-raising with error chain",
       "passed": true,
-      "evidence": "Fix recommends catching specific exceptions, logging with logger.exception, compensating, and/or re-raising."
+      "evidence": "Fix directs to `narrow the except to expected failures` with transaction/compensation."
     },
     {
       "text": "Header matches pattern: 1 finding \u00b7 C:1 M:0 m:0 i:0 \u00b7 Mean <score>/100 \u00b7 Final Grade F",
       "passed": false,
-      "evidence": "Actual header is `3 findings \u00b7 C:2 M:1 m:0 i:0 \u00b7 Mean 85/100 \u00b7 Final Grade F`, not the required 1-finding C:1 header."
+      "evidence": "Header reads `2 findings \u00b7 C:1 M:1` not `1 finding \u00b7 C:1 M:0 m:0 i:0`."
     },
     {
       "text": "Final Grade is F even though the mean score is well above 60",
       "passed": true,
-      "evidence": "Mean is 85/100 while Final Grade is F."
+      "evidence": "Header shows `Mean 94/100 \u00b7 Final Grade F` with mean well above 60."
     },
     {
       "text": "Report names the Critical finding as the binding cap, not the mean",
       "passed": true,
-      "evidence": "Header says `Gated by: **Critical finding**` and states any Critical caps the grade at F."
+      "evidence": "Line `Gated by: Critical finding \u2014 any Critical caps the grade at F` names the cap."
     }
   ],
   "summary": {
-    "passed": 7,
-    "failed": 3,
+    "passed": 8,
+    "failed": 2,
     "total": 10,
-    "pass_rate": 0.7
+    "pass_rate": 0.8
   }
 }

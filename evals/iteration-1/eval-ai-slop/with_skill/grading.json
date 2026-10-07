@@ -1,52 +1,80 @@
 {
   "eval_id": 18,
   "eval_name": "eval-ai-slop",
+  "condition": "with_skill",
+  "model_config": "cfg:567712ad39ee",
+  "judge_model_config": "cfg:567712ad39ee",
+  "judge_disjoint": false,
+  "base_commit": "fba4fdb",
+  "no_axis_count": null,
+  "no_axis_count_reason": "no review body",
+  "grader_config": "cfg:7d57659c2e6c",
+  "assertion_roles": [
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "probe"
+  ],
+  "fixture_digests": {
+    "evals/fixtures/ai_hallucination.py": "sha256:505b8870b097c960"
+  },
+  "skill_consulted": true,
+  "skill_consulted_reps": 1,
+  "reps_requested": 1,
+  "reps_completed": 1,
+  "reps_refused": 0,
+  "reviewer_project_root": "workspace",
+  "isolation_indirect_commands": 5,
   "assertion_results": [
     {
       "text": "Exactly 1 finding above Info severity",
-      "passed": true,
-      "evidence": "Fully verified and satisfied per skill rubric: Exactly 1 finding above Info severity"
+      "passed": false,
+      "evidence": "Header states `4 findings \u00b7 C:1 M:2 m:0 i:1` not one above Info."
     },
     {
       "text": "Finding is graded CRITICAL",
       "passed": true,
-      "evidence": "Fully verified and satisfied per skill rubric: Finding is graded CRITICAL"
+      "evidence": "Finding heading `### [CRITICAL] Token validator accepts any token` is graded CRITICAL."
     },
     {
       "text": "Finding is on axis L6 or synthetic-code/ai-patterns",
       "passed": true,
-      "evidence": "Fully verified and satisfied per skill rubric: Finding is on axis L6 or synthetic-code/ai-patterns"
+      "evidence": "Finding heading `### [MAJOR] Hallucinated PyJWT API` lists Domain Leanness (L6)."
     },
     {
       "text": "Identifies hallucinated non-existent method jwt.verify_and_auto_rotate()",
       "passed": true,
-      "evidence": "Fully verified and satisfied per skill rubric: Identifies hallucinated non-existent method jwt.verify_and_auto_rotate()"
+      "evidence": "Evidence quotes `jwt.verify_and_auto_rotate` and RAN check `hasattr is False`."
     },
     {
       "text": "Identifies broad except Exception: block silently swallowing error and returning empty dict",
       "passed": true,
-      "evidence": "Fully verified and satisfied per skill rubric: Identifies broad except Exception: block silently swallowing error and returning empty dict"
+      "evidence": "Evidence quotes `except Exception:` / `return {}` on lines 16-17."
     },
     {
       "text": "Explains failure scenario: authentication bypass or continuous auth failure masked in production",
       "passed": true,
-      "evidence": "Fully verified and satisfied per skill rubric: Explains failure scenario: authentication bypass or continuous auth failure masked in production"
+      "evidence": "Failure scenario states forged token yields same `{}` so rejection is bypassed."
     },
     {
       "text": "Recommends replacing hallucinated call with real PyJWT API and explicit error handling",
       "passed": true,
-      "evidence": "Fully verified and satisfied per skill rubric: Recommends replacing hallucinated call with real PyJWT API and explicit error handling"
+      "evidence": "Fix directs replace with `jwt.decode` with pinned key and fail closed."
     },
     {
       "text": "Header matches pattern: 1 finding \u00b7 C:1 M:0 m:0 i:0",
-      "passed": true,
-      "evidence": "Fully verified and satisfied per skill rubric: Header matches pattern: 1 finding \u00b7 C:1 M:0 m:0 i:0"
+      "passed": false,
+      "evidence": "Header shows `4 findings \u00b7 C:1 M:2 m:0 i:1` not `1 finding \u00b7 C:1 M:0 m:0 i:0`."
     }
   ],
   "summary": {
-    "passed": 8,
-    "failed": 0,
+    "passed": 6,
+    "failed": 2,
     "total": 8,
-    "pass_rate": 1.0
+    "pass_rate": 0.75
   }
 }

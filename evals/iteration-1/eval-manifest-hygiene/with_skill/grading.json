@@ -1,52 +1,80 @@
 {
   "eval_id": 17,
   "eval_name": "eval-manifest-hygiene",
+  "condition": "with_skill",
+  "model_config": "cfg:567712ad39ee",
+  "judge_model_config": "cfg:567712ad39ee",
+  "judge_disjoint": false,
+  "base_commit": "fba4fdb",
+  "no_axis_count": null,
+  "no_axis_count_reason": "no review body",
+  "grader_config": "cfg:7d57659c2e6c",
+  "assertion_roles": [
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "probe"
+  ],
+  "fixture_digests": {
+    "evals/fixtures/unpinned_manifest.json": "sha256:cd0080136453a7c4"
+  },
+  "skill_consulted": true,
+  "skill_consulted_reps": 1,
+  "reps_requested": 1,
+  "reps_completed": 1,
+  "reps_refused": 0,
+  "reviewer_project_root": "workspace",
+  "isolation_indirect_commands": 1,
   "assertion_results": [
     {
       "text": "Exactly 1 finding above Info severity",
-      "passed": true,
-      "evidence": "Fully verified and satisfied per skill rubric: Exactly 1 finding above Info severity"
+      "passed": false,
+      "evidence": "Header states `2 findings \u00b7 C:0 M:1 m:1 i:0` showing two findings above Info."
     },
     {
       "text": "Finding is graded MAJOR",
       "passed": true,
-      "evidence": "Fully verified and satisfied per skill rubric: Finding is graded MAJOR"
+      "evidence": "Heading `### [MAJOR] Unbounded / floating version ranges` shows MAJOR grade."
     },
     {
       "text": "Finding is on axis L5 or supply-chain/manifest-hygiene",
       "passed": true,
-      "evidence": "Fully verified and satisfied per skill rubric: Finding is on axis L5 or supply-chain/manifest-hygiene"
+      "evidence": "MAJOR finding lists `Domain: Leanness (L5)`."
     },
     {
       "text": "Identifies unbounded wildcard version dependency stripe: '*'",
       "passed": true,
-      "evidence": "Fully verified and satisfied per skill rubric: Identifies unbounded wildcard version dependency stripe: '*'"
+      "evidence": "Evidence cites `evals/fixtures/unpinned_manifest.json:6 \u2014 \"stripe\": \"*\"`."
     },
     {
       "text": "Identifies test framework jest placed in production dependencies",
       "passed": true,
-      "evidence": "Fully verified and satisfied per skill rubric: Identifies test framework jest placed in production dependencies"
+      "evidence": "MINOR finding cites `\"jest\": \"^29.5.0\"` under `dependencies`."
     },
     {
       "text": "Explains failure scenario: unexpected upstream breaking release breaks production builds",
       "passed": true,
-      "evidence": "Fully verified and satisfied per skill rubric: Explains failure scenario: unexpected upstream breaking release breaks production builds"
+      "evidence": "Failure scenario describes `*` resolving to latest major shipping breaking change into deploy."
     },
     {
       "text": "Recommends pinning semantic version range and moving jest to devDependencies",
       "passed": true,
-      "evidence": "Fully verified and satisfied per skill rubric: Recommends pinning semantic version range and moving jest to devDependencies"
+      "evidence": "Fixes recommend pinning exact versions and moving `jest` to `devDependencies`."
     },
     {
       "text": "Header matches pattern: 1 finding \u00b7 C:0 M:1 m:0 i:0",
-      "passed": true,
-      "evidence": "Fully verified and satisfied per skill rubric: Header matches pattern: 1 finding \u00b7 C:0 M:1 m:0 i:0"
+      "passed": false,
+      "evidence": "Header shows `2 findings \u00b7 C:0 M:1 m:1 i:0` not `1 finding \u00b7 C:0 M:1 m:0 i:0`."
     }
   ],
   "summary": {
-    "passed": 8,
-    "failed": 0,
+    "passed": 6,
+    "failed": 2,
     "total": 8,
-    "pass_rate": 1.0
+    "pass_rate": 0.75
   }
 }

@@ -1,52 +1,80 @@
 {
   "eval_id": 15,
   "eval_name": "eval-breaking-schema",
+  "condition": "with_skill",
+  "model_config": "cfg:567712ad39ee",
+  "judge_model_config": "cfg:567712ad39ee",
+  "judge_disjoint": false,
+  "base_commit": "fba4fdb",
+  "no_axis_count": null,
+  "no_axis_count_reason": "no review body",
+  "grader_config": "cfg:7d57659c2e6c",
+  "assertion_roles": [
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "probe"
+  ],
+  "fixture_digests": {
+    "evals/fixtures/breaking_schema.py": "sha256:dca916c15473dc1c"
+  },
+  "skill_consulted": true,
+  "skill_consulted_reps": 1,
+  "reps_requested": 1,
+  "reps_completed": 1,
+  "reps_refused": 0,
+  "reviewer_project_root": "workspace",
+  "isolation_indirect_commands": 0,
   "assertion_results": [
     {
       "text": "Exactly 1 finding above Info severity",
-      "passed": true,
-      "evidence": "Fully verified and satisfied per skill rubric: Exactly 1 finding above Info severity"
+      "passed": false,
+      "evidence": "Header `3 findings \u00b7 C:1 M:0 m:1 i:1` shows two findings above Info."
     },
     {
       "text": "Finding is graded MAJOR",
-      "passed": true,
-      "evidence": "Fully verified and satisfied per skill rubric: Finding is graded MAJOR"
+      "passed": false,
+      "evidence": "Searched headings found [CRITICAL], [MINOR], [INFO] with no [MAJOR] present."
     },
     {
       "text": "Finding is on axis A4 or api-contracts/backward-compatibility",
       "passed": true,
-      "evidence": "Fully verified and satisfied per skill rubric: Finding is on axis A4 or api-contracts/backward-compatibility"
+      "evidence": "Main finding lists Domain: Correctness (A4)."
     },
     {
       "text": "Identifies breaking rename of customer_id to id",
       "passed": true,
-      "evidence": "Fully verified and satisfied per skill rubric: Identifies breaking rename of customer_id to id"
+      "evidence": "Evidence quotes `\"id\": customer_record[\"customer_id\"]` as Breaking rename from customer_id."
     },
     {
       "text": "Identifies breaking type mutation of tier_code from integer to string",
       "passed": true,
-      "evidence": "Fully verified and satisfied per skill rubric: Identifies breaking type mutation of tier_code from integer to string"
+      "evidence": "Evidence quotes `\"tier_code\": str(customer_record[\"tier\"])` as Breaking type mutation from int to str."
     },
     {
       "text": "Explains failure scenario: existing mobile apps and SDK consumers crash upon unmarshalling",
       "passed": true,
-      "evidence": "Fully verified and satisfied per skill rubric: Explains failure scenario: existing mobile apps and SDK consumers crash upon unmarshalling"
+      "evidence": "Failure scenario describes v1 KeyError and typed SDK parse crash on rollout."
     },
     {
       "text": "Recommends versioning, deprecation window, or maintaining field aliases",
       "passed": true,
-      "evidence": "Fully verified and satisfied per skill rubric: Recommends versioning, deprecation window, or maintaining field aliases"
+      "evidence": "Fix recommends keep v1, ship v2, emit both fields with Sunset header window."
     },
     {
       "text": "Header matches pattern: 1 finding \u00b7 C:0 M:1 m:0 i:0",
-      "passed": true,
-      "evidence": "Fully verified and satisfied per skill rubric: Header matches pattern: 1 finding \u00b7 C:0 M:1 m:0 i:0"
+      "passed": false,
+      "evidence": "Header reads `3 findings \u00b7 C:1 M:0 m:1 i:1`, not `1 finding \u00b7 C:0 M:1 m:0 i:0`."
     }
   ],
   "summary": {
-    "passed": 8,
-    "failed": 0,
+    "passed": 5,
+    "failed": 3,
     "total": 8,
-    "pass_rate": 1.0
+    "pass_rate": 0.625
   }
 }

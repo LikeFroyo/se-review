@@ -1,46 +1,74 @@
 {
   "eval_id": 14,
   "eval_name": "eval-missing-timeout",
+  "condition": "with_skill",
+  "model_config": "cfg:567712ad39ee",
+  "judge_model_config": "cfg:567712ad39ee",
+  "judge_disjoint": false,
+  "base_commit": "fba4fdb",
+  "no_axis_count": null,
+  "no_axis_count_reason": "no review body",
+  "grader_config": "cfg:7d57659c2e6c",
+  "assertion_roles": [
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "probe"
+  ],
+  "fixture_digests": {
+    "evals/fixtures/missing_timeout.py": "sha256:7452fb0e8578fffc"
+  },
+  "skill_consulted": true,
+  "skill_consulted_reps": 1,
+  "reps_requested": 1,
+  "reps_completed": 1,
+  "reps_refused": 0,
+  "reviewer_project_root": "workspace",
+  "isolation_indirect_commands": 0,
   "assertion_results": [
     {
       "text": "Exactly 1 finding above Info severity",
       "passed": true,
-      "evidence": "Fully verified and satisfied per skill rubric: Exactly 1 finding above Info severity"
+      "evidence": "Header states `1 findings \u00b7 C:0 M:1 m:0 i:0` with one [MAJOR] finding listed."
     },
     {
       "text": "Finding is graded MAJOR",
       "passed": true,
-      "evidence": "Fully verified and satisfied per skill rubric: Finding is graded MAJOR"
+      "evidence": "Finding heading is `### [MAJOR] Outbound requests.get without connect/read timeout`."
     },
     {
       "text": "Finding is on axis C3 or resilience/timeouts",
       "passed": true,
-      "evidence": "Fully verified and satisfied per skill rubric: Finding is on axis C3 or resilience/timeouts"
+      "evidence": "Finding lists `Domain: Operations (C3)` directly below heading."
     },
     {
       "text": "Identifies requests.get(url) missing explicit timeout parameter",
       "passed": true,
-      "evidence": "Fully verified and satisfied per skill rubric: Identifies requests.get(url) missing explicit timeout parameter"
+      "evidence": "Evidence cites `missing_timeout.py:16-17` with `requests.get(url)` and no `timeout=`."
     },
     {
       "text": "Explains worker thread exhaustion and cascading gateway 504 outage",
       "passed": true,
-      "evidence": "Fully verified and satisfied per skill rubric: Explains worker thread exhaustion and cascading gateway 504 outage"
+      "evidence": "Failure scenario describes worker pool exhaustion cascading to fleet-wide 504s."
     },
     {
       "text": "Fix recommends setting explicit connect and read timeouts (e.g. timeout=(3.05, 10))",
       "passed": true,
-      "evidence": "Fully verified and satisfied per skill rubric: Fix recommends setting explicit connect and read timeouts (e.g. timeout=(3.05, 10))"
+      "evidence": "Fix recommends `requests.get(url, timeout=(3.05, 5))` with connect and read values."
     },
     {
       "text": "Mentions latency or timeout trade-off",
       "passed": true,
-      "evidence": "Fully verified and satisfied per skill rubric: Mentions latency or timeout trade-off"
+      "evidence": "Trade-off notes latency bound at cost of possible false timeouts."
     },
     {
       "text": "Header matches pattern: 1 finding \u00b7 C:0 M:1 m:0 i:0",
       "passed": true,
-      "evidence": "Fully verified and satisfied per skill rubric: Header matches pattern: 1 finding \u00b7 C:0 M:1 m:0 i:0"
+      "evidence": "Header contains `1 findings \u00b7 C:0 M:1 m:0 i:0` matching required counts."
     }
   ],
   "summary": {

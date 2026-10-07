@@ -1,52 +1,80 @@
 {
   "eval_id": 13,
   "eval_name": "eval-hot-loop",
+  "condition": "with_skill",
+  "model_config": "cfg:567712ad39ee",
+  "judge_model_config": "cfg:567712ad39ee",
+  "judge_disjoint": false,
+  "base_commit": "fba4fdb",
+  "no_axis_count": null,
+  "no_axis_count_reason": "no review body",
+  "grader_config": "cfg:7d57659c2e6c",
+  "assertion_roles": [
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "probe"
+  ],
+  "fixture_digests": {
+    "evals/fixtures/hot_loop.py": "sha256:25d1b9dddbdca0dc"
+  },
+  "skill_consulted": true,
+  "skill_consulted_reps": 1,
+  "reps_requested": 1,
+  "reps_completed": 1,
+  "reps_refused": 0,
+  "reviewer_project_root": "workspace",
+  "isolation_indirect_commands": 2,
   "assertion_results": [
     {
       "text": "Exactly 1 finding above Info severity",
-      "passed": true,
-      "evidence": "Fully verified and satisfied per skill rubric: Exactly 1 finding above Info severity"
+      "passed": false,
+      "evidence": "Header states 4 findings \u00b7 C:0 M:2 m:1 i:1, so three findings are above Info not one."
     },
     {
       "text": "Finding is graded MAJOR",
       "passed": true,
-      "evidence": "Fully verified and satisfied per skill rubric: Finding is graded MAJOR"
+      "evidence": "First finding heading is ### [MAJOR] Quadratic concat + per-iteration file open in export loop."
     },
     {
       "text": "Finding is on axis C1 or performance/hot-loops",
       "passed": true,
-      "evidence": "Fully verified and satisfied per skill rubric: Finding is on axis C1 or performance/hot-loops"
+      "evidence": "That finding lists Domain: Operations (C1)."
     },
     {
       "text": "Identifies quadratic string concatenation (`csv_body += line`) in hot loop",
       "passed": true,
-      "evidence": "Fully verified and satisfied per skill rubric: Identifies quadratic string concatenation (`csv_body += line`) in hot loop"
+      "evidence": "Evidence cites evals/fixtures/hot_loop.py:11-18 with csv_body += line."
     },
     {
       "text": "Identifies repeated unbuffered disk write inside loop",
       "passed": true,
-      "evidence": "Fully verified and satisfied per skill rubric: Identifies repeated unbuffered disk write inside loop"
+      "evidence": "Evidence cites with open(output_file, \"a\") as f: f.write(line) inside for record in records."
     },
     {
       "text": "Explains O(N^2) memory allocation churn and I/O disk thrashing",
       "passed": true,
-      "evidence": "Fully verified and satisfied per skill rubric: Explains O(N^2) memory allocation churn and I/O disk thrashing"
+      "evidence": "Failure scenario states N open/close syscalls plus O(N\u00b2) string reallocs causing stall and GC pressure."
     },
     {
       "text": "Recommends list appending with join() and batched file writing",
       "passed": true,
-      "evidence": "Fully verified and satisfied per skill rubric: Recommends list appending with join() and batched file writing"
+      "evidence": "Fix recommends collect lines.append(line) with single open outside loop and trade-off mentions join."
     },
     {
       "text": "Header matches pattern: 1 finding \u00b7 C:0 M:1 m:0 i:0",
-      "passed": true,
-      "evidence": "Fully verified and satisfied per skill rubric: Header matches pattern: 1 finding \u00b7 C:0 M:1 m:0 i:0"
+      "passed": false,
+      "evidence": "Header reads 4 findings \u00b7 C:0 M:2 m:1 i:1, not 1 finding \u00b7 C:0 M:1 m:0 i:0."
     }
   ],
   "summary": {
-    "passed": 8,
-    "failed": 0,
+    "passed": 6,
+    "failed": 2,
     "total": 8,
-    "pass_rate": 1.0
+    "pass_rate": 0.75
   }
 }

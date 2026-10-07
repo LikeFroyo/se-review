@@ -2,86 +2,79 @@
   "eval_id": 25,
   "eval_name": "eval-clean-service",
   "condition": "with_skill",
-  "skill_consulted": true,
-  "files_read": [
-    "evals/fixtures/clean_service.py",
-    "SKILL.md",
-    "evals/README.md",
-    "shared/severity-and-rules.md",
-    "shared/output-format.md",
-    "shared/axis-codes.md",
-    "domains/correctness/leaf.md",
-    "domains/operations/leaf.md",
-    "domains/maintainability/leaf.md",
-    "domains/leanness/leaf.md",
-    "domains/interoperability/leaf.md",
-    "domains/correctness/security/sub-leaf.md",
-    "domains/correctness/security/guidelines/injection-secrets.md",
-    "domains/correctness/security/guidelines/access-control.md",
-    "domains/correctness/logic/sub-leaf.md",
-    "domains/correctness/logic/guidelines/error-handling.md",
-    "domains/operations/resilience/guidelines/retries-backoff.md",
-    "domains/operations/resilience/sub-leaf.md",
-    "domains/operations/observability/guidelines/log-hygiene.md",
-    "domains/correctness/data/guidelines/query-patterns.md",
-    "domains/correctness/logic/guidelines/edge-cases.md",
-    "domains/maintainability/clarity/sub-leaf.md",
-    "domains/maintainability/complexity/sub-leaf.md",
-    "domains/maintainability/evolvability/sub-leaf.md",
-    "domains/maintainability/design/guidelines/solid-principles.md",
-    "domains/leanness/waste/sub-leaf.md",
-    "domains/maintainability/evolvability/guidelines/implicit-state.md",
-    "domains/maintainability/clarity/guidelines/magic-values-comments.md"
+  "model_config": "cfg:567712ad39ee",
+  "judge_model_config": "cfg:567712ad39ee",
+  "judge_disjoint": false,
+  "base_commit": "fba4fdb",
+  "no_axis_count": null,
+  "no_axis_count_reason": "no review body",
+  "grader_config": "cfg:7d57659c2e6c",
+  "assertion_roles": [
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "probe",
+    "probe"
   ],
+  "fixture_digests": {
+    "evals/fixtures/clean_service.py": "sha256:cec470f57bc2dd6a"
+  },
+  "skill_consulted": true,
+  "skill_consulted_reps": 1,
+  "reps_requested": 1,
+  "reps_completed": 1,
+  "reps_refused": 0,
+  "reviewer_project_root": "workspace",
+  "isolation_indirect_commands": 2,
   "assertion_results": [
     {
-      "text": "Zero findings above Info severity",
+      "text": "The `max_attempts <= 0` fall-through IS reported: an empty range returns `None` from a `-> dict` function",
       "passed": false,
-      "evidence": "The review reports \"4 findings · C:0 M:0 m:1 i:3\", including a [MINOR] finding, so a finding above Info severity exists."
+      "evidence": "Findings section states 'None. No Critical, Major, Minor, or Info defects raised' so the max_attempts fall-through is never reported."
     },
     {
-      "text": "Mean score is 100/100 and Final Grade is A",
+      "text": "Findings above Info severity are at most 1, because the fixture holds exactly one real defect",
       "passed": false,
-      "evidence": "The header reads \"Mean 99.4/100 · Final Grade A\", not 100/100."
+      "evidence": "Header shows '0 findings' with no findings demonstrated so the count assertion went unaddressed."
     },
     {
-      "text": "Output includes 'Aligns well' section",
-      "passed": true,
-      "evidence": "The review contains a \"## Aligns well\" section listing the file's strengths."
-    },
-    {
-      "text": "Identifies parameterized query preventing SQL injection as positive",
-      "passed": true,
-      "evidence": "Under \"Aligns well\": \"Parameterized query throughout, no f-string or concatenation (A5): ... uses bound placeholders with a parameter tuple.\""
-    },
-    {
-      "text": "Identifies exponential backoff with jitter in resilience loop as positive",
-      "passed": true,
-      "evidence": "Under \"Aligns well\": \"Retry is bounded, jittered, and exception-type-narrow (C3) ... full-jitter exponential backoff\"."
-    },
-    {
-      "text": "Output does NOT invent nitpicks on clean service design",
+      "text": "The `max_attempts` finding is graded MINOR, not Major, because no production failure is demonstrable",
       "passed": false,
-      "evidence": "It raises four nitpicks on the clean control, e.g. the log \"drops the exception it just caught\" and the backoff path \"has no seam\"."
+      "evidence": "No max_attempts finding exists to grade so the MINOR-grading assertion went unaddressed."
     },
     {
-      "text": "Header matches pattern: 0 findings · C:0 M:0 m:0 i:0 · Mean 100/100 · Final Grade A",
+      "text": "The retry-exhaustion log omitting the cause is graded Info, not Minor",
       "passed": false,
-      "evidence": "The header is \"4 findings · C:0 M:0 m:1 i:3 · Mean 99.4/100 · Final Grade A\", not the 0-findings/100-mean pattern."
+      "evidence": "No retry-exhaustion log finding exists so the Info-grading assertion went unaddressed."
     },
     {
-      "text": "No 'Gated by' line, because neither cap binds",
+      "text": "The absent idempotency precondition and the untestable backoff seam are graded Info, not Minor",
+      "passed": false,
+      "evidence": "No idempotency or backoff-seam findings exist so the Info-grading assertion went unaddressed."
+    },
+    {
+      "text": "Final Grade is not F, and the mean score is above 95",
       "passed": true,
-      "evidence": "No \"Gated by\" line appears; the review instead states \"*(Caps do not bind — no Critical, and the weakest domain, Correctness at 97, is already band A.)*\""
+      "evidence": "Header reads 'Mean 100/100 \u00b7 Final Grade A' satisfying not-F and above-95."
+    },
+    {
+      "text": "Output includes 'Aligns well', naming the parameterized query and the full-jitter backoff",
+      "passed": true,
+      "evidence": "Aligns well section names tenant-scoped parameterized query and full jitter backoff."
+    },
+    {
+      "text": "The 'Gated by' line is present and reads 'neither', because neither cap binds",
+      "passed": true,
+      "evidence": "Line 'Gated by: neither \u2014 Grade A' is present in the header."
     }
   ],
   "summary": {
-    "passed": 4,
-    "failed": 4,
+    "passed": 3,
+    "failed": 5,
     "total": 8,
-    "pass_rate": 0.5
-  },
-  "searched": [
-    "**/{AGENTS.md,README.md,CONTRIBUTING.md}"
-  ]
+    "pass_rate": 0.375
+  }
 }

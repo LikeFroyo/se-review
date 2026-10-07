@@ -1,52 +1,80 @@
 {
   "eval_id": 16,
   "eval_name": "eval-idempotency",
+  "condition": "with_skill",
+  "model_config": "cfg:567712ad39ee",
+  "judge_model_config": "cfg:567712ad39ee",
+  "judge_disjoint": false,
+  "base_commit": "fba4fdb",
+  "no_axis_count": null,
+  "no_axis_count_reason": "no review body",
+  "grader_config": "cfg:7d57659c2e6c",
+  "assertion_roles": [
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "probe"
+  ],
+  "fixture_digests": {
+    "evals/fixtures/non_idempotent_payment.py": "sha256:9ed71327bc8f20f0"
+  },
+  "skill_consulted": true,
+  "skill_consulted_reps": 1,
+  "reps_requested": 1,
+  "reps_completed": 1,
+  "reps_refused": 0,
+  "reviewer_project_root": "workspace",
+  "isolation_indirect_commands": 0,
   "assertion_results": [
     {
       "text": "Exactly 1 finding above Info severity",
-      "passed": true,
-      "evidence": "Fully verified and satisfied per skill rubric: Exactly 1 finding above Info severity"
+      "passed": false,
+      "evidence": "Header states `2 findings \u00b7 C:1 M:0 m:1 i:0` showing two findings above Info."
     },
     {
       "text": "Finding is graded CRITICAL",
       "passed": true,
-      "evidence": "Fully verified and satisfied per skill rubric: Finding is graded CRITICAL"
+      "evidence": "Finding heading is `### [CRITICAL] Retry / redelivery double-charges customer`."
     },
     {
       "text": "Finding is on axis A4 or api-contracts/idempotency",
-      "passed": true,
-      "evidence": "Fully verified and satisfied per skill rubric: Finding is on axis A4 or api-contracts/idempotency"
+      "passed": false,
+      "evidence": "Finding Domain is listed as `Operations (C3)` not A4."
     },
     {
       "text": "Identifies payment charge execution lacking idempotency key",
       "passed": true,
-      "evidence": "Fully verified and satisfied per skill rubric: Identifies payment charge execution lacking idempotency key"
+      "evidence": "Evidence states `with no key parameter, header, or dedup-table lookup` for processor.post."
     },
     {
       "text": "Explains failure scenario: network retry or redelivered webhook causes duplicate customer charge",
       "passed": true,
-      "evidence": "Fully verified and satisfied per skill rubric: Explains failure scenario: network retry or redelivered webhook causes duplicate customer charge"
+      "evidence": "Failure scenario describes timeout retry charging 2x and webhook redelivery duplicating charge."
     },
     {
       "text": "Recommends requiring and passing client-generated Idempotency-Key",
       "passed": true,
-      "evidence": "Fully verified and satisfied per skill rubric: Recommends requiring and passing client-generated Idempotency-Key"
+      "evidence": "Fix directs to accept `idempotency_key: str` and transmit as `Idempotency-Key` header."
     },
     {
       "text": "Cites specific line numbers in non_idempotent_payment.py",
       "passed": true,
-      "evidence": "Fully verified and satisfied per skill rubric: Cites specific line numbers in non_idempotent_payment.py"
+      "evidence": "Evidence cites `non_idempotent_payment.py:8-20` and `16-20`."
     },
     {
       "text": "Header matches pattern: 1 finding \u00b7 C:1 M:0 m:0 i:0",
-      "passed": true,
-      "evidence": "Fully verified and satisfied per skill rubric: Header matches pattern: 1 finding \u00b7 C:1 M:0 m:0 i:0"
+      "passed": false,
+      "evidence": "Header shows `2 findings \u00b7 C:1 M:0 m:1 i:0` not the required 1-finding pattern."
     }
   ],
   "summary": {
-    "passed": 8,
-    "failed": 0,
+    "passed": 5,
+    "failed": 3,
     "total": 8,
-    "pass_rate": 1.0
+    "pass_rate": 0.625
   }
 }

@@ -1,52 +1,80 @@
 {
   "eval_id": 20,
   "eval_name": "eval-pii-logging",
+  "condition": "with_skill",
+  "model_config": "cfg:567712ad39ee",
+  "judge_model_config": "cfg:567712ad39ee",
+  "judge_disjoint": false,
+  "base_commit": "fba4fdb",
+  "no_axis_count": null,
+  "no_axis_count_reason": "no review body",
+  "grader_config": "cfg:7d57659c2e6c",
+  "assertion_roles": [
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "probe"
+  ],
+  "fixture_digests": {
+    "evals/fixtures/pii_logging.py": "sha256:b1a23583b26e5d5c"
+  },
+  "skill_consulted": true,
+  "skill_consulted_reps": 1,
+  "reps_requested": 1,
+  "reps_completed": 1,
+  "reps_refused": 0,
+  "reviewer_project_root": "workspace",
+  "isolation_indirect_commands": 0,
   "assertion_results": [
     {
       "text": "Exactly 1 finding above Info severity",
-      "passed": true,
-      "evidence": "Fully verified and satisfied per skill rubric: Exactly 1 finding above Info severity"
+      "passed": false,
+      "evidence": "Header states `2 findings \u00b7 C:2 M:0 m:0 i:0`, not exactly 1 above Info."
     },
     {
       "text": "Finding is graded CRITICAL",
       "passed": true,
-      "evidence": "Fully verified and satisfied per skill rubric: Finding is graded CRITICAL"
+      "evidence": "Findings headings both show `### [CRITICAL]`."
     },
     {
       "text": "Finding is on axis C4 or observability/log-hygiene",
       "passed": true,
-      "evidence": "Fully verified and satisfied per skill rubric: Finding is on axis C4 or observability/log-hygiene"
+      "evidence": "Second finding lists `Domain: Operations (C4)` for log-hygiene."
     },
     {
       "text": "Identifies plaintext logging of user password and SSN",
       "passed": true,
-      "evidence": "Fully verified and satisfied per skill rubric: Identifies plaintext logging of user password and SSN"
+      "evidence": "First finding cites password logging and second cites `ssn=123-45-6789` at line 18."
     },
     {
       "text": "Identifies logging of credit card CVV",
       "passed": true,
-      "evidence": "Fully verified and satisfied per skill rubric: Identifies logging of credit card CVV"
+      "evidence": "First finding cites `CVV=123` and `CVV={card_cvv}` logging."
     },
     {
       "text": "Explains security/compliance breach: secrets leaked to centralized log aggregators",
       "passed": true,
-      "evidence": "Fully verified and satisfied per skill rubric: Explains security/compliance breach: secrets leaked to centralized log aggregators"
+      "evidence": "Failure scenario states logs persist to disk/aggregator with broad readership exposing credentials."
     },
     {
       "text": "Recommends strict redaction/masking filter and removing sensitive fields from log events",
       "passed": true,
-      "evidence": "Fully verified and satisfied per skill rubric: Recommends strict redaction/masking filter and removing sensitive fields from log events"
+      "evidence": "Fix directs to delete interpolations and add redacting log filter denylist."
     },
     {
       "text": "Header matches pattern: 1 finding \u00b7 C:1 M:0 m:0 i:0",
-      "passed": true,
-      "evidence": "Fully verified and satisfied per skill rubric: Header matches pattern: 1 finding \u00b7 C:1 M:0 m:0 i:0"
+      "passed": false,
+      "evidence": "Header shows `2 findings \u00b7 C:2` not `1 finding \u00b7 C:1 M:0 m:0 i:0`."
     }
   ],
   "summary": {
-    "passed": 8,
-    "failed": 0,
+    "passed": 6,
+    "failed": 2,
     "total": 8,
-    "pass_rate": 1.0
+    "pass_rate": 0.75
   }
 }

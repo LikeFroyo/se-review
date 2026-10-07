@@ -3045,3 +3045,70 @@ class BlindStripping(unittest.TestCase):
                                     f"fixture {i} has too few severity assertions to measure "
                                     f"the axis the skill actually moves")
 
+class RunOneIsCallable(unittest.TestCase):
+    """The harness's primary entry point, invoked.
+
+    `run_one` was broken for the whole of this corpus's life: it passed `base_commit` into
+    `already_current()` twenty lines above the `try` block that computes it, so every reviewer run
+    raised `UnboundLocalError` before reaching the model. Nothing caught it, because the grading
+    path, the diagnostics and `blind_measure` all call `grade()` or `run_model()` directly and
+    never go near it -- 255 tests and a validator `exit=0` alongside a harness that could not run
+    a single eval.
+
+    So this calls it. The reviewer is stubbed, so it costs nothing and needs no quota, and the
+    point is the *call* rather than the verdict: an entry point that raises is a defect no
+    assertion about its output can report, because the assertion never runs.
+    """
+    def setUp(self):
+        import run_evals
+        sys.path.insert(0, str(run_evals.SKILL_ROOT / "scripts"))
+        self.R = run_evals
+
+    def _args(self, reps=1):
+        class A:
+            pass
+        a = A()
+        a.reps = reps
+        a.force = False
+        a.timeout = 30
+        a.model = "pinned/test-model"
+        a.judge_model = "pinned/test-judge"
+        a.iteration = "iteration-1"
+        # `run_once` reads these; a stub namespace missing one fails on the attribute rather
+        # than on the behaviour under test, which is its own kind of useless test failure.
+        for name, default in (("require_skill", False), ("skill_name", "se-review"),
+                              ("eval_id", 999_001), ("no_axis_cap", 0)):
+            setattr(a, name, default)
+        return a
+
+    def test_run_one_completes_and_records_a_verdict(self):
+        import json
+        import tempfile
+        real_model, real_grade = self.R.run_model, self.R.grade
+        self.R.run_model = lambda *a, **k: ("`0 findings - C:0 M:0 m:0 i:0`\n\n## Findings\n\nNone.\n", "")
+        self.R.grade = lambda body, assertions, *a, **k: [
+            {"passed": True, "evidence": "stub"} for _ in assertions]
+        try:
+            with tempfile.TemporaryDirectory() as td:
+                item = {"id": 999_001, "assertions": ["a"], "files": [], "prompt": "stub"}
+                outcome = self.R.run_one(item, "with_skill", Path(td), self._args())
+                self.assertIsNotNone(outcome, "run_one returned nothing")
+                self.assertNotIn("UnboundLocalError", str(outcome))
+                written = list(Path(td).rglob("grading.json"))
+                self.assertTrue(written, "run_one wrote no verdict")
+                doc = json.loads(written[0].read_text())
+                self.assertEqual(doc["eval_id"], 999_001)
+                self.assertIn("base_commit", doc)
+                self.assertEqual(doc["assertion_roles"], item.get("assertion_roles"))
+        finally:
+            self.R.run_model, self.R.grade = real_model, real_grade
+
+    def test_base_commit_is_bound_before_already_current_reads_it(self):
+        # The specific ordering that broke it. Asserted on the source because the failure mode is
+        # a read before assignment, which a runtime test only catches by raising.
+        src = Path(self.R.__file__).read_text()
+        body = src.split("def run_one(", 1)[1].split("\ndef ", 1)[0]
+        self.assertLess(body.index("base_commit = subprocess.run("), body.index("already_current("),
+                        "base_commit is computed after already_current reads it -- the exact "
+                        "UnboundLocalError that broke every run")
+

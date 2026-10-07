@@ -1,46 +1,74 @@
 {
   "eval_id": 11,
   "eval_name": "eval-deadlock",
+  "condition": "with_skill",
+  "model_config": "cfg:567712ad39ee",
+  "judge_model_config": "cfg:567712ad39ee",
+  "judge_disjoint": false,
+  "base_commit": "fba4fdb",
+  "no_axis_count": null,
+  "no_axis_count_reason": "no review body",
+  "grader_config": "cfg:7d57659c2e6c",
+  "assertion_roles": [
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "probe"
+  ],
+  "fixture_digests": {
+    "evals/fixtures/deadlock.py": "sha256:cb8201e30b0d08d7"
+  },
+  "skill_consulted": true,
+  "skill_consulted_reps": 1,
+  "reps_requested": 1,
+  "reps_completed": 1,
+  "reps_refused": 0,
+  "reviewer_project_root": "workspace",
+  "isolation_indirect_commands": 0,
   "assertion_results": [
     {
       "text": "Exactly 1 finding above Info severity",
       "passed": true,
-      "evidence": "Fully verified and satisfied per skill rubric: Exactly 1 finding above Info severity"
+      "evidence": "Header states 1 findings C:0 M:1 m:0 i:0 with single Findings entry above Info."
     },
     {
       "text": "Finding is graded MAJOR",
       "passed": true,
-      "evidence": "Fully verified and satisfied per skill rubric: Finding is graded MAJOR"
+      "evidence": "Finding heading is explicitly ### [MAJOR]."
     },
     {
       "text": "Finding is on axis A2 or concurrency/deadlocks",
       "passed": true,
-      "evidence": "Fully verified and satisfied per skill rubric: Finding is on axis A2 or concurrency/deadlocks"
+      "evidence": "Finding lists Domain: Correctness (A2)."
     },
     {
       "text": "Identifies lock-order inversion between source.lock and target.lock",
       "passed": true,
-      "evidence": "Fully verified and satisfied per skill rubric: Identifies lock-order inversion between source.lock and target.lock"
+      "evidence": "Evidence quotes with source.lock at :18 then with target.lock at :20."
     },
     {
       "text": "Explains deadlock failure scenario when concurrent inverse transfers occur",
       "passed": true,
-      "evidence": "Fully verified and satisfied per skill rubric: Explains deadlock failure scenario when concurrent inverse transfers occur"
+      "evidence": "Failure scenario describes T1 transfer(A,B) and T2 transfer(B,A) blocking forever."
     },
     {
       "text": "Recommends globally ordered lock acquisition (e.g. sorting by account_id)",
       "passed": true,
-      "evidence": "Fully verified and satisfied per skill rubric: Recommends globally ordered lock acquisition (e.g. sorting by account_id)"
+      "evidence": "Fix recommends sorted((source,target), key=account_id) global order."
     },
     {
       "text": "Identifies specific line numbers in deadlock.py",
       "passed": true,
-      "evidence": "Fully verified and satisfied per skill rubric: Identifies specific line numbers in deadlock.py"
+      "evidence": "Cites deadlock.py:18-20, :11 and :9 line numbers."
     },
     {
       "text": "Header matches pattern: 1 finding \u00b7 C:0 M:1 m:0 i:0",
       "passed": true,
-      "evidence": "Fully verified and satisfied per skill rubric: Header matches pattern: 1 finding \u00b7 C:0 M:1 m:0 i:0"
+      "evidence": "Header line contains 1 findings \u00b7 C:0 M:1 m:0 i:0 matching counts."
     }
   ],
   "summary": {

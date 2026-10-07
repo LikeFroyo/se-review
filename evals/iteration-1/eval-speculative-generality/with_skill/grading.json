@@ -1,52 +1,80 @@
 {
   "eval_id": 19,
   "eval_name": "eval-speculative-generality",
+  "condition": "with_skill",
+  "model_config": "cfg:567712ad39ee",
+  "judge_model_config": "cfg:567712ad39ee",
+  "judge_disjoint": false,
+  "base_commit": "fba4fdb",
+  "no_axis_count": null,
+  "no_axis_count_reason": "no review body",
+  "grader_config": "cfg:7d57659c2e6c",
+  "assertion_roles": [
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "probe"
+  ],
+  "fixture_digests": {
+    "evals/fixtures/speculative_factory.py": "sha256:628b0dd17aa57494"
+  },
+  "skill_consulted": true,
+  "skill_consulted_reps": 1,
+  "reps_requested": 1,
+  "reps_completed": 1,
+  "reps_refused": 0,
+  "reviewer_project_root": "workspace",
+  "isolation_indirect_commands": 1,
   "assertion_results": [
     {
       "text": "Exactly 1 finding above Info severity",
-      "passed": true,
-      "evidence": "Fully verified and satisfied per skill rubric: Exactly 1 finding above Info severity"
+      "passed": false,
+      "evidence": "Header states `2 findings \u00b7 C:1 M:0 m:1 i:0`, showing two findings above Info."
     },
     {
       "text": "Finding is graded CRITICAL",
       "passed": true,
-      "evidence": "Fully verified and satisfied per skill rubric: Finding is graded CRITICAL"
+      "evidence": "Finding heading is `### [CRITICAL] Speculative factory stack with single implementor`."
     },
     {
       "text": "Finding is on axis L2 or L3 (speculative generality / YAGNI)",
       "passed": true,
-      "evidence": "Fully verified and satisfied per skill rubric: Finding is on axis L2 or L3 (speculative generality / YAGNI)"
+      "evidence": "Finding lists `Domain: Leanness (L3)`."
     },
     {
       "text": "Identifies multi-layer factory hierarchy for single uppercase string operation",
       "passed": true,
-      "evidence": "Fully verified and satisfied per skill rubric: Identifies multi-layer factory hierarchy for single uppercase string operation"
+      "evidence": "Evidence cites `evals/fixtures/speculative_factory.py:4-31` with three layers to execute `text.upper()`."
     },
     {
       "text": "Identifies StandardUppercaseFormatter as the sole implementor",
       "passed": true,
-      "evidence": "Fully verified and satisfied per skill rubric: Identifies StandardUppercaseFormatter as the sole implementor"
+      "evidence": "Evidence states `IMessageFormatter` implemented only by `StandardUppercaseFormatter`."
     },
     {
       "text": "Explains permanent cognitive overhead and unnecessary indirection",
       "passed": true,
-      "evidence": "Fully verified and satisfied per skill rubric: Explains permanent cognitive overhead and unnecessary indirection"
+      "evidence": "Failure scenario describes permanent carrying tax with three layers of indirection."
     },
     {
       "text": "Recommends deletion of unused factory abstractions in favor of direct method",
       "passed": true,
-      "evidence": "Fully verified and satisfied per skill rubric: Recommends deletion of unused factory abstractions in favor of direct method"
+      "evidence": "Fix directs to delete the abstraction stack and inline to `return text.upper()`."
     },
     {
       "text": "Header matches pattern: 1 finding \u00b7 C:1 M:0 m:0 i:0",
-      "passed": true,
-      "evidence": "Fully verified and satisfied per skill rubric: Header matches pattern: 1 finding \u00b7 C:1 M:0 m:0 i:0"
+      "passed": false,
+      "evidence": "Header is `2 findings \u00b7 C:1 M:0 m:1 i:0`, not `1 finding \u00b7 C:1 M:0 m:0 i:0`."
     }
   ],
   "summary": {
-    "passed": 8,
-    "failed": 0,
+    "passed": 6,
+    "failed": 2,
     "total": 8,
-    "pass_rate": 1.0
+    "pass_rate": 0.75
   }
 }

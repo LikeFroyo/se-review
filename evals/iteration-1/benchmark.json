@@ -8,14 +8,12 @@
       {
         "eval": "eval-dead-code",
         "reasons": [
-          "with_skill: recorded total 18 != current 9",
           "without_skill: verdict predates fixture digesting, so the files it graded cannot be shown to be the files on disk"
         ]
       },
       {
         "eval": "eval-retry",
         "reasons": [
-          "with_skill: recorded total 18 != current 9",
           "without_skill: verdict predates fixture digesting, so the files it graded cannot be shown to be the files on disk"
         ]
       },
@@ -29,7 +27,6 @@
       {
         "eval": "eval-nplusone",
         "reasons": [
-          "with_skill: recorded total 21 != current 7",
           "without_skill: verdict predates fixture digesting, so the files it graded cannot be shown to be the files on disk",
           "without_skill: assertion text reworded since the last run"
         ]
@@ -37,7 +34,6 @@
       {
         "eval": "eval-clean",
         "reasons": [
-          "with_skill: assertion text reworded since the last run",
           "without_skill: verdict predates fixture digesting, so the files it graded cannot be shown to be the files on disk",
           "without_skill: assertion text reworded since the last run"
         ]
@@ -45,7 +41,6 @@
       {
         "eval": "eval-concurrency",
         "reasons": [
-          "with_skill: recorded total 16 != current 8",
           "without_skill: verdict predates fixture digesting, so the files it graded cannot be shown to be the files on disk",
           "without_skill: assertion text reworded since the last run"
         ]
@@ -53,7 +48,6 @@
       {
         "eval": "eval-swallowed-error",
         "reasons": [
-          "with_skill: verdict predates fixture digesting, so the files it graded cannot be shown to be the files on disk",
           "without_skill: verdict predates fixture digesting, so the files it graded cannot be shown to be the files on disk",
           "without_skill: 2 assertion(s) added or reworded since the last run"
         ]
@@ -61,36 +55,30 @@
       {
         "eval": "eval-complexity",
         "reasons": [
-          "with_skill: verdict predates fixture digesting, so the files it graded cannot be shown to be the files on disk",
           "without_skill: grading format predates assertion-text capture, so the stored pass count cannot be tied to the current assertions"
         ]
       },
       {
         "eval": "eval-memory-leak",
         "reasons": [
-          "with_skill: verdict predates fixture digesting, so the files it graded cannot be shown to be the files on disk",
           "without_skill: grading format predates assertion-text capture, so the stored pass count cannot be tied to the current assertions"
         ]
       },
       {
         "eval": "eval-idor-access",
         "reasons": [
-          "with_skill: verdict predates fixture digesting, so the files it graded cannot be shown to be the files on disk",
           "without_skill: grading format predates assertion-text capture, so the stored pass count cannot be tied to the current assertions"
         ]
       },
       {
         "eval": "eval-deadlock",
         "reasons": [
-          "with_skill: verdict predates fixture digesting, so the files it graded cannot be shown to be the files on disk",
           "without_skill: verdict predates fixture digesting, so the files it graded cannot be shown to be the files on disk"
         ]
       },
       {
         "eval": "eval-ssrf",
         "reasons": [
-          "with_skill: verdict predates fixture digesting, so the files it graded cannot be shown to be the files on disk",
-          "with_skill: assertion text reworded since the last run",
           "without_skill: verdict predates fixture digesting, so the files it graded cannot be shown to be the files on disk",
           "without_skill: assertion text reworded since the last run"
         ]
@@ -98,56 +86,48 @@
       {
         "eval": "eval-hot-loop",
         "reasons": [
-          "with_skill: verdict predates fixture digesting, so the files it graded cannot be shown to be the files on disk",
           "without_skill: verdict predates fixture digesting, so the files it graded cannot be shown to be the files on disk"
         ]
       },
       {
         "eval": "eval-missing-timeout",
         "reasons": [
-          "with_skill: verdict predates fixture digesting, so the files it graded cannot be shown to be the files on disk",
           "without_skill: verdict predates fixture digesting, so the files it graded cannot be shown to be the files on disk"
         ]
       },
       {
         "eval": "eval-breaking-schema",
         "reasons": [
-          "with_skill: verdict predates fixture digesting, so the files it graded cannot be shown to be the files on disk",
           "without_skill: verdict predates fixture digesting, so the files it graded cannot be shown to be the files on disk"
         ]
       },
       {
         "eval": "eval-idempotency",
         "reasons": [
-          "with_skill: verdict predates fixture digesting, so the files it graded cannot be shown to be the files on disk",
           "without_skill: verdict predates fixture digesting, so the files it graded cannot be shown to be the files on disk"
         ]
       },
       {
         "eval": "eval-manifest-hygiene",
         "reasons": [
-          "with_skill: verdict predates fixture digesting, so the files it graded cannot be shown to be the files on disk",
           "without_skill: verdict predates fixture digesting, so the files it graded cannot be shown to be the files on disk"
         ]
       },
       {
         "eval": "eval-ai-slop",
         "reasons": [
-          "with_skill: verdict predates fixture digesting, so the files it graded cannot be shown to be the files on disk",
           "without_skill: verdict predates fixture digesting, so the files it graded cannot be shown to be the files on disk"
         ]
       },
       {
         "eval": "eval-speculative-generality",
         "reasons": [
-          "with_skill: verdict predates fixture digesting, so the files it graded cannot be shown to be the files on disk",
           "without_skill: verdict predates fixture digesting, so the files it graded cannot be shown to be the files on disk"
         ]
       },
       {
         "eval": "eval-pii-logging",
         "reasons": [
-          "with_skill: verdict predates fixture digesting, so the files it graded cannot be shown to be the files on disk",
           "without_skill: verdict predates fixture digesting, so the files it graded cannot be shown to be the files on disk"
         ]
       },
@@ -182,8 +162,6 @@
       {
         "eval": "eval-clean-service",
         "reasons": [
-          "with_skill: verdict predates fixture digesting, so the files it graded cannot be shown to be the files on disk",
-          "with_skill: assertion text reworded since the last run",
           "without_skill: verdict predates fixture digesting, so the files it graded cannot be shown to be the files on disk",
           "without_skill: 1 assertion(s) added or reworded since the last run"
         ]
@@ -226,8 +204,6 @@
       {
         "eval": "eval-token-validation",
         "reasons": [
-          "with_skill: verdict predates fixture digesting, so the files it graded cannot be shown to be the files on disk",
-          "with_skill: assertion text reworded since the last run",
           "without_skill: grading format predates assertion-text capture, so the stored pass count cannot be tied to the current assertions"
         ]
       },
@@ -241,8 +217,6 @@
       {
         "eval": "eval-session-fixation",
         "reasons": [
-          "with_skill: verdict predates fixture digesting, so the files it graded cannot be shown to be the files on disk",
-          "with_skill: assertion text reworded since the last run",
           "without_skill: grading format predates assertion-text capture, so the stored pass count cannot be tied to the current assertions"
         ]
       },
@@ -743,93 +717,93 @@
     "total": 174,
     "caveat": "Classified by regex over grader evidence text; indicative, not a verdict. Vocabulary failures mean a model without this skill's rubric failed to satisfy it, so they measure format compliance rather than review quality and inflate the headline delta. Only 'substance_missed_defect' is evidence about review quality. Evals whose grading.json predates assertion-text capture contribute no classification, so these counts are a floor, not a total."
   },
-  "note": "Comparative evaluation: with_skill vs without_skill baseline runs across 635 assertions in 102 test cases.",
+  "note": "Comparative evaluation: with_skill vs without_skill baseline runs across 601 assertions in 102 test cases.",
   "run_summary": {
     "with_skill": {
       "pass_rate": {
-        "mean": 0.858,
-        "stddev": 0.376
+        "mean": 0.77,
+        "stddev": 0.368
       },
-      "timing_ms_mean": 88474.1,
-      "total_passed": 416,
-      "total_assertions": 635,
+      "timing_ms_mean": 80213.8,
+      "total_passed": 387,
+      "total_assertions": 601,
       "eval_results": {
         "eval-dead-code": {
           "pass_rate": 1.0,
-          "passed": 18,
-          "failed": 9,
-          "total": 27,
+          "passed": 9,
+          "failed": 0,
+          "total": 9,
           "assertions": 9,
-          "replicates": 3
+          "replicates": 1
         },
         "eval-retry": {
-          "pass_rate": 0.722,
-          "passed": 13,
-          "failed": 14,
-          "total": 27,
+          "pass_rate": 0.667,
+          "passed": 6,
+          "failed": 3,
+          "total": 9,
           "assertions": 9,
-          "replicates": 3
+          "replicates": 1
         },
         "eval-injection": {
-          "pass_rate": 0.889,
-          "passed": 8,
-          "failed": 1,
+          "pass_rate": 0.556,
+          "passed": 5,
+          "failed": 4,
           "total": 9,
           "assertions": 9,
           "replicates": 1
         },
         "eval-nplusone": {
-          "pass_rate": 0.667,
-          "passed": 14,
-          "failed": 14,
-          "total": 28,
+          "pass_rate": 0.714,
+          "passed": 5,
+          "failed": 2,
+          "total": 7,
           "assertions": 7,
-          "replicates": 4
+          "replicates": 1
         },
         "eval-clean": {
-          "pass_rate": 0.333,
-          "passed": 8,
-          "failed": 24,
-          "total": 32,
+          "pass_rate": 0.375,
+          "passed": 3,
+          "failed": 5,
+          "total": 8,
           "assertions": 8,
-          "replicates": 4
+          "replicates": 1
         },
         "eval-concurrency": {
-          "pass_rate": 0.688,
-          "passed": 11,
-          "failed": 13,
-          "total": 24,
+          "pass_rate": 0.875,
+          "passed": 7,
+          "failed": 1,
+          "total": 8,
           "assertions": 8,
-          "replicates": 3
+          "replicates": 1
         },
         "eval-swallowed-error": {
-          "pass_rate": 0.7,
-          "passed": 7,
-          "failed": 3,
+          "pass_rate": 0.8,
+          "passed": 8,
+          "failed": 2,
           "total": 10,
           "assertions": 10,
           "replicates": 1
         },
         "eval-complexity": {
-          "pass_rate": 1.0,
-          "passed": 8,
-          "failed": 0,
+          "pass_rate": 0.75,
+          "passed": 6,
+          "failed": 2,
           "total": 8,
           "assertions": 8,
           "replicates": 1
         },
         "eval-memory-leak": {
-          "pass_rate": 1.0,
-          "passed": 8,
-          "failed": 0,
+          "pass_rate": 0.75,
+          "passed": 6,
+          "failed": 2,
           "total": 8,
           "assertions": 8,
           "replicates": 1
         },
         "eval-idor-access": {
-          "pass_rate": 1.0,
-          "passed": 8,
-          "failed": 0,
+          "pass_rate": 0.75,
+          "passed": 6,
+          "failed": 2,
           "total": 8,
           "assertions": 8,
           "replicates": 1
@@ -843,17 +817,17 @@
           "replicates": 1
         },
         "eval-ssrf": {
-          "pass_rate": 1.0,
-          "passed": 8,
-          "failed": 0,
+          "pass_rate": 0.625,
+          "passed": 5,
+          "failed": 3,
           "total": 8,
           "assertions": 8,
           "replicates": 1
         },
         "eval-hot-loop": {
-          "pass_rate": 1.0,
-          "passed": 8,
-          "failed": 0,
+          "pass_rate": 0.75,
+          "passed": 6,
+          "failed": 2,
           "total": 8,
           "assertions": 8,
           "replicates": 1
@@ -867,49 +841,49 @@
           "replicates": 1
         },
         "eval-breaking-schema": {
-          "pass_rate": 1.0,
-          "passed": 8,
-          "failed": 0,
+          "pass_rate": 0.625,
+          "passed": 5,
+          "failed": 3,
           "total": 8,
           "assertions": 8,
           "replicates": 1
         },
         "eval-idempotency": {
-          "pass_rate": 1.0,
-          "passed": 8,
-          "failed": 0,
+          "pass_rate": 0.625,
+          "passed": 5,
+          "failed": 3,
           "total": 8,
           "assertions": 8,
           "replicates": 1
         },
         "eval-manifest-hygiene": {
-          "pass_rate": 1.0,
-          "passed": 8,
-          "failed": 0,
+          "pass_rate": 0.75,
+          "passed": 6,
+          "failed": 2,
           "total": 8,
           "assertions": 8,
           "replicates": 1
         },
         "eval-ai-slop": {
-          "pass_rate": 1.0,
-          "passed": 8,
-          "failed": 0,
+          "pass_rate": 0.75,
+          "passed": 6,
+          "failed": 2,
           "total": 8,
           "assertions": 8,
           "replicates": 1
         },
         "eval-speculative-generality": {
-          "pass_rate": 1.0,
-          "passed": 8,
-          "failed": 0,
+          "pass_rate": 0.75,
+          "passed": 6,
+          "failed": 2,
           "total": 8,
           "assertions": 8,
           "replicates": 1
         },
         "eval-pii-logging": {
-          "pass_rate": 1.0,
-          "passed": 8,
-          "failed": 0,
+          "pass_rate": 0.75,
+          "passed": 6,
+          "failed": 2,
           "total": 8,
           "assertions": 8,
           "replicates": 1
@@ -947,9 +921,9 @@
           "replicates": 1
         },
         "eval-clean-service": {
-          "pass_rate": 0.5,
-          "passed": 4,
-          "failed": 4,
+          "pass_rate": 0.375,
+          "passed": 3,
+          "failed": 5,
           "total": 8,
           "assertions": 8,
           "replicates": 1
@@ -995,9 +969,9 @@
           "replicates": 1
         },
         "eval-token-validation": {
-          "pass_rate": 1.0,
-          "passed": 8,
-          "failed": 0,
+          "pass_rate": 0.75,
+          "passed": 6,
+          "failed": 2,
           "total": 8,
           "assertions": 8,
           "replicates": 1
@@ -1011,9 +985,9 @@
           "replicates": 1
         },
         "eval-session-fixation": {
-          "pass_rate": 0.714,
-          "passed": 5,
-          "failed": 2,
+          "pass_rate": 1.0,
+          "passed": 7,
+          "failed": 0,
           "total": 7,
           "assertions": 7,
           "replicates": 1
@@ -2196,9 +2170,9 @@
       }
     },
     "delta": {
-      "pass_rate_mean_delta": 0.597,
-      "overall_pass_rate_delta": 0.556,
-      "summary": "Skill adds +59.7 percentage points in assertion pass rate across all 102 fixtures."
+      "pass_rate_mean_delta": 0.509,
+      "overall_pass_rate_delta": 0.539,
+      "summary": "Skill adds +50.9 percentage points in assertion pass rate across all 102 fixtures."
     }
   }
 }
