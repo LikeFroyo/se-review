@@ -1585,6 +1585,14 @@ def run_one(eval_item: dict, condition: str, out_root: Path, args) -> str:
     target = out_root / name / condition
     grading_path = target / "grading.json"
 
+    try:
+        base_commit = subprocess.run(
+            ["git", "-C", str(SKILL_ROOT), "rev-parse", "--short", "HEAD"],
+            capture_output=True, text=True, timeout=30,
+        ).stdout.strip() or None
+    except (subprocess.SubprocessError, OSError):
+        base_commit = None
+
     if not args.force:
         current, why = already_current(grading_path, assertions, args.reps, base_commit)
         if current:
@@ -1606,13 +1614,6 @@ def run_one(eval_item: dict, condition: str, out_root: Path, args) -> str:
         if leftover.is_dir():
             shutil.rmtree(leftover, ignore_errors=True)
     judge_model_name = getattr(args, "judge_model", None) or args.model
-    try:
-        base_commit = subprocess.run(
-            ["git", "-C", str(SKILL_ROOT), "rev-parse", "--short", "HEAD"],
-            capture_output=True, text=True, timeout=30,
-        ).stdout.strip() or None
-    except (subprocess.SubprocessError, OSError):
-        base_commit = None
     reps = []
     failures = []
     for rep in range(1, args.reps + 1):
