@@ -1,0 +1,86 @@
+{
+  "eval_id": 57,
+  "eval_name": "eval-no-test-seam",
+  "condition": "with_skill",
+  "model_config": "cfg:567712ad39ee",
+  "judge_model_config": "cfg:567712ad39ee",
+  "judge_disjoint": false,
+  "base_commit": "1dc0a9e",
+  "no_axis_count": null,
+  "no_axis_count_reason": "no review body",
+  "grader_config": "cfg:7d57659c2e6c",
+  "assertion_roles": [
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "probe"
+  ],
+  "fixture_digests": {
+    "evals/fixtures/no_test_seam.py": "sha256:1466d7da1a263d00"
+  },
+  "skill_consulted": true,
+  "skill_consulted_reps": 1,
+  "reps_requested": 1,
+  "reps_completed": 1,
+  "reps_refused": 0,
+  "reviewer_project_root": "workspace",
+  "isolation_indirect_commands": 0,
+  "assertion_results": [
+    {
+      "text": "Exactly 2 findings above Info severity",
+      "passed": false,
+      "evidence": "Header reports `3 findings \u00b7 C:0 M:2 m:1 i:0` showing three findings above Info, not two."
+    },
+    {
+      "text": "Both findings are graded MAJOR",
+      "passed": true,
+      "evidence": "The two relevant headings both read `### [MAJOR]` for the seam and SUT findings."
+    },
+    {
+      "text": "Both findings are on axis B2 (Evolvability)",
+      "passed": false,
+      "evidence": "Finding 1 is `Domain: Maintainability (B2)` but Finding 2 is `Domain: Correctness (A6)`."
+    },
+    {
+      "text": "Finding 1 identifies the module-level SQS client and SQLAlchemy engine as concrete, unseamed dependencies",
+      "passed": true,
+      "evidence": "Finding 1 Evidence cites `_sqs`, `_engine`, `_templates` at `no_test_seam.py:8-10` used directly with no parameter."
+    },
+    {
+      "text": "Finding 1 notes verification therefore needs a live queue, a live database, and the real template map",
+      "passed": true,
+      "evidence": "Finding 1 Failure scenario says verification means `standing up real Postgres + real SQS` and template-key change cannot be unit-verified."
+    },
+    {
+      "text": "Finding 2 identifies the setup (fake queue, test DB, bucket, template, three seeded messages) exceeding the function under test",
+      "passed": true,
+      "evidence": "Finding 2 Evidence lists `self.queue`, `self.engine`, `self.bucket`, `self.template` and `setup_method` seeds `\"{}\", \"[]\", \"null\"` never consumed."
+    },
+    {
+      "text": "Finding 2 notes the assertions cannot fail on a behaviour change",
+      "passed": true,
+      "evidence": "Finding 2 Failure scenario says breaking `send_order_shipped` leaves suite green because asserts survive trivial mutants."
+    },
+    {
+      "text": "Both fixes inject the collaborators and assert the produced message",
+      "passed": true,
+      "evidence": "Fix 1 injects `engine, sqs_client, templates` and Fix 2 calls SUT with fakes asserting queued `MessageBody`."
+    },
+    {
+      "text": "Header matches pattern: 2 findings \u00b7 C:0 M:2 m:0 i:0",
+      "passed": false,
+      "evidence": "Header shows `3 findings \u00b7 C:0 M:2 m:1 i:0`, not `2 findings \u00b7 C:0 M:2 m:0 i:0`."
+    }
+  ],
+  "summary": {
+    "passed": 6,
+    "failed": 3,
+    "total": 9,
+    "pass_rate": 0.6667
+  }
+}

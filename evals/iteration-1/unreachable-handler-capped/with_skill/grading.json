@@ -1,0 +1,62 @@
+{
+  "eval_id": 101,
+  "eval_name": "unreachable-handler-capped",
+  "condition": "with_skill",
+  "model_config": "cfg:567712ad39ee",
+  "judge_model_config": "cfg:567712ad39ee",
+  "judge_disjoint": false,
+  "base_commit": "1dc0a9e",
+  "no_axis_count": null,
+  "no_axis_count_reason": "no review body",
+  "grader_config": "cfg:7d57659c2e6c",
+  "assertion_roles": [
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "probe"
+  ],
+  "fixture_digests": {
+    "evals/fixtures/unreachable_handler.py": "sha256:c546834046a9761f"
+  },
+  "skill_consulted": true,
+  "skill_consulted_reps": 1,
+  "reps_requested": 1,
+  "reps_completed": 1,
+  "reps_refused": 0,
+  "reviewer_project_root": "workspace",
+  "isolation_indirect_commands": 0,
+  "assertion_results": [
+    {
+      "text": "Identifies that the identifier reaches a subprocess argv -- the defect shape is real",
+      "passed": true,
+      "evidence": "INFO finding cites evals/fixtures/unreachable_handler.py:16-17 subprocess.run with user_id/fmt unvalidated."
+    },
+    {
+      "text": "States that the function is never registered, so no path exists from an entry point",
+      "passed": true,
+      "evidence": "INFO finding Path states route never registered with zero callers and Not mounted so no entry."
+    },
+    {
+      "text": "Grades it INFO, or explicitly caps it, because source/boundary/sink cannot all be named",
+      "passed": true,
+      "evidence": "Heading [INFO] Command-injection shape capped at Info per attack-path.md with Boundary none stated."
+    },
+    {
+      "text": "Does NOT report it as a vulnerability, a Critical, or a Major",
+      "passed": true,
+      "evidence": "Injection shape headed [INFO] while [CRITICAL] is reserved for dead-code finding, no Major present."
+    },
+    {
+      "text": "Does not treat the presence of a dangerous call as sufficient grounds on its own",
+      "passed": true,
+      "evidence": "INFO finding states Shape alone is not a finding and reachability is part of path."
+    }
+  ],
+  "summary": {
+    "passed": 5,
+    "failed": 0,
+    "total": 5,
+    "pass_rate": 1.0
+  }
+}

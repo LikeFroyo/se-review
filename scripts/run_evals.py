@@ -1358,7 +1358,23 @@ def absolute_prompt(eval_item: dict, dest: Path) -> str:
     for rel in eval_item.get("files", []):
         for spelling in (rel, rel.replace("/", " ")):
             prompt = prompt.replace(spelling, str((dest / rel).resolve()))
-    return prompt
+    # Say the workspace is the whole world. Measured: 7 of 102 runs were refused for reading
+    # outside it, and the reads are explicit -- after the fixture, the reviewer reached for
+    # `repo/evals` and `repo/shared/output-format.md`. The repository root is exactly three
+    # hops up from a staged workspace (`probe/tmp/ws` -> `probe/tmp` -> `probe` -> repo), so a
+    # reviewer looking for a sibling or a criteria file arrives there without trying to escape.
+    #
+    # This does not weaken the gate, which still refuses any run it cannot prove; it reduces the
+    # incidence of a run needing to be refused. Whether that is a fix or a way of making the
+    # refusal rate look better is measurable: re-run the refused fixtures and compare.
+    #
+    # A workspace is its own repository and contains everything the review needs. Nothing above
+    # this directory is part of the review, and no file outside it describes what to look for.
+    return prompt + (
+        "\n\nThe path above is inside a self-contained workspace that already holds every "
+        "file this review needs, including the skill's own rules. Nothing outside that "
+        "directory is part of the review, and no file elsewhere describes what to look for, so "
+        "there is nothing to gain by reading above it.")
 
 
 STAGE_ROOT = "probe/tmp"

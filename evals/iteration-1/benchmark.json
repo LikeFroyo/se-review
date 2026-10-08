@@ -229,7 +229,6 @@
       {
         "eval": "eval-unsafe-deserialization",
         "reasons": [
-          "with_skill: no grading.json",
           "without_skill: grading format predates assertion-text capture, so the stored pass count cannot be tied to the current assertions"
         ]
       },
@@ -287,7 +286,6 @@
       {
         "eval": "eval-completion-markers",
         "reasons": [
-          "with_skill: no grading.json",
           "without_skill: grading format predates assertion-text capture, so the stored pass count cannot be tied to the current assertions"
         ]
       },
@@ -370,7 +368,6 @@
       {
         "eval": "eval-no-test-seam",
         "reasons": [
-          "with_skill: no grading.json",
           "without_skill: grading format predates assertion-text capture, so the stored pass count cannot be tied to the current assertions"
         ]
       },
@@ -437,7 +434,6 @@
       {
         "eval": "eval-soft-delete-uniqueness",
         "reasons": [
-          "with_skill: no grading.json",
           "without_skill: grading format predates assertion-text capture, so the stored pass count cannot be tied to the current assertions"
         ]
       },
@@ -468,7 +464,6 @@
       {
         "eval": "eval-region-failover",
         "reasons": [
-          "with_skill: no grading.json",
           "without_skill: grading format predates assertion-text capture, so the stored pass count cannot be tied to the current assertions"
         ]
       },
@@ -481,7 +476,6 @@
       {
         "eval": "eval-settlement-export",
         "reasons": [
-          "with_skill: no grading.json",
           "without_skill: grading format predates assertion-text capture, so the stored pass count cannot be tied to the current assertions"
         ]
       },
@@ -500,7 +494,6 @@
       {
         "eval": "eval-field-name-mismatch",
         "reasons": [
-          "with_skill: no grading.json",
           "without_skill: grading format predates assertion-text capture, so the stored pass count cannot be tied to the current assertions"
         ]
       },
@@ -585,7 +578,6 @@
       {
         "eval": "eval-suppression-ledger-unprovable-site",
         "reasons": [
-          "with_skill: no grading.json",
           "without_skill: no grading.json"
         ]
       },
@@ -610,7 +602,6 @@
       {
         "eval": "cold-start-zero-denominator",
         "reasons": [
-          "with_skill: no grading.json",
           "without_skill: no grading.json"
         ]
       },
@@ -647,7 +638,6 @@
       {
         "eval": "unreachable-handler-capped",
         "reasons": [
-          "with_skill: no grading.json",
           "without_skill: no grading.json"
         ]
       },
@@ -665,16 +655,16 @@
     "total": 174,
     "caveat": "Classified by regex over grader evidence text; indicative, not a verdict. Vocabulary failures mean a model without this skill's rubric failed to satisfy it, so they measure format compliance rather than review quality and inflate the headline delta. Only 'substance_missed_defect' is evidence about review quality. Evals whose grading.json predates assertion-text capture contribute no classification, so these counts are a floor, not a total."
   },
-  "note": "Comparative evaluation: with_skill vs without_skill baseline runs across 995 assertions in 102 test cases.",
+  "note": "Comparative evaluation: with_skill vs without_skill baseline runs across 1079 assertions in 102 test cases.",
   "run_summary": {
     "with_skill": {
       "pass_rate": {
-        "mean": 0.723,
-        "stddev": 0.297
+        "mean": 0.72,
+        "stddev": 0.216
       },
-      "timing_ms_mean": 80205.1,
-      "total_passed": 647,
-      "total_assertions": 995,
+      "timing_ms_mean": 79614.6,
+      "total_passed": 703,
+      "total_assertions": 1079,
       "eval_results": {
         "eval-dead-code": {
           "pass_rate": 1.0,
@@ -949,12 +939,12 @@
           "replicates": 1
         },
         "eval-unsafe-deserialization": {
-          "pass_rate": 0.0,
-          "passed": 0,
+          "pass_rate": 1.0,
+          "passed": 8,
           "failed": 0,
-          "total": 0,
+          "total": 8,
           "assertions": 8,
-          "replicates": 0
+          "replicates": 1
         },
         "eval-path-traversal": {
           "pass_rate": 0.625,
@@ -1021,12 +1011,12 @@
           "replicates": 1
         },
         "eval-completion-markers": {
-          "pass_rate": 0.0,
-          "passed": 0,
-          "failed": 0,
-          "total": 0,
+          "pass_rate": 0.333,
+          "passed": 3,
+          "failed": 6,
+          "total": 9,
           "assertions": 9,
-          "replicates": 0
+          "replicates": 1
         },
         "eval-vendored-fork": {
           "pass_rate": 0.875,
@@ -1125,12 +1115,12 @@
           "replicates": 1
         },
         "eval-no-test-seam": {
-          "pass_rate": 0.0,
-          "passed": 0,
-          "failed": 0,
-          "total": 0,
+          "pass_rate": 0.667,
+          "passed": 6,
+          "failed": 3,
+          "total": 9,
           "assertions": 9,
-          "replicates": 0
+          "replicates": 1
         },
         "eval-unenforced-invariant": {
           "pass_rate": 0.444,
@@ -1213,12 +1203,12 @@
           "replicates": 1
         },
         "eval-soft-delete-uniqueness": {
-          "pass_rate": 0.0,
-          "passed": 0,
-          "failed": 0,
-          "total": 0,
+          "pass_rate": 0.778,
+          "passed": 7,
+          "failed": 2,
+          "total": 9,
           "assertions": 9,
-          "replicates": 0
+          "replicates": 1
         },
         "eval-skipped-tests": {
           "pass_rate": 0.444,
@@ -1253,12 +1243,12 @@
           "replicates": 1
         },
         "eval-region-failover": {
-          "pass_rate": 0.0,
-          "passed": 0,
-          "failed": 0,
-          "total": 0,
+          "pass_rate": 0.6,
+          "passed": 6,
+          "failed": 4,
+          "total": 10,
           "assertions": 10,
-          "replicates": 0
+          "replicates": 1
         },
         "eval-personal-data-lifecycle": {
           "pass_rate": 0.4,
@@ -1269,12 +1259,12 @@
           "replicates": 1
         },
         "eval-settlement-export": {
-          "pass_rate": 0.0,
-          "passed": 0,
-          "failed": 0,
-          "total": 0,
+          "pass_rate": 0.3,
+          "passed": 3,
+          "failed": 7,
+          "total": 10,
           "assertions": 10,
-          "replicates": 0
+          "replicates": 1
         },
         "eval-dst-boundary-schedules": {
           "pass_rate": 0.4,
@@ -1293,12 +1283,12 @@
           "replicates": 1
         },
         "eval-field-name-mismatch": {
-          "pass_rate": 0.0,
-          "passed": 0,
-          "failed": 0,
-          "total": 0,
+          "pass_rate": 0.667,
+          "passed": 6,
+          "failed": 3,
+          "total": 9,
           "assertions": 9,
-          "replicates": 0
+          "replicates": 1
         },
         "eval-operations-collapse": {
           "pass_rate": 0.667,
@@ -1397,12 +1387,12 @@
           "replicates": 5
         },
         "eval-suppression-ledger-unprovable-site": {
-          "pass_rate": 0.0,
-          "passed": 0,
-          "failed": 0,
-          "total": 0,
+          "pass_rate": 0.818,
+          "passed": 9,
+          "failed": 2,
+          "total": 11,
           "assertions": 11,
-          "replicates": 0
+          "replicates": 1
         },
         "decaying-denominator-rate": {
           "pass_rate": 0.6,
@@ -1429,12 +1419,12 @@
           "replicates": 1
         },
         "cold-start-zero-denominator": {
-          "pass_rate": 0.0,
-          "passed": 0,
-          "failed": 0,
-          "total": 0,
+          "pass_rate": 0.75,
+          "passed": 3,
+          "failed": 1,
+          "total": 4,
           "assertions": 4,
-          "replicates": 0
+          "replicates": 1
         },
         "self-derived-expected-value": {
           "pass_rate": 0.6,
@@ -1477,12 +1467,12 @@
           "replicates": 1
         },
         "unreachable-handler-capped": {
-          "pass_rate": 0.0,
-          "passed": 0,
+          "pass_rate": 1.0,
+          "passed": 5,
           "failed": 0,
-          "total": 0,
+          "total": 5,
           "assertions": 5,
-          "replicates": 0
+          "replicates": 1
         },
         "secret-in-exception": {
           "pass_rate": 0.8,
@@ -2118,9 +2108,9 @@
       }
     },
     "delta": {
-      "pass_rate_mean_delta": 0.461,
-      "overall_pass_rate_delta": 0.587,
-      "summary": "Skill adds +46.1 percentage points in assertion pass rate across all 102 fixtures."
+      "pass_rate_mean_delta": 0.458,
+      "overall_pass_rate_delta": 0.593,
+      "summary": "Skill adds +45.8 percentage points in assertion pass rate across all 102 fixtures."
     }
   }
 }

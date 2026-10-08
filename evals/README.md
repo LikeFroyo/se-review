@@ -238,10 +238,11 @@ Every count in this table derives from `evals/evals.json`, which is the single s
 ## Comparative Benchmark (Iteration 1)
 
 ```
-Overall Assertions: With Skill: 647/995 (65.0%)
+Overall Assertions: With Skill: 703/1079 (65.2%)
 Overall Assertions: Baseline: 63/183 (34.4%)
 Paired evals (both arms current): 22 - 278 assertions
-Admissible denominator: 92 of 102 evals (the rest are void, unverified or absent)
+Admissible denominator: 102 of 102 evals (the rest are void, unverified or absent)
+Run-to-run variance: mean within-eval sd 0.163 over 5 eval(s)
 Run-to-run variance: mean within-eval sd 0.163 over 5 eval(s)
 Run-to-run variance: mean within-eval sd 0.163 over 5 eval(s)
 Run-to-run variance: mean within-eval sd 0.138 over 9 eval(s)

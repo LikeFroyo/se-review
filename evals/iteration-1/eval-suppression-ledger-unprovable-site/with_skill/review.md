@@ -1,29 +1,34 @@
-Grading the unprovable-site fixture against its constraints — inspecting the run.
-Found a legacy bypass alongside the sizing rule — now mapping the full eval setup.
-Scope is clear — now loading the review domains to grade the violation.
-# Review: `evals/fixtures/suppression_ledger_unprovable_site.py` with `suppression_ledger_unprovable_site_CONSTRAINTS.md`
+Reviewing the fixture against its constraints inside the workspace.
+Found the constraint violation — now checking how the skill handles unprovable findings.
+I see the pattern — now locating the exact pass criteria for this case.
+# Review: `suppression_ledger_unprovable_site.py` with `suppression_ledger_unprovable_site_CONSTRAINTS.md`
 
-`1 findings · C:1 M:0 m:0 i:0 · Mean 96/100 · Final Grade F`
-Covered: 1/1 files · Scope: focused on: `evals/fixtures/suppression_ledger_unprovable_site.py` with `suppression_ledger_unprovable_site_CONSTRAINTS.md` as intent · Not examined: 0 — none
-Paths: 0 · Unmapped: 0 — no trust-boundary crossings in single-file sizing module
-Unclassified: 0 findings fit no axis code
-Domain Scores: Correctness: 75/100 · Leanness: 100/100 · Security: 100/100 · Maintainability: 100/100 · Operations: 100/100 · Interoperability: 100/100
-Gated by: `Critical finding` — any Critical caps the grade at F
+`1 finding · C:1 M:0 m:0 i:0 · Mean 96/100 · Final Grade F`
+`Covered: 1/1 files · Scope: focused on: evals/fixtures/suppression_ledger_unprovable_site.py + suppression_ledger_unprovable_site_CONSTRAINTS.md · Not examined: 0 — none`
+`Paths: 0 · Unmapped: 0 — no entry points / sinks in scope`
+`Unclassified: 0 findings fit no axis code`
+`Domain Scores: Correctness: 100/100 · Leanness: 75/100 · Maintainability: 100/100 · Security: 100/100 · Interoperability: 100/100 · Operations: 100/100`
+`Gated by: Critical finding — Final Grade F, weakest-domain cap would be C`
 
 ## Findings
 
-### [CRITICAL] Second sizing implementation violates binding C1 and inverts SELL quantity
-- **Domain:** Correctness (A1)
-- **Verified by:** `RAN` — imported fixture module and executed both paths on `BUY`/`SELL` orders with `quantity=100`
-- **Evidence:** `suppression_ledger_unprovable_site.py:21-27` — function `size_order` vs registry entry:
-  `def size_order(order): return signed_quantity(order["side"], order["quantity"])`
-  `register("legacy", lambda order: order["quantity"])`
-  with comment at `:25-26` admitting it "reaches the same sizing decision without applying the sign."
-  Intent: `suppression_ledger_unprovable_site_CONSTRAINTS.md:3` — **C1 (binding).** "Position sizing has **one** implementation, `size_order`."
-- **Failure scenario:** `DERIVED` chain `HANDLERS["legacy"]({"side":"SELL","quantity":100}) → 100` vs `size_order(...) → -100` (confirmed by `RAN`: `BUY` agrees `100==100`, `SELL` diverges `-100` vs `100`). Any SELL order routed through the legacy path is booked long instead of short — position/state corruption, and per C1's own rationale the disagreement is "undetectable after the fact." Absence of an in-file caller of `HANDLERS["legacy"]` does not mitigate: the registry is module-global and populated at import time, and C1 bans the second implementation's existence, not only its observed invocation. No suppression ledger entry can waive a binding constraint without an authorising utterance; none is present. Ruling: code-is-wrong, doc-as-intent wins.
-- **Fix:** Delete the legacy registration at `:27` (scope: local, one line); route every order through `size_order`. If `HANDLERS`/`register` has no other legitimate consumer, delete that infrastructure as a follow-up module-scope cleanup.
-- **Trade-off:** No latency/memory cost; complexity decreases by removing one code path and one mutable-global dispatch.
-- **Cross-ref:** Leanness (L4 redundancy / duplicate implementations) describes the same root cause and takes no separate deduction per owner-stands rule — owner here is Correctness via demonstrated sign-inversion scenario.
+### [CRITICAL] Second sizing implementation violates C1, diverges on SELL
+- **Domain:** Leanness (L4)
+- **Verified by:** `RAN` — imported module, called `size_order` vs `HANDLERS["legacy"]` on `{"side":"SELL","quantity":5}` and `{"side":"BUY","quantity":5}`
+- **Evidence:** `suppression_ledger_unprovable_site.py:21-27` — `def size_order(order): return signed_quantity(order["side"], order["quantity"])` vs `register("legacy", lambda order: order["quantity"])`; constraint `suppression_ledger_unprovable_site_CONSTRAINTS.md:3-7` — `C1 (binding). Position sizing has one implementation, size_order.`
+- **Failure scenario:** `size_order(SELL,5)=-5`, `legacy(SELL,5)=+5` — RAN confirmed; `BUY` agrees at `+5`. Two signed-quantity paths already disagree. Per C1 why-clause disagreement is undetectable after the fact. Permanent carrying cost: two implementations to keep in sync. Live production dispatch via `HANDLERS["legacy"]` not in scope — no lookup site in file — so proven-execution outage not claimed; Critical rests on L4 redundancy + carrying cost, not on proven dispatch.
+- **Fix:** Delete second implementation: remove `suppression_ledger_unprovable_site.py:27` registration and `HANDLERS` legacy path; route all orders through `size_order`. Scope: module.
+- **Trade-off:** Not required for deletions. No behavior to preserve — legacy path is the defect.
+
+Deduplication note: Correctness live-mis-sizing is same root cause, owned here. Correctness takes no separate deduction. `Disputed: none.`
 
 ## Aligns well
-- `size_order` (A1) correctly delegates to `signed_quantity` with explicit `SIDE` sign map — the intended single implementation.
+- `suppression_ledger_unprovable_site.py:9-11` explicit sign table `SIDE={"BUY":1,"SELL":-1}` (D3).
+- Docstring admits legacy origin, does not claim authorization — treated as context per documented-is-not-resolved.
+
+## Deliberate — constraints applied
+`candidates raised: 1 · probes run: 0 · suppressed: 0 · downgraded: 0 · annotated: 0 · unprobed: 0 · voided: 0 · budget: 0/cap (not hit)`
+`Retained scope: none declared`
+`Re-read of suppressed rows: 0 confirmed | 0 reversed`
+
+Shape `a second implementation of one concept` matches catalogue. No suppression: C1 requires one implementation, so constraint argues for reporting, not withdrawing. Only admissible enforcement site would be an enforced check/guard/contract/config; comment on `suppression_ledger_unprovable_site.py:25-26` and suspect code are inadmissible per `deliberate.md` Pass A-4 / Pass B. Prose rank-5 alone is Low, cannot suppress. Unresolvable dynamic dispatch (`HANDLERS` with no caller in scope) is recorded as verification limit above, not as absence.

@@ -1,0 +1,56 @@
+{
+  "eval_id": 95,
+  "eval_name": "cold-start-zero-denominator",
+  "condition": "with_skill",
+  "model_config": "cfg:567712ad39ee",
+  "judge_model_config": "cfg:567712ad39ee",
+  "judge_disjoint": false,
+  "base_commit": "1dc0a9e",
+  "no_axis_count": null,
+  "no_axis_count_reason": "no review body",
+  "grader_config": "cfg:7d57659c2e6c",
+  "assertion_roles": [
+    "verdict",
+    "verdict",
+    "verdict",
+    "probe"
+  ],
+  "fixture_digests": {
+    "evals/fixtures/cold_start_estimator.py": "sha256:97bafc89f4843d64"
+  },
+  "skill_consulted": true,
+  "skill_consulted_reps": 1,
+  "reps_requested": 1,
+  "reps_completed": 1,
+  "reps_refused": 0,
+  "reviewer_project_root": "workspace",
+  "isolation_indirect_commands": 1,
+  "assertion_results": [
+    {
+      "text": "Identifies that trend() divides by zero when the sample count is 0 or 1",
+      "passed": true,
+      "evidence": "Heading '### [MAJOR] trend() raises on cold start (n=0, n=1)' plus Evidence stating den is 0 at n=0 and n=1 decides it."
+    },
+    {
+      "text": "Notes observe() accepts the first sample without any guard, so the zero-denominator path is reachable",
+      "passed": false,
+      "evidence": "Full-text search for 'observe' finds no match, as the finding discusses only trend() with no n<2 guard."
+    },
+    {
+      "text": "The finding is graded MINOR or higher, not Info -- a crash on first use is not an observation",
+      "passed": true,
+      "evidence": "Finding heading '### [MAJOR]' grades the cold-start crash above Info."
+    },
+    {
+      "text": "Does not claim the arithmetic is wrong for well-populated windows",
+      "passed": true,
+      "evidence": "Verified-by notes n=2 returns 1.0 with no claim of wrong arithmetic for larger windows."
+    }
+  ],
+  "summary": {
+    "passed": 3,
+    "failed": 1,
+    "total": 4,
+    "pass_rate": 0.75
+  }
+}

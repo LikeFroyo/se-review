@@ -1,0 +1,92 @@
+{
+  "eval_id": 75,
+  "eval_name": "eval-settlement-export",
+  "condition": "with_skill",
+  "model_config": "cfg:567712ad39ee",
+  "judge_model_config": "cfg:567712ad39ee",
+  "judge_disjoint": false,
+  "base_commit": "1dc0a9e",
+  "no_axis_count": null,
+  "no_axis_count_reason": "no review body",
+  "grader_config": "cfg:7d57659c2e6c",
+  "assertion_roles": [
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "probe"
+  ],
+  "fixture_digests": {
+    "evals/fixtures/settlement_export.py": "sha256:3018639ea0019fe1"
+  },
+  "skill_consulted": true,
+  "skill_consulted_reps": 1,
+  "reps_requested": 1,
+  "reps_completed": 1,
+  "reps_refused": 0,
+  "reviewer_project_root": "workspace",
+  "isolation_indirect_commands": 2,
+  "assertion_results": [
+    {
+      "text": "Exactly 2 findings above Info severity",
+      "passed": false,
+      "evidence": "Header reports `6 findings \u00b7 C:1 M:4 m:1 i:0`, not 2 findings above Info."
+    },
+    {
+      "text": "Both findings are graded CRITICAL",
+      "passed": false,
+      "evidence": "Only one [CRITICAL] exists, header shows C:1 with four [MAJOR] and one [MINOR]."
+    },
+    {
+      "text": "Both findings are on axis D1 (Encoding & Text)",
+      "passed": false,
+      "evidence": "Findings include Correctness (A8) and Operations (C3), not only D1."
+    },
+    {
+      "text": "Finding 1 identifies the implicit encoding on write against an explicit Latin-1 read",
+      "passed": true,
+      "evidence": "First [CRITICAL] contrasts writer StringIO with no charset against Latin-1 reader producing Caf\u00c3\u00a9."
+    },
+    {
+      "text": "Finding 1 identifies the newline mismatch leaving a stray CR on the last field of every line",
+      "passed": false,
+      "evidence": "First finding omits CR; fourth finding states trailing-CR claim was not reproduced."
+    },
+    {
+      "text": "Finding 1 explains the partner's merchant lookup missing because of both",
+      "passed": false,
+      "evidence": "First finding failure scenario cites only mojibake miss, not both encoding and CR."
+    },
+    {
+      "text": "Finding 2 identifies truncate_to_column slicing UTF-8 bytes to a byte limit and then decoding",
+      "passed": true,
+      "evidence": "Byte-limit finding quotes value.encode(\"utf-8\")[:column_bytes].decode(\"utf-8\")."
+    },
+    {
+      "text": "Finding 2 explains the mid-character split invalidating the whole line on the reader",
+      "passed": false,
+      "evidence": "Truncation finding says CPython raises with nothing stored, not reader invalidating whole line."
+    },
+    {
+      "text": "Finding 2 identifies the NFC-on-write against NFD-on-read key normalisation",
+      "passed": true,
+      "evidence": "NFC writer vs NFD reader finding contrasts build_lookup_key NFC vs read_lookup_key NFD."
+    },
+    {
+      "text": "Header matches pattern: 2 findings \u00b7 C:2 M:0 m:0 i:0",
+      "passed": false,
+      "evidence": "Header is 6 findings \u00b7 C:1 M:4 m:1 i:0, not 2 findings \u00b7 C:2 M:0 m:0 i:0."
+    }
+  ],
+  "summary": {
+    "passed": 3,
+    "failed": 7,
+    "total": 10,
+    "pass_rate": 0.3
+  }
+}

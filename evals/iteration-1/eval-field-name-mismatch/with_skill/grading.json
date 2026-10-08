@@ -1,0 +1,86 @@
+{
+  "eval_id": 78,
+  "eval_name": "eval-field-name-mismatch",
+  "condition": "with_skill",
+  "model_config": "cfg:567712ad39ee",
+  "judge_model_config": "cfg:567712ad39ee",
+  "judge_disjoint": false,
+  "base_commit": "1dc0a9e",
+  "no_axis_count": null,
+  "no_axis_count_reason": "no review body",
+  "grader_config": "cfg:7d57659c2e6c",
+  "assertion_roles": [
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "probe"
+  ],
+  "fixture_digests": {
+    "evals/fixtures/field_name_mismatch.py": "sha256:6718b99f5602ab71"
+  },
+  "skill_consulted": true,
+  "skill_consulted_reps": 1,
+  "reps_requested": 1,
+  "reps_completed": 1,
+  "reps_refused": 0,
+  "reviewer_project_root": "workspace",
+  "isolation_indirect_commands": 1,
+  "assertion_results": [
+    {
+      "text": "Exactly 3 findings above Info severity",
+      "passed": false,
+      "evidence": "Header reports `4 findings \u00b7 C:1 M:2 m:1 i:0` so 4 findings above Info, not 3."
+    },
+    {
+      "text": "Finding 1 is graded CRITICAL and findings 2 and 3 are graded MAJOR",
+      "passed": true,
+      "evidence": "Headings show `### [CRITICAL]` then two `### [MAJOR]` findings in order."
+    },
+    {
+      "text": "All 3 findings are on axis D4 (Wire Formats)",
+      "passed": true,
+      "evidence": "First three findings each list `Domain: Interoperability (D4)`."
+    },
+    {
+      "text": "Finding 1 identifies customerId read against customer_id written",
+      "passed": true,
+      "evidence": "Finding 1 cites `event.get(\"customerId\", \"unknown\")` vs producer `\"customer_id\"`."
+    },
+    {
+      "text": "Finding 1 explains every event falling to the unknown-customer default",
+      "passed": true,
+      "evidence": "Finding 1 states `No writer ever emits customerId; the .get() default always fires`."
+    },
+    {
+      "text": "Finding 2 identifies strict_handler raising on unknown fields and on an unknown status value",
+      "passed": true,
+      "evidence": "Finding 2 cites both `if set(event) - set(PRODUCER_SCHEMA): raise` and status `raise`."
+    },
+    {
+      "text": "Finding 2 explains the additive producer change stalling the queue",
+      "passed": true,
+      "evidence": "Finding 2 failure scenario says new statuses stall the `orders.v1` consumer or fill DLQ."
+    },
+    {
+      "text": "Finding 3 identifies the representation negotiated from Accept with no default or pinning",
+      "passed": false,
+      "evidence": "Finding 3 covers status coerced to `placed`; Accept negotiation appears only under `Aligns well` as safe."
+    },
+    {
+      "text": "Header matches pattern: 3 findings \u00b7 C:1 M:2 m:0 i:0",
+      "passed": false,
+      "evidence": "Header is `4 findings \u00b7 C:1 M:2 m:1 i:0`, not `3 findings \u00b7 C:1 M:2 m:0 i:0`."
+    }
+  ],
+  "summary": {
+    "passed": 6,
+    "failed": 3,
+    "total": 9,
+    "pass_rate": 0.6667
+  }
+}

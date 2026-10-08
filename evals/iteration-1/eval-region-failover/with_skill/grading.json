@@ -1,0 +1,92 @@
+{
+  "eval_id": 73,
+  "eval_name": "eval-region-failover",
+  "condition": "with_skill",
+  "model_config": "cfg:567712ad39ee",
+  "judge_model_config": "cfg:567712ad39ee",
+  "judge_disjoint": false,
+  "base_commit": "1dc0a9e",
+  "no_axis_count": null,
+  "no_axis_count_reason": "no review body",
+  "grader_config": "cfg:7d57659c2e6c",
+  "assertion_roles": [
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "probe"
+  ],
+  "fixture_digests": {
+    "evals/fixtures/region_failover.py": "sha256:1fcb183b2fab0979"
+  },
+  "skill_consulted": true,
+  "skill_consulted_reps": 1,
+  "reps_requested": 1,
+  "reps_completed": 1,
+  "reps_refused": 0,
+  "reviewer_project_root": "workspace",
+  "isolation_indirect_commands": 0,
+  "assertion_results": [
+    {
+      "text": "Exactly 2 findings above Info severity",
+      "passed": false,
+      "evidence": "Header counts 4 findings C:1 M:3, not 2 above Info."
+    },
+    {
+      "text": "Finding 1 is graded CRITICAL and finding 2 is graded MAJOR",
+      "passed": true,
+      "evidence": "Finding headings show [CRITICAL] first then [MAJOR] second."
+    },
+    {
+      "text": "Both findings are on axis C7 (Durability)",
+      "passed": false,
+      "evidence": "Finding 1 domain is Operations (C5), not C7."
+    },
+    {
+      "text": "Finding 1 identifies the standby promoted while the primary is still writable",
+      "passed": true,
+      "evidence": "Finding 1 failure scenario says old primary still writable accepts orders."
+    },
+    {
+      "text": "Finding 1 notes there is no fencing of the old primary",
+      "passed": true,
+      "evidence": "Finding 1 verified line says no fence of primary."
+    },
+    {
+      "text": "Finding 1 identifies recover_late_joiner letting the old primary resume writing",
+      "passed": true,
+      "evidence": "Finding 1 cites recover_late_joiner re-adds old primary to serving."
+    },
+    {
+      "text": "Finding 1 explains the two-writer split brain with no error on either side",
+      "passed": true,
+      "evidence": "Finding 1 states two authoritative DBs diverge silently."
+    },
+    {
+      "text": "Finding 2 identifies reconcile_after_failover as a no-op so divergence is never detected",
+      "passed": true,
+      "evidence": "Finding 2 cites reconcile_after_failover return None with no compare job."
+    },
+    {
+      "text": "Finding 2 identifies LAST_REHEARSAL as None against a stated failover SLO",
+      "passed": false,
+      "evidence": "LAST_REHEARSAL None appears in fourth finding, not finding 2."
+    },
+    {
+      "text": "Header matches pattern: 2 findings \u00b7 C:1 M:1 m:0 i:0",
+      "passed": false,
+      "evidence": "Header shows 4 findings C:1 M:3, not 2 findings C:1 M:1."
+    }
+  ],
+  "summary": {
+    "passed": 6,
+    "failed": 4,
+    "total": 10,
+    "pass_rate": 0.6
+  }
+}

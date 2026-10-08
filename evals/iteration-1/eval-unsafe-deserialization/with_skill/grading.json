@@ -1,0 +1,80 @@
+{
+  "eval_id": 35,
+  "eval_name": "eval-unsafe-deserialization",
+  "condition": "with_skill",
+  "model_config": "cfg:567712ad39ee",
+  "judge_model_config": "cfg:567712ad39ee",
+  "judge_disjoint": false,
+  "base_commit": "1dc0a9e",
+  "no_axis_count": null,
+  "no_axis_count_reason": "no review body",
+  "grader_config": "cfg:7d57659c2e6c",
+  "assertion_roles": [
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "probe"
+  ],
+  "fixture_digests": {
+    "evals/fixtures/unsafe_deserialization.py": "sha256:9ce51d98f631a57a"
+  },
+  "skill_consulted": true,
+  "skill_consulted_reps": 1,
+  "reps_requested": 1,
+  "reps_completed": 1,
+  "reps_refused": 0,
+  "reviewer_project_root": "workspace",
+  "isolation_indirect_commands": 3,
+  "assertion_results": [
+    {
+      "text": "Exactly 1 finding above Info severity",
+      "passed": true,
+      "evidence": "Header `1 findings \u00b7 C:1 M:0 m:0 i:0` shows exactly one C and zero others above Info."
+    },
+    {
+      "text": "Finding is graded CRITICAL",
+      "passed": true,
+      "evidence": "Finding heading is `### [CRITICAL] Arbitrary code execution...`."
+    },
+    {
+      "text": "Finding is on axis S3 (unsafe parsing) (Security)",
+      "passed": true,
+      "evidence": "Finding labels `Domain: Security (S3)`."
+    },
+    {
+      "text": "Identifies pickle.loads on client-supplied bytes in restore_cache_entry",
+      "passed": true,
+      "evidence": "Evidence cites `restore_cache_entry` at `unsafe_deserialization.py:8-17` with `return pickle.loads(blob)` on client blob."
+    },
+    {
+      "text": "Names arbitrary code execution as the consequence",
+      "passed": true,
+      "evidence": "Heading and scenario name `Arbitrary code execution` / RCE as consequence."
+    },
+    {
+      "text": "Fix recommends a data-only format or signing plus type allow-listing",
+      "passed": true,
+      "evidence": "Fix directs `Replace wire format with data-only parser \u2014 e.g. json.loads(blob)` plus allowlist decoder."
+    },
+    {
+      "text": "store_cache_entry is NOT flagged above Info (it is not the defect)",
+      "passed": true,
+      "evidence": "Searched full review: no finding flags `store_cache_entry`, only `restore_cache_entry` is flagged."
+    },
+    {
+      "text": "Header matches pattern: 1 finding \u00b7 C:1 M:0 m:0 i:0",
+      "passed": true,
+      "evidence": "Header line `1 findings \u00b7 C:1 M:0 m:0 i:0 \u00b7 Mean 75/100 \u00b7 Final Grade F` matches required counts."
+    }
+  ],
+  "summary": {
+    "passed": 8,
+    "failed": 0,
+    "total": 8,
+    "pass_rate": 1.0
+  }
+}

@@ -1,0 +1,86 @@
+{
+  "eval_id": 44,
+  "eval_name": "eval-completion-markers",
+  "condition": "with_skill",
+  "model_config": "cfg:567712ad39ee",
+  "judge_model_config": "cfg:567712ad39ee",
+  "judge_disjoint": false,
+  "base_commit": "1dc0a9e",
+  "no_axis_count": null,
+  "no_axis_count_reason": "no review body",
+  "grader_config": "cfg:7d57659c2e6c",
+  "assertion_roles": [
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "probe"
+  ],
+  "fixture_digests": {
+    "evals/fixtures/completion_markers.py": "sha256:b28d041390e64392"
+  },
+  "skill_consulted": true,
+  "skill_consulted_reps": 1,
+  "reps_requested": 1,
+  "reps_completed": 1,
+  "reps_refused": 0,
+  "reviewer_project_root": "workspace",
+  "isolation_indirect_commands": 0,
+  "assertion_results": [
+    {
+      "text": "Exactly 2 findings above Info severity",
+      "passed": false,
+      "evidence": "Header reports '5 findings \u00b7 C:3 M:1 m:0 i:1' with four findings above Info."
+    },
+    {
+      "text": "Finding 1 is graded CRITICAL and finding 2 is graded MAJOR",
+      "passed": false,
+      "evidence": "Finding 2 heading is '[CRITICAL] apply_discount duplicates effect on retry' not MAJOR."
+    },
+    {
+      "text": "Both findings are on axis L6 (Synthetic Code)",
+      "passed": false,
+      "evidence": "Finding 2 lists 'Domain: Correctness (A4)' not L6."
+    },
+    {
+      "text": "Finding 1 identifies send_bulk_receipt as an unimplemented body on a reachable path",
+      "passed": true,
+      "evidence": "Finding 1 cites send_bulk_receipt body is only return queued True with no send."
+    },
+    {
+      "text": "Finding 1 explains the failure: caller reports the batch as sent while nothing is sent",
+      "passed": true,
+      "evidence": "Finding 1 failure scenario says batch reports sent while every receipt is silently dropped."
+    },
+    {
+      "text": "Finding 2 identifies the thread-safe claim against the unguarded counter",
+      "passed": false,
+      "evidence": "Finding 2 covers apply_discount retry with no mention of thread-safe or counter."
+    },
+    {
+      "text": "Finding 2 identifies the idempotent claim against the missing dedupe key",
+      "passed": true,
+      "evidence": "Finding 2 traces 100 to 90 to 81 with no key and requires idempotency key."
+    },
+    {
+      "text": "Failure scenario names the lost update and the double discount",
+      "passed": false,
+      "evidence": "No single failure scenario names both; double discount is in Finding 2 and lost update 6 not 7 is in separate MAJOR."
+    },
+    {
+      "text": "Header matches pattern: 2 findings \u00b7 C:1 M:1 m:0 i:0",
+      "passed": false,
+      "evidence": "Header shows '5 findings \u00b7 C:3 M:1 m:0 i:1' not '2 findings \u00b7 C:1 M:1 m:0 i:0'."
+    }
+  ],
+  "summary": {
+    "passed": 3,
+    "failed": 6,
+    "total": 9,
+    "pass_rate": 0.3333
+  }
+}

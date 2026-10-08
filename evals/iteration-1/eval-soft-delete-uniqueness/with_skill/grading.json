@@ -1,0 +1,86 @@
+{
+  "eval_id": 68,
+  "eval_name": "eval-soft-delete-uniqueness",
+  "condition": "with_skill",
+  "model_config": "cfg:567712ad39ee",
+  "judge_model_config": "cfg:567712ad39ee",
+  "judge_disjoint": false,
+  "base_commit": "1dc0a9e",
+  "no_axis_count": null,
+  "no_axis_count_reason": "no review body",
+  "grader_config": "cfg:7d57659c2e6c",
+  "assertion_roles": [
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "probe"
+  ],
+  "fixture_digests": {
+    "evals/fixtures/soft_delete_uniqueness.py": "sha256:54255a0475a3dc88"
+  },
+  "skill_consulted": true,
+  "skill_consulted_reps": 1,
+  "reps_requested": 1,
+  "reps_completed": 1,
+  "reps_refused": 0,
+  "reviewer_project_root": "workspace",
+  "isolation_indirect_commands": 0,
+  "assertion_results": [
+    {
+      "text": "Exactly 1 finding above Info severity",
+      "passed": false,
+      "evidence": "Header line '`2 findings \u00b7 C:0 M:2 m:0 i:0' shows two findings above Info, not one."
+    },
+    {
+      "text": "Finding is graded MAJOR",
+      "passed": true,
+      "evidence": "Heading '### [MAJOR] Unique indexes span tombstone row' grades the finding MAJOR."
+    },
+    {
+      "text": "Finding is on axis A3 (Data)",
+      "passed": true,
+      "evidence": "Line 'Domain: Correctness (A3)' under the first finding places it on axis A3."
+    },
+    {
+      "text": "Identifies the unique indexes declared at file scope spanning the tombstone row",
+      "passed": true,
+      "evidence": "Evidence cites 'UNIQUE INDEX ux_customer_email ON customer(email)' at lines 6-7 spanning deleted rows."
+    },
+    {
+      "text": "Identifies create_customer failing on a duplicate key for a previously deleted email",
+      "passed": true,
+      "evidence": "Failure scenario states delete then re-register same email/reference_code is rejected with duplicate-key/500."
+    },
+    {
+      "text": "Identifies active_customers and customer_count scoping by segment rather than by deleted_at",
+      "passed": true,
+      "evidence": "Evidence states active_customers and customer_count use segment filter with no deleted_at predicate."
+    },
+    {
+      "text": "Failure scenario names an un-re-registerable address and a total that never matches the list",
+      "passed": true,
+      "evidence": "First scenario names re-register same email rejected and second evidence states total never matches visible list."
+    },
+    {
+      "text": "Fix recommends a partial unique index over live rows plus deletion-marker filters in default queries",
+      "passed": true,
+      "evidence": "Fix proposes partial unique indexes WHERE deleted_at IS NULL plus adding deleted_at IS NULL to both queries."
+    },
+    {
+      "text": "Header matches pattern: 1 finding \u00b7 C:0 M:1 m:0 i:0",
+      "passed": false,
+      "evidence": "Header reads '2 findings \u00b7 C:0 M:2 m:0 i:0' not the required '1 finding \u00b7 C:0 M:1 m:0 i:0'."
+    }
+  ],
+  "summary": {
+    "passed": 7,
+    "failed": 2,
+    "total": 9,
+    "pass_rate": 0.7778
+  }
+}

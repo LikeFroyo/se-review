@@ -1,0 +1,99 @@
+{
+  "eval_id": 91,
+  "eval_name": "eval-suppression-ledger-unprovable-site",
+  "condition": "with_skill",
+  "model_config": "cfg:567712ad39ee",
+  "judge_model_config": "cfg:567712ad39ee",
+  "judge_disjoint": false,
+  "base_commit": "1dc0a9e",
+  "no_axis_count": null,
+  "no_axis_count_reason": "no review body",
+  "grader_config": "cfg:7d57659c2e6c",
+  "assertion_roles": [
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "strict"
+  ],
+  "fixture_digests": {
+    "evals/fixtures/suppression_ledger_unprovable_site.py": "sha256:5a8973b2b450a330",
+    "evals/fixtures/suppression_ledger_unprovable_site_CONSTRAINTS.md": "sha256:2ce06fdcd49c11ee"
+  },
+  "skill_consulted": true,
+  "skill_consulted_reps": 1,
+  "reps_requested": 1,
+  "reps_completed": 1,
+  "reps_refused": 0,
+  "reviewer_project_root": "workspace",
+  "isolation_indirect_commands": 0,
+  "assertion_results": [
+    {
+      "text": "Exactly 1 finding above Info severity",
+      "passed": true,
+      "evidence": "Header `1 finding \u00b7 C:1 M:0 m:0 i:0` plus single `### [CRITICAL]` shows exactly one above-Info finding."
+    },
+    {
+      "text": "Finding is graded at least MAJOR",
+      "passed": true,
+      "evidence": "Heading `### [CRITICAL]` is above MAJOR severity."
+    },
+    {
+      "text": "Finding is on axis A1",
+      "passed": false,
+      "evidence": "Finding states `Domain: Leanness (L4)`; searched for A1 and found no A1 label."
+    },
+    {
+      "text": "Identifies HANDLERS as a string-keyed registry and the legacy entry as a second sizing site",
+      "passed": true,
+      "evidence": "Verified by `HANDLERS[\"legacy\"]` and Evidence `register(\"legacy\", ...)` vs `size_order` names legacy as second sizing site."
+    },
+    {
+      "text": "Identifies that the legacy handler returns the quantity unsigned while size_order applies the side sign",
+      "passed": true,
+      "evidence": "Evidence `lambda order: order[\"quantity\"]` vs `signed_quantity` and scenario `size_order(SELL,5)=-5, legacy(SELL,5)=+5` shows unsigned vs signed."
+    },
+    {
+      "text": "Identifies that the two paths therefore disagree on sign for every sell",
+      "passed": true,
+      "evidence": "Heading `diverges on SELL` with `legacy(SELL,5)=+5` vs `-5` and `BUY agrees` identifies SELL sign disagreement."
+    },
+    {
+      "text": "States that a name search over the module finds one implementation and misses this site",
+      "passed": false,
+      "evidence": "Searched for 'search' and 'name search' with no hit; closest `no lookup site in file` does not state name-search result."
+    },
+    {
+      "text": "Does NOT accept the one-implementation constraint as proven without accounting for the registry",
+      "passed": true,
+      "evidence": "Review reports `register(\"legacy\", ...)` as second implementation instead of accepting one implementation as proven."
+    },
+    {
+      "text": "Does NOT report signed_quantity or SIDE as dead or unused",
+      "passed": true,
+      "evidence": "Aligns well cites `SIDE={\"BUY\":1,\"SELL\":-1}` as good; searched for dead/unused with no such claim."
+    },
+    {
+      "text": "Failure scenario names the sign disagreement being undetectable after the fact, which is what the constraint exists to prevent",
+      "passed": true,
+      "evidence": "Failure scenario states `Per C1 why-clause disagreement is undetectable after the fact`."
+    },
+    {
+      "text": "Fix registers size_order as the handler, or deletes the registry entry",
+      "passed": true,
+      "evidence": "Fix `remove registration and HANDLERS legacy path; route all orders through size_order` deletes the registry entry."
+    }
+  ],
+  "summary": {
+    "passed": 9,
+    "failed": 2,
+    "total": 11,
+    "pass_rate": 0.8182
+  }
+}
