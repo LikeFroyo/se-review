@@ -11,7 +11,19 @@
     14,
     26,
     27,
-    28
+    28,
+    29,
+    30,
+    31,
+    32,
+    33,
+    34,
+    35,
+    36,
+    37,
+    38,
+    39,
+    40
   ],
   "arms": [
     "full",
@@ -25,19 +37,19 @@
       "stripped": true,
       "concerns": {
         "detection": [
-          3,
+          1,
           5
         ],
         "severity": [
-          2,
+          0,
           2
         ],
         "remediation": [
-          2,
+          1,
           2
         ]
       },
-      "body_len": 3845,
+      "body_len": 1179,
       "name": "eval-retry"
     },
     {
@@ -55,11 +67,11 @@
           2
         ],
         "remediation": [
-          2,
+          1,
           2
         ]
       },
-      "body_len": 4590,
+      "body_len": 4220,
       "name": "eval-retry"
     },
     {
@@ -69,7 +81,7 @@
       "stripped": true,
       "concerns": {
         "detection": [
-          5,
+          6,
           6
         ],
         "severity": [
@@ -81,7 +93,7 @@
           1
         ]
       },
-      "body_len": 2998,
+      "body_len": 2794,
       "name": "eval-dead-code"
     },
     {
@@ -103,7 +115,7 @@
           1
         ]
       },
-      "body_len": 2327,
+      "body_len": 2318,
       "name": "eval-dead-code"
     },
     {
@@ -125,7 +137,7 @@
           1
         ]
       },
-      "body_len": 3694,
+      "body_len": 3461,
       "name": "eval-nplusone"
     },
     {
@@ -147,7 +159,7 @@
           1
         ]
       },
-      "body_len": 3452,
+      "body_len": 3566,
       "name": "eval-nplusone"
     },
     {
@@ -157,7 +169,7 @@
       "stripped": true,
       "concerns": {
         "detection": [
-          2,
+          3,
           5
         ],
         "severity": [
@@ -169,7 +181,7 @@
           1
         ]
       },
-      "body_len": 4091,
+      "body_len": 3814,
       "name": "eval-concurrency"
     },
     {
@@ -191,7 +203,7 @@
           1
         ]
       },
-      "body_len": 4055,
+      "body_len": 3570,
       "name": "eval-concurrency"
     },
     {
@@ -213,7 +225,7 @@
           1
         ]
       },
-      "body_len": 3625,
+      "body_len": 5683,
       "name": "eval-swallowed-error"
     },
     {
@@ -235,7 +247,7 @@
           1
         ]
       },
-      "body_len": 2692,
+      "body_len": 4875,
       "name": "eval-swallowed-error"
     },
     {
@@ -245,11 +257,11 @@
       "stripped": true,
       "concerns": {
         "detection": [
-          2,
+          3,
           5
         ],
         "severity": [
-          0,
+          2,
           2
         ],
         "remediation": [
@@ -257,7 +269,7 @@
           1
         ]
       },
-      "body_len": 1776,
+      "body_len": 5519,
       "name": "eval-complexity"
     },
     {
@@ -279,7 +291,7 @@
           1
         ]
       },
-      "body_len": 8229,
+      "body_len": 4542,
       "name": "eval-complexity"
     },
     {
@@ -289,11 +301,11 @@
       "stripped": true,
       "concerns": {
         "detection": [
-          2,
+          3,
           5
         ],
         "severity": [
-          0,
+          2,
           2
         ],
         "remediation": [
@@ -301,7 +313,7 @@
           1
         ]
       },
-      "body_len": 1881,
+      "body_len": 4537,
       "name": "eval-memory-leak"
     },
     {
@@ -311,7 +323,7 @@
       "stripped": true,
       "concerns": {
         "detection": [
-          3,
+          4,
           5
         ],
         "severity": [
@@ -323,7 +335,7 @@
           1
         ]
       },
-      "body_len": 3433,
+      "body_len": 3035,
       "name": "eval-memory-leak"
     },
     {
@@ -333,7 +345,7 @@
       "stripped": true,
       "concerns": {
         "detection": [
-          3,
+          1,
           5
         ],
         "severity": [
@@ -345,7 +357,7 @@
           1
         ]
       },
-      "body_len": 2523,
+      "body_len": 3112,
       "name": "eval-idor-access"
     },
     {
@@ -367,7 +379,7 @@
           1
         ]
       },
-      "body_len": 6409,
+      "body_len": 4160,
       "name": "eval-idor-access"
     },
     {
@@ -377,7 +389,7 @@
       "stripped": true,
       "concerns": {
         "detection": [
-          4,
+          5,
           5
         ],
         "severity": [
@@ -389,7 +401,7 @@
           1
         ]
       },
-      "body_len": 1807,
+      "body_len": 1712,
       "name": "eval-missing-timeout"
     },
     {
@@ -411,11 +423,495 @@
           1
         ]
       },
-      "body_len": 2444,
+      "body_len": 2469,
       "name": "eval-missing-timeout"
     },
     {
       "eval_id": 26,
+      "arm": "full",
+      "ok": true,
+      "stripped": true,
+      "concerns": {
+        "detection": [
+          3,
+          5
+        ],
+        "severity": [
+          1,
+          2
+        ],
+        "remediation": [
+          1,
+          1
+        ]
+      },
+      "body_len": 2568,
+      "name": "eval-dual-write"
+    },
+    {
+      "eval_id": 26,
+      "arm": "bare",
+      "ok": true,
+      "stripped": true,
+      "concerns": {
+        "detection": [
+          3,
+          5
+        ],
+        "severity": [
+          1,
+          2
+        ],
+        "remediation": [
+          1,
+          1
+        ]
+      },
+      "body_len": 6453,
+      "name": "eval-dual-write"
+    },
+    {
+      "eval_id": 27,
+      "arm": "full",
+      "ok": true,
+      "stripped": true,
+      "concerns": {
+        "detection": [
+          0,
+          5
+        ],
+        "severity": [
+          1,
+          2
+        ],
+        "remediation": [
+          0,
+          1
+        ]
+      },
+      "body_len": 3732,
+      "name": "eval-comment-drift"
+    },
+    {
+      "eval_id": 27,
+      "arm": "bare",
+      "ok": true,
+      "stripped": true,
+      "concerns": {
+        "detection": [
+          0,
+          5
+        ],
+        "severity": [
+          1,
+          2
+        ],
+        "remediation": [
+          0,
+          1
+        ]
+      },
+      "body_len": 2793,
+      "name": "eval-comment-drift"
+    },
+    {
+      "eval_id": 28,
+      "arm": "full",
+      "ok": true,
+      "stripped": true,
+      "concerns": {
+        "detection": [
+          3,
+          5
+        ],
+        "severity": [
+          0,
+          2
+        ],
+        "remediation": [
+          1,
+          1
+        ]
+      },
+      "body_len": 515,
+      "name": "eval-stale-readme"
+    },
+    {
+      "eval_id": 28,
+      "arm": "bare",
+      "ok": true,
+      "stripped": true,
+      "concerns": {
+        "detection": [
+          5,
+          5
+        ],
+        "severity": [
+          1,
+          2
+        ],
+        "remediation": [
+          1,
+          1
+        ]
+      },
+      "body_len": 2043,
+      "name": "eval-stale-readme"
+    },
+    {
+      "eval_id": 29,
+      "arm": "full",
+      "ok": true,
+      "stripped": true,
+      "concerns": {
+        "detection": [
+          3,
+          5
+        ],
+        "severity": [
+          1,
+          2
+        ],
+        "remediation": [
+          1,
+          1
+        ]
+      },
+      "body_len": 2597,
+      "name": "eval-stale-error"
+    },
+    {
+      "eval_id": 29,
+      "arm": "bare",
+      "ok": true,
+      "stripped": true,
+      "concerns": {
+        "detection": [
+          3,
+          5
+        ],
+        "severity": [
+          1,
+          2
+        ],
+        "remediation": [
+          1,
+          1
+        ]
+      },
+      "body_len": 2462,
+      "name": "eval-stale-error"
+    },
+    {
+      "eval_id": 30,
+      "arm": "full",
+      "ok": true,
+      "stripped": true,
+      "concerns": {
+        "detection": [
+          3,
+          5
+        ],
+        "severity": [
+          0,
+          2
+        ],
+        "remediation": [
+          1,
+          1
+        ]
+      },
+      "body_len": 1028,
+      "name": "eval-weak-assertions"
+    },
+    {
+      "eval_id": 30,
+      "arm": "bare",
+      "ok": true,
+      "stripped": true,
+      "concerns": {
+        "detection": [
+          4,
+          5
+        ],
+        "severity": [
+          2,
+          2
+        ],
+        "remediation": [
+          1,
+          1
+        ]
+      },
+      "body_len": 2632,
+      "name": "eval-weak-assertions"
+    },
+    {
+      "eval_id": 31,
+      "arm": "full",
+      "ok": true,
+      "stripped": true,
+      "concerns": {
+        "detection": [
+          2,
+          5
+        ],
+        "severity": [
+          0,
+          2
+        ],
+        "remediation": [
+          1,
+          1
+        ]
+      },
+      "body_len": 1544,
+      "name": "eval-token-validation"
+    },
+    {
+      "eval_id": 31,
+      "arm": "bare",
+      "ok": true,
+      "stripped": true,
+      "concerns": {
+        "detection": [
+          3,
+          5
+        ],
+        "severity": [
+          2,
+          2
+        ],
+        "remediation": [
+          1,
+          1
+        ]
+      },
+      "body_len": 4962,
+      "name": "eval-token-validation"
+    },
+    {
+      "eval_id": 32,
+      "arm": "full",
+      "ok": true,
+      "stripped": true,
+      "concerns": {
+        "detection": [
+          4,
+          6
+        ],
+        "severity": [
+          1,
+          2
+        ],
+        "remediation": [
+          1,
+          1
+        ]
+      },
+      "body_len": 5163,
+      "name": "eval-weak-password-hash"
+    },
+    {
+      "eval_id": 32,
+      "arm": "bare",
+      "ok": true,
+      "stripped": true,
+      "concerns": {
+        "detection": [
+          4,
+          6
+        ],
+        "severity": [
+          2,
+          2
+        ],
+        "remediation": [
+          1,
+          1
+        ]
+      },
+      "body_len": 3264,
+      "name": "eval-weak-password-hash"
+    },
+    {
+      "eval_id": 33,
+      "arm": "full",
+      "ok": true,
+      "stripped": true,
+      "concerns": {
+        "detection": [
+          3,
+          4
+        ],
+        "severity": [
+          2,
+          2
+        ],
+        "remediation": [
+          1,
+          1
+        ]
+      },
+      "body_len": 3224,
+      "name": "eval-session-fixation"
+    },
+    {
+      "eval_id": 33,
+      "arm": "bare",
+      "ok": true,
+      "stripped": true,
+      "concerns": {
+        "detection": [
+          4,
+          4
+        ],
+        "severity": [
+          2,
+          2
+        ],
+        "remediation": [
+          1,
+          1
+        ]
+      },
+      "body_len": 2434,
+      "name": "eval-session-fixation"
+    },
+    {
+      "eval_id": 34,
+      "arm": "full",
+      "ok": true,
+      "stripped": true,
+      "concerns": {
+        "detection": [
+          5,
+          5
+        ],
+        "severity": [
+          1,
+          2
+        ],
+        "remediation": [
+          1,
+          1
+        ]
+      },
+      "body_len": 3512,
+      "name": "eval-tls-verify-disabled"
+    },
+    {
+      "eval_id": 34,
+      "arm": "bare",
+      "ok": true,
+      "stripped": true,
+      "concerns": {
+        "detection": [
+          3,
+          5
+        ],
+        "severity": [
+          1,
+          2
+        ],
+        "remediation": [
+          1,
+          1
+        ]
+      },
+      "body_len": 3451,
+      "name": "eval-tls-verify-disabled"
+    },
+    {
+      "eval_id": 35,
+      "arm": "full",
+      "ok": true,
+      "stripped": true,
+      "concerns": {
+        "detection": [
+          2,
+          5
+        ],
+        "severity": [
+          2,
+          2
+        ],
+        "remediation": [
+          1,
+          1
+        ]
+      },
+      "body_len": 4448,
+      "name": "eval-unsafe-deserialization"
+    },
+    {
+      "eval_id": 35,
+      "arm": "bare",
+      "ok": true,
+      "stripped": true,
+      "concerns": {
+        "detection": [
+          2,
+          5
+        ],
+        "severity": [
+          2,
+          2
+        ],
+        "remediation": [
+          1,
+          1
+        ]
+      },
+      "body_len": 3575,
+      "name": "eval-unsafe-deserialization"
+    },
+    {
+      "eval_id": 36,
+      "arm": "full",
+      "ok": true,
+      "stripped": true,
+      "concerns": {
+        "detection": [
+          3,
+          5
+        ],
+        "severity": [
+          1,
+          2
+        ],
+        "remediation": [
+          1,
+          1
+        ]
+      },
+      "body_len": 5837,
+      "name": "eval-path-traversal"
+    },
+    {
+      "eval_id": 36,
+      "arm": "bare",
+      "ok": true,
+      "stripped": true,
+      "concerns": {
+        "detection": [
+          3,
+          5
+        ],
+        "severity": [
+          2,
+          2
+        ],
+        "remediation": [
+          1,
+          1
+        ]
+      },
+      "body_len": 5070,
+      "name": "eval-path-traversal"
+    },
+    {
+      "eval_id": 37,
       "arm": "full",
       "ok": true,
       "stripped": true,
@@ -433,17 +929,17 @@
           1
         ]
       },
-      "body_len": 4219,
-      "name": "eval-dual-write"
+      "body_len": 5773,
+      "name": "eval-bfla-admin-route"
     },
     {
-      "eval_id": 26,
+      "eval_id": 37,
       "arm": "bare",
       "ok": true,
       "stripped": true,
       "concerns": {
         "detection": [
-          2,
+          3,
           5
         ],
         "severity": [
@@ -455,17 +951,17 @@
           1
         ]
       },
-      "body_len": 4403,
-      "name": "eval-dual-write"
+      "body_len": 4822,
+      "name": "eval-bfla-admin-route"
     },
     {
-      "eval_id": 27,
+      "eval_id": 38,
       "arm": "full",
       "ok": true,
       "stripped": true,
       "concerns": {
         "detection": [
-          0,
+          2,
           5
         ],
         "severity": [
@@ -473,21 +969,21 @@
           2
         ],
         "remediation": [
-          0,
+          1,
           1
         ]
       },
-      "body_len": 4857,
-      "name": "eval-comment-drift"
+      "body_len": 5938,
+      "name": "eval-ecb-mode"
     },
     {
-      "eval_id": 27,
+      "eval_id": 38,
       "arm": "bare",
       "ok": true,
       "stripped": true,
       "concerns": {
         "detection": [
-          0,
+          2,
           5
         ],
         "severity": [
@@ -495,44 +991,88 @@
           2
         ],
         "remediation": [
-          0,
+          1,
           1
         ]
       },
-      "body_len": 3159,
-      "name": "eval-comment-drift"
+      "body_len": 4123,
+      "name": "eval-ecb-mode"
     },
     {
-      "eval_id": 28,
+      "eval_id": 39,
+      "arm": "full",
+      "ok": true,
+      "stripped": true,
+      "concerns": {
+        "detection": [
+          5,
+          6
+        ],
+        "severity": [
+          1,
+          2
+        ],
+        "remediation": [
+          1,
+          1
+        ]
+      },
+      "body_len": 2450,
+      "name": "eval-cors-reflect-origin"
+    },
+    {
+      "eval_id": 39,
+      "arm": "bare",
+      "ok": true,
+      "stripped": true,
+      "concerns": {
+        "detection": [
+          4,
+          6
+        ],
+        "severity": [
+          1,
+          2
+        ],
+        "remediation": [
+          1,
+          1
+        ]
+      },
+      "body_len": 2746,
+      "name": "eval-cors-reflect-origin"
+    },
+    {
+      "eval_id": 40,
       "arm": "full",
       "ok": true,
       "stripped": true,
       "concerns": {
         "detection": [
           4,
-          5
+          6
         ],
         "severity": [
-          1,
+          2,
           2
         ],
         "remediation": [
-          1,
+          0,
           1
         ]
       },
-      "body_len": 2317,
-      "name": "eval-stale-readme"
+      "body_len": 8011,
+      "name": "eval-login-no-throttle"
     },
     {
-      "eval_id": 28,
+      "eval_id": 40,
       "arm": "bare",
       "ok": true,
       "stripped": true,
       "concerns": {
         "detection": [
-          5,
-          5
+          4,
+          6
         ],
         "severity": [
           2,
@@ -543,46 +1083,46 @@
           1
         ]
       },
-      "body_len": 2800,
-      "name": "eval-stale-readme"
+      "body_len": 3985,
+      "name": "eval-login-no-throttle"
     }
   ],
   "summary": {
     "detection": {
       "full": [
-        35,
-        62
+        74,
+        124
       ],
       "bare": [
-        37,
-        62
+        78,
+        124
       ],
       "delta": -3.2258064516129004,
-      "fixtures": 12
+      "fixtures": 24
     },
     "severity": {
       "full": [
-        18,
-        24
+        32,
+        48
       ],
       "bare": [
-        23,
-        24
+        41,
+        48
       ],
-      "delta": -20.833333333333336,
-      "fixtures": 12
+      "delta": -18.75,
+      "fixtures": 24
     },
     "remediation": {
       "full": [
-        12,
-        13
+        22,
+        25
       ],
       "bare": [
-        12,
-        13
+        23,
+        25
       ],
-      "delta": 0.0,
-      "fixtures": 12
+      "delta": -4.0000000000000036,
+      "fixtures": 24
     }
   },
   "grader_config": "cfg:7d57659c2e6c",

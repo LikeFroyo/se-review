@@ -46,7 +46,20 @@ sys.path.insert(0, str(REPO / "scripts"))
 import mismatch_probe as MP  # noqa: E402
 import run_evals as R  # noqa: E402
 
-ARMS = ("full", "bare")
+# Three arms, because "bare" turned out not to be the control the question needed. It retains
+# SKILL.md and shared/, so it is a reviewer without *domain* guidelines rather than without a
+# skill -- and it beats the full arm on severity, which contradicts the +33.3 the earlier blind
+# measurement recorded. Two readings fit that, and they call for opposite conclusions:
+#
+#   `dilution`  the 87 domain files crowd out severity discipline that shared/severity-and-rules.md
+#                already states, so staging more of them makes the review worse;
+#   `core`      shared/ carries the severity discipline and the domain files are irrelevant to it,
+#                so a reviewer with the core rules and none of the domain knowledge does well.
+#
+# A third arm staged with SKILL.md alone separates them. If it also scores well on severity the
+# domain files are hurting; if it scores badly, shared/ is doing the work. Guessing between those
+# from two arms is how the +33.3 and the -18.8 ended up contradicting each other.
+ARMS = ("full", "bare", "none")
 
 
 def strip_annotations(source: str) -> str | None:
@@ -72,6 +85,22 @@ def strip_annotations(source: str) -> str | None:
         return ast.unparse(ast.fix_missing_locations(tree))
     except Exception:  # noqa: BLE001 -- the caller keeps the original and says so
         return None
+
+
+def stage_none(dest: Path) -> None:
+    """Stage SKILL.md and nothing else.
+
+    The control `bare` was not. This arm answers whether severity discipline comes from
+    `shared/` -- in which case a reviewer carrying those rules and none of the 87 domain
+    guidelines should match or beat the full arm, and the domain files are costing rather than
+    adding -- or from the domain files, in which case this arm should score near zero and the
+    bare arm's strength came from `shared/` alone.
+    """
+    dest.mkdir(parents=True, exist_ok=True)
+    src = REPO / "SKILL.md"
+    if src.is_file():
+        import shutil
+        shutil.copy2(src, dest / "SKILL.md")
 
 
 def stage_bare(dest: Path) -> None:
@@ -141,6 +170,8 @@ def measure_one(eval_item: dict, arm: str, model: str | None, judge: str | None,
     work.mkdir(parents=True, exist_ok=True)
     if arm == "bare":
         stage_bare(work)
+    elif arm == "none":
+        stage_none(work)
     else:
         R.stage_skill(work, arm="with_skill")
     stripped, why = stage_stripped_fixture(eval_item, work)
@@ -206,7 +237,7 @@ def main() -> int:
             parts = "  ".join(f"{k} {v[0]}/{v[1]}" for k, v in sorted(c.items()))
             print(f"  {got['name'][:34]:<36} {arm:<6} {parts}")
 
-    print("\n  By concern, over the fixtures both arms produced a review for:")
+    print("\n  By concern, over the fixtures every arm produced a review for:")
     print(f"    {'concern':<14} {'full':>16} {'bare':>16} {'delta':>9}")
     summary = {}
     for concern in ("detection", "severity", "remediation"):
