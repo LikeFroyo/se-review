@@ -59,7 +59,18 @@ import run_evals as R  # noqa: E402
 # A third arm staged with SKILL.md alone separates them. If it also scores well on severity the
 # domain files are hurting; if it scores badly, shared/ is doing the work. Guessing between those
 # from two arms is how the +33.3 and the -18.8 ended up contradicting each other.
-ARMS = ("full", "bare", "none")
+# A fourth arm, `raw`, exists because the harness's own `without_skill` arm does not answer the
+# question it appears to answer. `stage_skill` has no `without_skill` branch: it copies SKILL.md
+# and all five SKILL_DIRS, 152 files, identical to `with_skill`. The arm is then defined by
+# *rejecting* any run whose reviewer opened a file -- while the runner auto-loads SKILL.md into the
+# system prompt anyway. Its docstrings claim it "stages no skill" and that the header-slot fallback
+# is therefore a real rather than circular discriminator; both claims are false for the code as
+# written, because it has the same output template to copy from as the arm it is compared against.
+#
+# So the with-skill versus without-skill contrast has never actually been measured by this harness.
+# `raw` stages the fixture and nothing else: no SKILL.md, no shared/, no domains/, nothing to
+# auto-load and nothing to copy a header format from. That is the arm the question needs.
+ARMS = ("full", "bare", "none", "raw")
 
 
 def strip_annotations(source: str) -> str | None:
@@ -85,6 +96,17 @@ def strip_annotations(source: str) -> str | None:
         return ast.unparse(ast.fix_missing_locations(tree))
     except Exception:  # noqa: BLE001 -- the caller keeps the original and says so
         return None
+
+
+def stage_raw(dest: Path) -> None:
+    """Stage the fixture and nothing else.
+
+    No SKILL.md, so the runner has nothing to auto-load into the system prompt; no `shared/`, no
+    `domains/`, no output-format template to copy a header from. This is the only arm in the file
+    that is genuinely skill-free, and its existence is the comment on the harness's own baseline
+    arm, which stages all 152 files and defines itself by rejecting runs that read them.
+    """
+    dest.mkdir(parents=True, exist_ok=True)
 
 
 def stage_none(dest: Path) -> None:
@@ -172,6 +194,8 @@ def measure_one(eval_item: dict, arm: str, model: str | None, judge: str | None,
         stage_bare(work)
     elif arm == "none":
         stage_none(work)
+    elif arm == "raw":
+        stage_raw(work)
     else:
         R.stage_skill(work, arm="with_skill")
     stripped, why = stage_stripped_fixture(eval_item, work)
