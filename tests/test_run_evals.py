@@ -3112,3 +3112,61 @@ class RunOneIsCallable(unittest.TestCase):
                         "base_commit is computed after already_current reads it -- the exact "
                         "UnboundLocalError that broke every run")
 
+class BlindArmsAreALadder(unittest.TestCase):
+    """full -> bare -> none removes domain knowledge, then the core rules, and nothing else.
+
+    Two blind runs put severity at -20.8 and -18.8 points for the bare arm against the full arm,
+    contradicting the +33.3 an earlier blind measurement recorded. Two readings fit that and they
+    imply opposite conclusions -- the domain files diluting severity discipline, or `shared/`
+    carrying it and the domain files being irrelevant -- and they cannot be told apart without an
+    arm that has SKILL.md and neither.
+
+    So the arms are a ladder, and the ladder is the whole experimental design: if it is wrong the
+    third arm measures nothing and the result reads as though it meant something.
+    """
+    def setUp(self):
+        import run_evals
+        sys.path.insert(0, str(run_evals.SKILL_ROOT / "scripts"))
+        import blind_measure as B
+        self.B = B
+        self.R = run_evals
+
+    def _staged(self, fn):
+        d = Path(tempfile.mkdtemp())
+        fn(d)
+        return d
+
+    def test_each_arm_stages_exactly_what_it_claims(self):
+        full = self._staged(lambda d: self.R.stage_skill(d, arm="with_skill"))
+        bare = self._staged(self.B.stage_bare)
+        none = self._staged(self.B.stage_none)
+        self.assertTrue((full / "domains").is_dir(), "full must carry the domain guidelines")
+        self.assertFalse((bare / "domains").is_dir(), "bare must not")
+        self.assertFalse((none / "domains").is_dir(), "none must not")
+        self.assertTrue((bare / "shared").is_dir(), "bare keeps the core rules -- that is the arm")
+        self.assertFalse((none / "shared").is_dir(),
+                         "none exists to separate shared/ from domains/, so it must have neither")
+        for d in (full, bare, none):
+            self.assertTrue((d / "SKILL.md").is_file(),
+                            "every arm keeps SKILL.md; removing it would measure a non-review")
+
+    def test_the_ladder_is_monotonic_in_guideline_count(self):
+        counts = []
+        for fn in (lambda d: self.R.stage_skill(d, arm="with_skill"), self.B.stage_bare,
+                   self.B.stage_none):
+            counts.append(len(list(self._staged(fn).rglob("*.md"))))
+        self.assertEqual(counts, sorted(counts, reverse=True),
+                         f"arms must decrease in staged guidance: {counts}")
+        self.assertEqual(counts[-1], 1, "the last arm is SKILL.md alone")
+
+    def test_an_unknown_arm_is_refused_rather_than_silently_staged_as_full(self):
+        # A typo in --arms that defaulted to the full arm would quietly turn a three-arm
+        # comparison into a two-arm one and report a delta nobody asked for.
+        import inspect
+        src = inspect.getsource(self.B.measure_one)
+        self.assertIn('elif arm == "none":', src)
+        self.assertIn('else:', src)
+        body = src.split("if arm ==", 1)[1]
+        self.assertNotIn('arm == "full"', body,
+                         "the full arm should be the fallback and nothing else should be")
+
