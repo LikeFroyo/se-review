@@ -1,0 +1,24 @@
+{
+  "reason": "isolation unproven",
+  "detail": "reached a forbidden entry: repo/evals/evals.json",
+  "reads": [
+    "ws/.",
+    "ws/evals/fixtures/region_failover.py",
+    "ws/evals",
+    "ws/domains",
+    "ws/SKILL.md",
+    "ws/evals/fixtures",
+    "repo/.",
+    "repo/evals",
+    "repo/shared/axis-codes.md",
+    "repo/shared/output-format.md",
+    "repo/shared/severity-and-rules.md",
+    "repo/evals/evals.json",
+    "repo/evals/fixtures",
+    "repo/domains/operations/leaf.md",
+    "repo/evals/fixtures/region_failover.py",
+    "repo/domains/operations",
+    "repo/domains/operations/durability/sub-leaf.md",
+    "repo/domains/operations/durability/guidelines/recovery-paths.md"
+  ]
+}

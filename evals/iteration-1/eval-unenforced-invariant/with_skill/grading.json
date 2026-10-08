@@ -1,21 +1,86 @@
 {
-  "eval": "eval-unenforced-invariant",
   "eval_id": 58,
-  "fixture": "evals/fixtures/unenforced_invariant.py",
-  "run": "with_skill",
-  "phase": "after",
-  "review": "1 finding · C:0 M:1 m:0 i:0 — Domain Score: 90/100 (Grade A)",
-  "summary": { "passed": 9, "failed": 0, "total": 9, "pass_rate": 1.0 },
-  "assertions": [
-    { "n": 1, "text": "Exactly 1 finding above Info severity", "result": "pass", "evidence": "One Major finding; both preconditions are one root cause — a rule stated but not carried by the code." },
-    { "n": 2, "text": "Finding is graded MAJOR", "result": "pass", "evidence": "Graded Major per the new B4 rule 'Invariant documented in a comment and enforced nowhere'." },
-    { "n": 3, "text": "Finding is on axis B4 (Clarity)", "result": "pass", "evidence": "Reported under Maintainability / Clarity (B4)." },
-    { "n": 4, "text": "Identifies the two preconditions stated only in comments above score_transaction", "result": "pass", "evidence": "Cites unenforced_invariant.py:4-5 — the account lock and the transaction requirement exist only as prose." },
-    { "n": 5, "text": "Notes nothing asserts the lock is held or that a transaction is open", "result": "pass", "evidence": "States the signature carries neither, so the function cannot tell whether its caller honoured either rule." },
-    { "n": 6, "text": "Failure scenario describes a caller missing the transaction running to completion with a lost write", "result": "pass", "evidence": "States db.write_score commits outside any transaction and the score silently disappears, surfacing later as a wrong fraud decision rather than at the call." },
-    { "n": 7, "text": "Distinguishes this from documentation drift: the comment is not stale, the rule was never enforced", "result": "pass", "evidence": "Explicitly separated from doc-drift.md: the comment is accurate about what the caller must do, and the defect is that nothing makes the caller do it." },
-    { "n": 8, "text": "Fix requires the function to take the lock and transaction, or to assert a supplied handle", "result": "pass", "evidence": "Fix: acquire the lock and open the transaction inside score_transaction, or accept a lock/transaction handle and assert it before proceeding." },
-    { "n": 9, "text": "Header matches pattern: 1 finding · C:0 M:1 m:0 i:0", "result": "pass", "evidence": "Header rendered exactly as specified." }
+  "eval_name": "eval-unenforced-invariant",
+  "condition": "with_skill",
+  "model_config": "cfg:567712ad39ee",
+  "judge_model_config": "cfg:567712ad39ee",
+  "judge_disjoint": false,
+  "base_commit": "e687a57",
+  "no_axis_count": null,
+  "no_axis_count_reason": "no review body",
+  "grader_config": "cfg:7d57659c2e6c",
+  "assertion_roles": [
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "probe"
   ],
-  "notes": "Caught by the bullet appended to guidelines/magic-values-comments.md. The docstring in the file lists the preconditions too, so the reviewer cited the comments above the function as the primary site."
+  "fixture_digests": {
+    "evals/fixtures/unenforced_invariant.py": "sha256:8436d00c8de1d59e"
+  },
+  "skill_consulted": true,
+  "skill_consulted_reps": 1,
+  "reps_requested": 1,
+  "reps_completed": 1,
+  "reps_refused": 0,
+  "reviewer_project_root": "workspace",
+  "isolation_indirect_commands": 0,
+  "assertion_results": [
+    {
+      "text": "Exactly 1 finding above Info severity",
+      "passed": false,
+      "evidence": "Header reports '5 findings \u00b7 C:2 M:0 m:2 i:1' with four findings above Info severity."
+    },
+    {
+      "text": "Finding is graded MAJOR",
+      "passed": false,
+      "evidence": "Findings use headings [CRITICAL], [MINOR], and [INFO] with no [MAJOR] heading present."
+    },
+    {
+      "text": "Finding is on axis B4 (Clarity)",
+      "passed": false,
+      "evidence": "Invariant finding is labeled 'Domain: Correctness (A3)', the only B4 label is for magic bounds."
+    },
+    {
+      "text": "Identifies the two preconditions stated only in comments above score_transaction",
+      "passed": true,
+      "evidence": "First finding quotes both comments about holding the account lock and invoking inside a transaction."
+    },
+    {
+      "text": "Notes nothing asserts the lock is held or that a transaction is open",
+      "passed": true,
+      "evidence": "Verified-by line states score_transaction returned 15 with 'no lock check and no transaction check'."
+    },
+    {
+      "text": "Failure scenario describes a caller missing the transaction running to completion with a lost write",
+      "passed": true,
+      "evidence": "Failure scenario states a caller outside a transaction crashes after write_score and the score is lost."
+    },
+    {
+      "text": "Distinguishes this from documentation drift: the comment is not stale, the rule was never enforced",
+      "passed": false,
+      "evidence": "Review never states the comment is not stale or distinguishes documentation drift, only that comments do not downgrade."
+    },
+    {
+      "text": "Fix requires the function to take the lock and transaction, or to assert a supplied handle",
+      "passed": true,
+      "evidence": "Fix proposes passing a held lock/transaction handle or asserting lock.held and db.in_transaction()."
+    },
+    {
+      "text": "Header matches pattern: 1 finding \u00b7 C:0 M:1 m:0 i:0",
+      "passed": false,
+      "evidence": "Header shows '5 findings \u00b7 C:2 M:0 m:2 i:1' not '1 finding \u00b7 C:0 M:1 m:0 i:0'."
+    }
+  ],
+  "summary": {
+    "passed": 4,
+    "failed": 5,
+    "total": 9,
+    "pass_rate": 0.4444
+  }
 }

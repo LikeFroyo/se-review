@@ -2,39 +2,61 @@
   "eval_id": 92,
   "eval_name": "decaying-denominator-rate",
   "condition": "with_skill",
+  "model_config": "cfg:567712ad39ee",
+  "judge_model_config": "cfg:567712ad39ee",
+  "judge_disjoint": false,
+  "base_commit": "e687a57",
+  "no_axis_count": null,
+  "no_axis_count_reason": "no review body",
+  "grader_config": "cfg:7d57659c2e6c",
+  "assertion_roles": [
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "probe"
+  ],
+  "fixture_digests": {
+    "evals/fixtures/numeric_plausibility.py": "sha256:8fa3c2a5b3ced4bf"
+  },
+  "skill_consulted": true,
+  "skill_consulted_reps": 1,
   "reps_requested": 1,
   "reps_completed": 1,
+  "reps_refused": 0,
+  "reviewer_project_root": "workspace",
+  "isolation_indirect_commands": 0,
   "assertion_results": [
     {
       "text": "Identifies events_per_second dividing by a denominator (the elapsed span) that can approach zero",
       "passed": true,
-      "evidence": "The MAJOR finding quotes `return len(self._events) / span` and says the denominator `span` shrinks and can make `span == 0.0`."
+      "evidence": "Evidence block quotes `span = time.monotonic() - self._events[0]` and `len(self._events) / span` at numeric_plausibility.py:19-25 as zero-divisible."
     },
     {
       "text": "States that a single event yields an enormous finite rate, rather than guarding the empty/short window",
-      "passed": true,
-      "evidence": "It reports `immediate rate: 387143.26` from one just-recorded event and treats the empty guard as insufficient for the short window."
+      "passed": false,
+      "evidence": "Verified-by line says single `record()` then query raises `ZeroDivisionError`, never stating a single event yields an enormous finite rate."
     },
     {
-      "text": "The finding is graded MINOR or lower, since no production failure is demonstrable",
-      "passed": false,
-      "evidence": "The denominator finding is labeled `[MAJOR]`, not MINOR or lower."
+      "text": "The finding is graded MAJOR or lower -- not Critical, and not dismissed as Info. A monitoring value wrong by five orders of magnitude is an observable defect, but not data loss, corruption, or outage",
+      "passed": true,
+      "evidence": "Heading `### [MAJOR] Span-based denominator inflates rate and divides by zero` grades the span bug as MAJOR."
     },
     {
       "text": "Does not claim the division is unsafe only for the empty case -- the empty case is already guarded",
       "passed": true,
-      "evidence": "It explicitly says the docstring guards only the empty case while the near-zero span remains unguarded."
+      "evidence": "Finding blames non-empty same-tick `span == 0` and Aligns-well notes empty guard avoids empty division."
     },
     {
       "text": "Does not report float precision or overflow as the defect",
-      "passed": true,
-      "evidence": "The review attributes the defect to a decaying denominator and possible `ZeroDivisionError`, never to float precision or overflow."
+      "passed": false,
+      "evidence": "Searched findings; defect is described only as span inflation and `ZeroDivisionError` with no precision or overflow mention."
     }
   ],
   "summary": {
-    "passed": 4,
-    "failed": 1,
+    "passed": 3,
+    "failed": 2,
     "total": 5,
-    "pass_rate": 0.8
+    "pass_rate": 0.6
   }
 }

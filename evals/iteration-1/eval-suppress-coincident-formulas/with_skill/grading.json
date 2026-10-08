@@ -1,0 +1,87 @@
+{
+  "eval_id": 85,
+  "eval_name": "eval-suppress-coincident-formulas",
+  "condition": "with_skill",
+  "model_config": "cfg:567712ad39ee",
+  "judge_model_config": "cfg:567712ad39ee",
+  "judge_disjoint": false,
+  "base_commit": "e687a57",
+  "no_axis_count": null,
+  "no_axis_count_reason": "no review body",
+  "grader_config": "cfg:7d57659c2e6c",
+  "assertion_roles": [
+    "verdict",
+    "probe",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "probe",
+    "verdict",
+    "verdict"
+  ],
+  "fixture_digests": {
+    "evals/fixtures/suppress_coincident_formulas.py": "sha256:0ced1ebd4afee4b7",
+    "evals/fixtures/suppress_coincident_formulas_CONSTRAINTS.md": "sha256:a1ab85ae9532d54a"
+  },
+  "skill_consulted": true,
+  "skill_consulted_reps": 1,
+  "reps_requested": 1,
+  "reps_completed": 1,
+  "reps_refused": 0,
+  "reviewer_project_root": "workspace",
+  "isolation_indirect_commands": 0,
+  "assertion_results": [
+    {
+      "text": "Reports exactly zero findings above Info severity **as a conclusion**: the review reaches it having named that names the declared constraint the pair implements. Silence also reports zero findings, so the count alone is not evidence of having read the file.",
+      "passed": false,
+      "evidence": "Header states `3 findings \u00b7 C:0 M:1 m:1 i:1` with a [MAJOR] and [MINOR], not zero above Info."
+    },
+    {
+      "text": "Header matches pattern: 0 findings \u00b7 C:0 M:0 m:0 i:0",
+      "passed": false,
+      "evidence": "Header reads `3 findings \u00b7 C:0 M:1 m:1 i:1` not `0 findings \u00b7 C:0 M:0 m:0 i:0`."
+    },
+    {
+      "text": "Does NOT report vega_from_legs as a duplicate implementation of vega_from_total -- **and reaches that by naming that names the declared constraint the pair implements**, rather than by omitting the subject. A review that says nothing about vega_from_legs against vega_from_total satisfies an absence without having assessed it.",
+      "passed": false,
+      "evidence": "Major heading reports `identical estimators` and INFO reports `byte-identical body` for vega_from_total vs vega_from_legs."
+    },
+    {
+      "text": "Does NOT recommend deleting either function or collapsing them into one -- **and reaches that by naming that names the declared constraint the pair implements**, rather than by omitting the subject. A review that says nothing about vega_from_legs against vega_from_total satisfies an absence without having assessed it.",
+      "passed": true,
+      "evidence": "Fix states `Do not delete either function` and INFO states `No deletion. Preserve both symbols` per C1."
+    },
+    {
+      "text": "Identifies that the two coincide on the listed contract class, so the coincidence is not evidence of duplication",
+      "passed": true,
+      "evidence": "Evidence cites C1 requires `two non-duplicate estimators coinciding only on the listed class` and INFO withholds L1/L4."
+    },
+    {
+      "text": "Does NOT describe the pair as accidental duplication without engaging why both exist -- **and reaches that by naming that names the declared constraint the pair implements**, rather than by omitting the subject. A review that says nothing about vega_from_legs against vega_from_total satisfies an absence without having assessed it.",
+      "passed": true,
+      "evidence": "INFO suppresses L1/L4 per C1 stating `second is the cross-check` rather than calling accidental duplication alone."
+    },
+    {
+      "text": "Output includes 'Aligns well'",
+      "passed": true,
+      "evidence": "Output contains `## Aligns well` section covering Security and Operations."
+    },
+    {
+      "text": "States that removing the second estimator removes the cross-check that detects an unlisted class",
+      "passed": true,
+      "evidence": "Major states `second as cross-check, divergence as alarm for mis-listed contracts` and `deletion is the failure`."
+    },
+    {
+      "text": "Names the declared constraint the pair implements",
+      "passed": true,
+      "evidence": "Review cites `suppress_coincident_formulas_CONSTRAINTS.md:3-8 C1` as binding constraint."
+    }
+  ],
+  "summary": {
+    "passed": 6,
+    "failed": 3,
+    "total": 9,
+    "pass_rate": 0.6667
+  }
+}

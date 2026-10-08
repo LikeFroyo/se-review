@@ -1,21 +1,86 @@
 {
-  "eval": "eval-string-truthiness",
   "eval_id": 64,
-  "fixture": "evals/fixtures/string_truthiness.py",
-  "run": "with_skill",
-  "phase": "after",
-  "review": "1 finding · C:1 M:0 m:0 i:0 — Domain Score: 75/100 (Grade C)",
-  "summary": { "passed": 9, "failed": 0, "total": 9, "pass_rate": 1.0 },
-  "assertions": [
-    { "n": 1, "text": "Exactly 1 finding above Info severity", "result": "pass", "evidence": "One Critical finding; all four sites are the same root cause — an unparsed boundary value consumed by truthiness or coercion." },
-    { "n": 2, "text": "Finding is graded CRITICAL", "result": "pass", "evidence": "Graded Critical: a control the operator explicitly disabled is active in production, which is a security-relevant inversion with no error raised." },
-    { "n": 3, "text": "Finding is on axis A1 (Logic)", "result": "pass", "evidence": "Reported under Correctness / Logic (A1)." },
-    { "n": 4, "text": "Identifies should_rate_limit treating the string 'false' as true", "result": "pass", "evidence": "Cites string_truthiness.py:9 and 21-25 — RATE_LIMIT_ENABLED is a non-empty string, so the branch that disables the check is never taken." },
-    { "n": 5, "text": "Identifies is_maintenance treating the string '0' as true", "result": "pass", "evidence": "Cites lines 10 and 28-32 — the same shape on a second flag, so both control branches are inverted." },
-    { "n": 6, "text": "Identifies zip_for coercing a zip code through int and dropping the leading zero", "result": "pass", "evidence": "Cites lines 47-51 — str(int(zip_code)) turns 01234 into 1234, a silent identifier corruption rather than a control inversion." },
-    { "n": 7, "text": "Failure scenario names a control the operator disabled being active in production", "result": "pass", "evidence": "States rate limiting the team deliberately turned off is in fact on, and every request is treated as maintenance mode." },
-    { "n": 8, "text": "Fix recommends explicit parsing with rejection of unrecognised values", "result": "pass", "evidence": "Fix: parse each value to its declared type at the boundary and raise on anything unrecognised, so a typo or a stale environment fails at start-up instead of inverting a control." },
-    { "n": 9, "text": "Header matches pattern: 1 finding · C:1 M:0 m:0 i:0", "result": "pass", "evidence": "Header rendered exactly as specified." }
+  "eval_name": "eval-string-truthiness",
+  "condition": "with_skill",
+  "model_config": "cfg:567712ad39ee",
+  "judge_model_config": "cfg:567712ad39ee",
+  "judge_disjoint": false,
+  "base_commit": "e687a57",
+  "no_axis_count": null,
+  "no_axis_count_reason": "no review body",
+  "grader_config": "cfg:7d57659c2e6c",
+  "assertion_roles": [
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "probe"
   ],
-  "notes": "Caught by guidelines/coercion-and-types.md (new). The `if X: return True / return False` shape, which a reviewer might read as deliberate, was correctly recognised as an explicit request for a boolean that the value never supplies. recipient_for's 'none' fallback was folded into the same finding as a fourth instance."
+  "fixture_digests": {
+    "evals/fixtures/string_truthiness.py": "sha256:71a697344f742d65"
+  },
+  "skill_consulted": true,
+  "skill_consulted_reps": 1,
+  "reps_requested": 1,
+  "reps_completed": 1,
+  "reps_refused": 0,
+  "reviewer_project_root": "workspace",
+  "isolation_indirect_commands": 0,
+  "assertion_results": [
+    {
+      "text": "Exactly 1 finding above Info severity",
+      "passed": false,
+      "evidence": "Header states `5 findings \u00b7 C:2 M:1 m:2 i:0` showing five findings above Info, not one."
+    },
+    {
+      "text": "Finding is graded CRITICAL",
+      "passed": true,
+      "evidence": "First two findings headings both include `[CRITICAL]`."
+    },
+    {
+      "text": "Finding is on axis A1 (Logic)",
+      "passed": true,
+      "evidence": "CRITICAL findings list `Domain: Correctness (A1)` showing axis A1."
+    },
+    {
+      "text": "Identifies should_rate_limit treating the string 'false' as true",
+      "passed": true,
+      "evidence": "First finding verifies `RATE_LIMIT_ENABLED='false'` makes `should_rate_limit()` return `True`."
+    },
+    {
+      "text": "Identifies is_maintenance treating the string '0' as true",
+      "passed": true,
+      "evidence": "Second finding verifies default `MAINTENANCE_MODE='0'` makes `is_maintenance()` return `True`."
+    },
+    {
+      "text": "Identifies zip_for coercing a zip code through int and dropping the leading zero",
+      "passed": true,
+      "evidence": "Third finding verifies `zip_for({\"zip\":\"02139\"})` returns `'2139'` via `str(int(zip_code))`."
+    },
+    {
+      "text": "Failure scenario names a control the operator disabled being active in production",
+      "passed": true,
+      "evidence": "Failure scenario says production sets `false` to disable rate limiting yet throttling stays on."
+    },
+    {
+      "text": "Fix recommends explicit parsing with rejection of unrecognised values",
+      "passed": false,
+      "evidence": "Fix proposes `in (\"1\",\"true\",\"yes\",\"on\")` defaulting unknown to False without rejecting unrecognised values."
+    },
+    {
+      "text": "Header matches pattern: 1 finding \u00b7 C:1 M:0 m:0 i:0",
+      "passed": false,
+      "evidence": "Header reads `5 findings \u00b7 C:2 M:1 m:2 i:0`, not `1 finding \u00b7 C:1 M:0 m:0 i:0`."
+    }
+  ],
+  "summary": {
+    "passed": 6,
+    "failed": 3,
+    "total": 9,
+    "pass_rate": 0.6667
+  }
 }

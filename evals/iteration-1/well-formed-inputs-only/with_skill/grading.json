@@ -1,0 +1,63 @@
+{
+  "eval_id": 97,
+  "eval_name": "well-formed-inputs-only",
+  "condition": "with_skill",
+  "model_config": "cfg:567712ad39ee",
+  "judge_model_config": "cfg:567712ad39ee",
+  "judge_disjoint": false,
+  "base_commit": "e687a57",
+  "no_axis_count": null,
+  "no_axis_count_reason": "no review body",
+  "grader_config": "cfg:7d57659c2e6c",
+  "assertion_roles": [
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "probe"
+  ],
+  "fixture_digests": {
+    "evals/fixtures/test_fixture_realism.py": "sha256:0ce1c70b6ab42405",
+    "evals/fixtures/validate_email.py": "sha256:e9d95e24cf669280"
+  },
+  "skill_consulted": true,
+  "skill_consulted_reps": 1,
+  "reps_requested": 1,
+  "reps_completed": 1,
+  "reps_refused": 0,
+  "reviewer_project_root": "workspace",
+  "isolation_indirect_commands": 2,
+  "assertion_results": [
+    {
+      "text": "Identifies that all fixture inputs are well-formed and no malformed case is ever exercised",
+      "passed": true,
+      "evidence": "First finding heading '[MAJOR] Validator exercised only on well-formed input' with evidence that both tests parametrise exclusively over WELL_FORMED."
+    },
+    {
+      "text": "Notes normalise_email returns a truthy value for input with no '@' at all",
+      "passed": true,
+      "evidence": "Failure scenario states \"normalise_email('no-at-sign') returns 'no-at-sign' (non-empty)\"."
+    },
+    {
+      "text": "Notes that 'a@b@c' passes through with both delimiters intact",
+      "passed": true,
+      "evidence": "Second finding verified output lists \"'a@b@c' -> 'a@b@c'\" as accepted."
+    },
+    {
+      "text": "The finding is graded MINOR or higher, because a validator that cannot reject is untested behaviour",
+      "passed": true,
+      "evidence": "Finding graded as \"### [MAJOR]\" which exceeds MINOR threshold."
+    },
+    {
+      "text": "Does not report formatting, docstrings, or naming as the defect",
+      "passed": true,
+      "evidence": "Findings cite Correctness A6/A8 only, with naming mentioned only positively under Aligns well."
+    }
+  ],
+  "summary": {
+    "passed": 5,
+    "failed": 0,
+    "total": 5,
+    "pass_rate": 1.0
+  }
+}

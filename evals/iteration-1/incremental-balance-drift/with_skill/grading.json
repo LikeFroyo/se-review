@@ -1,0 +1,56 @@
+{
+  "eval_id": 93,
+  "eval_name": "incremental-balance-drift",
+  "condition": "with_skill",
+  "model_config": "cfg:567712ad39ee",
+  "judge_model_config": "cfg:567712ad39ee",
+  "judge_disjoint": false,
+  "base_commit": "e687a57",
+  "no_axis_count": null,
+  "no_axis_count_reason": "no review body",
+  "grader_config": "cfg:7d57659c2e6c",
+  "assertion_roles": [
+    "verdict",
+    "verdict",
+    "verdict",
+    "probe"
+  ],
+  "fixture_digests": {
+    "evals/fixtures/incremental_drift.py": "sha256:fd10cb0f130f7ade"
+  },
+  "skill_consulted": true,
+  "skill_consulted_reps": 1,
+  "reps_requested": 1,
+  "reps_completed": 1,
+  "reps_refused": 0,
+  "reviewer_project_root": "workspace",
+  "isolation_indirect_commands": 0,
+  "assertion_results": [
+    {
+      "text": "Identifies that reclassify changes the entry without adjusting the running balance",
+      "passed": true,
+      "evidence": "Heading 'Ledger.reclassify mutates entry amount without adjusting incremental balance' directly states the defect."
+    },
+    {
+      "text": "Notes that nothing re-derives or reconciles the balance, so the drift is permanent",
+      "passed": true,
+      "evidence": "Failure scenario states drift is 'unrecoverable state corruption' that compounds on every subsequent apply."
+    },
+    {
+      "text": "The finding is graded MAJOR or higher, because a reported total is wrong and cannot self-correct",
+      "passed": true,
+      "evidence": "Finding heading '### [CRITICAL]' grades it above MAJOR."
+    },
+    {
+      "text": "Does not treat this as a style or naming concern",
+      "passed": true,
+      "evidence": "Finding is labeled 'Domain: Correctness (A3)' with a balance-correction fix, not style or naming."
+    }
+  ],
+  "summary": {
+    "passed": 4,
+    "failed": 0,
+    "total": 4,
+    "pass_rate": 1.0
+  }
+}

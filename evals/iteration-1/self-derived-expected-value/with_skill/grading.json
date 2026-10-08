@@ -1,0 +1,63 @@
+{
+  "eval_id": 96,
+  "eval_name": "self-derived-expected-value",
+  "condition": "with_skill",
+  "model_config": "cfg:567712ad39ee",
+  "judge_model_config": "cfg:567712ad39ee",
+  "judge_disjoint": false,
+  "base_commit": "e687a57",
+  "no_axis_count": null,
+  "no_axis_count_reason": "no review body",
+  "grader_config": "cfg:7d57659c2e6c",
+  "assertion_roles": [
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict"
+  ],
+  "fixture_digests": {
+    "evals/fixtures/test_expected_value.py": "sha256:a4853656814b1d24",
+    "evals/fixtures/pricing.py": "sha256:b8dda4200d7cb126"
+  },
+  "skill_consulted": true,
+  "skill_consulted_reps": 1,
+  "reps_requested": 1,
+  "reps_completed": 1,
+  "reps_refused": 0,
+  "reviewer_project_root": "workspace",
+  "isolation_indirect_commands": 2,
+  "assertion_results": [
+    {
+      "text": "Identifies that the expected value is recomputed from the implementation's own formula",
+      "passed": true,
+      "evidence": "MAJOR finding quotes test_expected_value.py:10-12 recomputing expected from rate."
+    },
+    {
+      "text": "Reports that price_for ignores its tax_rate parameter",
+      "passed": true,
+      "evidence": "MINOR finding states tax_rate silently ignored with RAN proof 85.0 identical."
+    },
+    {
+      "text": "Notes the check is green despite that, because it never exercises the tax path",
+      "passed": false,
+      "evidence": "No sentence states the check stays green because tax path is never exercised."
+    },
+    {
+      "text": "Does NOT report the missing annotations or the redundant local variable -- the defect is provenance",
+      "passed": true,
+      "evidence": "No mention of missing annotations or redundant local appears in findings."
+    },
+    {
+      "text": "The finding is graded MAJOR or higher, because an unenforced parameter is a real defect",
+      "passed": false,
+      "evidence": "Tax-parameter finding headed ### [MINOR] Leanness L2, not MAJOR or higher."
+    }
+  ],
+  "summary": {
+    "passed": 3,
+    "failed": 2,
+    "total": 5,
+    "pass_rate": 0.6
+  }
+}

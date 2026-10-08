@@ -1,0 +1,25 @@
+{
+  "reason": "isolation unproven",
+  "detail": "read outside this run's workspace: repo/.",
+  "reads": [
+    "ws/.",
+    "ws/evals/fixtures/unsafe_deserialization.py",
+    "repo/.",
+    "ws/SKILL.md",
+    "ws/evals",
+    "repo/shared/severity-and-rules.md",
+    "repo/shared/output-format.md",
+    "repo/shared/axis-codes.md",
+    "repo/domains",
+    "repo/domains/security/leaf.md",
+    "repo/domains/maintainability/leaf.md",
+    "repo/domains/correctness/leaf.md",
+    "repo/domains/operations/leaf.md",
+    "repo/domains/leanness/leaf.md",
+    "repo/domains/interoperability/leaf.md",
+    "repo/domains/security",
+    "repo/domains/security/trust-boundaries/sub-leaf.md",
+    "repo/domains/security/injection-interpretation/sub-leaf.md",
+    "repo/domains/security/injection-interpretation/guidelines/unsafe-parsing.md"
+  ]
+}

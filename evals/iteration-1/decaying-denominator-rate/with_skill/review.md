@@ -1,28 +1,55 @@
-# Review: evals/fixtures/numeric_plausibility.py
+Reviewing your fixture and run directory — inspecting both for issues.
+Found a likely divide-by-zero risk — now gathering full context to confirm.
+Confirmed the window math looks suspect — now checking the review rubric to grade it properly.
+I've mapped the rubric — now running a quick reproduction to verify the failure.
+# Review: `evals/fixtures/numeric_plausibility.py`
 
-`2 findings · C:0 M:1 m:1 i:0 · Mean 97/100 · Final Grade A`
-Covered: 1/1 files · Scope: focused on `evals/fixtures/numeric_plausibility.py` · Not examined: 0 —
-Domain Scores: Correctness: 90/100 · Operations: 97/100 · Maintainability: 100/100 · Leanness: 100/100 · Interoperability: 100/100
-Gated by: neither — band A reached on mean and weakest domain
+`3 findings · C:0 M:1 m:1 i:1 · Mean 94/100 · Final Grade A`
+Covered: 1/1 files · Scope: focused on: `evals/fixtures/numeric_plausibility.py` · Not examined: 0 — none
+Unclassified: 0 findings fit no axis code
+Domain Scores: Correctness: 90/100 · Operations: 97/100
+Gated by: neither — highest grade reached — **always printed.**
+
+Ruling between two readings: docstring-as-intent (`Zero-length windows report 0.0`, `numeric_plausibility.py:20`) is taken as intent; code-is-right is rejected because `RAN` shows the code raises instead.
 
 ## Findings
 
-### [MAJOR] Rate denominator decays as events age out, inflating throughput and risking division by zero
+### [MAJOR] Span-based denominator inflates rate and divides by zero
 - **Domain:** Correctness (A1)
-- **Verified by:** `RAN` — executed the snippet below against the file; observed `fresh-window rate: 16.64` from a single event and `immediate rate: 387143.26` from one just-recorded event (script: `cd …/se-run-…` then `python3` repro importing `ThroughputMonitor`).
-- **Evidence:** `numeric_plausibility.py:24-25` — `span = time.monotonic() - self._events[0]; return len(self._events) / span`. The denominator is the age of the oldest in-window event, which *shrinks* as `prune()` drops old events. The docstring at line 20 even guards only the empty case (`if not self._events: return 0.0`), not the near-zero span.
-- **Failure scenario:** A monitor in a loop records a burst, goes quiet for a window, then gets a single fresh event; `events_per_second()` reports ~17/s (or hundreds of thousands per second if called immediately), driving alerts/autoscaling on a phantom. If `time.monotonic()` returns the same tick for both calls, `span == 0.0` → unhandled `ZeroDivisionError` in the caller.
-- **Fix:** Divide by the advertised window (`len(self._events) / self.window_seconds`), or by `max(span, epsilon)` with a minimum-sample guard (e.g. require `span >= 1.0` and at least 2 samples before reporting a rate). Scope: local (one method).
-- **Trade-off:** Window-based rate is less responsive to recent bursts — a real burst spread over 60s reads at its average rather than its instantaneous rate; the epsilon guard adds a constant to reason about. No added latency or memory.
+- **Verified by:** RAN — executed `ThroughputMonitor` with mocked `time.monotonic`: single `record()` at `t=100.0` then `events_per_second()` at same tick raises `ZeroDivisionError`; 10 events at `t=0..9` queried at `t=10.0` returns `1.0` vs correct window rate `10/60=0.1667` (6x inflation); events at `t=0.0,50.0` queried at `t=59.0` returns `0.034` then at `t=61.0` (after oldest expires) returns `0.091` with no new events.
+- **Evidence:** `evals/fixtures/numeric_plausibility.py:19-25` — quote:
+  ```
+  span = time.monotonic() - self._events[0]
+  return len(self._events) / span
+  ```
+  `prune()` at `numeric_plausibility.py:14-17` retains only the last `window_seconds`, but the divisor is `now - oldest` instead of `window_seconds`. Docstring at `:20` claims `Zero-length windows report 0.0`, but `window_seconds=0.0` path reaches the same division and raises `ZeroDivisionError` (RAN).
+- **Failure scenario:** (1) Silent-wrong-value: any autoscaler / limiter / dashboard reading `events_per_second()` shortly after burst gets an inflated rate (e.g. 6x), causing over-provision or premature throttling; as the window slides the rate decays as `N/span` and then jumps upward when the oldest event expires (observed `0.034` → `0.091`), so no threshold on it is stable. (2) Loud-crash: the normal `record(); events_per_second()` sequence in the same clock tick has `span == 0` and raises unhandled `ZeroDivisionError`, 500ing the caller until time advances.
+- **Fix:** Module scope — snapshot `now` once, prune against it, divide by the window:
+  ```
+  now = time.monotonic()
+  # prune with now, then:
+  if self.window_seconds <= 0 or not self._events: return 0.0
+  return len(self._events) / self.window_seconds
+  ```
+  If true instantaneous rate is wanted, divide by `min(self.window_seconds, max(span, eps))`, never bare `span`. Scope: module (`ThroughputMonitor` only, no callers in fixture).
+- **Trade-off:** Cost is one float division vs one subtraction — negligible. Semantic cost: during cold start (`now - oldest < window`) the window-averaged rate reads low until the window fills; that is the correct sliding-window semantic, but callers tuned to the old inflated values will see lower numbers and must retune thresholds.
 
-### [MINOR] `record()` never prunes; buffer grows unbounded if `events_per_second()` is not called
+### [MINOR] `record()` never prunes — unbounded retention if never queried
 - **Domain:** Operations (C1)
-- **Verified by:** `READ` — `record()` (line 11-12) only appends; pruning happens solely inside `events_per_second()` (line 21).
-- **Evidence:** `numeric_plausibility.py:11-12, 19-21` — `self._events.append(time.monotonic())` with no `prune()` call site.
-- **Fix:** Call `self.prune()` inside `record()` (or bound the deque). Scope: local.
+- **Verified by:** RAN — recorded 5 events at `t=0.0` without calling `events_per_second()`; `len(_events) == 5` retained with no bound; only `prune()` at `numeric_plausibility.py:14-17`, called from `events_per_second()` at `:21`, ever shrinks the deque.
+- **Evidence:** `evals/fixtures/numeric_plausibility.py:11-12`
+  ```
+  def record(self) -> None:
+      self._events.append(time.monotonic())
+  ```
+- **Fix:** Local scope — call `self.prune()` (or inline cutoff check) at the end of `record()`, reusing the single-`now` snapshot from the fix above.
+
+### [INFO] Two `monotonic()` reads per query plus unvalidated window
+- **Domain:** Correctness (A1)
+- **Verified by:** READ — `prune()` calls `time.monotonic()` at `numeric_plausibility.py:15` and `events_per_second()` calls it again at `:24`; negative `window_seconds` is never rejected, making `cutoff` lie in the future and discarding all events silently.
+- **Evidence:** `evals/fixtures/numeric_plausibility.py:7,14-15,24`
+- **Fix:** Recommendation — take `now = time.monotonic()` once per public method and pass it to `prune(now)`; validate `window_seconds > 0` in `__init__` (raise `ValueError`) or clamp to `0.0`-returns-`0.0` to match the docstring.
 
 ## Aligns well
-- `prune()` correctly uses a monotonic clock and a strict `< cutoff` comparison, and the empty-window guard is present — the defect is narrowly the denominator, not the windowing logic.
-- Type hints on the public surface and a one-line module docstring state intent plainly.
-
-**Fix scope note:** Both fixes are local to `ThroughputMonitor`; cost is a few lines and one extra `prune()` pass per record (O(k) on expired events only — no measurable latency delta).
+- Correct choice of `time.monotonic()` over wall clock and `collections.deque` with `popleft()` expiry — no wall-clock jump or `list.pop(0)` scan cost (C1).
+- Empty-monitor guard (`if not self._events: return 0.0`) avoids the degenerate empty-window division (A1).

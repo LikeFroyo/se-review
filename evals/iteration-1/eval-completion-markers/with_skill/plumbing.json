@@ -1,0 +1,31 @@
+{
+  "reason": "isolation unproven",
+  "detail": "reached a forbidden entry: outside/evals/evals.json",
+  "reads": [
+    "ws/.",
+    "ws/evals/fixtures/completion_markers.py",
+    "ws/SKILL.md",
+    "ws/evals",
+    "ws/shared/axis-codes.md",
+    "ws/shared/output-format.md",
+    "ws/shared/severity-and-rules.md",
+    "ws/domains/leanness/synthetic-code/guidelines/completion-markers.md",
+    "ws/domains/correctness/leaf.md",
+    "ws/domains/leanness/leaf.md",
+    "ws/domains",
+    "ws/domains/security/leaf.md",
+    "ws/domains/maintainability/leaf.md",
+    "ws/domains/operations/leaf.md",
+    "ws/domains/interoperability/leaf.md",
+    "ws/domains/correctness/api-contracts/guidelines/idempotency.md",
+    "ws/domains/correctness/concurrency/guidelines/race-conditions.md",
+    "ws/scripts/eval_registry.py",
+    "ws/domains/leanness/synthetic-code/sub-leaf.md",
+    "ws/scripts",
+    "ws/scripts/blind_measure.py",
+    "ws/scripts/mismatch_probe.py",
+    "outside/evals/evals.json",
+    "outside/evals.json",
+    "repo/evals/evals.json"
+  ]
+}

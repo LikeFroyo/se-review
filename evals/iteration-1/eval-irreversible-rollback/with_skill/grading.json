@@ -1,21 +1,86 @@
 {
-  "eval": "eval-irreversible-rollback",
   "eval_id": 53,
-  "fixture": "evals/fixtures/irreversible_rollback.py",
-  "run": "with_skill",
-  "phase": "after",
-  "review": "1 finding · C:1 M:0 m:0 i:0 — Domain Score: 75/100 (Grade C)",
-  "summary": { "passed": 9, "failed": 0, "total": 9, "pass_rate": 1.0 },
-  "assertions": [
-    { "n": 1, "text": "Exactly 1 finding above Info severity", "result": "pass", "evidence": "One Critical finding; the missing downgrade and the runbook that depends on it are one root cause." },
-    { "n": 2, "text": "Finding is graded CRITICAL", "result": "pass", "evidence": "Graded Critical per 'Documented rollback that cannot execute against the released schema'." },
-    { "n": 3, "text": "Finding is on axis C6 (Delivery)", "result": "pass", "evidence": "Reported under Operations / Delivery (C6)." },
-    { "n": 4, "text": "Identifies downgrade_0417 raising NotImplementedError", "result": "pass", "evidence": "Cites irreversible_rollback.py:24-33 — the reversal raises with the message 'downgrade not supported for 0417'." },
-    { "n": 5, "text": "Identifies the DROP COLUMN in upgrade_0417 as irreversible", "result": "pass", "evidence": "Cites lines 17-19 — the column is dropped and its source data backfilled in, so the information needed to rebuild it no longer exists." },
-    { "n": 6, "text": "Notes the runbook assumes rollback.sh works, and ROLLBACK_STATE shows it was never rehearsed", "result": "pass", "evidence": "Cites the runbook comment block and `ROLLBACK_STATE = {\"verified_in_production\": False, \"last_rehearsed\": None}`." },
-    { "n": 7, "text": "Failure scenario names escalation to a full database restore during an outage", "result": "pass", "evidence": "States the previous version cannot read the current schema, so the incident escalates from a rollback to a restore." },
-    { "n": 8, "text": "Fix recommends expand-contract across two deploys so the prior version stays readable", "result": "pass", "evidence": "Fix: add the new column, dual-write, backfill, and only drop the old one in a later release once no running version references it." },
-    { "n": 9, "text": "Header matches pattern: 1 finding · C:1 M:0 m:0 i:0", "result": "pass", "evidence": "Header rendered exactly as specified." }
+  "eval_name": "eval-irreversible-rollback",
+  "condition": "with_skill",
+  "model_config": "cfg:567712ad39ee",
+  "judge_model_config": "cfg:567712ad39ee",
+  "judge_disjoint": false,
+  "base_commit": "e687a57",
+  "no_axis_count": null,
+  "no_axis_count_reason": "no review body",
+  "grader_config": "cfg:7d57659c2e6c",
+  "assertion_roles": [
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "probe"
   ],
-  "notes": "Caught by the 'Rollback that cannot execute' section appended to guidelines/rollout-rollback.md. The pre-existing 'Migration deploy coupling' bullet would have been a plausible but weaker catch — this release has no ordering problem, it has a reversibility problem."
+  "fixture_digests": {
+    "evals/fixtures/irreversible_rollback.py": "sha256:0825b5e2694e5c8e"
+  },
+  "skill_consulted": true,
+  "skill_consulted_reps": 1,
+  "reps_requested": 1,
+  "reps_completed": 1,
+  "reps_refused": 0,
+  "reviewer_project_root": "workspace",
+  "isolation_indirect_commands": 0,
+  "assertion_results": [
+    {
+      "text": "Exactly 1 finding above Info severity",
+      "passed": false,
+      "evidence": "Header reports `3 findings \u00b7 C:1 M:1 m:1 i:0` so not exactly 1 above Info."
+    },
+    {
+      "text": "Finding is graded CRITICAL",
+      "passed": true,
+      "evidence": "First finding heading is `### [CRITICAL] Documented rollback unexecutable`."
+    },
+    {
+      "text": "Finding is on axis C6 (Delivery)",
+      "passed": false,
+      "evidence": "Critical finding domain is listed as `Operations (C7)`, not C6."
+    },
+    {
+      "text": "Identifies downgrade_0417 raising NotImplementedError",
+      "passed": true,
+      "evidence": "Evidence quotes `def downgrade_0417` raising `NotImplementedError` at lines 21-31."
+    },
+    {
+      "text": "Identifies the DROP COLUMN in upgrade_0417 as irreversible",
+      "passed": true,
+      "evidence": "Evidence cites `ALTER TABLE orders DROP COLUMN fax_number` at line 17."
+    },
+    {
+      "text": "Notes the runbook assumes rollback.sh works, and ROLLBACK_STATE shows it was never rehearsed",
+      "passed": true,
+      "evidence": "Failure scenario cites `./rollback.sh 2026.9.2` plus `ROLLBACK_STATE` with `verified_in_production: False`."
+    },
+    {
+      "text": "Failure scenario names escalation to a full database restore during an outage",
+      "passed": true,
+      "evidence": "Failure scenario states only recovery is full database restore during outage."
+    },
+    {
+      "text": "Fix recommends expand-contract across two deploys so the prior version stays readable",
+      "passed": true,
+      "evidence": "Fix prescribes expand-contract with drop in later release after old image retired."
+    },
+    {
+      "text": "Header matches pattern: 1 finding \u00c2\u00b7 C:1 M:0 m:0 i:0",
+      "passed": false,
+      "evidence": "Header shows `3 findings \u00b7 C:1 M:1 m:1 i:0`, not `1 finding \u00b7 C:1 M:0 m:0 i:0`."
+    }
+  ],
+  "summary": {
+    "passed": 6,
+    "failed": 3,
+    "total": 9,
+    "pass_rate": 0.6667
+  }
 }

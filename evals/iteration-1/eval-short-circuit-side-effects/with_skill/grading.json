@@ -1,21 +1,86 @@
 {
-  "eval": "eval-short-circuit-side-effects",
   "eval_id": 66,
-  "fixture": "evals/fixtures/short_circuit_side_effects.py",
-  "run": "with_skill",
-  "phase": "after",
-  "review": "1 finding · C:0 M:1 m:0 i:0 — Domain Score: 90/100 (Grade A)",
-  "summary": { "passed": 9, "failed": 0, "total": 9, "pass_rate": 1.0 },
-  "assertions": [
-    { "n": 1, "text": "Exactly 1 finding above Info severity", "result": "pass", "evidence": "One Major finding; both handlers share the root cause of effects living only on the success path." },
-    { "n": 2, "text": "Finding is graded MAJOR", "result": "pass", "evidence": "Graded Major per the new A1 rule; no invalid state is stored and no outage is implied, so Critical is not supported." },
-    { "n": 3, "text": "Finding is on axis A1 (Logic)", "result": "pass", "evidence": "Reported under Correctness / Logic (A1)." },
-    { "n": 4, "text": "Identifies the 404, 422, and 403 early returns in update_email skipping the audit write and metrics increment", "result": "pass", "evidence": "Cites short_circuit_side_effects.py:16-27 — three early returns ahead of the audit.info and metrics increment that the success path performs." },
-    { "n": 5, "text": "Identifies deactivate_account incrementing the counter but not writing the audit record", "result": "pass", "evidence": "Cites lines 33-37 — metrics and logger run on the denial path while the audit sink does not, so the two handlers disagree." },
-    { "n": 6, "text": "Notes the audit log therefore covers successes and failures inconsistently", "result": "pass", "evidence": "States an audit reader cannot distinguish a handler that was never called from one that was called and denied." },
-    { "n": 7, "text": "Failure scenario names abuse over rejected attempts leaving no record", "result": "pass", "evidence": "States a pattern of repeated 403s by one actor produces no durable trail, so the abuse is invisible to anyone reading the audit log." },
-    { "n": 8, "text": "Fix recommends performing the effects on every exit path, e.g. in middleware", "result": "pass", "evidence": "Fix: move the audit write and the metric to a decorator, middleware, or try/finally so every exit path emits them, and record the outcome rather than only the success." },
-    { "n": 9, "text": "Header matches pattern: 1 finding · C:0 M:1 m:0 i:0", "result": "pass", "evidence": "Header rendered exactly as specified." }
+  "eval_name": "eval-short-circuit-side-effects",
+  "condition": "with_skill",
+  "model_config": "cfg:567712ad39ee",
+  "judge_model_config": "cfg:567712ad39ee",
+  "judge_disjoint": false,
+  "base_commit": "e687a57",
+  "no_axis_count": null,
+  "no_axis_count_reason": "no review body",
+  "grader_config": "cfg:7d57659c2e6c",
+  "assertion_roles": [
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "probe"
   ],
-  "notes": "Caught by the 'Failure path with less work than the success path' section appended to guidelines/error-handling.md. The existence of the audit logger as a separate sink is what made the inconsistency visible; the reviewer noted the two handlers disagree rather than treating each return as locally correct."
+  "fixture_digests": {
+    "evals/fixtures/short_circuit_side_effects.py": "sha256:65e51e7a920c62e5"
+  },
+  "skill_consulted": true,
+  "skill_consulted_reps": 1,
+  "reps_requested": 1,
+  "reps_completed": 1,
+  "reps_refused": 0,
+  "reviewer_project_root": "workspace",
+  "isolation_indirect_commands": 0,
+  "assertion_results": [
+    {
+      "text": "Exactly 1 finding above Info severity",
+      "passed": false,
+      "evidence": "Header states `3 findings \u00b7 C:0 M:2 m:1 i:0` not 1 finding above Info."
+    },
+    {
+      "text": "Finding is graded MAJOR",
+      "passed": true,
+      "evidence": "First finding heading is `### [MAJOR] Early returns skip required effects`."
+    },
+    {
+      "text": "Finding is on axis A1 (Logic)",
+      "passed": true,
+      "evidence": "That finding lists `Domain: Correctness (A1)`."
+    },
+    {
+      "text": "Identifies the 404, 422, and 403 early returns in update_email skipping the audit write and metrics increment",
+      "passed": true,
+      "evidence": "Fix calls for `audit.info on every deny path (404/422/403)` after noting 422 and 403 skip audit and metrics."
+    },
+    {
+      "text": "Identifies deactivate_account incrementing the counter but not writing the audit record",
+      "passed": true,
+      "evidence": "States deactivate 403 emits `metrics[\"forbidden\"] += 1` plus log but no `audit.info`."
+    },
+    {
+      "text": "Notes the audit log therefore covers successes and failures inconsistently",
+      "passed": true,
+      "evidence": "Describes success vs deny as asymmetric with probes leaving `no audit record`."
+    },
+    {
+      "text": "Failure scenario names abuse over rejected attempts leaving no record",
+      "passed": true,
+      "evidence": "Failure scenario says credential-stuffing probing is invisible with no audit record."
+    },
+    {
+      "text": "Fix recommends performing the effects on every exit path, e.g. in middleware",
+      "passed": true,
+      "evidence": "Fix directs to emit `audit.info on every deny path` and make accounting consistent."
+    },
+    {
+      "text": "Header matches pattern: 1 finding \u00b7 C:0 M:1 m:0 i:0",
+      "passed": false,
+      "evidence": "Header is `3 findings \u00b7 C:0 M:2 m:1 i:0` not `1 finding \u00b7 C:0 M:1 m:0 i:0`."
+    }
+  ],
+  "summary": {
+    "passed": 7,
+    "failed": 2,
+    "total": 9,
+    "pass_rate": 0.7778
+  }
 }

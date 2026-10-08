@@ -1,21 +1,86 @@
 {
-  "eval": "eval-transposed-arguments",
   "eval_id": 60,
-  "fixture": "evals/fixtures/transposed_arguments.py",
-  "run": "with_skill",
-  "phase": "after",
-  "review": "1 finding · C:0 M:1 m:0 i:0 — Domain Score: 90/100 (Grade A)",
-  "summary": { "passed": 9, "failed": 0, "total": 9, "pass_rate": 1.0 },
-  "assertions": [
-    { "n": 1, "text": "Exactly 1 finding above Info severity", "result": "pass", "evidence": "One Major finding; both signatures are the same root cause — adjacent identical types with nothing to catch a transposition." },
-    { "n": 2, "text": "Finding is graded MAJOR", "result": "pass", "evidence": "Graded Major per the new B1 rule: a transposed call produces wrong output with no error at any layer." },
-    { "n": 3, "text": "Finding is on axis B1 (Complexity)", "result": "pass", "evidence": "Reported under Maintainability / Complexity (B1)." },
-    { "n": 4, "text": "Identifies set_viewport taking four identical integers with left/top/right/bottom transposable", "result": "pass", "evidence": "Cites transposed_arguments.py:21 — four ints in a run, with the globals named for the first two." },
-    { "n": 5, "text": "Identifies clamp(value, lo, hi) as transposable, citing its own docstring admission", "result": "pass", "evidence": "Cites the docstring at line 30 — 'Callers routinely pass (hi, lo)' — as the file conceding the defect." },
-    { "n": 6, "text": "Notes there is no type error and no name that catches a transposed call", "result": "pass", "evidence": "States every parameter is a bare int, so the call site has neither a type check nor a keyword to notice." },
-    { "n": 7, "text": "Failure scenario names a clamp that silently returns an unclamped value or a mirrored viewport", "result": "pass", "evidence": "Names clamp(5, 100, 0) returning 100 and a viewport with left/top swapped mirroring the plot about the diagonal." },
-    { "n": 8, "text": "Fix recommends a typed pair or range object", "result": "pass", "evidence": "Fix: a Point or Range type constructed with named fields, so a transposition is either impossible or visible in the constructor call." },
-    { "n": 9, "text": "Header matches pattern: 1 finding · C:0 M:1 m:0 i:0", "result": "pass", "evidence": "Header rendered exactly as specified." }
+  "eval_name": "eval-transposed-arguments",
+  "condition": "with_skill",
+  "model_config": "cfg:567712ad39ee",
+  "judge_model_config": "cfg:567712ad39ee",
+  "judge_disjoint": false,
+  "base_commit": "e687a57",
+  "no_axis_count": null,
+  "no_axis_count_reason": "no review body",
+  "grader_config": "cfg:7d57659c2e6c",
+  "assertion_roles": [
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "probe"
   ],
-  "notes": "Caught by the bullet appended to guidelines/parameter-lists.md. Distinct from the file's existing 'excessive arity' rule: this is about two parameters being interchangeable, not about there being too many."
+  "fixture_digests": {
+    "evals/fixtures/transposed_arguments.py": "sha256:2984a9289495be63"
+  },
+  "skill_consulted": true,
+  "skill_consulted_reps": 1,
+  "reps_requested": 1,
+  "reps_completed": 1,
+  "reps_refused": 0,
+  "reviewer_project_root": "workspace",
+  "isolation_indirect_commands": 0,
+  "assertion_results": [
+    {
+      "text": "Exactly 1 finding above Info severity",
+      "passed": false,
+      "evidence": "Header reports '6 findings \u00b7 C:0 M:3 m:3 i:0', totaling 6 above Info."
+    },
+    {
+      "text": "Finding is graded MAJOR",
+      "passed": true,
+      "evidence": "Second finding heading is '### [MAJOR] Adjacent same-type parameters invite silent transposition'."
+    },
+    {
+      "text": "Finding is on axis B1 (Complexity)",
+      "passed": true,
+      "evidence": "That finding lists 'Domain: Maintainability (B1)'."
+    },
+    {
+      "text": "Identifies set_viewport taking four identical integers with left/top/right/bottom transposable",
+      "passed": true,
+      "evidence": "Evidence cites 'transposed_arguments.py:27 (four ints)' for set_viewport."
+    },
+    {
+      "text": "Identifies clamp(value, lo, hi) as transposable, citing its own docstring admission",
+      "passed": true,
+      "evidence": "Finding notes clamp plus file comments admit callers routinely swap."
+    },
+    {
+      "text": "Notes there is no type error and no name that catches a transposed call",
+      "passed": true,
+      "evidence": "Finding states no keyword-enforcement, nominal typing, or newtype to catch a swap."
+    },
+    {
+      "text": "Failure scenario names a clamp that silently returns an unclamped value or a mirrored viewport",
+      "passed": true,
+      "evidence": "Failure scenario cites 'clamp(5,10,0)==10' and chart mirrored about diagonal."
+    },
+    {
+      "text": "Fix recommends a typed pair or range object",
+      "passed": true,
+      "evidence": "Fix proposes 'Viewport/Bounds(lo,hi)/Size(w,h) value objects'."
+    },
+    {
+      "text": "Header matches pattern: 1 finding \u00b7 C:0 M:1 m:0 i:0",
+      "passed": false,
+      "evidence": "Header shows '6 findings \u00b7 C:0 M:3 m:3 i:0' not '1 finding \u00b7 C:0 M:1 m:0 i:0'."
+    }
+  ],
+  "summary": {
+    "passed": 7,
+    "failed": 2,
+    "total": 9,
+    "pass_rate": 0.7778
+  }
 }

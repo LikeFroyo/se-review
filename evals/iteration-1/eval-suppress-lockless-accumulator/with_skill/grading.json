@@ -2,200 +2,92 @@
   "eval_id": 82,
   "eval_name": "eval-suppress-lockless-accumulator",
   "condition": "with_skill",
-  "skill_consulted": false,
-  "skill_consulted_reps": 0,
-  "reps_requested": 3,
-  "reps_completed": 2,
+  "model_config": "cfg:567712ad39ee",
+  "judge_model_config": "cfg:567712ad39ee",
+  "judge_disjoint": false,
+  "base_commit": "e687a57",
+  "no_axis_count": null,
+  "no_axis_count_reason": "no review body",
+  "grader_config": "cfg:7d57659c2e6c",
+  "assertion_roles": [
+    "verdict",
+    "probe",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "probe",
+    "verdict",
+    "verdict",
+    "verdict"
+  ],
+  "fixture_digests": {
+    "evals/fixtures/suppress_lockless_accumulator.py": "sha256:92dd977b20937fdd",
+    "evals/fixtures/suppress_lockless_accumulator_CONSTRAINTS.md": "sha256:6f11ea3fd0319313"
+  },
+  "skill_consulted": true,
+  "skill_consulted_reps": 1,
+  "reps_requested": 1,
+  "reps_completed": 1,
+  "reps_refused": 0,
+  "reviewer_project_root": "workspace",
+  "isolation_indirect_commands": 0,
   "assertion_results": [
     {
-      "text": "Zero findings above Info severity",
-      "passed": true,
-      "evidence": "Review reports only a minor docstring naming note, no code findings above Info severity"
-    },
-    {
-      "text": "Header matches pattern: 0 findings · C:0 M:0 m:0 i:0",
+      "text": "Reports exactly zero findings above Info severity **as a conclusion**: the review reaches it having named that identifies pump as the only caller of apply, so the one-writer invariant holds. Silence also reports zero findings, so the count alone is not evidence of having read the file.",
       "passed": false,
-      "evidence": "Review has no structured header with the specified pattern 0 findings · C:0 M:0 m:0 i:0"
+      "evidence": "Header reports `3 findings \u00b7 C:0 M:0 m:2 i:1`, so two MINOR findings remain above Info rather than zero."
     },
     {
-      "text": "Does NOT report the missing lock around _frozen or _pending as a concurrency defect",
-      "passed": true,
-      "evidence": "Review states 'The Absorber has no locks and assumes a single writer'"
+      "text": "Header matches pattern: 0 findings \u00b7 C:0 M:0 m:0 i:0",
+      "passed": false,
+      "evidence": "Header line is `3 findings \u00b7 C:0 M:0 m:2 i:1`, not the required `0 findings \u00b7 C:0 M:0 m:0 i:0`."
     },
     {
-      "text": "Does NOT cite Absorber.apply as a check-then-act or read-modify-write race",
+      "text": "Does NOT report the missing lock around _frozen or _pending as a concurrency defect -- **and reaches that by naming that identifies pump as the only caller of apply, so the one-writer invariant holds**, rather than by omitting the subject. A review that says nothing about the absent lock around _frozen and _pending satisfies an absence without having assessed it.",
       "passed": true,
-      "evidence": "Review does not mention check-then-act or read-modify-write race"
+      "evidence": "Aligns well finds no Lock warranted because accumulators are owned by single consumer thread started once by pump()."
     },
     {
-      "text": "Does NOT recommend adding a lock, a queue, or a thread-local to protect the accumulators",
+      "text": "Does NOT cite Absorber.apply as a check-then-act or read-modify-write race -- **and reaches that by naming that identifies pump as the only caller of apply, so the one-writer invariant holds**, rather than by omitting the subject. A review that says nothing about the absent lock around _frozen and _pending satisfies an absence without having assessed it.",
       "passed": true,
-      "evidence": "Review does not recommend adding a lock, queue, or thread-local to protect accumulators"
+      "evidence": "No check-then-act or read-modify-write race is filed, with one writer cannot race itself tied to pump()."
+    },
+    {
+      "text": "Does NOT recommend adding a lock, a queue, or a thread-local to protect the accumulators -- **and reaches that by naming that identifies pump as the only caller of apply, so the one-writer invariant holds**, rather than by omitting the subject. A review that says nothing about the absent lock around _frozen and _pending satisfies an absence without having assessed it.",
+      "passed": true,
+      "evidence": "Aligns well explicitly rejects a lock retrofit, saying adding a lock would imply writers that do not exist."
     },
     {
       "text": "Distinguishes the one-writer invariant from a lock-free data structure: no lock is correct only because apply has exactly one caller",
       "passed": true,
-      "evidence": "Review distinguishes one-writer invariant from lock-free structure"
+      "evidence": "Aligns well ties no-lock correctness to single-writer ownership by pump-started thread, not to lock-free design."
     },
     {
       "text": "Output includes 'Aligns well'",
-      "passed": false,
-      "evidence": "'Aligns well' string not found in review output"
+      "passed": true,
+      "evidence": "Output contains the heading `## Aligns well` with three bullets."
     },
     {
       "text": "Identifies pump as the only caller of apply",
       "passed": true,
-      "evidence": "Review: 'pump(rows, absorber): the sole caller of apply()'"
+      "evidence": "Review quotes `The only caller of apply(). Started once, on one thread` as pump()."
     },
     {
       "text": "Names the declared one-writer constraint the absent lock implements",
       "passed": true,
-      "evidence": "Review: 'The Absorber has no locks and assumes a single writer, which is exactly what C1 states'"
+      "evidence": "Ruling and Aligns well name binding constraint C1 for suppressing concurrency hardening."
     },
     {
       "text": "States what would break if the accumulators were made per-consumer",
       "passed": false,
-      "evidence": "Review does not address per-consumer accumulator design"
+      "evidence": "No sentence discusses per-consumer accumulators or what would break; findings cover only zero-path, _pending, and PUMPED."
     }
   ],
   "summary": {
-    "passed": 14,
-    "failed": 6,
-    "total": 20,
+    "passed": 7,
+    "failed": 3,
+    "total": 10,
     "pass_rate": 0.7
-  },
-  "replicates": [
-    {
-      "rep": 1,
-      "skill_consulted": false,
-      "assertion_results": [
-        {
-          "text": "Zero findings above Info severity",
-          "passed": true,
-          "evidence": "Review reports only a minor docstring naming note, no code findings above Info severity"
-        },
-        {
-          "text": "Header matches pattern: 0 findings · C:0 M:0 m:0 i:0",
-          "passed": false,
-          "evidence": "Review has no structured header with the specified pattern 0 findings · C:0 M:0 m:0 i:0"
-        },
-        {
-          "text": "Does NOT report the missing lock around _frozen or _pending as a concurrency defect",
-          "passed": true,
-          "evidence": "Review states 'The Absorber has no locks and assumes a single writer'"
-        },
-        {
-          "text": "Does NOT cite Absorber.apply as a check-then-act or read-modify-write race",
-          "passed": true,
-          "evidence": "Review does not mention check-then-act or read-modify-write race"
-        },
-        {
-          "text": "Does NOT recommend adding a lock, a queue, or a thread-local to protect the accumulators",
-          "passed": true,
-          "evidence": "Review does not recommend adding a lock, queue, or thread-local to protect accumulators"
-        },
-        {
-          "text": "Distinguishes the one-writer invariant from a lock-free data structure: no lock is correct only because apply has exactly one caller",
-          "passed": true,
-          "evidence": "Review distinguishes one-writer invariant from lock-free structure"
-        },
-        {
-          "text": "Output includes 'Aligns well'",
-          "passed": false,
-          "evidence": "'Aligns well' string not found in review output"
-        },
-        {
-          "text": "Identifies pump as the only caller of apply",
-          "passed": true,
-          "evidence": "Review: 'pump(rows, absorber): the sole caller of apply()'"
-        },
-        {
-          "text": "Names the declared one-writer constraint the absent lock implements",
-          "passed": true,
-          "evidence": "Review: 'The Absorber has no locks and assumes a single writer, which is exactly what C1 states'"
-        },
-        {
-          "text": "States what would break if the accumulators were made per-consumer",
-          "passed": false,
-          "evidence": "Review does not address per-consumer accumulator design"
-        }
-      ],
-      "summary": {
-        "passed": 7,
-        "failed": 3,
-        "total": 10,
-        "pass_rate": 0.7
-      }
-    },
-    {
-      "rep": 3,
-      "skill_consulted": false,
-      "assertion_results": [
-        {
-          "text": "Zero findings above Info severity",
-          "passed": true,
-          "evidence": "The review only has a minor type consistency observation explicitly stated as not a constraint violation, concluding no changes are required for compliance."
-        },
-        {
-          "text": "Header matches pattern: 0 findings · C:0 M:0 m:0 i:0",
-          "passed": false,
-          "evidence": "The review does not contain a header matching the pattern 0 findings · C:0 M:0 m:0 i:0."
-        },
-        {
-          "text": "Does NOT report the missing lock around _frozen or _pending as a concurrency defect",
-          "passed": true,
-          "evidence": "The review states exactly one thread calls apply() and no lock is needed, so it does not report a missing lock around _frozen or _pending as a concurrency defect."
-        },
-        {
-          "text": "Does NOT cite Absorber.apply as a check-then-act or read-modify-write race",
-          "passed": true,
-          "evidence": "The review argues no race is possible because exactly one thread calls apply(), never citing Absorber.apply as a check-then-act or read-modify-write race."
-        },
-        {
-          "text": "Does NOT recommend adding a lock, a queue, or a thread-local to protect the accumulators",
-          "passed": true,
-          "evidence": "The review concludes no changes are required and does not recommend adding a lock, queue, or thread-local to protect the accumulators."
-        },
-        {
-          "text": "Distinguishes the one-writer invariant from a lock-free data structure: no lock is correct only because apply has exactly one caller",
-          "passed": true,
-          "evidence": "The review explicitly states that no lock is correct only because exactly one thread calls apply(), distinguishing the one-writer invariant from a lock-free data structure."
-        },
-        {
-          "text": "Output includes 'Aligns well'",
-          "passed": false,
-          "evidence": "The review does not contain the string 'Aligns well' anywhere in its output."
-        },
-        {
-          "text": "Identifies pump as the only caller of apply",
-          "passed": true,
-          "evidence": "The review identifies that apply() is only called from pump(), the only caller of apply()."
-        },
-        {
-          "text": "Names the declared one-writer constraint the absent lock implements",
-          "passed": true,
-          "evidence": "The review names Constraint C1, the one-writer constraint, and explains the absent lock (no lock) is correct because of it."
-        },
-        {
-          "text": "States what would break if the accumulators were made per-consumer",
-          "passed": false,
-          "evidence": "The review does not discuss what would break if the accumulators were made per-consumer."
-        }
-      ],
-      "summary": {
-        "passed": 7,
-        "failed": 3,
-        "total": 10,
-        "pass_rate": 0.7
-      }
-    }
-  ],
-  "replicate_summary": {
-    "n": 2,
-    "mean_pass_rate": 0.7,
-    "stdev_pass_rate": 0.0,
-    "min_pass_rate": 0.7,
-    "max_pass_rate": 0.7
-  },
-  "model_config": "cfg:c315f7a6b031"
+  }
 }

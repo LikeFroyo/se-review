@@ -1,21 +1,86 @@
 {
-  "eval": "eval-config-fails-open",
   "eval_id": 52,
-  "fixture": "evals/fixtures/config_fails_open.py",
-  "run": "with_skill",
-  "phase": "after",
-  "review": "1 finding · C:1 M:0 m:0 i:0 — Domain Score: 75/100 (Grade C)",
-  "summary": { "passed": 9, "failed": 0, "total": 9, "pass_rate": 1.0 },
-  "assertions": [
-    { "n": 1, "text": "Exactly 1 finding above Info severity", "result": "pass", "evidence": "One Critical finding; the three defaults are one root cause (a configuration contract that fails open)." },
-    { "n": 2, "text": "Finding is graded CRITICAL", "result": "pass", "evidence": "Graded Critical per 'Required security setting with a permissive default (fails open)'." },
-    { "n": 3, "text": "Finding is on axis C6 (Delivery)", "result": "pass", "evidence": "Reported under Operations / Delivery (C6) — the defect is in what a deploy fails to set, not in the code path." },
-    { "n": 4, "text": "Identifies os.environ.get defaulting API_KEY to an empty string", "result": "pass", "evidence": "Cites config_fails_open.py:7 — `os.environ.get(\"PAYMENTS_API_KEY\", \"\")` with the service starting regardless." },
-    { "n": 5, "text": "Identifies TLS_VERIFY defaulting to false (verification off by default)", "result": "pass", "evidence": "Cites line 8 — the comparison yields False unless the variable is explicitly set to 'true', so verification is off unless a deploy opts in." },
-    { "n": 6, "text": "Identifies the hard-coded committed fallback for the webhook signing secret", "result": "pass", "evidence": "Cites line 9 — `\"dev-secret-change-me\"` committed in source, meaning every environment that does not inject one signs with a known value." },
-    { "n": 7, "text": "Failure scenario describes a missing secret producing a silently insecure running service", "result": "pass", "evidence": "States a secret fails to inject, the app serves traffic with the credential absent and upstream TLS unverified, and nothing logs or fails." },
-    { "n": 8, "text": "Fix requires failing startup on a missing required setting rather than defaulting", "result": "pass", "evidence": "Fix: no permissive default on a required setting, a startup assertion that fails the deploy, and an injected (not committed) signing secret." },
-    { "n": 9, "text": "Header matches pattern: 1 finding · C:1 M:0 m:0 i:0", "result": "pass", "evidence": "Header rendered exactly as specified." }
+  "eval_name": "eval-config-fails-open",
+  "condition": "with_skill",
+  "model_config": "cfg:567712ad39ee",
+  "judge_model_config": "cfg:567712ad39ee",
+  "judge_disjoint": false,
+  "base_commit": "e687a57",
+  "no_axis_count": null,
+  "no_axis_count_reason": "no review body",
+  "grader_config": "cfg:7d57659c2e6c",
+  "assertion_roles": [
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "probe"
   ],
-  "notes": "Caught by guidelines/config-and-secrets.md (new). Note the `client_config()` helper reporting `api_key_set: bool(API_KEY)` is a diagnostic, not a gate, and was correctly not accepted as mitigation. `verify_webhook` uses `hmac.compare_digest` and was correctly not reported as a timing defect."
+  "fixture_digests": {
+    "evals/fixtures/config_fails_open.py": "sha256:3fad64dc1ad2a1c1"
+  },
+  "skill_consulted": true,
+  "skill_consulted_reps": 1,
+  "reps_requested": 1,
+  "reps_completed": 1,
+  "reps_refused": 0,
+  "reviewer_project_root": "workspace",
+  "isolation_indirect_commands": 0,
+  "assertion_results": [
+    {
+      "text": "Exactly 1 finding above Info severity",
+      "passed": false,
+      "evidence": "Header reports '2 findings \u00b7 C:2 M:0 m:0 i:0' with two CRITICAL headings."
+    },
+    {
+      "text": "Finding is graded CRITICAL",
+      "passed": true,
+      "evidence": "First heading reads '### [CRITICAL] Fail-open deployment configuration'."
+    },
+    {
+      "text": "Finding is on axis C6 (Delivery)",
+      "passed": true,
+      "evidence": "First finding labels 'Domain: Operations (C6)'."
+    },
+    {
+      "text": "Identifies os.environ.get defaulting API_KEY to an empty string",
+      "passed": true,
+      "evidence": "Evidence quote includes 'API_KEY = os.environ.get(\"PAYMENTS_API_KEY\", \"\")'."
+    },
+    {
+      "text": "Identifies TLS_VERIFY defaulting to false (verification off by default)",
+      "passed": true,
+      "evidence": "Evidence quote includes 'TLS_VERIFY = os.environ.get(\"PAYMENTS_TLS_VERIFY\", \"false\")'."
+    },
+    {
+      "text": "Identifies the hard-coded committed fallback for the webhook signing secret",
+      "passed": true,
+      "evidence": "Second finding cites 'SIGNING_SECRET = ... \"dev-secret-change-me\"' as committed default."
+    },
+    {
+      "text": "Failure scenario describes a missing secret producing a silently insecure running service",
+      "passed": true,
+      "evidence": "Failure scenario says deploy 'starts healthy' with 'tls_verify: False' serving insecure traffic."
+    },
+    {
+      "text": "Fix requires failing startup on a missing required setting rather than defaulting",
+      "passed": true,
+      "evidence": "Fix directs to 'raise RuntimeError on missing/empty at import' with no default."
+    },
+    {
+      "text": "Header matches pattern: 1 finding \u00c2\u00b7 C:1 M:0 m:0 i:0",
+      "passed": false,
+      "evidence": "Header shows '2 findings \u00b7 C:2' not '1 finding \u00b7 C:1 M:0 m:0 i:0'."
+    }
+  ],
+  "summary": {
+    "passed": 7,
+    "failed": 2,
+    "total": 9,
+    "pass_rate": 0.7778
+  }
 }

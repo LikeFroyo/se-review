@@ -1,21 +1,86 @@
 {
-  "eval": "eval-health-and-shutdown",
   "eval_id": 46,
-  "fixture": "evals/fixtures/health_and_shutdown.py",
-  "run": "with_skill",
-  "phase": "after",
-  "review": "2 findings · C:1 M:1 m:0 i:0 — Domain Score: 65/100 (Grade D)",
-  "summary": { "passed": 9, "failed": 0, "total": 9, "pass_rate": 1.0 },
-  "assertions": [
-    { "n": 1, "text": "Exactly 2 findings above Info severity", "result": "pass", "evidence": "Two findings; the liveness defect and the shutdown defect have different fixes and different blast radius, so they are not one root cause." },
-    { "n": 2, "text": "Finding 1 is graded CRITICAL and finding 2 is graded MAJOR", "result": "pass", "evidence": "Liveness CRITICAL (fleet restart storm = total outage); shutdown MAJOR (a high-probability defect on every release, not an outage). This grade split is the one the sub-leaf encodes, and it was corrected from the Phase 1 draft during the Phase 3 item-4 check." },
-    { "n": 3, "text": "Both findings are on axis C3 (Resilience)", "result": "pass", "evidence": "Reported under Operations / Resilience (C3)." },
-    { "n": 4, "text": "Finding 1 identifies the liveness handler querying the database", "result": "pass", "evidence": "Cites health_and_shutdown.py:16-26 — psycopg2.connect plus SELECT 1 inside the /healthz handler." },
-    { "n": 5, "text": "Finding 1 explains the fleet-wide restart storm from a dependency blip", "result": "pass", "evidence": "States the platform restarts every instance at once on a database blip and each restart reconnects to a still-recovering database." },
-    { "n": 6, "text": "Finding 1 fix moves the dependency probe to readiness", "result": "pass", "evidence": "Fix: liveness proves only that the process is running; the dependency check belongs on readiness, which already exists and is correctly dependency-free here." },
-    { "n": 7, "text": "Finding 2 identifies os._exit(0) with no drain or readiness withdrawal", "result": "pass", "evidence": "Cites line 46 — SIGTERM handled by immediate process exit, with TERMINATING/readiness never consulted on the shutdown path." },
-    { "n": 8, "text": "Finding 2 compares the 15s grace period against the 40s request", "result": "pass", "evidence": "Cites the inline Kubernetes block (`terminationGracePeriodSeconds: 15`) against the documented ~40s monthly_report." },
-    { "n": 9, "text": "Header matches pattern: 2 findings · C:1 M:1 m:0 i:0", "result": "pass", "evidence": "Header rendered exactly as specified." }
+  "eval_name": "eval-health-and-shutdown",
+  "condition": "with_skill",
+  "model_config": "cfg:567712ad39ee",
+  "judge_model_config": "cfg:567712ad39ee",
+  "judge_disjoint": false,
+  "base_commit": "e687a57",
+  "no_axis_count": null,
+  "no_axis_count_reason": "no review body",
+  "grader_config": "cfg:7d57659c2e6c",
+  "assertion_roles": [
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "probe"
   ],
-  "notes": "Caught by guidelines/process-lifecycle.md (new). The fixture's readiness handler was correctly recognised as sound and not flagged."
+  "fixture_digests": {
+    "evals/fixtures/health_and_shutdown.py": "sha256:11e1c9d038279e20"
+  },
+  "skill_consulted": true,
+  "skill_consulted_reps": 1,
+  "reps_requested": 1,
+  "reps_completed": 1,
+  "reps_refused": 0,
+  "reviewer_project_root": "workspace",
+  "isolation_indirect_commands": 0,
+  "assertion_results": [
+    {
+      "text": "Exactly 2 findings above Info severity",
+      "passed": false,
+      "evidence": "Header states `5 findings \u00b7 C:3 M:1 m:1 i:0`, not 2 above Info."
+    },
+    {
+      "text": "Finding 1 is graded CRITICAL and finding 2 is graded MAJOR",
+      "passed": false,
+      "evidence": "Headings show `### [CRITICAL]` for both finding 1 and finding 2, not CRITICAL then MAJOR."
+    },
+    {
+      "text": "Both findings are on axis C3 (Resilience)",
+      "passed": true,
+      "evidence": "Findings 1 and 2 both label `Domain: Operations (C3)`."
+    },
+    {
+      "text": "Finding 1 identifies the liveness handler querying the database",
+      "passed": true,
+      "evidence": "Finding 1 heading `Liveness coupled to database` cites `liveness():27-30` with `psycopg2.connect` + `SELECT 1`."
+    },
+    {
+      "text": "Finding 1 explains the fleet-wide restart storm from a dependency blip",
+      "passed": true,
+      "evidence": "Finding 1 failure scenario describes simultaneous liveness failure and `restart thundering herd` causing total outage."
+    },
+    {
+      "text": "Finding 1 fix moves the dependency probe to readiness",
+      "passed": true,
+      "evidence": "Finding 1 fix directs to move `SELECT 1` to `readiness()`."
+    },
+    {
+      "text": "Finding 2 identifies os._exit(0) with no drain or readiness withdrawal",
+      "passed": true,
+      "evidence": "Finding 2 cites `on_sigterm:43-45` calls `os._exit(0)` and `TERMINATING` never set so `readiness()` never withdraws."
+    },
+    {
+      "text": "Finding 2 compares the 15s grace period against the 40s request",
+      "passed": false,
+      "evidence": "Finding 2 never compares 15s vs 40s; that `terminationGracePeriodSeconds: 15` vs `~40s` chain is in finding 3."
+    },
+    {
+      "text": "Header matches pattern: 2 findings \u00c2\u00b7 C:1 M:1 m:0 i:0",
+      "passed": false,
+      "evidence": "Header reads `5 findings \u00b7 C:3 M:1 m:1 i:0`, not `2 findings \u00b7 C:1 M:1 m:0 i:0`."
+    }
+  ],
+  "summary": {
+    "passed": 5,
+    "failed": 4,
+    "total": 9,
+    "pass_rate": 0.5556
+  }
 }

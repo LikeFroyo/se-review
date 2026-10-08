@@ -1,0 +1,104 @@
+{
+  "eval_id": 79,
+  "eval_name": "eval-operations-collapse",
+  "condition": "with_skill",
+  "model_config": "cfg:567712ad39ee",
+  "judge_model_config": "cfg:567712ad39ee",
+  "judge_disjoint": false,
+  "base_commit": "e687a57",
+  "no_axis_count": null,
+  "no_axis_count_reason": "no review body",
+  "grader_config": "cfg:7d57659c2e6c",
+  "assertion_roles": [
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict"
+  ],
+  "fixture_digests": {
+    "evals/fixtures/operations_collapse.py": "sha256:83d6374d7fdb1f8a"
+  },
+  "skill_consulted": true,
+  "skill_consulted_reps": 1,
+  "reps_requested": 1,
+  "reps_completed": 1,
+  "reps_refused": 0,
+  "reviewer_project_root": "workspace",
+  "isolation_indirect_commands": 0,
+  "assertion_results": [
+    {
+      "text": "Every finding is graded MAJOR and none is graded CRITICAL",
+      "passed": false,
+      "evidence": "Seventh finding is headed `### [MINOR]` so not every finding is MAJOR."
+    },
+    {
+      "text": "Every finding cites a C-series axis code that exists in shared/axis-codes.md",
+      "passed": false,
+      "evidence": "Findings include `Domain: Correctness (A1)` and `Domain: Maintainability (B5)`, not C-series."
+    },
+    {
+      "text": "Finding identifies EnrichmentCache having no TTL, size ceiling, or eviction",
+      "passed": true,
+      "evidence": "Finding `Unbounded never-evicted cache` cites `operations_collapse.py:38-54` with no TTL/size ceiling/eviction."
+    },
+    {
+      "text": "Finding identifies the requests.post call carrying no timeout",
+      "passed": true,
+      "evidence": "Finding `Outbound POST with no timeout` cites `operations_collapse.py:67-70` with no `timeout=`."
+    },
+    {
+      "text": "Finding identifies the 503 retry loop having no backoff or jitter",
+      "passed": true,
+      "evidence": "Finding `Tight 503 retry with no delay, jitter, or budget` cites `operations_collapse.py:66-72` with no sleep/backoff/jitter."
+    },
+    {
+      "text": "Finding identifies the reconciler thread being started and never joined, with no shutdown signal",
+      "passed": true,
+      "evidence": "Finding `Non-daemon reconciler with no shutdown path` cites `operations_collapse.py:96-109` with no join/SIGTERM handling."
+    },
+    {
+      "text": "Finding identifies readiness answering from process liveness without checking the enrichment dependency",
+      "passed": true,
+      "evidence": "Finding `Readiness that cannot fail` cites `operations_collapse.py:112-117` answering from process liveness."
+    },
+    {
+      "text": "Does NOT report a Critical: the cache leak, missing timeout, and hammering retries are Major by the operations rubric, not Critical",
+      "passed": true,
+      "evidence": "Header shows `C:0 M:6` and no heading uses `[CRITICAL]`."
+    },
+    {
+      "text": "Does NOT invent findings in the other four domains; correctness, security, clarity, and leanness are clean in this fixture",
+      "passed": false,
+      "evidence": "Review reports `Cache key mismatch \u2014 Domain: Correctness (A1)` outside Operations."
+    },
+    {
+      "text": "Mean score is in the A band while the Operations domain is in the F band",
+      "passed": false,
+      "evidence": "Header `Mean 87/100` is labeled B in Gated-by line, not A, while Operations is 50/100."
+    },
+    {
+      "text": "Final Grade is F even though no Critical exists and the mean is high",
+      "passed": true,
+      "evidence": "Header `Mean 87/100 \u00b7 Final Grade F` with `C:0` shows F without Critical."
+    },
+    {
+      "text": "Report names the weakest domain as the binding cap, and does not attribute the grade to a Critical finding",
+      "passed": true,
+      "evidence": "Gated-by line says `weakest domain: Operations` with `no Critical to trip the F-cap`."
+    }
+  ],
+  "summary": {
+    "passed": 8,
+    "failed": 4,
+    "total": 12,
+    "pass_rate": 0.6667
+  }
+}

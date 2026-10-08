@@ -1,22 +1,92 @@
 {
-  "eval": "eval-personal-data-lifecycle",
   "eval_id": 74,
-  "fixture": "evals/fixtures/personal_data_lifecycle.py",
-  "run": "with_skill",
-  "phase": "after",
-  "review": "2 findings · C:2 M:0 m:0 i:0 — Domain Score: 50/100 (Grade F)",
-  "summary": { "passed": 10, "failed": 0, "total": 10, "pass_rate": 1.0 },
-  "assertions": [
-    { "n": 1, "text": "Exactly 2 findings above Info severity", "result": "pass", "evidence": "Two Critical findings on two different axes; the erasure gap and the backup posture are independent root causes with independent owners." },
-    { "n": 2, "text": "Both findings are graded CRITICAL", "result": "pass", "evidence": "Both Critical: an erasure answered 'done' while the person remains is a regulatory breach with a live exposure, and a backup posture that cannot meet its own stated RPO is unbounded data loss waiting for an incident." },
-    { "n": 3, "text": "Finding 1 is on axis C8 (Data Protection) and finding 2 is on axis C7 (Durability)", "result": "pass", "evidence": "Reported on the two owning sub-domains, not merged into one vague 'privacy' finding." },
-    { "n": 4, "text": "Finding 1 identifies the primary row being the only copy removed", "result": "pass", "evidence": "Cites personal_data_lifecycle.py:62 — a single DELETE against the primary connection." },
-    { "n": 5, "text": "Finding 1 identifies the search index, cache, warehouse, queue history and snapshots retaining the person", "result": "pass", "evidence": "Notes SEARCH_INDEX, CACHE and WAREHOUSE are module-level stores that outlive the delete, that the queue retains dead-letter history, and that snapshots are immutable for the retention window." },
-    { "n": 6, "text": "Finding 1 notes the request is answered 'done' while the data remains", "result": "pass", "evidence": "Cites line 66 — the return value asserts completion, so the erasure is recorded as performed and is never revisited." },
-    { "n": 7, "text": "Finding 2 identifies the snapshot sharing the account and region with the primary", "result": "pass", "evidence": "Cites lines 18-21 and 28-30 — SNAPSHOT_BUCKET and REGION are the production account and region, with no cross-region copy." },
-    { "n": 8, "text": "Finding 2 identifies LAST_RESTORE_TEST as never and restore() dropping the live database first", "result": "pass", "evidence": "Cites line 17 and lines 47-54 — the routine is unexecuted, requires a production credential, and drops the live database before loading the snapshot, so recovery is a first run against production." },
-    { "n": 9, "text": "Finding 2 identifies retention_policy() as a returned dict that no job or lifecycle rule reads", "result": "pass", "evidence": "Cites lines 57-59 — the schedule is a return value, so '90 days' is a string in a response body rather than an enforced limit." },
-    { "n": 10, "text": "Header matches pattern: 2 findings · C:2 M:0 m:0 i:0", "result": "pass", "evidence": "Header rendered exactly as specified." }
+  "eval_name": "eval-personal-data-lifecycle",
+  "condition": "with_skill",
+  "model_config": "cfg:567712ad39ee",
+  "judge_model_config": "cfg:567712ad39ee",
+  "judge_disjoint": false,
+  "base_commit": "e687a57",
+  "no_axis_count": null,
+  "no_axis_count_reason": "no review body",
+  "grader_config": "cfg:7d57659c2e6c",
+  "assertion_roles": [
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "probe"
   ],
-  "notes": "Caught by guidelines/retention-and-erasure.md and guidelines/backup-and-restore.md. support_notes was noted separately as a minimisation observation and correctly kept out of the finding count: it is unbounded free text holding personal data, which is a real exposure, but it does not compound either of the two Criticals and reporting it would have diluted them."
+  "fixture_digests": {
+    "evals/fixtures/personal_data_lifecycle.py": "sha256:a07517dc05fedaf3"
+  },
+  "skill_consulted": true,
+  "skill_consulted_reps": 1,
+  "reps_requested": 1,
+  "reps_completed": 1,
+  "reps_refused": 0,
+  "reviewer_project_root": "workspace",
+  "isolation_indirect_commands": 0,
+  "assertion_results": [
+    {
+      "text": "Exactly 2 findings above Info severity",
+      "passed": false,
+      "evidence": "Header reads `9 findings \u00b7 C:4 M:3 m:2 i:1`, not 2 findings above Info."
+    },
+    {
+      "text": "Both findings are graded CRITICAL",
+      "passed": true,
+      "evidence": "First two headings are both `### [CRITICAL]`."
+    },
+    {
+      "text": "Finding 1 is on axis C8 (Data Protection) and finding 2 is on axis C7 (Durability)",
+      "passed": false,
+      "evidence": "First finding shows `Domain: Operations (C7)` while C8 erasure is fourth finding."
+    },
+    {
+      "text": "Finding 1 identifies the primary row being the only copy removed",
+      "passed": false,
+      "evidence": "Erasure finding says `touches primary + index/cache/warehouse only`, not primary-only removed."
+    },
+    {
+      "text": "Finding 1 identifies the search index, cache, warehouse, queue history and snapshots retaining the person",
+      "passed": false,
+      "evidence": "Erasure finding says index/cache/warehouse are deleted, only snapshots/DLQ/support-notes survive."
+    },
+    {
+      "text": "Finding 1 notes the request is answered 'done' while the data remains",
+      "passed": true,
+      "evidence": "Erasure finding states DSAR answered \u201cdone\u201d while copies survive with `{\"deleted\": True}`."
+    },
+    {
+      "text": "Finding 2 identifies the snapshot sharing the account and region with the primary",
+      "passed": true,
+      "evidence": "Snapshot finding cites `SNAPSHOT_BUCKET`/`REGION` with no cross-region copy."
+    },
+    {
+      "text": "Finding 2 identifies LAST_RESTORE_TEST as never and restore() dropping the live database first",
+      "passed": true,
+      "evidence": "Restore finding cites `DROP DATABASE orders` with `LAST_RESTORE_TEST=\"never\"`."
+    },
+    {
+      "text": "Finding 2 identifies retention_policy() as a returned dict that no job or lifecycle rule reads",
+      "passed": false,
+      "evidence": "Retention-policy dict claim is in third finding `Retention schedule unenforced`, not second finding."
+    },
+    {
+      "text": "Header matches pattern: 2 findings \u00b7 C:2 M:0 m:0 i:0",
+      "passed": false,
+      "evidence": "Header `9 findings \u00b7 C:4 M:3 m:2 i:1` does not match `2 findings \u00b7 C:2 M:0 m:0 i:0`."
+    }
+  ],
+  "summary": {
+    "passed": 4,
+    "failed": 6,
+    "total": 10,
+    "pass_rate": 0.4
+  }
 }

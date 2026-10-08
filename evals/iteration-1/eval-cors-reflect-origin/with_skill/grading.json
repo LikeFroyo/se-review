@@ -2,65 +2,85 @@
   "eval_id": 39,
   "eval_name": "eval-cors-reflect-origin",
   "condition": "with_skill",
-  "skill_consulted": true,
-  "files_read": [
-    "evals/fixtures/cors_reflect_origin.py",
-    "SKILL.md",
-    "shared/output-format.md",
-    "domains/correctness/security/sub-leaf.md",
-    "domains/correctness/security/guidelines/cross-origin-trust.md"
+  "model_config": "cfg:567712ad39ee",
+  "judge_model_config": "cfg:567712ad39ee",
+  "judge_disjoint": false,
+  "base_commit": "e687a57",
+  "no_axis_count": null,
+  "no_axis_count_reason": "no review body",
+  "grader_config": "cfg:7d57659c2e6c",
+  "assertion_roles": [
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "probe"
   ],
+  "fixture_digests": {
+    "evals/fixtures/cors_reflect_origin.py": "sha256:d89769ababe97c2e"
+  },
+  "skill_consulted": true,
+  "skill_consulted_reps": 1,
+  "reps_requested": 1,
+  "reps_completed": 1,
+  "reps_refused": 0,
+  "reviewer_project_root": "workspace",
+  "isolation_indirect_commands": 0,
   "assertion_results": [
     {
       "text": "Exactly 1 finding above Info severity",
       "passed": true,
-      "evidence": "The header reads exactly \"1 finding · C:0 M:1 m:0 i:0\" and only one finding is listed."
+      "evidence": "Findings list one [CRITICAL] plus one [INFO / SUGGESTION], so exactly one above Info."
     },
     {
       "text": "Finding is graded MAJOR",
-      "passed": true,
-      "evidence": "The sole finding is titled \"### [MAJOR] Credentialed CORS reflects the request Origin, so every origin is trusted\"."
+      "passed": false,
+      "evidence": "Heading is \"### [CRITICAL]\" not \"### [MAJOR]\"."
     },
     {
-      "text": "Finding is on axis A5 (Security)",
+      "text": "Finding is on axis S3 (cross-origin trust) (Security)",
       "passed": true,
-      "evidence": "The finding's Domain line reads \"Correctness / Security (A5)\" with CWE-352 and OWASP A05 cited."
+      "evidence": "Finding lists \"Domain: Security (S3)\"."
     },
     {
       "text": "Identifies the echoed request origin in Access-Control-Allow-Origin",
       "passed": true,
-      "evidence": "The evidence line quotes `\"Access-Control-Allow-Origin\": request_origin or \"*\"` at cors_reflect_origin.py:18-19, naming the echoed request origin."
+      "evidence": "Evidence quotes `\"Access-Control-Allow-Origin\": request_origin or \"*\"`."
     },
     {
       "text": "Notes the combination with Access-Control-Allow-Credentials: true",
       "passed": true,
-      "evidence": "It states the header returns that value \"immediately beside `\"Access-Control-Allow-Credentials\": \"true\"`\" and that \"the pairing is what makes it exploitable\"."
+      "evidence": "Evidence and Verified by note `Allow-Credentials: true` with echoed origin."
     },
     {
       "text": "Failure scenario describes a hostile origin reading an authenticated response",
       "passed": true,
-      "evidence": "The failure scenario has a victim with a live session visiting attacker.test whose fetch with credentials:\"include\" succeeds so \"the attacker reads the victim's authenticated data cross-origin\"."
+      "evidence": "Failure scenario describes attacker page credentialed fetch reading session data."
     },
     {
       "text": "Fix restricts the origin to an exact allowlist match",
       "passed": true,
-      "evidence": "The fix prescribes \"exact set membership — `if origin_is_known(request_origin): headers[\\\"Access-Control-Allow-Origin\\\"] = request_origin`\" and omitting the header otherwise."
+      "evidence": "Fix says echo only when `origin_is_known(request_origin)`."
     },
     {
       "text": "origin_is_known is NOT flagged above Info (it is the sound reference)",
       "passed": true,
-      "evidence": "origin_is_known appears only under \"Aligns well\" as the correct exact-match predicate, and is never a graded finding."
+      "evidence": "Only mention of `origin_is_known()` above Info is none; its finding is [INFO / SUGGESTION]."
     },
     {
-      "text": "Header matches pattern: 1 finding · C:0 M:1 m:0 i:0",
-      "passed": true,
-      "evidence": "The header line matches the required string verbatim: `1 finding · C:0 M:1 m:0 i:0`."
+      "text": "Header matches pattern: 1 finding \u00b7 C:0 M:1 m:0 i:0",
+      "passed": false,
+      "evidence": "Header is \"C:1 M:0 m:0 i:1\" not \"C:0 M:1 m:0 i:0\"."
     }
   ],
   "summary": {
-    "passed": 9,
-    "failed": 0,
+    "passed": 7,
+    "failed": 2,
     "total": 9,
-    "pass_rate": 1.0
+    "pass_rate": 0.7778
   }
 }

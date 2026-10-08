@@ -1,0 +1,62 @@
+{
+  "eval_id": 99,
+  "eval_name": "retry-replays-batch",
+  "condition": "with_skill",
+  "model_config": "cfg:567712ad39ee",
+  "judge_model_config": "cfg:567712ad39ee",
+  "judge_disjoint": false,
+  "base_commit": "e687a57",
+  "no_axis_count": null,
+  "no_axis_count_reason": "no review body",
+  "grader_config": "cfg:7d57659c2e6c",
+  "assertion_roles": [
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "probe"
+  ],
+  "fixture_digests": {
+    "evals/fixtures/work_unit_retry.py": "sha256:61b44c0ee6967821"
+  },
+  "skill_consulted": true,
+  "skill_consulted_reps": 1,
+  "reps_requested": 1,
+  "reps_completed": 1,
+  "reps_refused": 0,
+  "reviewer_project_root": "workspace",
+  "isolation_indirect_commands": 0,
+  "assertion_results": [
+    {
+      "text": "Identifies that the retry restarts the whole batch rather than resuming after the failure",
+      "passed": true,
+      "evidence": "Evidence cites docstring 'retrying re-runs the whole batch from the start' and retry from index 0."
+    },
+    {
+      "text": "Notes no cursor, offset, or completion record is persisted, so the unit cannot resume",
+      "passed": true,
+      "evidence": "Evidence states 'with no cursor/skip' and fix to 'persist a cursor/offset'."
+    },
+    {
+      "text": "Notes apply_entry appends rather than setting absolute state, so a replay duplicates the entry",
+      "passed": true,
+      "evidence": "Evidence states 'apply_entry appends (lines.append(json.dumps(entry)))'."
+    },
+    {
+      "text": "The finding is graded MAJOR or higher, because a retry duplicates ledger entries",
+      "passed": true,
+      "evidence": "Heading grades the finding as '[CRITICAL] Batch retry re-applies completed ledger entries'."
+    },
+    {
+      "text": "Does not treat this as an error-handling or logging concern",
+      "passed": true,
+      "evidence": "Finding is labeled 'Domain: Operations (C3)' with no error-handling or logging framing."
+    }
+  ],
+  "summary": {
+    "passed": 5,
+    "failed": 0,
+    "total": 5,
+    "pass_rate": 1.0
+  }
+}

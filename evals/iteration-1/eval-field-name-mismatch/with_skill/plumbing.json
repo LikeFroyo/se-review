@@ -1,0 +1,24 @@
+{
+  "reason": "isolation unproven",
+  "detail": "reached a forbidden entry: outside/evals/evals.json",
+  "reads": [
+    "ws/.",
+    "ws/evals/fixtures/field_name_mismatch.py",
+    "ws/evals",
+    "ws/SKILL.md",
+    "ws/scripts/eval_registry.py",
+    "ws/scripts/mismatch_probe.py",
+    "ws/shared",
+    "outside/evals/evals.json",
+    "ws/shared/output-format.md",
+    "ws/shared/severity-and-rules.md",
+    "ws/domains/correctness/leaf.md",
+    "ws/domains/interoperability/leaf.md",
+    "ws/domains/interoperability",
+    "ws/domains/correctness",
+    "ws/domains/interoperability/wire-formats/guidelines/versioning-and-evolution.md",
+    "ws/domains/interoperability/wire-formats/guidelines/field-agreement.md",
+    "ws/shared/axis-codes.md",
+    "ws/domains/interoperability/wire-formats/sub-leaf.md"
+  ]
+}

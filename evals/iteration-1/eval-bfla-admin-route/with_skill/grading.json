@@ -1,20 +1,80 @@
 {
-  "eval": "eval-bfla-admin-route",
   "eval_id": 37,
-  "fixture": "evals/fixtures/bfla_admin_route.py",
-  "run": "with_skill",
-  "phase": "after",
-  "review": "1 finding · C:1 M:0 m:0 i:0 — Domain Score: 75/100 (Grade C)",
-  "summary": { "passed": 8, "failed": 0, "total": 8, "pass_rate": 1.0 },
-  "assertions": [
-    { "n": 1, "text": "Exactly 1 finding above Info severity", "result": "pass", "evidence": "One Critical finding." },
-    { "n": 2, "text": "Finding is graded CRITICAL", "result": "pass", "evidence": "Graded Critical per 'Broken function-level authorization' in the security sub-leaf Critical list." },
-    { "n": 3, "text": "Finding is on axis A5 (Security)", "result": "pass", "evidence": "Reported under Correctness / Security (A5)." },
-    { "n": 4, "text": "Identifies export_all_users as an unguarded privileged function", "result": "pass", "evidence": "Cites bfla_admin_route.py:32-44, the CSV export handler." },
-    { "n": 5, "text": "Notes that the role is never checked despite current_user being passed in", "result": "pass", "evidence": "States current_user is accepted and never read, so the route is reachable on any authenticated session." },
-    { "n": 6, "text": "Failure scenario describes an ordinary authenticated user reaching an admin export", "result": "pass", "evidence": "Names path guessing against /api/users/export_all disclosing every user's email and role." },
-    { "n": 7, "text": "Fix requires a role check on the privileged route itself", "result": "pass", "evidence": "Fix: enforce the role check inside the handler or from a central authorization module, not by URL prefix." },
-    { "n": 8, "text": "Header matches pattern: 1 finding · C:1 M:0 m:0 i:0", "result": "pass", "evidence": "Header rendered exactly as specified." }
+  "eval_name": "eval-bfla-admin-route",
+  "condition": "with_skill",
+  "model_config": "cfg:567712ad39ee",
+  "judge_model_config": "cfg:567712ad39ee",
+  "judge_disjoint": false,
+  "base_commit": "e687a57",
+  "no_axis_count": null,
+  "no_axis_count_reason": "no review body",
+  "grader_config": "cfg:7d57659c2e6c",
+  "assertion_roles": [
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "probe"
   ],
-  "notes": "Caught by the 'Function-level authorization' section appended to guidelines/access-control.md. This is the only new finding that shares a file with pre-change content, and it is graded on the function axis rather than the object axis."
+  "fixture_digests": {
+    "evals/fixtures/bfla_admin_route.py": "sha256:13b0bd40ddb032d7"
+  },
+  "skill_consulted": true,
+  "skill_consulted_reps": 1,
+  "reps_requested": 1,
+  "reps_completed": 1,
+  "reps_refused": 0,
+  "reviewer_project_root": "workspace",
+  "isolation_indirect_commands": 0,
+  "assertion_results": [
+    {
+      "text": "Exactly 1 finding above Info severity",
+      "passed": false,
+      "evidence": "Header reports '4 findings \u00b7 C:1 M:1 m:1 i:1' with CRITICAL, MAJOR, and MINOR above INFO."
+    },
+    {
+      "text": "Finding is graded CRITICAL",
+      "passed": true,
+      "evidence": "First finding heading is '### [CRITICAL] Missing function-level authorization'."
+    },
+    {
+      "text": "Finding is on axis S2 (access control) (Security)",
+      "passed": true,
+      "evidence": "Finding lists '**Domain:** Security (S2)' directly under heading."
+    },
+    {
+      "text": "Identifies export_all_users as an unguarded privileged function",
+      "passed": true,
+      "evidence": "Evidence quotes 'def export_all_users(current_user...)' with no role check."
+    },
+    {
+      "text": "Notes that the role is never checked despite current_user being passed in",
+      "passed": true,
+      "evidence": "Evidence states handlers 'never inspect current_user['role']'."
+    },
+    {
+      "text": "Failure scenario describes an ordinary authenticated user reaching an admin export",
+      "passed": true,
+      "evidence": "Failure scenario says 'support user guesses /api/users/export_all and exfiltrates'."
+    },
+    {
+      "text": "Fix requires a role check on the privileged route itself",
+      "passed": true,
+      "evidence": "Fix directs to 'add require_admin(current_user) guard at top of all four functions'."
+    },
+    {
+      "text": "Header matches pattern: 1 finding \u00b7 C:1 M:0 m:0 i:0",
+      "passed": false,
+      "evidence": "Header is '4 findings \u00b7 C:1 M:1 m:1 i:1', not '1 finding \u00b7 C:1 M:0 m:0 i:0'."
+    }
+  ],
+  "summary": {
+    "passed": 6,
+    "failed": 2,
+    "total": 8,
+    "pass_rate": 0.75
+  }
 }

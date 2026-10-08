@@ -1,21 +1,86 @@
 {
-  "eval": "eval-lock-starvation",
   "eval_id": 67,
-  "fixture": "evals/fixtures/lock_starvation.py",
-  "run": "with_skill",
-  "phase": "after",
-  "review": "1 finding · C:0 M:1 m:0 i:0 — Domain Score: 90/100 (Grade A)",
-  "summary": { "passed": 9, "failed": 0, "total": 9, "pass_rate": 1.0 },
-  "assertions": [
-    { "n": 1, "text": "Exactly 1 finding above Info severity", "result": "pass", "evidence": "One Major finding; the batch lock and the blocking drain are the same root cause — the lock's scope is the loop." },
-    { "n": 2, "text": "Finding is graded MAJOR", "result": "pass", "evidence": "Graded Major: a permanent throughput collapse, not an outage, matching the A2 starvation rule." },
-    { "n": 3, "text": "Finding is on axis A2 (Concurrency)", "result": "pass", "evidence": "Reported under Correctness / Concurrency (A2)." },
-    { "n": 4, "text": "Identifies the lock being held once for the whole batch including per-item work", "result": "pass", "evidence": "Cites lock_starvation.py:22-31 — `with _lock:` wraps the entire loop, including a sleep per document." },
-    { "n": 5, "text": "Identifies drain_queue holding the lock while blocked waiting for the next item", "result": "pass", "evidence": "Cites lines 46-58 — the sleep(5.0) and the retry both execute while the lock is held." },
-    { "n": 6, "text": "Distinguishes this from deadlock: nothing is blocked on a cycle, throughput is simply one worker", "result": "pass", "evidence": "States explicitly that no cycle exists and no error is raised, which is what makes this the starvation class and not the pre-existing deadlock class." },
-    { "n": 7, "text": "Failure scenario names eight configured workers delivering one worker's throughput with no error", "result": "pass", "evidence": "States the indexer runs at a single worker's speed for the whole run while the pool reports eight, so scaling out appears not to work." },
-    { "n": 8, "text": "Fix recommends holding the lock per item or using a bounded consumer pool with no lock across the drain", "result": "pass", "evidence": "Fix: acquire per document, or drop the lock entirely and use a bounded worker pool consuming a queue, since a dict write per key is what actually needs serialising." },
-    { "n": 9, "text": "Header matches pattern: 1 finding · C:0 M:1 m:0 i:0", "result": "pass", "evidence": "Header rendered exactly as specified." }
+  "eval_name": "eval-lock-starvation",
+  "condition": "with_skill",
+  "model_config": "cfg:567712ad39ee",
+  "judge_model_config": "cfg:567712ad39ee",
+  "judge_disjoint": false,
+  "base_commit": "e687a57",
+  "no_axis_count": null,
+  "no_axis_count_reason": "no review body",
+  "grader_config": "cfg:7d57659c2e6c",
+  "assertion_roles": [
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "probe"
   ],
-  "notes": "Caught by the 'Starvation and unfair progress' section appended to guidelines/deadlocks-locking.md. The explicit contrast with the deadlock class is the load-bearing part of the finding and is asserted separately, because the pre-existing bullets in that file all describe deadlock and would mis-file this."
+  "fixture_digests": {
+    "evals/fixtures/lock_starvation.py": "sha256:ff29977d27d5320c"
+  },
+  "skill_consulted": true,
+  "skill_consulted_reps": 1,
+  "reps_requested": 1,
+  "reps_completed": 1,
+  "reps_refused": 0,
+  "reviewer_project_root": "workspace",
+  "isolation_indirect_commands": 0,
+  "assertion_results": [
+    {
+      "text": "Exactly 1 finding above Info severity",
+      "passed": false,
+      "evidence": "Header reports `2 findings \u00b7 C:0 M:2 m:0 i:0`, not exactly 1 above Info."
+    },
+    {
+      "text": "Finding is graded MAJOR",
+      "passed": true,
+      "evidence": "Finding heading reads `### [MAJOR] Coarse batch lock serialises all workers to one core`."
+    },
+    {
+      "text": "Finding is on axis A2 (Concurrency)",
+      "passed": true,
+      "evidence": "Finding lists `Domain: Correctness (A2)` directly under the MAJOR heading."
+    },
+    {
+      "text": "Identifies the lock being held once for the whole batch including per-item work",
+      "passed": true,
+      "evidence": "Evidence cites `lock_starvation.py:21-27` where `with _lock:` wraps the entire `for document in documents:` loop including sleep."
+    },
+    {
+      "text": "Identifies drain_queue holding the lock while blocked waiting for the next item",
+      "passed": true,
+      "evidence": "Second finding cites `lock_starvation.py:45-53` where `with _lock:` wraps `while True:` including `time.sleep(5.0)` on empty."
+    },
+    {
+      "text": "Distinguishes this from deadlock: nothing is blocked on a cycle, throughput is simply one worker",
+      "passed": true,
+      "evidence": "Failure scenario states pool stalls `with no deadlock` and throughput is `permanently 1 core regardless of pool size`."
+    },
+    {
+      "text": "Failure scenario names eight configured workers delivering one worker's throughput with no error",
+      "passed": true,
+      "evidence": "Failure scenario describes `8-worker pool` where `1 worker holds _lock` and `7 block` with throughput of 1 core."
+    },
+    {
+      "text": "Fix recommends holding the lock per item or using a bounded consumer pool with no lock across the drain",
+      "passed": true,
+      "evidence": "Fix directs to narrow critical section to dict mutation per item and to pop/wait outside lock via `Queue.get(timeout=5.0)`."
+    },
+    {
+      "text": "Header matches pattern: 1 finding \u00b7 C:0 M:1 m:0 i:0",
+      "passed": false,
+      "evidence": "Header shows `2 findings \u00b7 C:0 M:2 m:0 i:0`, not the required `1 finding \u00b7 C:0 M:1 m:0 i:0`."
+    }
+  ],
+  "summary": {
+    "passed": 7,
+    "failed": 2,
+    "total": 9,
+    "pass_rate": 0.7778
+  }
 }

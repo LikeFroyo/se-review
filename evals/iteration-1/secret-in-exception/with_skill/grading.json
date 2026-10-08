@@ -1,0 +1,62 @@
+{
+  "eval_id": 102,
+  "eval_name": "secret-in-exception",
+  "condition": "with_skill",
+  "model_config": "cfg:567712ad39ee",
+  "judge_model_config": "cfg:567712ad39ee",
+  "judge_disjoint": false,
+  "base_commit": "e687a57",
+  "no_axis_count": null,
+  "no_axis_count_reason": "no review body",
+  "grader_config": "cfg:7d57659c2e6c",
+  "assertion_roles": [
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict"
+  ],
+  "fixture_digests": {
+    "evals/fixtures/credential_in_error.py": "sha256:bbf732cacc36d554"
+  },
+  "skill_consulted": true,
+  "skill_consulted_reps": 1,
+  "reps_requested": 1,
+  "reps_completed": 1,
+  "reps_refused": 0,
+  "reviewer_project_root": "workspace",
+  "isolation_indirect_commands": 0,
+  "assertion_results": [
+    {
+      "text": "Identifies that the secret is interpolated into the exception message",
+      "passed": true,
+      "evidence": "Heading '### [CRITICAL] Live client secret interpolated into exception message' with quoted f-string containing {CLIENT_SECRET}."
+    },
+    {
+      "text": "Notes the exposure path: every handler that logs or returns the error receives the secret",
+      "passed": true,
+      "evidence": "Failure scenario states uncaught exception is captured by error tracking / stderr / caller logs readable by log readers."
+    },
+    {
+      "text": "Notes the secret is a committed literal requiring a release to rotate",
+      "passed": true,
+      "evidence": "Evidence note says hardcoded at :9 so rotation requires a release, repeated as permanent until code release."
+    },
+    {
+      "text": "Does NOT claim the secret is exposed on the request path -- the header use is correct",
+      "passed": true,
+      "evidence": "Header at :19 is mentioned only for rotatability, with no claim of request-path exposure."
+    },
+    {
+      "text": "The finding is graded MAJOR or lower -- it needs an auth failure, not just a request",
+      "passed": false,
+      "evidence": "Secret-in-error finding is graded '[CRITICAL]', not MAJOR or lower."
+    }
+  ],
+  "summary": {
+    "passed": 4,
+    "failed": 1,
+    "total": 5,
+    "pass_rate": 0.8
+  }
+}

@@ -1,0 +1,63 @@
+{
+  "eval_id": 98,
+  "eval_name": "single-threaded-concurrency-check",
+  "condition": "with_skill",
+  "model_config": "cfg:567712ad39ee",
+  "judge_model_config": "cfg:567712ad39ee",
+  "judge_disjoint": false,
+  "base_commit": "e687a57",
+  "no_axis_count": null,
+  "no_axis_count_reason": "no review body",
+  "grader_config": "cfg:7d57659c2e6c",
+  "assertion_roles": [
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict"
+  ],
+  "fixture_digests": {
+    "evals/fixtures/test_concurrency_coverage.py": "sha256:50ac950b3f99bf73",
+    "evals/fixtures/counter.py": "sha256:bf87e29f3da049e8"
+  },
+  "skill_consulted": false,
+  "skill_consulted_reps": 0,
+  "reps_requested": 1,
+  "reps_completed": 1,
+  "reps_refused": 0,
+  "reviewer_project_root": "workspace",
+  "isolation_indirect_commands": 4,
+  "assertion_results": [
+    {
+      "text": "Identifies that increment() is an unsynchronised read-modify-write",
+      "passed": true,
+      "evidence": "Finding `counter.py:18-21` quotes read/window/write and states `Read-modify-write with no lock`."
+    },
+    {
+      "text": "Identifies that every check runs single-threaded, so no interleaving is exercised",
+      "passed": true,
+      "evidence": "Section `test_concurrency_coverage.py:1-22` states all 3 tests are single-threaded with no threading or barrier."
+    },
+    {
+      "text": "Notes that the checks pass only because the default scheduling never interleaves the read and the write",
+      "passed": true,
+      "evidence": "Verification contrasts default 5ms interval hiding race at 10000/10000 versus 1e-6 interval losing ~94%."
+    },
+    {
+      "text": "Does NOT report the checks as adequate because they pass",
+      "passed": true,
+      "evidence": "Heading calls it `no concurrency coverage` and says it `doesn't test it`, never calling checks adequate."
+    },
+    {
+      "text": "The finding is graded MAJOR or higher, because concurrent use loses updates",
+      "passed": false,
+      "evidence": "Searched full text for severity grade; headings list only race and coverage with no MAJOR or higher label."
+    }
+  ],
+  "summary": {
+    "passed": 4,
+    "failed": 1,
+    "total": 5,
+    "pass_rate": 0.8
+  }
+}

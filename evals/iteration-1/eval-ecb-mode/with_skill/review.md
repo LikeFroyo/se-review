@@ -1,25 +1,56 @@
-I'll read that file.
-This is the se-review skill's own eval fixture. Reviewing it means two things: the code, and whether the fixture is valid as a fixture. Let me check the eval spec and answer key.
-The answer key is the interesting part. Let me verify two things empirically: the padding behavior of these functions, and whether other fixtures self-document like this one.
-The README already flags a docstring-spoiler confound. Let me check one more thing — the answer key's evidence cites a line number.
-Reviewed. The planted defect is the easy part; the answer key attached to it is the real problem.
+Reviewing the ECB fixture — inspecting code for leakage patterns.
+Found the ECB flaw documented — now mapping the full evaluation context.
+I've got the scoring rubric — now verifying the findings before finalizing.
+# Review: `evals/fixtures/ecb_mode_cipher.py`
 
-## Code layer
+`4 findings · C:2 M:2 m:0 i:1 · Mean 73/100 · Final Grade F`
+Covered: 1/1 files · Scope: focused on: `evals/fixtures/ecb_mode_cipher.py` · Not examined: 0 — none
+Paths: 2 resolved open · Unmapped: 0 — none
+Unclassified: 0 findings fit no axis code
+Domain Scores: Security: 40/100 · Correctness: 80/100 · Maintainability: 100/100
+Gated by: `ECB deterministic encryption leaks block equality` — **always printed.**
 
-**MAJOR · A5 — ECB mode** — `ecb_mode_cipher.py:20`. The intended finding, and correct. Verified determinism empirically: two identical plaintexts produce byte-identical ciphertext.
+## Findings
 
-**MAJOR · A5 — the "sound reference" is not sound** — `ecb_mode_cipher.py:31-36`. `encrypt_with_random_iv` is unauthenticated CBC. I flipped one bit of ciphertext block 1 and block 2 came back silently corrupted with no error raised. It is also unusable: `encrypt_with_random_iv(b"SSN 123-45-6789")` raises `ValueError` on the 15-byte input. This is the function a reviewer would otherwise recommend copying.
+### [CRITICAL] ECB deterministic encryption leaks block equality and enables cut-and-paste
+- **Domain:** Security (S4)
+- **Verified by:** DERIVED — `encrypt_field()` → `Cipher(AES, modes.ECB())` → identical plaintext blocks yield identical ciphertext blocks; stored `base64` compared across records.
+- **Evidence:** `ecb_mode_cipher.py:20` — `cipher = Cipher(algorithms.AES(MASTER_KEY), modes.ECB())` in `encrypt_field()`; same construction repeated in `decrypt_field()` at `ecb_mode_cipher.py:26`.
+- **Path:** Source: repeated field values across records (states, amounts, SSNs), observable via stored ciphertext → Boundary: field-encryption layer that should hide equality/structure → Sink: identical ciphertext blocks + block splicing into another record.
+- **Failure scenario:** Attacker with read access to the document store clusters records by value without the key, detects which fields repeat, and replays a ciphertext block from one record into another; decrypted by the legitimate `decrypt_field()` path.
+- **Fix:** Replace with an authenticated mode: AES-GCM with fresh 96-bit nonce, or AES-CBC + HMAC with fresh IV and constant-time verify. Scope: module (`encrypt_field`/`decrypt_field` + stored-value migration / re-encryption).
+- **Trade-off:** Adds nonce/IV storage per value (~12–16 B) and a re-encryption migration for existing ECB ciphertexts; GCM adds ~16 B tag and nonce-misuse sensitivity, CBC+HMAC adds two passes and separate MAC key management.
 
-**MAJOR · correctness — no padding in either path** — `:22`, `:36`. `update()` buffers the partial block and `finalize()` rejects it. Verified: 15- and 20-byte inputs raise; only 16-byte multiples work. For a module whose stated job is encrypting fields like SSNs and amounts, that is a hard runtime failure on most real input.
+### [CRITICAL] Hardcoded static master key in source
+- **Domain:** Security (S4)
+- **Verified by:** DERIVED — `MASTER_KEY` literal → used directly in all three `Cipher()` constructions; rotation requires a release.
+- **Evidence:** `ecb_mode_cipher.py:8` — `MASTER_KEY = b"0123456789abcdef0123456789abcdef"`.
+- **Path:** Source: anyone with repo/fixture/checkout read → Boundary: source-code boundary that should never carry key material → Sink: `encrypt_field` / `decrypt_field` / `encrypt_with_random_iv` all decryptable with the committed value.
+- **Failure scenario:** Key exposure is permanent and total: all past and future field ciphertexts decrypt; rotation is a code change + full re-encryption, so suspected exposure has no fast remedy.
+- **Fix:** Load key from KMS / env / secret manager, add key-id + rotation path with re-encryption job. Scope: boundary (callers + deploy config + migration).
+- **Trade-off:** Adds secret-distribution and versioning complexity; multi-key decrypt path needed during rotation window.
 
-**Minor** — hardcoded master key at `:8`. **Info** — unused `List` import; no decrypt counterpart for the CBC path; the docstring's "constant zero IV" is factually wrong (ECB takes no IV — determinism is a different and stronger claim).
+### [MAJOR] Unauthenticated encryption — malleable ciphertext, no integrity
+- **Domain:** Security (S4)
+- **Verified by:** DERIVED — neither `encrypt_field()` (ECB) nor reference `encrypt_with_random_iv()` (CBC, `ecb_mode_cipher.py:31-36`) computes/verifies a MAC/tag; `decrypt_field()` accepts any bit-flipped block.
+- **Evidence:** `ecb_mode_cipher.py:11-28` and `ecb_mode_cipher.py:31-36` — no `HMAC`, `GCM` tag, or `compare_digest` anywhere in file.
+- **Failure scenario:** Storage-layer attacker flips bits / splices blocks; tampered value decrypts to attacker-influenced plaintext with no error, consumed downstream as trusted field data.
+- **Fix:** Use AES-GCM (or CBC + Encrypt-then-MAC with independent MAC key). Scope: module, same migration as ECB fix.
+- **Trade-off:** Same storage overhead as above; requires constant-time tag check on decrypt and error handling that does not oracle validity.
 
-## Eval-artifact layer — three problems
+### [MAJOR] No padding — arbitrary-length plaintext raises instead of encrypting
+- **Domain:** Correctness (A8)
+- **Verified by:** DERIVED — `encryptor.update(plaintext)` with raw ECB/CBC and no `PKCS7` padder; `cryptography` requires `len % 16 == 0`, so `encrypt_field(b"short")` raises `ValueError`.
+- **Evidence:** `ecb_mode_cipher.py:11-22` — no `padding.PKCS7` import or `padder` use; contract claims `plaintext: bytes` with no length precondition.
+- **Failure scenario:** Any field value not block-aligned crashes the write path; callers must pre-pad ad hoc, producing inconsistent stored values that fail cross-record comparison and `decrypt_field()`.
+- **Fix:** Add `PKCS7(128)` pad/unpad inside encrypt/decrypt, or switch to a streaming/AEAD mode that needs none. Scope: local (this file).
+- **Trade-off:** Adds one pad/unpad step per call; existing unpadded ciphertexts need versioning to stay readable.
 
-**1. The docstring is the answer key.** `:14` says "MAJOR VULNERABILITY: AES is driven in ECB mode..." — it hands over both the finding and the severity. 12 of 80 fixtures do this. Your README already calls it "itself a confound" and the blind re-measurement worked around it by stripping docstrings via `ast.unparse`. But the tree still ships the spoiler, so the committed `iteration-1/eval-ecb-mode/grading.json` is a contaminated measurement, and its own note concedes it ("the fixture's own docstring says MAJOR"). The known fix just hasn't been applied to the fixture.
+### [INFO / SUGGESTION] Reference CBC correctly uses fresh random IV
+- **Domain:** Security (S4)
+- **Verified by:** READ
+- **Evidence:** `ecb_mode_cipher.py:33` — `iv = os.urandom(16)` prefixed to ciphertext.
+- **Fix:** Keep as the pattern for per-message randomness; promote it to the default by adding authentication per finding #3.
 
-**2. The answer key cites a line that doesn't exist.** Assertion 4's evidence reads "Cites ecb_mode_cipher.py:23 `modes.ECB()`" — `modes.ECB()` is on lines 20 and 26. Both the fixture and the grading landed in the same commit, so it was wrong when authored. `validate_skill.py` passes anyway: the skill's first ground rule, "Evidence or drop it," is unenforced exactly where it's checkable.
-
-**3. Assertions 1 and 7 make the eval anti-correlated with correctness.** Assertion 6 requires the fix be an AEAD. Assertion 7 requires that the non-AEAD CBC path *not* be flagged as "the sound reference." Those contradict each other. Combined with "Exactly 1 finding above Info," a reviewer who finds the unauthenticated CBC and the padding crash — both real, both verified above — is scored as **wrong**. The eval measures agreement with the key, not review quality, and the reviewer class it systematically punishes is the one that reads past the docstring.
-
-That last point is the one I'd fix first: loosen assertion 1 to "at least 1 finding," and either drop assertion 7 or invert it to require the CBC path be flagged for lacking authentication. As written, the eval will keep reporting success on reviews that missed a crashable bug.
+## Aligns well
+- Docstring at `ecb_mode_cipher.py:14-19` honestly labels ECB as a vulnerability rather than presenting it as safe.

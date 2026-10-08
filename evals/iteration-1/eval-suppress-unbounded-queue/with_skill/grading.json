@@ -1,0 +1,87 @@
+{
+  "eval_id": 80,
+  "eval_name": "eval-suppress-unbounded-queue",
+  "condition": "with_skill",
+  "model_config": "cfg:567712ad39ee",
+  "judge_model_config": "cfg:567712ad39ee",
+  "judge_disjoint": false,
+  "base_commit": "e687a57",
+  "no_axis_count": null,
+  "no_axis_count_reason": "no review body",
+  "grader_config": "cfg:7d57659c2e6c",
+  "assertion_roles": [
+    "verdict",
+    "probe",
+    "verdict",
+    "verdict",
+    "probe",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict"
+  ],
+  "fixture_digests": {
+    "evals/fixtures/suppress_unbounded_queue.py": "sha256:d7da3ee4474e19dd",
+    "evals/fixtures/suppress_unbounded_queue_CONSTRAINTS.md": "sha256:fe5235e96f41c1c0"
+  },
+  "skill_consulted": true,
+  "skill_consulted_reps": 1,
+  "reps_requested": 1,
+  "reps_completed": 1,
+  "reps_refused": 0,
+  "reviewer_project_root": "workspace",
+  "isolation_indirect_commands": 0,
+  "assertion_results": [
+    {
+      "text": "Reports exactly zero findings above Info severity **as a conclusion**: the review reaches it having named that names the declared constraint the unbounded queue implements. Silence also reports zero findings, so the count alone is not evidence of having read the file.",
+      "passed": false,
+      "evidence": "Header states '3 findings \u00b7 C:0 M:2 m:0 i:1' with two titled [MAJOR] findings, not zero above Info."
+    },
+    {
+      "text": "Header matches pattern: 0 findings \u00b7 C:0 M:0 m:0 i:0",
+      "passed": false,
+      "evidence": "Header reads '3 findings \u00b7 C:0 M:2 m:0 i:1' rather than the required '0 findings \u00b7 C:0 M:0 m:0 i:0'."
+    },
+    {
+      "text": "Does NOT report the unbounded ingress queue as unbounded growth, unbounded memory, or a missing backpressure mechanism -- **and reaches that by naming that names the declared constraint the unbounded queue implements**, rather than by omitting the subject. A review that says nothing about the unbounded ingress queue satisfies an absence without having assessed it.",
+      "passed": true,
+      "evidence": "Explicitly suppressed paragraph declines unbounded-growth/OOM finding by citing binding C1."
+    },
+    {
+      "text": "Does NOT recommend bounding the queue, adding a size cap, shedding or dropping frames, or throttling producers -- **and reaches that by naming that names the declared constraint the unbounded queue implements**, rather than by omitting the subject. A review that says nothing about the unbounded ingress queue satisfies an absence without having assessed it.",
+      "passed": true,
+      "evidence": "Aligns-well bullet says unbounded ingress correctly not capped, shed, dropped, or throttled per binding C1."
+    },
+    {
+      "text": "Output includes 'Aligns well'",
+      "passed": true,
+      "evidence": "Document contains section heading '## Aligns well' with supporting bullets."
+    },
+    {
+      "text": "States what the unbounded queue protects: a frame already accepted is never discarded, so consumer slowness costs latency rather than data",
+      "passed": true,
+      "evidence": "Suppression rationale quotes C1 that a cap converts consumer latency into silent data loss with no re-request path."
+    },
+    {
+      "text": "States what would break if the queue were capped or policed",
+      "passed": true,
+      "evidence": "Suppression text states maxsize/drop-oldest/throttle-producer would violate the constraint and cause silent data loss."
+    },
+    {
+      "text": "Names the declared constraint the unbounded queue implements, rather than merely omitting the finding",
+      "passed": true,
+      "evidence": "Review repeatedly names binding C1 for Queue() with no maxsize and offer() always put plus return True."
+    },
+    {
+      "text": "Identifies the measured peak_backlog as the deliberate substitute for a cap",
+      "passed": true,
+      "evidence": "Second aligns-well bullet says enqueued and peak_backlog via qsize() preserve the only liveness signal per C2, never policed."
+    }
+  ],
+  "summary": {
+    "passed": 7,
+    "failed": 2,
+    "total": 9,
+    "pass_rate": 0.7778
+  }
+}

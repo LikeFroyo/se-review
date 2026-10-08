@@ -1,0 +1,68 @@
+{
+  "eval_id": 100,
+  "eval_name": "trust-decided-by-origin",
+  "condition": "with_skill",
+  "model_config": "cfg:567712ad39ee",
+  "judge_model_config": "cfg:567712ad39ee",
+  "judge_disjoint": false,
+  "base_commit": "e687a57",
+  "no_axis_count": null,
+  "no_axis_count_reason": "no review body",
+  "grader_config": "cfg:7d57659c2e6c",
+  "assertion_roles": [
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "probe"
+  ],
+  "fixture_digests": {
+    "evals/fixtures/trust_by_location.py": "sha256:905ee32466c3f8c9"
+  },
+  "skill_consulted": true,
+  "skill_consulted_reps": 1,
+  "reps_requested": 1,
+  "reps_completed": 1,
+  "reps_refused": 0,
+  "reviewer_project_root": "workspace",
+  "isolation_indirect_commands": 0,
+  "assertion_results": [
+    {
+      "text": "Identifies that trust is decided by the request's origin rather than by authenticating the caller",
+      "passed": true,
+      "evidence": "Heading '### [CRITICAL] Origin-or-header auth bypass' plus '_is_internal() only checks == \"127.0.0.1\"' identifies origin-based trust."
+    },
+    {
+      "text": "Identifies that the guard is an OR: a non-loopback caller presenting the header is admitted",
+      "passed": true,
+      "evidence": "Failure scenario states '`and` means external caller with token passes' for line :20 guard."
+    },
+    {
+      "text": "Notes that the table name reaches the query with no validation at the crossing",
+      "passed": true,
+      "evidence": "Finding 2 quotes 'table = request.args.get' to 'f\"SELECT * FROM {table}\"' with 'no allowlist/validation'."
+    },
+    {
+      "text": "Names source, boundary and sink: the header/args, the /admin/reindex guard, and the interpolated query",
+      "passed": true,
+      "evidence": "Failure scenarios explicitly list Source header/args, Boundary guard, and Sink reindex/execute."
+    },
+    {
+      "text": "The finding is graded MAJOR or lower -- not Critical, since the caller must first hold the token",
+      "passed": false,
+      "evidence": "Both security findings are labeled '### [CRITICAL]', not MAJOR or lower."
+    },
+    {
+      "text": "Does not report the missing db() definition or the f-string as separate findings",
+      "passed": false,
+      "evidence": "Review contains separate '### [MAJOR] Undefined `db()`' finding at :25."
+    }
+  ],
+  "summary": {
+    "passed": 4,
+    "failed": 2,
+    "total": 6,
+    "pass_rate": 0.6667
+  }
+}

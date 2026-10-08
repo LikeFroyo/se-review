@@ -1,20 +1,80 @@
 {
-  "eval": "eval-path-traversal",
   "eval_id": 36,
-  "fixture": "evals/fixtures/path_traversal.py",
-  "run": "with_skill",
-  "phase": "after",
-  "review": "1 finding · C:1 M:0 m:0 i:0 — Domain Score: 75/100 (Grade C)",
-  "summary": { "passed": 8, "failed": 0, "total": 8, "pass_rate": 1.0 },
-  "assertions": [
-    { "n": 1, "text": "Exactly 1 finding above Info severity", "result": "pass", "evidence": "One Critical finding covering read_attachment and write_upload as one root cause (no containment check on a request-derived path)." },
-    { "n": 2, "text": "Finding is graded CRITICAL", "result": "pass", "evidence": "Graded Critical per 'path traversal' in the security sub-leaf Critical list." },
-    { "n": 3, "text": "Finding is on axis A5 (Security)", "result": "pass", "evidence": "Reported under Correctness / Security (A5)." },
-    { "n": 4, "text": "Identifies the unvalidated os.path.join of a request-supplied name onto ATTACHMENT_ROOT", "result": "pass", "evidence": "Cites path_traversal.py:20 and :32." },
-    { "n": 5, "text": "Notes the absence of a containment or realpath check", "result": "pass", "evidence": "States that nothing resolves the path or proves it sits inside ATTACHMENT_ROOT; the isfile() guard is not a containment check." },
-    { "n": 6, "text": "Failure scenario describes reading or writing outside the attachment root", "result": "pass", "evidence": "Names the `../../../../etc/shadow` read and the write-side traversal planting a file outside the case directory." },
-    { "n": 7, "text": "Fix recommends resolving the path and enforcing containment within the root", "result": "pass", "evidence": "Fix: realpath both sides and reject anything not under the root, plus a sanitized basename on the write path." },
-    { "n": 8, "text": "Header matches pattern: 1 finding · C:1 M:0 m:0 i:0", "result": "pass", "evidence": "Header rendered exactly as specified." }
+  "eval_name": "eval-path-traversal",
+  "condition": "with_skill",
+  "model_config": "cfg:567712ad39ee",
+  "judge_model_config": "cfg:567712ad39ee",
+  "judge_disjoint": false,
+  "base_commit": "e687a57",
+  "no_axis_count": null,
+  "no_axis_count_reason": "no review body",
+  "grader_config": "cfg:7d57659c2e6c",
+  "assertion_roles": [
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "probe"
   ],
-  "notes": "Caught by the 'Path traversal and archive extraction' section of guidelines/unsafe-parsing.md."
+  "fixture_digests": {
+    "evals/fixtures/path_traversal.py": "sha256:66d18fc9ac6189a9"
+  },
+  "skill_consulted": true,
+  "skill_consulted_reps": 1,
+  "reps_requested": 1,
+  "reps_completed": 1,
+  "reps_refused": 0,
+  "reviewer_project_root": "workspace",
+  "isolation_indirect_commands": 1,
+  "assertion_results": [
+    {
+      "text": "Exactly 1 finding above Info severity",
+      "passed": false,
+      "evidence": "Header reads 2 findings \u00b7 C:2 M:0 m:0 i:0 with two CRITICAL headings, not exactly 1."
+    },
+    {
+      "text": "Finding is graded CRITICAL",
+      "passed": true,
+      "evidence": "Both headings are labeled ### [CRITICAL]."
+    },
+    {
+      "text": "Finding is on axis S3 (injection) (Security)",
+      "passed": false,
+      "evidence": "Both findings list Domain: Security (S1), not S3."
+    },
+    {
+      "text": "Identifies the unvalidated os.path.join of a request-supplied name onto ATTACHMENT_ROOT",
+      "passed": true,
+      "evidence": "Evidence quotes path = os.path.join(ATTACHMENT_ROOT, attachment_name) as unvalidated."
+    },
+    {
+      "text": "Notes the absence of a containment or realpath check",
+      "passed": true,
+      "evidence": "Review states No abspath/realpath + commonpath containment check."
+    },
+    {
+      "text": "Failure scenario describes reading or writing outside the attachment root",
+      "passed": true,
+      "evidence": "Failure scenario describes serving ../../../../etc/shadow outside ATTACHMENT_ROOT."
+    },
+    {
+      "text": "Fix recommends resolving the path and enforcing containment within the root",
+      "passed": true,
+      "evidence": "Fix directs to realpath join then deny unless contained within real_root."
+    },
+    {
+      "text": "Header matches pattern: 1 finding \u00b7 C:1 M:0 m:0 i:0",
+      "passed": false,
+      "evidence": "Header shows 2 findings \u00b7 C:2 M:0 m:0 i:0, not 1 finding \u00b7 C:1 M:0 m:0 i:0."
+    }
+  ],
+  "summary": {
+    "passed": 5,
+    "failed": 3,
+    "total": 8,
+    "pass_rate": 0.625
+  }
 }

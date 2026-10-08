@@ -1,23 +1,92 @@
 {
-  "eval": "eval-ambient-clock-rules",
   "eval_id": 56,
-  "fixture": "evals/fixtures/ambient_clock_rules.py",
-  "run": "with_skill",
-  "phase": "after",
-  "review": "1 finding · C:1 M:0 m:0 i:0 — Domain Score: 75/100 (Grade C)",
-  "summary": { "passed": 10, "failed": 0, "total": 10, "pass_rate": 1.0 },
-  "assertions": [
-    { "n": 1, "text": "Exactly 1 finding above Info severity", "result": "pass", "evidence": "One Critical finding; the four ambient reads are one root cause — the rules take their inputs from outside the signature." },
-    { "n": 2, "text": "Finding is graded CRITICAL", "result": "pass", "evidence": "Graded Critical: the same inputs produce a different answer, so committed results cannot be reproduced or explained." },
-    { "n": 3, "text": "Finding is on axis B2 (Evolvability)", "result": "pass", "evidence": "Reported under Maintainability / Evolvability (B2) — the axis claimed by the new sub-domain." },
-    { "n": 4, "text": "Identifies the clock read inside is_promotion_active and eligible_for_offer", "result": "pass", "evidence": "Cites lines 17 and 28 — datetime.now used to decide a business outcome." },
-    { "n": 5, "text": "Identifies random.random() inside a business rule, so the same input gives a different answer", "result": "pass", "evidence": "Cites line 30 — a 10% draw inside the eligibility decision, making the function non-repeatable by construction." },
-    { "n": 6, "text": "Identifies the environment read inside price_for_basket as configuration leaking into logic", "result": "pass", "evidence": "Cites line 40 — BASKET_DISCOUNT_PCT read mid-decision, so the price depends on which process evaluates it." },
-    { "n": 7, "text": "Notes place_order taking the buyer from module-level CURRENT_USER", "result": "pass", "evidence": "Cites line 49 — the acting identity comes from module state, not from an argument, so the signature does not describe the effect." },
-    { "n": 8, "text": "Failure scenario explains a replayed order pricing differently from when it was placed", "result": "pass", "evidence": "States a dispute over a price cannot be settled because the inputs to the decision are not recorded anywhere." },
-    { "n": 9, "text": "Fix recommends passing time, randomness, config and identity in as parameters", "result": "pass", "evidence": "Fix: a clock and a random source injected as parameters, the discount supplied by the caller, and the acting identity taken from the request — making each rule a pure function of its arguments." },
-    { "n": 10, "text": "Header matches pattern: 1 finding · C:1 M:0 m:0 i:0", "result": "pass", "evidence": "Header rendered exactly as specified." }
+  "eval_name": "eval-ambient-clock-rules",
+  "condition": "with_skill",
+  "model_config": "cfg:567712ad39ee",
+  "judge_model_config": "cfg:567712ad39ee",
+  "judge_disjoint": false,
+  "base_commit": "e687a57",
+  "no_axis_count": null,
+  "no_axis_count_reason": "no review body",
+  "grader_config": "cfg:7d57659c2e6c",
+  "assertion_roles": [
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "probe"
   ],
-  "notes": "Caught by guidelines/implicit-state.md (new). The fixture's own comments describe the intent ('Ambient time', 'Ambient configuration'), and the reviewer deliberately reported the defect from the code rather than crediting the comments — consistent with the ground rule that a comment admitting a flaw does not downgrade it.",
-  "fixture_repair": "2026-09-29: this fixture also contained an unintended defect that was not planted and not covered by any assertion — is_promotion_active compared an aware datetime.now(timezone.utc) against naive bounds, raising TypeError on every call. Two independent blind reviewers found it and it displaced the planted finding in both. The bounds are now timezone-aware, so the function returns a value and the planted ambient-clock defect is the only thing to find. All 10 assertions are unaffected and were re-verified after the repair."
+  "fixture_digests": {
+    "evals/fixtures/ambient_clock_rules.py": "sha256:4583de058c99ce06"
+  },
+  "skill_consulted": true,
+  "skill_consulted_reps": 1,
+  "reps_requested": 1,
+  "reps_completed": 1,
+  "reps_refused": 0,
+  "reviewer_project_root": "workspace",
+  "isolation_indirect_commands": 0,
+  "assertion_results": [
+    {
+      "text": "Exactly 1 finding above Info severity",
+      "passed": false,
+      "evidence": "Header reports \"8 findings \u00b7 C:2 M:4 m:1 i:1\", i.e. 7 findings above Info, not 1."
+    },
+    {
+      "text": "Finding is graded CRITICAL",
+      "passed": true,
+      "evidence": "First finding heading is \"### [CRITICAL] Business rules read ambient clock, randomness, env, and identity\"."
+    },
+    {
+      "text": "Finding is on axis B2 (Evolvability)",
+      "passed": true,
+      "evidence": "First finding line reads \"Domain: Maintainability (B2)\"."
+    },
+    {
+      "text": "Identifies the clock read inside is_promotion_active and eligible_for_offer",
+      "passed": true,
+      "evidence": "Evidence cites \"is_promotion_active: datetime.now(timezone.utc)\" and \"eligible_for_offer: datetime.now().hour\"."
+    },
+    {
+      "text": "Identifies random.random() inside a business rule, so the same input gives a different answer",
+      "passed": true,
+      "evidence": "Evidence cites \"eligible_for_offer: random.random()\" with failure \"eligible on one call and not the next\"."
+    },
+    {
+      "text": "Identifies the environment read inside price_for_basket as configuration leaking into logic",
+      "passed": true,
+      "evidence": "Evidence cites \"price_for_basket: os.environ.get(\\\"BASKET_DISCOUNT_PCT\\\")\"."
+    },
+    {
+      "text": "Notes place_order taking the buyer from module-level CURRENT_USER",
+      "passed": true,
+      "evidence": "Evidence cites \"place_order: CURRENT_USER[\\\"id\\\"]\" taking buyer from global."
+    },
+    {
+      "text": "Failure scenario explains a replayed order pricing differently from when it was placed",
+      "passed": false,
+      "evidence": "Failure scenarios describe env-divergent pricing and duplicate-order retry, with no replayed-order repricing sentence."
+    },
+    {
+      "text": "Fix recommends passing time, randomness, config and identity in as parameters",
+      "passed": true,
+      "evidence": "Fix lists \"is_promotion_active(now), eligible_for_offer(..., now, rng), price_for_basket(..., discount_pct), place_order(..., buyer_id)\"."
+    },
+    {
+      "text": "Header matches pattern: 1 finding \u00b7 C:1 M:0 m:0 i:0",
+      "passed": false,
+      "evidence": "Header is \"8 findings \u00b7 C:2 M:4 m:1 i:1\", not \"1 finding \u00b7 C:1 M:0 m:0 i:0\"."
+    }
+  ],
+  "summary": {
+    "passed": 7,
+    "failed": 3,
+    "total": 10,
+    "pass_rate": 0.7
+  }
 }

@@ -1,16 +1,34 @@
-I'll read the file first.
-# Security Review: `evals/fixtures/cors_reflect_origin.py`
+Reviewing target fixture and run bundle.
+Found the reflected-origin flaw — now mapping the full evaluation context.
+Scope confirmed to a single fixture — now loading the review domains and scoring rules.
+The flaw matches the cross-origin trust guideline — now verifying it with a quick reproduction.
+# Review: `evals/fixtures/cors_reflect_origin.py`
 
-`1 finding · C:0 M:1 m:0 i:0 · Domain Score: 90/100 (Grade A)`
+`1 findings · C:1 M:0 m:0 i:1 · Mean 96/100 · Final Grade F`
+Covered: 1/1 files · Scope: focused on: `evals/fixtures/cors_reflect_origin.py` · Not examined: 0 — none
+Paths: 1 open · Unmapped: 0 — all crossings classified
+Unclassified: 0 findings fit no axis code
+Domain Scores: Security: 75/100 · Correctness: 100/100 · Leanness: 100/100 · Maintainability: 100/100 · Operations: 100/100 · Interoperability: 100/100
+Gated by: `Critical finding` — any Critical caps the grade at F
 
 ## Findings
 
-### [MAJOR] Credentialed CORS reflects the request Origin, so every origin is trusted
-- **Domain:** Correctness / Security (A5) — `guidelines/cross-origin-trust.md` § Reflected origin with credentials (OWASP A05, CWE-352)
-- **Evidence:** `evals/fixtures/cors_reflect_origin.py:18-19` — `build_cors_headers` returns `"Access-Control-Allow-Origin": request_origin or "*"` immediately beside `"Access-Control-Allow-Credentials": "true"`. The pairing is what makes it exploitable: a bare `*` is rejected by browsers on credentialed requests, so the `or "*"` branch is not the safe fallback it looks like — the reflection branch is the one that runs.
-- **Failure scenario:** The file already defines the correct policy (`ALLOWED_ORIGINS`, `origin_is_known`) but `build_cors_headers` never consults it. A victim with a live session visits `https://attacker.test`; that page issues `fetch("https://api.acme.example/me", {credentials: "include"})`. The browser attaches the session cookie and the response carries the attacker's own origin in `Access-Control-Allow-Origin`, so `response.json()` succeeds — the attacker reads the victim's authenticated data cross-origin. This applies to every endpoint the API exposes, not one route.
-- **Fix:** Echo an origin only on exact set membership — `if origin_is_known(request_origin): headers["Access-Control-Allow-Origin"] = request_origin` — and omit `Access-Control-Allow-Origin` entirely otherwise (returning no CORS headers beats a wrong one; do not fall back to `*`, which is rejected on credentialed requests and would silently disable the policy for legitimate callers). Pair with `SameSite=Lax|Strict` cookies and a CSRF token on cookie-authenticated writes, since CORS does not block a cross-origin *write*, only cross-origin *reads*. Scope: **local** — the one function, plus the cookie/CSRF attributes at the response boundary.
-- **Trade-off:** An exact-match set lookup per request is an O(1) hash hit on a module-level constant (nanoseconds, no I/O); the real cost is operational — every new frontend origin now requires an allowlist edit and a deploy, so keep `ALLOWED_ORIGINS` config-driven rather than a literal, and expect origin additions to become a release step.
+### [CRITICAL] Reflected request Origin with Allow-Credentials true
+- **Domain:** Security (S3)
+- **Verified by:** RAN — imported fixture and called `build_cors_headers('https://evil.attacker.test')` → returned `Allow-Origin: https://evil.attacker.test` with `Allow-Credentials: true`; called with `None` → `Allow-Origin: *` with `Allow-Credentials: true`
+- **Evidence:** `cors_reflect_origin.py:17-18` — `build_cors_headers`, quote:
+  `"Access-Control-Allow-Origin": request_origin or "*", "Access-Control-Allow-Credentials": "true",`
+  `ALLOWED_ORIGINS` (`cors_reflect_origin.py:4`) and `origin_is_known()` (`cors_reflect_origin.py:25-26`) exist but are never consulted by the builder.
+- **Failure scenario:** Source: attacker-controlled `Origin` request header → Boundary: CORS check that should validate against `ALLOWED_ORIGINS` but echoes instead → Sink: `Access-Control-Allow-Origin` + `Allow-Credentials: true` on a session-cookie-authenticated JSON API. Victim visits attacker page; attacker page issues credentialed `fetch`, browser attaches session cookie, response is readable cross-origin → session data exfiltration. Single root cause covers both the arbitrary-origin echo and the `None → *` + credentials combination.
+- **Fix:** Validate before emitting, scope: local. Echo only when `origin_is_known(request_origin)`; otherwise omit both `Allow-Origin` and `Allow-Credentials` (or return no CORS headers). Never emit `*` alongside `Allow-Credentials: true`.
+- **Trade-off:** Cost is one set-membership check per request (negligible latency/memory); strictness breaks any currently-relying non-allowlisted origin, which is the intended revocation.
+
+### [INFO / SUGGESTION] Allowlist helper is defined but unwired
+- **Domain:** Maintainability (B5)
+- **Verified by:** READ
+- **Evidence:** `cors_reflect_origin.py:4,25-26` — `ALLOWED_ORIGINS = {"https://app.acme.example"}` and `origin_is_known()` have no callers in this file.
+- **Fix:** Wire `origin_is_known()` into `build_cors_headers()` per the Critical fix above rather than deleting it; it is the intended contract.
 
 ## Aligns well
-- `ALLOWED_ORIGINS` as an exact-match set, with `origin_is_known` doing plain membership (`cors_reflect_origin.py:25-26`) — the correct predicate, and notably exact-match rather than a prefix or suffix matcher, so a lookalike host like `evil-app.acme.example` cannot pass. The defect is that the caller skips it, not that the policy is wrong (A5).
+- Fixture documents the vulnerability explicitly in the docstring (`cors_reflect_origin.py:10-15`) instead of leaving intent ambiguous.
+- Centralized single builder for CORS headers (rather than per-route inline header construction), so the fix has one site.

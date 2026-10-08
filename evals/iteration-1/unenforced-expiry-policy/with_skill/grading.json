@@ -1,0 +1,62 @@
+{
+  "eval_id": 94,
+  "eval_name": "unenforced-expiry-policy",
+  "condition": "with_skill",
+  "model_config": "cfg:567712ad39ee",
+  "judge_model_config": "cfg:567712ad39ee",
+  "judge_disjoint": false,
+  "base_commit": "e687a57",
+  "no_axis_count": null,
+  "no_axis_count_reason": "no review body",
+  "grader_config": "cfg:7d57659c2e6c",
+  "assertion_roles": [
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "probe"
+  ],
+  "fixture_digests": {
+    "evals/fixtures/state_machine_exit.py": "sha256:4e3d4a5e1dec1e90"
+  },
+  "skill_consulted": true,
+  "skill_consulted_reps": 1,
+  "reps_requested": 1,
+  "reps_completed": 1,
+  "reps_refused": 0,
+  "reviewer_project_root": "workspace",
+  "isolation_indirect_commands": 1,
+  "assertion_results": [
+    {
+      "text": "Identifies that APPROVAL_TTL_SECONDS is declared but never read",
+      "passed": true,
+      "evidence": "Major finding cites `state_machine_exit.py:10` constant and states expiry never fires due to no check."
+    },
+    {
+      "text": "Identifies that approve() performs no expiry or age check on created_at",
+      "passed": true,
+      "evidence": "Evidence for `state_machine_exit.py:25-28` explicitly says approve has no `created_at`/`time` check."
+    },
+    {
+      "text": "Notes the module docstring states the policy the code does not enforce",
+      "passed": true,
+      "evidence": "Evidence quotes docstring `state_machine_exit.py:3-4` stating PENDING expires and must be re-submitted."
+    },
+    {
+      "text": "The finding is graded MAJOR or higher, because a stated invariant is unenforced",
+      "passed": true,
+      "evidence": "Finding heading is `### [MAJOR] Expired PENDING request can still be approved`."
+    },
+    {
+      "text": "Does not report the existing PENDING/APPROVED/REJECTED guards as missing -- they are present",
+      "passed": true,
+      "evidence": "Aligns well section confirms state guard at lines 26,32 correctly prevents double-decision."
+    }
+  ],
+  "summary": {
+    "passed": 5,
+    "failed": 0,
+    "total": 5,
+    "pass_rate": 1.0
+  }
+}

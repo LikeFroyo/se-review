@@ -1,0 +1,81 @@
+{
+  "eval_id": 84,
+  "eval_name": "eval-suppress-constant-column",
+  "condition": "with_skill",
+  "model_config": "cfg:567712ad39ee",
+  "judge_model_config": "cfg:567712ad39ee",
+  "judge_disjoint": false,
+  "base_commit": "e687a57",
+  "no_axis_count": null,
+  "no_axis_count_reason": "no review body",
+  "grader_config": "cfg:7d57659c2e6c",
+  "assertion_roles": [
+    "verdict",
+    "probe",
+    "verdict",
+    "verdict",
+    "verdict",
+    "probe",
+    "verdict",
+    "verdict"
+  ],
+  "fixture_digests": {
+    "evals/fixtures/suppress_constant_column.py": "sha256:4e7b47ef61d4555f",
+    "evals/fixtures/suppress_constant_column_CONSTRAINTS.md": "sha256:d435788d42870608"
+  },
+  "skill_consulted": true,
+  "skill_consulted_reps": 1,
+  "reps_requested": 1,
+  "reps_completed": 1,
+  "reps_refused": 0,
+  "reviewer_project_root": "workspace",
+  "isolation_indirect_commands": 0,
+  "assertion_results": [
+    {
+      "text": "Reports exactly zero findings above Info severity **as a conclusion**: the review reaches it having named that identifies surface as the live reader of coverage_ratio. Silence also reports zero findings, so the count alone is not evidence of having read the file.",
+      "passed": false,
+      "evidence": "Header shows `1 findings \u00b7 C:0 M:0 m:1 i:0`, so one Minor remains above Info."
+    },
+    {
+      "text": "Header matches pattern: 0 findings \u00b7 C:0 M:0 m:0 i:0",
+      "passed": false,
+      "evidence": "Header reads `1 findings \u00b7 C:0 M:0 m:1 i:0`, not `0 findings \u00b7 C:0 M:0 m:0 i:0`."
+    },
+    {
+      "text": "Does NOT report coverage_ratio as dead code, an unread column, or a redundant pair of quantities -- **and reaches that by naming that identifies surface as the live reader of coverage_ratio**, rather than by omitting the subject. A review that says nothing about coverage_ratio satisfies an absence without having assessed it.",
+      "passed": true,
+      "evidence": "Leanness says constant `coverage` column not flagged and names breaking `surface` + downstream health."
+    },
+    {
+      "text": "Does NOT recommend deleting coverage_ratio or inlining it into a literal 1.0 -- **and reaches that by naming that identifies surface as the live reader of coverage_ratio**, rather than by omitting the subject. A review that says nothing about coverage_ratio satisfies an absence without having assessed it.",
+      "passed": false,
+      "evidence": "Fix recommends `def coverage_ratio(member_count): return 1.0`, inlining to literal 1.0."
+    },
+    {
+      "text": "Identifies surface as the live reader of the column",
+      "passed": true,
+      "evidence": "Verified by `surface([1,2,3]) == {'coverage': 1.0}` names surface as reader."
+    },
+    {
+      "text": "Output includes 'Aligns well'",
+      "passed": true,
+      "evidence": "Section heading `## Aligns well` appears verbatim."
+    },
+    {
+      "text": "States what the constant is for: a departure from 1.0 must be observable",
+      "passed": true,
+      "evidence": "Leanness states field exists so non-quoting chain is visible as departure from `1.0`."
+    },
+    {
+      "text": "Names the declared constraint the constant implements",
+      "passed": true,
+      "evidence": "Ruling cites `suppress_constant_column_CONSTRAINTS.md C1` as binding intent."
+    }
+  ],
+  "summary": {
+    "passed": 5,
+    "failed": 3,
+    "total": 8,
+    "pass_rate": 0.625
+  }
+}

@@ -1,0 +1,87 @@
+{
+  "eval_id": 81,
+  "eval_name": "eval-suppress-unfiltered-fanout",
+  "condition": "with_skill",
+  "model_config": "cfg:567712ad39ee",
+  "judge_model_config": "cfg:567712ad39ee",
+  "judge_disjoint": false,
+  "base_commit": "e687a57",
+  "no_axis_count": null,
+  "no_axis_count_reason": "no review body",
+  "grader_config": "cfg:7d57659c2e6c",
+  "assertion_roles": [
+    "verdict",
+    "probe",
+    "verdict",
+    "verdict",
+    "verdict",
+    "verdict",
+    "probe",
+    "verdict",
+    "verdict"
+  ],
+  "fixture_digests": {
+    "evals/fixtures/suppress_unfiltered_fanout.py": "sha256:c32f6e64ad4e221e",
+    "evals/fixtures/suppress_unfiltered_fanout_CONSTRAINTS.md": "sha256:d41d974a9188ac21"
+  },
+  "skill_consulted": true,
+  "skill_consulted_reps": 1,
+  "reps_requested": 1,
+  "reps_completed": 1,
+  "reps_refused": 0,
+  "reviewer_project_root": "workspace",
+  "isolation_indirect_commands": 0,
+  "assertion_results": [
+    {
+      "text": "Reports exactly zero findings above Info severity **as a conclusion**: the review reaches it having named that names the declared constraint that dispatch applies no filter. Silence also reports zero findings, so the count alone is not evidence of having read the file.",
+      "passed": true,
+      "evidence": "Header states 0 findings and Aligns well names C1 that dispatch applies no filter."
+    },
+    {
+      "text": "Header matches pattern: 0 findings \u00b7 C:0 M:0 m:0 i:0",
+      "passed": true,
+      "evidence": "Header line contains verbatim `0 findings \u00b7 C:0 M:0 m:0 i:0`."
+    },
+    {
+      "text": "Does NOT report the unconditional consumer loop as unbounded fan-out, a missing rate limit, or a backpressure gap -- **and reaches that by naming that names the declared constraint that dispatch applies no filter**, rather than by omitting the subject. A review that says nothing about the unconditional consumer loop satisfies an absence without having assessed it.",
+      "passed": true,
+      "evidence": "Findings is None and Aligns well says unfiltered fan-out is required per C1, not a defect."
+    },
+    {
+      "text": "Does NOT recommend adding a filter, throttle, coalescing step or pair filter inside dispatch -- **and reaches that by naming that names the declared constraint that dispatch applies no filter**, rather than by omitting the subject. A review that says nothing about the unconditional consumer loop satisfies an absence without having assessed it.",
+      "passed": true,
+      "evidence": "No filter/throttle recommendation appears and dispatch compliance with C1 is explicitly named."
+    },
+    {
+      "text": "Does NOT recommend moving StrikeSampler's reduction up into dispatch -- **and reaches that by naming that names the declared constraint that dispatch applies no filter**, rather than by omitting the subject. A review that says nothing about the unconditional consumer loop satisfies an absence without having assessed it.",
+      "passed": true,
+      "evidence": "No move-reduction recommendation appears and consumer-owns-scope C2 is explicitly named."
+    },
+    {
+      "text": "Notes that StrikeSampler reduces scope inside the consumer, which is where the constraint places that responsibility",
+      "passed": true,
+      "evidence": "Aligns well notes StrikeSampler reduces inside itself via `_seen % 100` per C2."
+    },
+    {
+      "text": "Output includes 'Aligns well'",
+      "passed": true,
+      "evidence": "Review contains heading `## Aligns well`."
+    },
+    {
+      "text": "States what breaks if dispatch filters: the decision layer's input stops being the raw accepted sequence",
+      "passed": false,
+      "evidence": "No statement about decision layer input or raw accepted sequence appears anywhere."
+    },
+    {
+      "text": "Names the declared constraint that dispatch applies no filter, rather than merely omitting the finding",
+      "passed": true,
+      "evidence": "Aligns well explicitly names C1 that dispatch applies no filter/coalescing."
+    }
+  ],
+  "summary": {
+    "passed": 8,
+    "failed": 1,
+    "total": 9,
+    "pass_rate": 0.8889
+  }
+}
