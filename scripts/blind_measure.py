@@ -237,14 +237,23 @@ def main() -> int:
             parts = "  ".join(f"{k} {v[0]}/{v[1]}" for k, v in sorted(c.items()))
             print(f"  {got['name'][:34]:<36} {arm:<6} {parts}")
 
-    print("\n  By concern, over the fixtures every arm produced a review for:")
+    single = len(arms) == 1
+    print(f"\n  By concern, over the fixtures {arms[0] if single else 'every arm'} "
+          f"produced a review for:")
     print(f"    {'concern':<14} {'full':>16} {'bare':>16} {'delta':>9}")
     summary = {}
     for concern in ("detection", "severity", "remediation"):
         acc = {a: [0, 0] for a in arms}
+        # One arm is a legitimate run: a third arm measured on its own answers a real question
+        # about that arm. Reporting NOT MEASURED for it, as the pairing rule originally did, threw
+        # away 24 scored fixtures because no second arm was present in the same invocation.
         paired = 0
         for eid in ids:
             got = {r["arm"]: r for r in rows if r["eval_id"] == eid and r["ok"]}
+            if len(arms) == 1:
+                if got:
+                    paired += 1
+                continue
             if len(got) < 2:
                 continue
             paired += 1
@@ -252,6 +261,15 @@ def main() -> int:
                 c = got[a]["concerns"][concern]
                 acc[a][0] += c[0]
                 acc[a][1] += c[1]
+        if single:
+            a = arms[0]
+            p_, n_ = acc[a]
+            if not paired or not n_:
+                print(f"    {concern:<14} NOT MEASURED -- no fixture produced a review")
+                continue
+            summary[concern] = {a: (p_, n_), "rate": p_ / n_, "fixtures": paired}
+            print(f"    {concern:<14} {p_:>4}/{n_<5}{p_/n_:>7.1%}  over {paired} fixture(s)")
+            continue
         if not paired or not acc["full"][1] or not acc["bare"][1]:
             print(f"    {concern:<14} {'NOT MEASURED -- no fixture has both arms':>44}")
             continue
